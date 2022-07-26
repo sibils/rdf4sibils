@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon May 23 12:20:45 2022
-
-@author: pam
-"""
 import ftplib
 import os
 import gzip
