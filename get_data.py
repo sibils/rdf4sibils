@@ -1,1 +1,654 @@
-#!/usr/bin/env python3# -*- coding: utf-8 -*-"""Created on Mon May 23 12:20:45 2022@author: pam"""import ftplibimport osimport gzipimport sysimport jsonimport enum#import shutil# -----------------------------------------------------------------------class Pfx(enum.Enum):# -----------------------------------------------------------------------    xsd = "<http://www.w3.org/2001/XMLSchema#>"    rdf = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>"    rdfs = "<http://www.w3.org/2000/01/rdf-schema#>"    owl = "<http://www.w3.org/2002/07/owl#>"    doco = "<http://purl.org/spar/doco/>"    fabio = "<http://purl.org/spar/fabio/>"       frbr = "<http://purl.org/vocab/frbr/core#>"    dcterms = "<http://purl.org/dc/terms/>"    sibilo = "<http://bitem.org#>"                  # our ontology    sibils = "<http://bitem.org/publi/>"            # our data    prism = "<http://prismstandard.org/namespaces/basic/2.0/>"    foaf = "<http://xmlns.com/foaf/0.1/>"    openbiodiv = "<http://openbiodiv.net/>"    cnt = "<http://www.w3.org/2011/content#>"    deo = "<http://purl.org/spar/deo/>"            @classmethod    def toTurtle(cls):        # example:        # @prefix owl: <http://www.w3.org/2002/07/owl#> .        # @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .        # @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .            lines = list()        for item in cls:            lines.append("@prefix " + item.name + ": " + item.value + " .")        return lines   # -----------------------------------------------------------------------    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def gunzip(gz_file):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    f_in = gzip.open(gz_file, 'rb')    decompressed_file = gz_file[0:-3]    f_out = open(decompressed_file, 'wb')    f_out.write(f_in.read())    f_out. close()    f_in. close()    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def get_content_from_ftp():# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    content = dict()    ftp = ftplib.FTP(ftp_server)    ftp.login()     ftp.cwd(publi_base_url)    pub_files = ftp.nlst()        pub_files.sort()    content["pub_files"] = pub_files    ftp.cwd(annot_base_url)    annot_dirs = ftp.nlst()       annot_dirs.remove("covoc") # temp ignored cos contains its own subdirs    content["annot_dirs"] = annot_dirs    ftp.quit()    # also create once for all the subdirectory needed for each annot type    for item in annot_dirs:        annot_dir = proxy_dir + item + "/"        if not os.path.exists(annot_dir):            os.makedirs(annot_dir)    return content# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def download_chunk_from_ftp(file_name):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    ftp = ftplib.FTP(ftp_server)    ftp.login()    trg_file = proxy_dir + file_name    # download main publication gz file if not done yet    if not os.path.exists(trg_file):        ftp.cwd(publi_base_url)        print("### Getting chunk", proxy_dir + file_name)        f = open(trg_file, "wb")        ftp.retrbinary("RETR " + file_name, f.write)        f.close()        gunzip(trg_file)    # download annot gz files if not done yet    for subdir in ftp_content["annot_dirs"]:        local_dir = proxy_dir + subdir + "/"        local_file = local_dir + file_name        if not os.path.exists(local_file):            remote_dir = annot_base_url + subdir + "/"            ftp.cwd(remote_dir)            f = open(local_file, "wb")            try:                ftp.retrbinary("RETR " + file_name, f.write)                f.close()                gunzip(local_file)            except ftplib.error_perm as e:                print("### WARNING", remote_dir + file_name, repr(e))                f.close()                if os.path.exists(local_file): os.remove(local_file)    ftp.quit()# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def get_triple(s, p, o):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    return s + " " + p + " " + o + " ."# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def get_triples_for_publi(publi):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    triples = list()        pmcid = publi["pmcid"]    print("### INFO", "pmcid", pmcid)    publi_uri = get_publi_uri(publi)    publi_class = get_publi_class(publi["article_type"])        triples.append(get_triple(publi_uri, "rdf:type", publi_class))        p = Pfx.fabio.name + ":hasPubMedCentralId"    o = xsd_wrapped(pmcid, "string")    triples.append(get_triple(publi_uri, p, o))    medline_ta = publi.get("medline_ta")    if medline_ta is not None:        p = Pfx.fabio.name + ":hasNLMJournalTitleAbbreviation"        o = xsd_wrapped(medline_ta, "string")        triples.append(get_triple(publi_uri, p, o))        p = Pfx.dcterms.name + ":title"    o = xsd_wrapped(publi["title"], "string")    triples.append(get_triple(publi_uri, p, o))    pmid = publi.get("pmid")    if pmid is not None:        p = Pfx.fabio.name + ":hasPubMedId"        o = xsd_wrapped(pmid, "string")        triples.append(get_triple(publi_uri, p, o))        doi = publi.get("doi")    if doi is not None:        p = Pfx.prism.name + ":doi"        o = xsd_wrapped(doi, "string")        triples.append(get_triple(publi_uri, p, o))            pubyear = publi.get("pubyear")    if pubyear is not None:        p = Pfx.fabio.name + ":hasPublicationYear"        o = xsd_wrapped(pubyear, "int")        triples.append(get_triple(publi_uri, p, o))        pubdate = publi.get("publication_date")    if pubdate is not None:        p = Pfx.prism.name + ":publicationDate"        o = xsd_wrapped(pubdate, "date")        triples.append(get_triple(publi_uri, p, o))        keywords = publi.get("keywords")    if keywords is not None and isinstance(keywords,list):        for k in keywords:            p = Pfx.prism.name + ":keyword"            o = xsd_wrapped(k,"string")            triples.append(get_triple(publi_uri, p, o))        issue = publi.get("issue")    if issue is not None and len(issue)>0:        p = Pfx.prism.name + ":issueIdentifier"        o = xsd_wrapped(issue, "string")        triples.append(get_triple(publi_uri, p, o))    volume = publi.get("volume")    if issue is not None and len(volume)>0:        p = Pfx.prism.name + ":volume"        o = xsd_wrapped(volume,"string")        triples.append(get_triple(publi_uri, p, o))    # starting, ending page and page range,    # see https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw    # :textual-entity frbr:embodiment [    # a fabio:Manifestation ;    # prism:startingPage “XXX” ;    # prism:endingPage “WWW” ;    # prism:pageRange “XXX-YYY, ZZZ-WWW” ] .    blank_node = ""    o = publi.get("start_page")    if o is not None and len(o)>0 :         p = Pfx.prism.name + ":startingPage"        o = xsd_wrapped(o, "string") # TODO: check datatype        blank_node += "  " + p + " " + o + " ;\n"      o = publi.get("end_page")    if o is not None and len(o)>0 :         p = Pfx.prism.name + ":endingPage"        o = xsd_wrapped(o,"string") # TODO: check datatype        blank_node += "  " + p + " " + o + " ;\n"      o = publi.get("medline_pgn")    if o is not None and len(o)>0 :         p = Pfx.prism.name + ":pageRange"        o = xsd_wrapped(o, "string")        blank_node += "  " + p + " " + o + " ;\n"          if len(blank_node)>0:        p = Pfx.frbr.name + ":embodiment"        o = "[ \n  " + Pfx.rdf.name + ":type" + " " + Pfx.fabio.name + ":Manifestation ;\n" + blank_node + " ]"        triples.append(get_triple(publi_uri, p, o))    # end page stuff        o = publi.get("title")    if o is not None and len(o)>0 :         p = Pfx.dcterms.name + ":title"        o = xsd_wrapped(o, "string") # TODO: check datatype        triples.append(get_triple(publi_uri, p, o))        o = publi.get("abstract")    if o is not None and len(o)>0 :         p = Pfx.dcterms.name + ":abstract"        o = xsd_wrapped(o,"string") # TODO: check datatype        triples.append(get_triple(publi_uri, p, o))        add_triples_for_authors(publi, triples)                # create FrontMatter    front_uri = get_front_matter_uri(publi_uri)    triples.append(get_triple(publi_uri, Pfx.openbiodiv.name + ":contains", front_uri))    triples.append(get_triple(front_uri, Pfx.rdf.name + ":type", Pfx.doco.name + ":FrontMatter"))        # add sections    # TODO add data related to special sections (i.e. caption for CaptionedBox, ...)    # TODO add contents    sct_list_names = ["body_sections", "back_sections", "float_sections"]    for sct_list_name in sct_list_names:        sct_list = publi.get(sct_list_name)        if len(sct_list)>0:             for sct in sct_list:                # create title part                sct_uri = get_part_uri(publi_uri, sct)                parent_uri = get_part_parent_uri(publi_uri, sct)                triples.append(get_triple(parent_uri, Pfx.openbiodiv.name + ":contains", sct_uri))                triples.append(get_triple(sct_uri, Pfx.rdf.name + ":type", get_sct_part_class(sct)))        else:            print("### INFO", sct_list_name, "empty")    return triples    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def add_triples_for_authors(publi, triples):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    author_list = publi.get("authors")    if author_list is not None:        for author in author_list:            p = Pfx.dcterms.name + ":creator"            blank_node = "[\n"             blank_node += "  " + Pfx.rdf.name + ":type" + " " + Pfx.foaf.name + ":Person ;\n"            blank_node += "  " + Pfx.rdfs.name + ":label" + " " + xsd_wrapped(author.get("name"), "string") + " ;\n"            aff_id_list = author.get("affiliations")            if aff_id_list is not None:                for aff_id in aff_id_list:                    aff_name = find_affiliation_name(publi, aff_id)                    if aff_name is None:                        found = False                        # if we found nothing let's try to split the author affiliations on <space>                        # because some enter the list erroneously like: affiliations: ["id1 id2"] instead of affiliations: ["id1","id2"]                        if len(aff_id_list)==1:                                               for split_aff_id in aff_id_list[0].split(" "):                                aff_name = find_affiliation_name(publi, split_aff_id)                                if aff_name is not None:                                    found = True                                    blank_node += "  " + Pfx.openbiodiv.name + ":affiliation" + " " + xsd_wrapped(aff_name, "string") + ";\n"                        if not found:                            print("### ERROR", "found no name for affiliation id", aff_id, "in", pmcid)                    else:                        blank_node += "  " + Pfx.openbiodiv.name + ":affiliation" + " " + xsd_wrapped(aff_name, "string") + ";\n"            blank_node += " ]"            triples.append(get_triple(get_publi_uri(publi), p, blank_node))# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def get_publi_uri(publi):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    pmcid = publi.get("pmcid")    return Pfx.sibils.name + ":" + pmcid# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def get_front_matter_uri(publi_uri):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    return publi_uri + "/part/frontMatter"# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def get_sct_part_class(sct):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    tag = sct.get("tag")        if tag is None and sct.get("level") == 1 and sct.get("title") == "Title":         return Pfx.doco.name + ":Title"    if tag == "sec":        caption = sct.get("caption")        if caption is None: return Pfx.doco.name + ":Section"        if len(caption)==0: return Pfx.doco.name + ":Section"        return Pfx.doco.name + ":CaptionedBox"    if tag == "abstract":         return Pfx.doco.name + ":Abstract"    if tag == "wrap":        return Pfx.doco.name + ":Section"    if tag == "boxed-text":        caption = sct.get("caption")        if caption is None: return Pfx.doco.name + ":TextBox"        if len(caption)==0: return Pfx.doco.name + ":TextBox"        return Pfx.doco.name + ":CaptionedBox"    if tag == "body":        return Pfx.doco.name + ":BodyMatter"    if tag == "back":        return Pfx.doco.name + ":BackMatter"    if tag == "floats-group":        return Pfx.sibilo.name + ":FloatMatter"  # our extension        if tag == "app":        return Pfx.doco.name + ":Appendix"    # return default ancestor class in case of unexpected tag    print("### WARNING", "No section class defined for tag:", tag)       return Pfx.deo.name + ":DiscourseElement"# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def get_part_uri(publi_uri, part):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    part_id = part.get("id")    return publi_uri + "/part/" + part_id# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def get_part_parent_uri(publi_uri, part):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    if part.get("level") == 1:        tag = part.get("tag")        if tag is None and part.get("title")== "Title":             return  get_front_matter_uri(publi_uri)        elif tag == "abstract":            return  get_front_matter_uri(publi_uri)        else:            return publi_uri    else:                    part_id = part.get("id")        return publi_uri + "/part/" + part_id[:-2]# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def xsd_wrapped(value, xsd_type):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    if xsd_type == "string":        return "\"\"\"" + value + "\"\"\"^^xsd:" + xsd_type    else:        return "\"" + value + "\"^^xsd:" + xsd_type# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def find_affiliation_name(publi, aff_id):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    affs = publi.get("affiliations")    if affs is not None:        for aff in affs:            name = aff.get("name")            if name is not None:                if aff.get("id") == aff_id:                    return name                if name == aff_id:                    return name                if aff.get("label") == aff_id:                    return name    return None# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -def get_publi_class(article_type):# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -        # see ontology at https://sparontologies.github.io/fabio/current/fabio.html    # warning: do not mix Work and Expression, here we choose only Expression subclasses    # TODO: check my mapping like the one described below:         # https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw    result = Pfx.fabio.name + ":"     if article_type == "research-article":        return result + "JournalArticle"     #  a Expression     elif article_type == "review-article":        return result + "ReviewArticle"       # a Expression     elif article_type == "brief-report":              return result + "BriefReport"         # a Expression    elif article_type == "case-report":        return result + "CaseReport"          # a Expression    elif article_type == "discussion":        return result + "Expression"          # default value    elif article_type == "editorial":        return result + "Editorial"           # a Expression    elif article_type == "letter":        return result + "Letter"              # Expression    elif article_type == "article-commentary":        return result + "Expression"          # default value    elif article_type == "meeting-report":        return result + "MeetingReport"       # a Expression    elif article_type == "correction":        return result + "Expression"          # default value    else:        return result + "Expression"    # sample values found in 3000 publications    # 2186     "article_type": "research-article",    #  311     "article_type": "review-article",    #   94     "article_type": "brief-report",    #   89     "article_type": "case-report",    #   75     "article_type": "discussion",    #   58     "article_type": "editorial",    #   48     "article_type": "other",    #   45     "article_type": "letter",    #   32     "article_type": "article-commentary",    #   20     "article_type": "meeting-report",    #   12     "article_type": "correction",    #    7     "article_type": "abstract",    #    6     "article_type": "report",    #    6     "article_type": "news",    #    4     "article_type": "book-review",    #    3     "article_type": "oration",    #    2     "article_type": "introduction",    #    1     "article_type": "obituary",    #    1     "article_type": "in-brief",   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -# --------------------------------------------------------------------------------if __name__ == '__main__':# --------------------------------------------------------------------------------    global ftp_server, annot_base_url, publi_base_url, proxy_dir, ftp_content        global sct_tag_dic     sct_tag_dic = dict()    ftp_server = "denver.hesge.ch"    annot_base_url = "/SIBiLS/anapmc21/baseline/"    publi_base_url = "/SIBiLS_v3/bibpmc/baseline/"    proxy_dir = "./proxy_dir/"    prefixes = dict()        # choose action    action = sys.argv[1]    print("### action:", sys.argv[1])        if sys.argv[1] == "download":            ftp_content = get_content_from_ftp()        file_name = "pmc21n0757.json.gz"        download_chunk_from_ftp(file_name)            elif sys.argv[1] == "parse":                        file_name = "pmc21n0757.json"        json_file = proxy_dir + file_name        f_in = open(json_file, "rb")        obj = json.load(f_in)                f_in.close()        print("### read chunk", json_file, "len(obj)", len(obj))        # build a dictionary with PMCID as the key        publi_dic = dict()        for publi in obj:            pmcid = publi["pmcid"]            publi_dic[pmcid] = publi        print("### created publi dictionary for chunk ", json_file, "len(obj)", len(obj))            print("### Prefixes")                for line in Pfx.toTurtle(): print(line)                pmcid_list = list(publi_dic.keys())        pmcid_list.sort()        for pmcid in pmcid_list:            publi = publi_dic[pmcid]            triple_list = get_triples_for_publi(publi)            for el in triple_list: print(el)                    print("### Tag list")        for k in sct_tag_dic:            print("### tag",k, sct_tag_dic[k])        print("### Parsing ended")        print("### End")    
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon May 23 12:20:45 2022
+
+@author: pam
+"""
+import ftplib
+import os
+import gzip
+import sys
+import json
+import enum
+import pickle
+import requests
+#import shutil
+
+
+# TODO ontology: define sibilo:FloatMatter
+
+# -----------------------------------------------------------------------
+class Pfx(enum.Enum):
+# -----------------------------------------------------------------------
+    xsd = "<http://www.w3.org/2001/XMLSchema#>"
+    rdf = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+    rdfs = "<http://www.w3.org/2000/01/rdf-schema#>"
+    owl = "<http://www.w3.org/2002/07/owl#>"
+    doco = "<http://purl.org/spar/doco/>"
+    fabio = "<http://purl.org/spar/fabio/>"   
+    frbr = "<http://purl.org/vocab/frbr/core#>"
+    dcterms = "<http://purl.org/dc/terms/>"
+    prism = "<http://prismstandard.org/namespaces/basic/2.0/>"
+    foaf = "<http://xmlns.com/foaf/0.1/>"
+    openbiodiv = "<http://openbiodiv.net/>"
+    cnt = "<http://www.w3.org/2011/content#>"
+    deo = "<http://purl.org/spar/deo/>"  
+    po = "<http://www.essepuntato.it/2008/12/pattern#>"
+    sibilo = "<http://bitem.org#>"                  # our ontology
+    sibils = "<http://bitem.org/publi/>"            # our data
+      
+    @classmethod
+    def toTurtle(cls):
+        # example:
+        # @prefix owl: <http://www.w3.org/2002/07/owl#> .
+        # @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+        # @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .    
+        lines = list()
+        for item in cls:
+            lines.append("@prefix " + item.name + ": " + item.value + " .")
+        return lines   
+
+# -----------------------------------------------------------------------
+    
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def gunzip(gz_file):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    f_in = gzip.open(gz_file, 'rb')
+    decompressed_file = gz_file[0:-3]
+    f_out = open(decompressed_file, 'wb')
+    f_out.write(f_in.read())
+    f_out. close()
+    f_in. close()
+
+    
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_content_from_ftp():
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    content = dict()
+    ftp = ftplib.FTP(ftp_server)
+    ftp.login() 
+    ftp.cwd(publi_base_url)
+    pub_files = ftp.nlst()    
+    pub_files.sort()
+    content["pub_files"] = pub_files
+    ftp.cwd(annot_base_url)
+    annot_dirs = ftp.nlst()   
+    annot_dirs.remove("covoc") # temp ignored cos contains its own subdirs
+    content["annot_dirs"] = annot_dirs
+    ftp.quit()
+    # also create once for all the subdirectory needed for each annot type
+    for item in annot_dirs:
+        annot_dir = proxy_dir + item + "/"
+        if not os.path.exists(annot_dir):
+            os.makedirs(annot_dir)
+    return content
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def download_chunk_from_ftp(file_name):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    ftp = ftplib.FTP(ftp_server)
+    ftp.login()
+    trg_file = proxy_dir + file_name
+    # download main publication gz file if not done yet
+    if not os.path.exists(trg_file):
+        ftp.cwd(publi_base_url)
+        print("### Getting chunk", proxy_dir + file_name)
+        f = open(trg_file, "wb")
+        ftp.retrbinary("RETR " + file_name, f.write)
+        f.close()
+        gunzip(trg_file)
+    # download annot gz files if not done yet
+    for subdir in ftp_content["annot_dirs"]:
+        local_dir = proxy_dir + subdir + "/"
+        local_file = local_dir + file_name
+        if not os.path.exists(local_file):
+            remote_dir = annot_base_url + subdir + "/"
+            ftp.cwd(remote_dir)
+            f = open(local_file, "wb")
+            try:
+                ftp.retrbinary("RETR " + file_name, f.write)
+                f.close()
+                gunzip(local_file)
+            except ftplib.error_perm as e:
+                print("### WARNING", remote_dir + file_name, repr(e))
+                f.close()
+                if os.path.exists(local_file): os.remove(local_file)
+
+    ftp.quit()
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_triple(s, p, o):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    return s + " " + p + " " + o + " ."
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_triples_for_publi(publi):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    triples = list()
+    
+    pmcid = publi["pmcid"]
+    print("### INFO", "pmcid", pmcid)
+
+    publi_uri = get_publi_uri(publi)
+    publi_class = get_publi_class(publi["article_type"])    
+    triples.append(get_triple(publi_uri, "rdf:type", publi_class))
+    
+    p = Pfx.fabio.name + ":hasPubMedCentralId"
+    o = xsd_wrapped(pmcid, "string")
+    triples.append(get_triple(publi_uri, p, o))
+
+    medline_ta = publi.get("medline_ta")
+    if medline_ta is not None:
+        p = Pfx.fabio.name + ":hasNLMJournalTitleAbbreviation"
+        o = xsd_wrapped(medline_ta, "string")
+        triples.append(get_triple(publi_uri, p, o))
+    
+    p = Pfx.dcterms.name + ":title"
+    o = xsd_wrapped(publi["title"], "string")
+    triples.append(get_triple(publi_uri, p, o))
+
+    pmid = publi.get("pmid")
+    if pmid is not None:
+        p = Pfx.fabio.name + ":hasPubMedId"
+        o = xsd_wrapped(pmid, "string")
+        triples.append(get_triple(publi_uri, p, o))
+    
+    doi = publi.get("doi")
+    if doi is not None:
+        p = Pfx.prism.name + ":doi"
+        o = xsd_wrapped(doi, "string")
+        triples.append(get_triple(publi_uri, p, o))
+        
+    pubyear = publi.get("pubyear")
+    if pubyear is not None:
+        p = Pfx.fabio.name + ":hasPublicationYear"
+        o = xsd_wrapped(pubyear, "int")
+        triples.append(get_triple(publi_uri, p, o))
+    
+    pubdate = publi.get("publication_date")
+    if pubdate is not None:
+        p = Pfx.prism.name + ":publicationDate"
+        o = xsd_wrapped(pubdate, "date")
+        triples.append(get_triple(publi_uri, p, o))
+    
+    keywords = publi.get("keywords")
+    if keywords is not None and isinstance(keywords,list):
+        for k in keywords:
+            p = Pfx.prism.name + ":keyword"
+            o = xsd_wrapped(k,"string")
+            triples.append(get_triple(publi_uri, p, o))
+    
+    issue = publi.get("issue")
+    if issue is not None and len(issue)>0:
+        p = Pfx.prism.name + ":issueIdentifier"
+        o = xsd_wrapped(issue, "string")
+        triples.append(get_triple(publi_uri, p, o))
+
+    volume = publi.get("volume")
+    if issue is not None and len(volume)>0:
+        p = Pfx.prism.name + ":volume"
+        o = xsd_wrapped(volume,"string")
+        triples.append(get_triple(publi_uri, p, o))
+
+    # starting, ending page and page range,
+    # see https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw
+    # :textual-entity frbr:embodiment [
+    # a fabio:Manifestation ;
+    # prism:startingPage “XXX” ;
+    # prism:endingPage “WWW” ;
+    # prism:pageRange “XXX-YYY, ZZZ-WWW” ] .
+    blank_node = ""
+    o = publi.get("start_page")
+    if o is not None and len(o)>0 : 
+        p = Pfx.prism.name + ":startingPage"
+        o = xsd_wrapped(o, "string") # TODO: check datatype
+        blank_node += "  " + p + " " + o + " ;\n"  
+
+    o = publi.get("end_page")
+    if o is not None and len(o)>0 : 
+        p = Pfx.prism.name + ":endingPage"
+        o = xsd_wrapped(o,"string") # TODO: check datatype
+        blank_node += "  " + p + " " + o + " ;\n"  
+
+    o = publi.get("medline_pgn")
+    if o is not None and len(o)>0 : 
+        p = Pfx.prism.name + ":pageRange"
+        o = xsd_wrapped(o, "string")
+        blank_node += "  " + p + " " + o + " ;\n"  
+    
+    if len(blank_node)>0:
+        p = Pfx.frbr.name + ":embodiment"
+        o = "[ \n  " + Pfx.rdf.name + ":type" + " " + Pfx.fabio.name + ":Manifestation ;\n" + blank_node + " ]"
+        triples.append(get_triple(publi_uri, p, o))
+    # end page stuff
+    
+    o = publi.get("title")
+    if o is not None and len(o)>0 : 
+        p = Pfx.dcterms.name + ":title"
+        o = xsd_wrapped(o, "string") # TODO: check datatype
+        triples.append(get_triple(publi_uri, p, o))
+    
+    o = publi.get("abstract")
+    if o is not None and len(o)>0 : 
+        p = Pfx.dcterms.name + ":abstract"
+        o = xsd_wrapped(o,"string") # TODO: check datatype
+        triples.append(get_triple(publi_uri, p, o))
+    
+    add_triples_for_authors(publi, triples)
+            
+    # create FrontMatter
+    front_uri = get_front_matter_uri(publi_uri)
+    triples.append(get_triple(publi_uri, Pfx.openbiodiv.name + ":contains", front_uri))
+    triples.append(get_triple(front_uri, Pfx.rdf.name + ":type", Pfx.doco.name + ":FrontMatter"))
+    
+    # add sections
+    # TODO add data related to special sections (i.e. caption for CaptionedBox, ...)
+    # TODO add contents
+    sct_list_names = ["body_sections", "back_sections", "float_sections"]
+    for sct_list_name in sct_list_names:
+        sct_list = publi.get(sct_list_name)
+        if len(sct_list)>0: 
+            for sct in sct_list:
+                
+                # temp / for debug
+                value = pmcid + "." + sct["id"]
+                capt = sct.get("caption")
+                if capt is not None and len(capt)>0:
+                    if value not in sct_uuids: sct_uuids[value] = 0
+                
+                # create part type and part parent relationship 
+                sct_uri = get_part_uri(publi_uri, sct)
+                parent_uri = get_part_parent_uri(publi_uri, sct)
+                triples.append(get_triple(parent_uri, Pfx.openbiodiv.name + ":contains", sct_uri))
+                part_class = get_sct_part_class(sct)
+                triples.append(get_triple(sct_uri, Pfx.rdf.name + ":type", part_class))
+
+                # add section caption if apprropriate
+                if part_class == Pfx.doco.name + ":CaptionedBox":
+                    p = Pfx.dcterms.name + ":hasPart"
+                    blank_node = ""
+                    blank_node += "  " + Pfx.rdf.name + ":type " + Pfx.deo.name + ":Caption" + " ;\n"  
+                    blank_node += "  " + Pfx.cnt.name + ":chars " + xsd_wrapped(sct["caption"], "string") + " ;\n"  
+                    blank_node = "[\n" + blank_node + " ]"
+                    triples.append(get_triple(sct_uri, p, blank_node));
+                
+                # add section title if apprropriate
+                sct_title = sct.get("title")
+                if sct_title is not None and len(sct_title)>0 and sct_title != "Title" and sct_title != "Abstract":
+                    p = Pfx.dcterms.name + ":hasPart"
+                    blank_node = ""
+                    blank_node += "  " + Pfx.rdf.name + ":type " + Pfx.doco.name + ":SectionLabel" + " ;\n"  
+                    blank_node += "  " + Pfx.cnt.name + ":chars " + xsd_wrapped(sct_title, "string") + " ;\n"  
+                    blank_node = "[\n" + blank_node + " ]"
+                    triples.append(get_triple(sct_uri, p, blank_node));
+                    
+        else:
+            print("### INFO", sct_list_name, "empty")
+
+    # temp / for debug
+    annotations = publi.get("annotation")
+    for annot in annotations:
+        uuid = pmcid + "." + annot["content_id"]
+        if uuid in sct_uuids:
+            sct_uuids[uuid] += 1
+        
+        k = annot.get("field")
+        if annot.get("subfield"): k += "/" + annot.get("subfield")
+        if not k in ann_fld_dic: ann_fld_dic[k] = 0
+        ann_fld_dic[k] += 1
+        
+
+
+    return triples
+    
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def add_triples_for_authors(publi, triples):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    author_list = publi.get("authors")
+    if author_list is not None:
+        for author in author_list:
+            p = Pfx.dcterms.name + ":creator"
+            blank_node = "[\n" 
+            blank_node += "  " + Pfx.rdf.name + ":type" + " " + Pfx.foaf.name + ":Person ;\n"
+            blank_node += "  " + Pfx.rdfs.name + ":label" + " " + xsd_wrapped(author.get("name"), "string") + " ;\n"
+            aff_id_list = author.get("affiliations")
+            if aff_id_list is not None:
+                for aff_id in aff_id_list:
+                    aff_name = find_affiliation_name(publi, aff_id)
+                    if aff_name is None:
+                        found = False
+                        # if we found nothing let's try to split the author affiliations on <space>
+                        # because some enter the list erroneously like: affiliations: ["id1 id2"] instead of affiliations: ["id1","id2"]
+                        if len(aff_id_list)==1:                   
+                            for split_aff_id in aff_id_list[0].split(" "):
+                                aff_name = find_affiliation_name(publi, split_aff_id)
+                                if aff_name is not None:
+                                    found = True
+                                    blank_node += "  " + Pfx.openbiodiv.name + ":affiliation" + " " + xsd_wrapped(aff_name, "string") + ";\n"
+                        if not found:
+                            print("### ERROR", "found no name for affiliation id", aff_id, "in", pmcid)
+                    else:
+                        blank_node += "  " + Pfx.openbiodiv.name + ":affiliation" + " " + xsd_wrapped(aff_name, "string") + ";\n"
+            blank_node += " ]"
+            triples.append(get_triple(get_publi_uri(publi), p, blank_node))
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_publi_uri(publi):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    pmcid = publi.get("pmcid")
+    return Pfx.sibils.name + ":" + pmcid
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_front_matter_uri(publi_uri):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    return publi_uri + "/part/frontMatter"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_sct_part_class(sct):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    tag = sct.get("tag")
+    
+    if tag is None and sct.get("level") == 1 and sct.get("title") == "Title": 
+        return Pfx.doco.name + ":Title"
+
+    if tag == "sec":
+        caption = sct.get("caption")
+        if caption is None: return Pfx.doco.name + ":Section"
+        if len(caption)==0: return Pfx.doco.name + ":Section"
+        return Pfx.doco.name + ":CaptionedBox"
+
+    if tag == "abstract": 
+        return Pfx.doco.name + ":Abstract"
+
+    if tag == "wrap":
+        return Pfx.doco.name + ":Section"
+
+    if tag == "boxed-text":
+        caption = sct.get("caption")
+        if caption is None: return Pfx.doco.name + ":TextBox"
+        if len(caption)==0: return Pfx.doco.name + ":TextBox"
+        return Pfx.doco.name + ":CaptionedBox"
+
+    if tag == "body":
+        return Pfx.doco.name + ":BodyMatter"
+
+    if tag == "back":
+        return Pfx.doco.name + ":BackMatter"
+
+    if tag == "floats-group":
+        return Pfx.sibilo.name + ":FloatMatter"  # our extension
+    
+    if tag == "app":
+        return Pfx.doco.name + ":Appendix"
+
+    # return default ancestor class in case of unexpected tag
+    print("### WARNING", "No section class defined for tag:", tag)   
+    return Pfx.deo.name + ":DiscourseElement"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_part_uri(publi_uri, part):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    part_id = part.get("id")
+    return publi_uri + "/part/" + part_id
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_part_parent_uri(publi_uri, part):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    if part.get("level") == 1:
+        tag = part.get("tag")
+        if tag is None and part.get("title")== "Title": 
+            return  get_front_matter_uri(publi_uri)
+        elif tag == "abstract":
+            return  get_front_matter_uri(publi_uri)
+        else:
+            return publi_uri
+    else:            
+        part_id = part.get("id")
+        # parent id: remove everything from right until LAST <dot> is reached
+        parent_id = part_id[:part_id.rfind(".")]
+        return publi_uri + "/part/" + parent_id
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def xsd_wrapped(value, xsd_type):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    if xsd_type == "string":
+        return "\"\"\"" + value + "\"\"\"^^xsd:" + xsd_type
+    else:
+        return "\"" + value + "\"^^xsd:" + xsd_type
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def find_affiliation_name(publi, aff_id):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    affs = publi.get("affiliations")
+    if affs is not None:
+        for aff in affs:
+            name = aff.get("name")
+            if name is not None:
+                if aff.get("id") == aff_id:
+                    return name
+                if name == aff_id:
+                    return name
+                if aff.get("label") == aff_id:
+                    return name
+    return None
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_publi_class(article_type):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    
+    # see ontology at https://sparontologies.github.io/fabio/current/fabio.html
+    # warning: do not mix Work and Expression, here we choose only Expression subclasses
+    # TODO: check my mapping like the one described below:     
+    # https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw
+
+    result = Pfx.fabio.name + ":" 
+    if article_type == "research-article":
+        return result + "JournalArticle"     #  a Expression 
+    elif article_type == "review-article":
+        return result + "ReviewArticle"       # a Expression 
+    elif article_type == "brief-report":      
+        return result + "BriefReport"         # a Expression
+    elif article_type == "case-report":
+        return result + "CaseReport"          # a Expression
+    elif article_type == "discussion":
+        return result + "Expression"          # default value
+    elif article_type == "editorial":
+        return result + "Editorial"           # a Expression
+    elif article_type == "letter":
+        return result + "Letter"              # Expression
+    elif article_type == "article-commentary":
+        return result + "Expression"          # default value
+    elif article_type == "meeting-report":
+        return result + "MeetingReport"       # a Expression
+    elif article_type == "correction":
+        return result + "Expression"          # default value
+    else:
+        return result + "Expression"
+
+    # sample values found in 3000 publications
+    # 2186     "article_type": "research-article",
+    #  311     "article_type": "review-article",
+    #   94     "article_type": "brief-report",
+    #   89     "article_type": "case-report",
+    #   75     "article_type": "discussion",
+    #   58     "article_type": "editorial",
+    #   48     "article_type": "other",
+    #   45     "article_type": "letter",
+    #   32     "article_type": "article-commentary",
+    #   20     "article_type": "meeting-report",
+    #   12     "article_type": "correction",
+    #    7     "article_type": "abstract",
+    #    6     "article_type": "report",
+    #    6     "article_type": "news",
+    #    4     "article_type": "book-review",
+    #    3     "article_type": "oration",
+    #    2     "article_type": "introduction",
+    #    1     "article_type": "obituary",
+    #    1     "article_type": "in-brief",
+   
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+# --------------------------------------------------------------------------------
+if __name__ == '__main__':
+# --------------------------------------------------------------------------------
+    global ftp_server, annot_base_url, publi_base_url, proxy_dir, ftp_content
+    
+    global sct_uuids, cnt_fields, ann_fld_dic
+    sct_uuids = dict()
+    cnt_fields = dict()
+    ann_fld_dic = dict()
+
+
+    ftp_server = "denver.hesge.ch"
+    annot_base_url = "/SIBiLS/anapmc21/baseline/"
+    publi_base_url = "/SIBiLS_v3/bibpmc/baseline/"
+    proxy_dir = "./proxy_dir/"
+    fetch_dir = proxy_dir + "fetch_pam/"
+    prefixes = dict()
+    
+    # choose action
+    action = sys.argv[1]
+    print("### action:", sys.argv[1])
+    
+    if sys.argv[1] == "download":
+    
+        ftp_content = get_content_from_ftp()
+        file_name = "pmc21n0757.json.gz"
+        download_chunk_from_ftp(file_name)
+        
+    elif sys.argv[1] == "fetch_pam":
+        ## get set of pmcid and save it as a file
+        file_name = "pmc21n0757.json"
+        json_file = proxy_dir + file_name
+        f_in = open(json_file, "rb")
+        obj = json.load(f_in)        
+        f_in.close()
+        pmcid_set = set()
+        for publi in obj:
+            pmcid = publi["pmcid"]
+            pmcid_set.add(pmcid)
+        filename = fetch_dir + "pmcid_set.pickle"
+        f_out = open(filename, 'wb')
+        pickle.dump(pmcid_set, f_out, protocol=3) 
+        f_out.close()
+        print("### saved pmcid set ", filename, "len(pmcid_set)", len(pmcid_set))    
+        # use fetch_pam to retrieve batches of json publications with annotations
+        while pmcid_set:
+            ids = ""
+            for i in range(30):
+                if pmcid_set:
+                    if len(ids)>0: ids += ","
+                    ids += pmcid_set.pop()
+            url = "https://candy.hesge.ch/SIBiLS/PMC/fetch_PAM.jsp?ids=" + ids
+            print("### url", url)
+            response = requests.get(url)
+            print("### got response")
+            data = response.json()
+            print("### parsed response")
+            for publi in data:
+                pmcid = publi.get("pmcid")
+                subdir = fetch_dir + pmcid[:5] + "/"
+                os.makedirs(subdir, exist_ok=True)
+                jsonfile = subdir + pmcid + ".pickle"
+                f_out = open(jsonfile, 'wb')
+                pickle.dump(publi, f_out, protocol=3) 
+                f_out.close()
+                print("### saved", jsonfile)
+        
+
+
+    elif sys.argv[1] == "parse":
+                
+
+        filename = fetch_dir + "pmcid_set.pickle"
+        print("### Reading pmcid set", filename)        
+        f_in = open(filename, 'rb')
+        pmcid_set = pickle.load(f_in)
+        f_in.close()
+
+        print("### Prefixes")        
+        for line in Pfx.toTurtle(): print(line)
+
+        for pmcid in pmcid_set:
+            subdir = fetch_dir + pmcid[:5] + "/"
+            jsonfile = subdir + pmcid + ".pickle"
+
+            print("### Reading publi", jsonfile)
+            f_in = open(jsonfile, 'rb')
+            publi = pickle.load(f_in)
+            f_in.close()
+
+            print("### Building RDF for current publi")
+            triple_list = get_triples_for_publi(publi)
+            for el in triple_list: print(el)            
+
+        print("### Sct with title and annotations")
+        for k in sct_uuids:
+            if sct_uuids[k]>0:
+                print("### sct",k, "annot count:", sct_uuids[k])
+            
+        print("### Cnt fld list")
+        for k in cnt_fields:
+            print("### cnt fld",k, cnt_fields[k])
+            
+        print("### Annot fld/subfield values")
+        for k in ann_fld_dic:
+            print("### annot fld/subfield",k, ann_fld_dic[k])
+        
+
+
+        print("### Parsing ended")
+    
+    
+    elif sys.argv[1] == "parse_old":
+                
+        file_name = "pmc21n0757.json"
+        json_file = proxy_dir + file_name
+        f_in = open(json_file, "rb")
+        obj = json.load(f_in)        
+        f_in.close()
+        print("### read chunk", json_file, "len(obj)", len(obj))
+        # build a dictionary with PMCID as the key
+        publi_dic = dict()
+        for publi in obj:
+            pmcid = publi["pmcid"]
+            publi_dic[pmcid] = publi
+        print("### created publi dictionary for chunk ", json_file, "len(obj)", len(obj))    
+
+        print("### Prefixes")        
+        for line in Pfx.toTurtle(): print(line)
+        
+        pmcid_list = list(publi_dic.keys())
+        pmcid_list.sort()
+        for pmcid in pmcid_list:
+            publi = publi_dic[pmcid]
+            triple_list = get_triples_for_publi(publi)
+            for el in triple_list: print(el)            
+
+        print("### Tag list")
+        for k in sct_uuids:
+            print("### tag",k, sct_uuids[k])
+            
+        print("### Cnt fld list")
+        for k in cnt_fields:
+            print("### cnt fld",k, cnt_fields[k])
+            
+        print("### Parsing ended")
+    
+
+    print("### End")
+    
+
