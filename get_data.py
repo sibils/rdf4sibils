@@ -237,8 +237,6 @@ def get_triples_for_publi(publi):
     triples.append(get_triple(front_uri, Pfx.rdf.name + ":type", Pfx.doco.name + ":FrontMatter"))
     
     # add sections
-    # TODO add data related to special sections (i.e. caption for CaptionedBox, ...)
-    # TODO add contents
     sct_list_names = ["body_sections", "back_sections", "float_sections"]
     for sct_list_name in sct_list_names:
         sct_list = publi.get(sct_list_name)
@@ -276,7 +274,60 @@ def get_triples_for_publi(publi):
                     blank_node += "  " + Pfx.cnt.name + ":chars " + xsd_wrapped(sct_title, "string") + " ;\n"  
                     blank_node = "[\n" + blank_node + " ]"
                     triples.append(get_triple(sct_uri, p, blank_node));
+                
+                # add section contents
+                for cnt in sct["contents"]:
                     
+                    tag = cnt["tag"]
+                    if tag not in cnt_cls_spl: cnt_cls_spl[tag] = list()
+                    lst = cnt_cls_spl[tag]
+                    if len(lst) < 3: lst.append(pmcid)
+                    
+                    for fld in cnt:
+                        if fld not in cnt_fields: cnt_fields[fld] = 0
+                        cnt_fields[fld] += 1
+                        
+                    # link to parent section and set content class
+                    cnt_uri = get_part_uri(publi_uri, cnt)
+                    triples.append(get_triple( sct_uri, Pfx.openbiodiv.name + ":contains", cnt_uri))
+                    triples.append(get_triple(cnt_uri, Pfx.rdf.name + ":type", get_cnt_part_class(cnt)))
+                    # set textual content
+                    if cnt.get("text"):
+                        o = xsd_wrapped(cnt.get("text"), "string")
+                        triples.append(get_triple(cnt_uri, Pfx.cnt.name + ":chars", o))
+                    # set textual content of tables
+                    cols = cnt.get("table_columns")
+                    vals = cnt.get("table_values")
+                    if cols or vals:
+                        tokens = list()
+                        chars = ""
+                        if cols: flatten_nested_lists(cols, tokens)
+                        if vals: flatten_nested_lists(vals, tokens)
+                        chars = " ".join(tokens).replace("\n"," ")
+                        o = xsd_wrapped(chars, "string")
+                        triples.append(get_triple(cnt_uri, Pfx.cnt.name + ":chars", o))
+                    xrefUrl = cnt.get("xref_url")
+                    if xrefUrl:
+                        triples.append(get_triple(cnt_uri, Pfx.rdfs.name + ":seeAlso", "<" + xrefUrl + ">"))
+                    capt = cnt.get("caption")
+                    if capt:
+                        capt_uri = cnt_uri + "/caption"
+                        triples.append(get_triple(cnt_uri,  Pfx.dcterms.name + ":hasPart", capt_uri))
+                        triples.append(get_triple(capt_uri, Pfx.rdf.name + ":type", Pfx.deo.name + ":Caption"))
+                        triples.append(get_triple(capt_uri, Pfx.cnt.name + ":chars", xsd_wrapped(capt, "string")))
+                    label = cnt.get("label")
+                    if label:
+                        label_uri = cnt_uri + "/label"
+                        triples.append(get_triple(cnt_uri,  Pfx.dcterms.name + ":hasPart", label_uri))
+                        triples.append(get_triple(label_uri, Pfx.rdf.name + ":type", Pfx.doco.name + ":Label"))
+                        triples.append(get_triple(label_uri, Pfx.cnt.name + ":chars", xsd_wrapped(label, "string")))
+                    foot = cnt.get("footer")
+                    if foot:
+                        foot_uri = cnt_uri + "/footer"
+                        triples.append(get_triple(cnt_uri,  Pfx.dcterms.name + ":hasPart", foot_uri))
+                        triples.append(get_triple(foot_uri, Pfx.rdf.name + ":type", Pfx.sibilo.name + ":TableFooter"))
+                        triples.append(get_triple(foot_uri, Pfx.cnt.name + ":chars", xsd_wrapped(foot, "string")))
+
         else:
             print("### INFO", sct_list_name, "empty")
 
@@ -295,7 +346,18 @@ def get_triples_for_publi(publi):
 
 
     return triples
+
+
     
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def flatten_nested_lists(elem, flat_list):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    if isinstance(elem, list):
+        for item in elem:
+            flatten_nested_lists(item, flat_list)
+    else:
+        flat_list.append(elem)
+        
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def add_triples_for_authors(publi, triples):
@@ -341,6 +403,28 @@ def get_publi_uri(publi):
 def get_front_matter_uri(publi_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     return publi_uri + "/part/frontMatter"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_cnt_part_class(cnt):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # sibilo classes below could be defined as sub classes of po:Block
+    tag = cnt.get("tag")
+    if tag == "p":           return Pfx.doco.name   + ":Paragraph"
+    if tag == "fig":         return Pfx.doco.name   + ":FigureBox"
+    if tag == "table":       return Pfx.doco.name   + ":TableBox"
+    if tag == "list-item":   return Pfx.sibilo.name + ":ListItemBlock"      # our extension
+    if tag == "media":       return Pfx.sibilo.name + ":MediaBlock"         # our extension
+    if tag == "def-list":    return Pfx.doco.name   + ":Glossary"
+    if tag == "disp-quote":  return Pfx.doco.name   + "BlockQuotation"
+    if tag == "statement":   return Pfx.sibilo.name + ":StatementBlock"     # our extension
+    if tag == "object-id":   return Pfx.sibilo.name + ":ObjectIdBlock"      # our extension
+    if tag == "speech":      return Pfx.sibilo.name + "SpeechBlock"         # our extension
+    if tag == "verse-group": return Pfx.sibilo.name + "VerseGroupBlock"     # our extension
+    if tag == "array":       return Pfx.doco.name   + ":Table"
+    if tag == "ref-list":    return Pfx.doco.name   + ":ListOfReferences"
+    return Pfx.po.name + ":Block" # default, parent of doco:Paragraph in essepuntato (po)
+
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -503,6 +587,7 @@ if __name__ == '__main__':
     sct_uuids = dict()
     cnt_fields = dict()
     ann_fld_dic = dict()
+    cnt_cls_spl = dict()
 
 
     ftp_server = "denver.hesge.ch"
@@ -601,7 +686,9 @@ if __name__ == '__main__':
         for k in ann_fld_dic:
             print("### annot fld/subfield",k, ann_fld_dic[k])
         
-
+        print("### Cnt class / examples")
+        for cls in cnt_cls_spl:
+            print("###", cls, cnt_cls_spl[cls])
 
         print("### Parsing ended")
     
