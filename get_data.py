@@ -6,43 +6,46 @@ import json
 import enum
 import pickle
 import requests
-#import shutil
+import datetime
+
+from rdflib import BNode, Literal, URIRef, Graph, Namespace
+from rdflib.namespace import XSD,RDF, RDFS, OWL, FOAF
+
+
+sibilo = Namespace("http://sibils.org/rdf#")
+sibils = Namespace("http://sibils.org/rdf/data/")
+doco = Namespace("http://purl.org/spar/doco/")
+fabio = Namespace("http://purl.org/spar/fabio/")   
+frbr = Namespace("http://purl.org/vocab/frbr/core#")
+dcterms = Namespace("http://purl.org/dc/terms/")
+prism = Namespace("http://prismstandard.org/namespaces/basic/2.0/")
+openbiodiv = Namespace("http://openbiodiv.net/")
+CNT = Namespace("http://www.w3.org/2011/content#")
+deo = Namespace("http://purl.org/spar/deo/")  
+po = Namespace("http://www.essepuntato.it/2008/12/pattern#")
+
+graph = Graph()
+graph.bind("xsd", XSD)
+graph.bind("rdf", RDF)
+graph.bind("rdfs", RDFS)
+graph.bind("xsd", OWL)
+graph.bind("foaf", FOAF)
+
+graph.bind("sibilo",sibilo)
+graph.bind("sibils",sibils)
+graph.bind("doco", doco)
+graph.bind("fabio", fabio)
+graph.bind("frbr", frbr)
+graph.bind("dcterms", dcterms)
+graph.bind("prism", prism)
+graph.bind("openbiodiv", openbiodiv)
+graph.bind("cnt", CNT)
+graph.bind("deo", deo)
+graph.bind("po", po)
 
 
 # TODO ontology: define sibilo:FloatMatter
 
-# -----------------------------------------------------------------------
-class Pfx(enum.Enum):
-# -----------------------------------------------------------------------
-    xsd = "<http://www.w3.org/2001/XMLSchema#>"
-    rdf = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-    rdfs = "<http://www.w3.org/2000/01/rdf-schema#>"
-    owl = "<http://www.w3.org/2002/07/owl#>"
-    doco = "<http://purl.org/spar/doco/>"
-    fabio = "<http://purl.org/spar/fabio/>"   
-    frbr = "<http://purl.org/vocab/frbr/core#>"
-    dcterms = "<http://purl.org/dc/terms/>"
-    prism = "<http://prismstandard.org/namespaces/basic/2.0/>"
-    foaf = "<http://xmlns.com/foaf/0.1/>"
-    openbiodiv = "<http://openbiodiv.net/>"
-    cnt = "<http://www.w3.org/2011/content#>"
-    deo = "<http://purl.org/spar/deo/>"  
-    po = "<http://www.essepuntato.it/2008/12/pattern#>"
-    sibilo = "<http://bitem.org#>"                  # our ontology
-    sibils = "<http://bitem.org/publi/>"            # our data
-      
-    @classmethod
-    def toTurtle(cls):
-        # example:
-        # @prefix owl: <http://www.w3.org/2002/07/owl#> .
-        # @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-        # @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .    
-        lines = list()
-        for item in cls:
-            lines.append("@prefix " + item.name + ": " + item.value + " .")
-        return lines   
-
-# -----------------------------------------------------------------------
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def gunzip(gz_file):
@@ -116,74 +119,61 @@ def get_triple(s, p, o):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     return s + " " + p + " " + o + " ."
 
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_triples_for_annotations(annotations):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    for annot in annotations:
+        print(annot)
+        
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_triples_for_publi(publi):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    triples = list()
     
     pmcid = publi["pmcid"]
     print("### INFO", "pmcid", pmcid)
 
-    publi_uri = get_publi_uri(publi)
-    publi_class = get_publi_class(publi["article_type"])    
-    triples.append(get_triple(publi_uri, "rdf:type", publi_class))
+    publi_uri = get_publi_URIRef(publi)
+    publi_class_uri = get_publi_class_URIRef(publi["article_type"])  
+    graph.add((publi_uri , RDF.type, publi_class_uri))
     
-    p = Pfx.fabio.name + ":hasPubMedCentralId"
-    o = xsd_wrapped(pmcid, "string")
-    triples.append(get_triple(publi_uri, p, o))
+    graph.add((publi_uri, fabio.hasPubMedCentralId, Literal(pmcid, datatype=XSD.string)))
 
     medline_ta = publi.get("medline_ta")
     if medline_ta is not None:
-        p = Pfx.fabio.name + ":hasNLMJournalTitleAbbreviation"
-        o = xsd_wrapped(medline_ta, "string")
-        triples.append(get_triple(publi_uri, p, o))
-    
-    p = Pfx.dcterms.name + ":title"
-    o = xsd_wrapped(publi["title"], "string")
-    triples.append(get_triple(publi_uri, p, o))
+        graph.add((publi_uri, fabio.hasNLMJournalTitleAbbreviation, Literal(medline_ta, datatype=XSD.string)))
 
     pmid = publi.get("pmid")
     if pmid is not None:
-        p = Pfx.fabio.name + ":hasPubMedId"
-        o = xsd_wrapped(pmid, "string")
-        triples.append(get_triple(publi_uri, p, o))
+        graph.add((publi_uri, fabio.hasPubMedId, Literal(pmid, datatype=XSD.string)))
     
     doi = publi.get("doi")
     if doi is not None:
-        p = Pfx.prism.name + ":doi"
-        o = xsd_wrapped(doi, "string")
-        triples.append(get_triple(publi_uri, p, o))
+        graph.add((publi_uri, prism.doi, Literal(doi, datatype=XSD.string)))
         
     pubyear = publi.get("pubyear")
     if pubyear is not None:
-        p = Pfx.fabio.name + ":hasPublicationYear"
-        o = xsd_wrapped(pubyear, "int")
-        triples.append(get_triple(publi_uri, p, o))
+        graph.add((publi_uri, fabio.hasPublicationYear, Literal(pubyear, datatype=XSD.integer)))
     
     pubdate = publi.get("publication_date")
     if pubdate is not None:
-        p = Pfx.prism.name + ":publicationDate"
-        o = xsd_wrapped(pubdate, "date")
-        triples.append(get_triple(publi_uri, p, o))
+        graph.add((publi_uri, prism.publicationDate, Literal(date_to_yyyy_mm_dd(pubdate), datatype=XSD.date)))
     
     keywords = publi.get("keywords")
     if keywords is not None and isinstance(keywords,list):
         for k in keywords:
-            p = Pfx.prism.name + ":keyword"
-            o = xsd_wrapped(k,"string")
-            triples.append(get_triple(publi_uri, p, o))
+            graph.add((publi_uri, prism.keyword, Literal(k, datatype=XSD.string)))
     
     issue = publi.get("issue")
     if issue is not None and len(issue)>0:
-        p = Pfx.prism.name + ":issueIdentifier"
-        o = xsd_wrapped(issue, "string")
-        triples.append(get_triple(publi_uri, p, o))
+        graph.add((publi_uri, prism.issueIdentifier, Literal(issue, datatype=XSD.string)))
 
     volume = publi.get("volume")
     if issue is not None and len(volume)>0:
-        p = Pfx.prism.name + ":volume"
-        o = xsd_wrapped(volume,"string")
-        triples.append(get_triple(publi_uri, p, o))
+        graph.add((publi_uri, prism.volume, Literal(volume, datatype=XSD.string)))
 
     # starting, ending page and page range,
     # see https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw
@@ -192,49 +182,42 @@ def get_triples_for_publi(publi):
     # prism:startingPage “XXX” ;
     # prism:endingPage “WWW” ;
     # prism:pageRange “XXX-YYY, ZZZ-WWW” ] .
-    blank_node = ""
+    blank_node = BNode()
+    bn_empty = True
     o = publi.get("start_page")
     if o is not None and len(o)>0 : 
-        p = Pfx.prism.name + ":startingPage"
-        o = xsd_wrapped(o, "string") # TODO: check datatype
-        blank_node += "  " + p + " " + o + " ;\n"  
+        bn_empty = False
+        graph.add((blank_node, prism.startingPage, Literal(o, datatype=XSD.string)))
 
     o = publi.get("end_page")
     if o is not None and len(o)>0 : 
-        p = Pfx.prism.name + ":endingPage"
-        o = xsd_wrapped(o,"string") # TODO: check datatype
-        blank_node += "  " + p + " " + o + " ;\n"  
+        bn_empty = False
+        graph.add((blank_node, prism.endingPage, Literal(o, datatype=XSD.string)))
 
     o = publi.get("medline_pgn")
     if o is not None and len(o)>0 : 
-        p = Pfx.prism.name + ":pageRange"
-        o = xsd_wrapped(o, "string")
-        blank_node += "  " + p + " " + o + " ;\n"  
+        bn_empty = False
+        graph.add((blank_node, prism.pageRange, Literal(o, datatype=XSD.string)))
     
-    if len(blank_node)>0:
-        p = Pfx.frbr.name + ":embodiment"
-        o = "[ \n  " + Pfx.rdf.name + ":type" + " " + Pfx.fabio.name + ":Manifestation ;\n" + blank_node + " ]"
-        triples.append(get_triple(publi_uri, p, o))
+    if not bn_empty:
+        graph.add((blank_node, RDF.type, fabio.Manifestation))
+        graph.add((publi_uri, frbr.embodiment, blank_node))
     # end page stuff
     
     o = publi.get("title")
     if o is not None and len(o)>0 : 
-        p = Pfx.dcterms.name + ":title"
-        o = xsd_wrapped(o, "string") # TODO: check datatype
-        triples.append(get_triple(publi_uri, p, o))
+        graph.add((publi_uri, dcterms.title, Literal(o, datatype=XSD.string)))
     
     o = publi.get("abstract")
     if o is not None and len(o)>0 : 
-        p = Pfx.dcterms.name + ":abstract"
-        o = xsd_wrapped(o,"string") # TODO: check datatype
-        triples.append(get_triple(publi_uri, p, o))
+        graph.add((publi_uri, dcterms.abstract, Literal(o, datatype=XSD.string)))
     
-    add_triples_for_authors(publi, triples)
+    add_triples_for_authors(publi)
             
     # create FrontMatter
-    front_uri = get_front_matter_uri(publi_uri)
-    triples.append(get_triple(publi_uri, Pfx.openbiodiv.name + ":contains", front_uri))
-    triples.append(get_triple(front_uri, Pfx.rdf.name + ":type", Pfx.doco.name + ":FrontMatter"))
+    front_uri = get_front_matter_URIRef(publi_uri)
+    graph.add((publi_uri, openbiodiv.contains, front_uri))
+    graph.add((front_uri, RDF.type, doco.FrontMatter ))
     
     # add sections
     sct_list_names = ["body_sections", "back_sections", "float_sections"]
@@ -243,41 +226,41 @@ def get_triples_for_publi(publi):
         if len(sct_list)>0: 
             for sct in sct_list:
                 
-                # temp / for debug
+                # ------- temp / for debug -------
                 value = pmcid + "." + sct["id"]
                 capt = sct.get("caption")
                 if capt is not None and len(capt)>0:
                     if value not in sct_uuids: sct_uuids[value] = 0
+                # --------------------------------
+                
+                parent_uri = get_part_parent_URIRef(publi_uri, sct)
+                sct_uri = get_part_URIRef(publi_uri, sct)
                 
                 # create part type and part parent relationship 
-                sct_uri = get_part_uri(publi_uri, sct)
-                parent_uri = get_part_parent_uri(publi_uri, sct)
-                triples.append(get_triple(parent_uri, Pfx.openbiodiv.name + ":contains", sct_uri))
-                part_class = get_sct_part_class(sct)
-                triples.append(get_triple(sct_uri, Pfx.rdf.name + ":type", part_class))
+                graph.add((parent_uri, openbiodiv.contains, sct_uri ))
+                
+                part_class_uri = get_sct_part_class_URIRef(sct)
+                graph.add((sct_uri, RDF.type, part_class_uri ))
 
                 # add section caption if apprropriate
-                if part_class == Pfx.doco.name + ":CaptionedBox":
-                    p = Pfx.dcterms.name + ":hasPart"
-                    blank_node = ""
-                    blank_node += "  " + Pfx.rdf.name + ":type " + Pfx.deo.name + ":Caption" + " ;\n"  
-                    blank_node += "  " + Pfx.cnt.name + ":chars " + xsd_wrapped(sct["caption"], "string") + " ;\n"  
-                    blank_node = "[\n" + blank_node + " ]"
-                    triples.append(get_triple(sct_uri, p, blank_node));
+                if part_class_uri == doco.CaptionedBox:
+                    blank_node = BNode()
+                    graph.add((blank_node, RDF.type, deo.Caption))
+                    graph.add((blank_node, CNT.chars, Literal(sct["caption"], datatype=XSD.string) ))
+                    graph.add((sct_uri, dcterms.hasPart, blank_node))                  
                 
                 # add section title if apprropriate
                 sct_title = sct.get("title")
                 if sct_title is not None and len(sct_title)>0 and sct_title != "Title" and sct_title != "Abstract":
-                    p = Pfx.dcterms.name + ":hasPart"
-                    blank_node = ""
-                    blank_node += "  " + Pfx.rdf.name + ":type " + Pfx.doco.name + ":SectionLabel" + " ;\n"  
-                    blank_node += "  " + Pfx.cnt.name + ":chars " + xsd_wrapped(sct_title, "string") + " ;\n"  
-                    blank_node = "[\n" + blank_node + " ]"
-                    triples.append(get_triple(sct_uri, p, blank_node));
+                    blank_node = BNode()
+                    graph.add((blank_node, RDF.type, doco.SectionLabel))
+                    graph.add((blank_node, CNT.chars, Literal(sct_title, datatype=XSD.string)))
+                    graph.add((sct_uri, dcterms.hasPart, blank_node))
                 
                 # add section contents
                 for cnt in sct["contents"]:
                     
+                    # ------- temp / for debug -------
                     tag = cnt["tag"]
                     if tag not in cnt_cls_spl: cnt_cls_spl[tag] = list()
                     lst = cnt_cls_spl[tag]
@@ -286,16 +269,18 @@ def get_triples_for_publi(publi):
                     for fld in cnt:
                         if fld not in cnt_fields: cnt_fields[fld] = 0
                         cnt_fields[fld] += 1
+                    # ----------------------------------
                         
                     # link to parent section and set content class
-                    cnt_uri = get_part_uri(publi_uri, cnt)
-                    triples.append(get_triple( sct_uri, Pfx.openbiodiv.name + ":contains", cnt_uri))
-                    triples.append(get_triple(cnt_uri, Pfx.rdf.name + ":type", get_cnt_part_class(cnt)))
+                    cnt_uri = get_part_URIRef(publi_uri, cnt)
+                    graph.add((sct_uri, openbiodiv.contains, cnt_uri))
+                    graph.add((cnt_uri, RDF.type, get_cnt_part_class_URIRef(cnt)))
+                    
                     # set textual content
                     if cnt.get("text"):
-                        o = xsd_wrapped(cnt.get("text"), "string")
-                        triples.append(get_triple(cnt_uri, Pfx.cnt.name + ":chars", o))
-                    # set textual content of tables
+                        graph.add((cnt_uri, CNT.chars, Literal(cnt.get("text"), datatype=XSD.string)))
+
+                    # set textual content of tables                    
                     cols = cnt.get("table_columns")
                     vals = cnt.get("table_values")
                     if cols or vals:
@@ -304,29 +289,32 @@ def get_triples_for_publi(publi):
                         if cols: flatten_nested_lists(cols, tokens)
                         if vals: flatten_nested_lists(vals, tokens)
                         chars = " ".join(tokens).replace("\n"," ")
-                        o = xsd_wrapped(chars, "string")
-                        triples.append(get_triple(cnt_uri, Pfx.cnt.name + ":chars", o))
+                        graph.add((cnt_uri, CNT.chars, Literal(chars, datatype=XSD.string)))
+
                     xrefUrl = cnt.get("xref_url")
                     if xrefUrl:
-                        triples.append(get_triple(cnt_uri, Pfx.rdfs.name + ":seeAlso", "<" + xrefUrl + ">"))
+                        graph.add((cnt_uri, RDFS.seeAlso, URIRef(xrefUrl)))
+                        
                     capt = cnt.get("caption")
                     if capt:
-                        capt_uri = cnt_uri + "/caption"
-                        triples.append(get_triple(cnt_uri,  Pfx.dcterms.name + ":hasPart", capt_uri))
-                        triples.append(get_triple(capt_uri, Pfx.rdf.name + ":type", Pfx.deo.name + ":Caption"))
-                        triples.append(get_triple(capt_uri, Pfx.cnt.name + ":chars", xsd_wrapped(capt, "string")))
+                        capt_uri = get_part_caption_URIRef(cnt_uri)
+                        graph.add((cnt_uri, dcterms.hasPart, capt_uri))
+                        graph.add((capt_uri, RDF.type, deo.Caption))
+                        graph.add((capt_uri, CNT.chars, Literal(capt, datatype=XSD.string)))
+
                     label = cnt.get("label")
                     if label:
-                        label_uri = cnt_uri + "/label"
-                        triples.append(get_triple(cnt_uri,  Pfx.dcterms.name + ":hasPart", label_uri))
-                        triples.append(get_triple(label_uri, Pfx.rdf.name + ":type", Pfx.doco.name + ":Label"))
-                        triples.append(get_triple(label_uri, Pfx.cnt.name + ":chars", xsd_wrapped(label, "string")))
+                        label_uri = get_part_label_URIRef(cnt_uri)
+                        graph.add((cnt_uri, dcterms.hasPart, label_uri))
+                        graph.add((label_uri, RDF.type, doco.Label))
+                        graph.add((label_uri, CNT.chars, Literal(label, datatype=XSD.string)))
+
                     foot = cnt.get("footer")
                     if foot:
-                        foot_uri = cnt_uri + "/footer"
-                        triples.append(get_triple(cnt_uri,  Pfx.dcterms.name + ":hasPart", foot_uri))
-                        triples.append(get_triple(foot_uri, Pfx.rdf.name + ":type", Pfx.sibilo.name + ":TableFooter"))
-                        triples.append(get_triple(foot_uri, Pfx.cnt.name + ":chars", xsd_wrapped(foot, "string")))
+                        foot_uri = get_part_label_URIRef(cnt_uri)
+                        graph.add((cnt_uri, dcterms.hasPart, foot_uri))
+                        graph.add((foot_uri, RDF.type, sibilo.TableFooter))
+                        graph.add((foot_uri, CNT.chars, Literal(foot, datatype=XSD.string)))
 
         else:
             print("### INFO", sct_list_name, "empty")
@@ -344,10 +332,11 @@ def get_triples_for_publi(publi):
         ann_fld_dic[k] += 1
         
 
-
-    return triples
-
-
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def date_to_yyyy_mm_dd(dd_mm_yyyy):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    d,m,y = dd_mm_yyyy.split("-")
+    return y + "-" + m + "-" + d
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def flatten_nested_lists(elem, flat_list):
@@ -360,15 +349,14 @@ def flatten_nested_lists(elem, flat_list):
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def add_triples_for_authors(publi, triples):
+def add_triples_for_authors(publi):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     author_list = publi.get("authors")
     if author_list is not None:
         for author in author_list:
-            p = Pfx.dcterms.name + ":creator"
-            blank_node = "[\n" 
-            blank_node += "  " + Pfx.rdf.name + ":type" + " " + Pfx.foaf.name + ":Person ;\n"
-            blank_node += "  " + Pfx.rdfs.name + ":label" + " " + xsd_wrapped(author.get("name"), "string") + " ;\n"
+            blank_node = BNode()
+            graph.add((blank_node, RDF.type, FOAF.Person))
+            graph.add((blank_node, RDFS.label, Literal(author.get("name"), datatype=XSD.string)))
             aff_id_list = author.get("affiliations")
             if aff_id_list is not None:
                 for aff_id in aff_id_list:
@@ -382,126 +370,120 @@ def add_triples_for_authors(publi, triples):
                                 aff_name = find_affiliation_name(publi, split_aff_id)
                                 if aff_name is not None:
                                     found = True
-                                    blank_node += "  " + Pfx.openbiodiv.name + ":affiliation" + " " + xsd_wrapped(aff_name, "string") + ";\n"
+                                    graph.add((blank_node, openbiodiv.affiliation, Literal(aff_name, datatype=XSD.string)))
                         if not found:
                             print("### ERROR", "found no name for affiliation id", aff_id, "in", pmcid)
                     else:
-                        blank_node += "  " + Pfx.openbiodiv.name + ":affiliation" + " " + xsd_wrapped(aff_name, "string") + ";\n"
-            blank_node += " ]"
-            triples.append(get_triple(get_publi_uri(publi), p, blank_node))
+                        graph.add((blank_node, openbiodiv.affiliation, Literal(aff_name, datatype=XSD.string)))
 
+            graph.add((get_publi_URIRef(publi), dcterms.creator, blank_node))
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_publi_uri(publi):
+def get_publi_URIRef(publi):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     pmcid = publi.get("pmcid")
-    return Pfx.sibils.name + ":" + pmcid
+    return URIRef(pmcid, sibils)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_front_matter_uri(publi_uri):
+def get_front_matter_URIRef(publi_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return publi_uri + "/part/frontMatter"
-
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_cnt_part_class(cnt):
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    # sibilo classes below could be defined as sub classes of po:Block
-    tag = cnt.get("tag")
-    if tag == "p":           return Pfx.doco.name   + ":Paragraph"
-    if tag == "fig":         return Pfx.doco.name   + ":FigureBox"
-    if tag == "table":       return Pfx.doco.name   + ":TableBox"
-    if tag == "list-item":   return Pfx.sibilo.name + ":ListItemBlock"      # our extension
-    if tag == "media":       return Pfx.sibilo.name + ":MediaBlock"         # our extension
-    if tag == "def-list":    return Pfx.doco.name   + ":Glossary"
-    if tag == "disp-quote":  return Pfx.doco.name   + "BlockQuotation"
-    if tag == "statement":   return Pfx.sibilo.name + ":StatementBlock"     # our extension
-    if tag == "object-id":   return Pfx.sibilo.name + ":ObjectIdBlock"      # our extension
-    if tag == "speech":      return Pfx.sibilo.name + "SpeechBlock"         # our extension
-    if tag == "verse-group": return Pfx.sibilo.name + "VerseGroupBlock"     # our extension
-    if tag == "array":       return Pfx.doco.name   + ":Table"
-    if tag == "ref-list":    return Pfx.doco.name   + ":ListOfReferences"
-    return Pfx.po.name + ":Block" # default, parent of doco:Paragraph in essepuntato (po)
-
+    return URIRef(publi_uri + "_part_frontMatter")
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_sct_part_class(sct):
+def get_part_label_URIRef(part_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    tag = sct.get("tag")
-    
-    if tag is None and sct.get("level") == 1 and sct.get("title") == "Title": 
-        return Pfx.doco.name + ":Title"
-
-    if tag == "sec":
-        caption = sct.get("caption")
-        if caption is None: return Pfx.doco.name + ":Section"
-        if len(caption)==0: return Pfx.doco.name + ":Section"
-        return Pfx.doco.name + ":CaptionedBox"
-
-    if tag == "abstract": 
-        return Pfx.doco.name + ":Abstract"
-
-    if tag == "wrap":
-        return Pfx.doco.name + ":Section"
-
-    if tag == "boxed-text":
-        caption = sct.get("caption")
-        if caption is None: return Pfx.doco.name + ":TextBox"
-        if len(caption)==0: return Pfx.doco.name + ":TextBox"
-        return Pfx.doco.name + ":CaptionedBox"
-
-    if tag == "body":
-        return Pfx.doco.name + ":BodyMatter"
-
-    if tag == "back":
-        return Pfx.doco.name + ":BackMatter"
-
-    if tag == "floats-group":
-        return Pfx.sibilo.name + ":FloatMatter"  # our extension
-    
-    if tag == "app":
-        return Pfx.doco.name + ":Appendix"
-
-    # return default ancestor class in case of unexpected tag
-    print("### WARNING", "No section class defined for tag:", tag)   
-    return Pfx.deo.name + ":DiscourseElement"
+    return URIRef(part_uri + "_label")
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_part_uri(publi_uri, part):
+def get_part_caption_URIRef(part_uri):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    return URIRef(part_uri + "_caption")
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_part_footer_URIRef(part_uri):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    return URIRef(part_uri + "_footer")
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_part_URIRef(publi_uri, part):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     part_id = part.get("id")
-    return publi_uri + "/part/" + part_id
+    return URIRef(publi_uri + "_part_" + part_id)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_part_parent_uri(publi_uri, part):
+def get_part_parent_URIRef(publi_uri, part):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     if part.get("level") == 1:
         tag = part.get("tag")
         if tag is None and part.get("title")== "Title": 
-            return  get_front_matter_uri(publi_uri)
+            return  get_front_matter_URIRef(publi_uri)
         elif tag == "abstract":
-            return  get_front_matter_uri(publi_uri)
+            return  get_front_matter_URIRef(publi_uri)
         else:
             return publi_uri
     else:            
         part_id = part.get("id")
         # parent id: remove everything from right until LAST <dot> is reached
         parent_id = part_id[:part_id.rfind(".")]
-        return publi_uri + "/part/" + parent_id
+        return URIRef(publi_uri + "_part_" + parent_id)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def xsd_wrapped(value, xsd_type):
+def get_cnt_part_class_URIRef(cnt):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if xsd_type == "string":
-        return "\"\"\"" + value + "\"\"\"^^xsd:" + xsd_type
-    else:
-        return "\"" + value + "\"^^xsd:" + xsd_type
+    # sibilo classes below could be defined as sub classes of po:Block
+    tag = cnt.get("tag")
+    if tag == "p":           return doco.Paragraph
+    if tag == "fig":         return doco.FigureBox
+    if tag == "table":       return doco.TableBox
+    if tag == "list-item":   return sibilo.ListItemBlock      # our extension
+    if tag == "media":       return sibilo.MediaBlock         # our extension
+    if tag == "def-list":    return doco.Glossary
+    if tag == "disp-quote":  return doco.BlockQuotation
+    if tag == "statement":   return sibilo.StatementBlock     # our extension
+    if tag == "object-id":   return sibilo.ObjectIdBlock      # our extension
+    if tag == "speech":      return sibilo.SpeechBlock         # our extension
+    if tag == "verse-group": return sibilo.VerseGroupBlock     # our extension
+    if tag == "array":       return doco.Table
+    if tag == "ref-list":    return doco.ListOfReferences
+    return po.Block # default, parent of doco:Paragraph in essepuntato (po)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_sct_part_class_URIRef(sct):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    tag = sct.get("tag")
+    
+    if tag is None and sct.get("level") == 1 and sct.get("title") == "Title": 
+        return doco.Title
+
+    if tag == "sec":
+        caption = sct.get("caption")
+        if caption is None or len(caption)==0: return doco.Section
+        return doco.CaptionedBox
+
+    if tag == "abstract": return doco.Abstract
+    if tag == "wrap": return doco.Section
+
+    if tag == "boxed-text":
+        caption = sct.get("caption")
+        if caption is None or len(caption)==0: return doco.TextBox
+        return doco.CaptionedBox
+
+    if tag == "body": return doco.BodyMatter
+    if tag == "back": return doco.BackMatter
+    if tag == "floats-group": return sibilo.FloatMatter  # our extension
+    if tag == "app": return doco.Appendix
+
+    # return default ancestor class in case of unexpected tag
+    print("### WARNING", "No section class defined for tag:", tag)   
+    return deo.DiscourseElement
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -522,36 +504,24 @@ def find_affiliation_name(publi, aff_id):
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_publi_class(article_type):
+def get_publi_class_URIRef(article_type):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    
     # see ontology at https://sparontologies.github.io/fabio/current/fabio.html
     # warning: do not mix Work and Expression, here we choose only Expression subclasses
     # TODO: check my mapping like the one described below:     
     # https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw
 
-    result = Pfx.fabio.name + ":" 
-    if article_type == "research-article":
-        return result + "JournalArticle"     #  a Expression 
-    elif article_type == "review-article":
-        return result + "ReviewArticle"       # a Expression 
-    elif article_type == "brief-report":      
-        return result + "BriefReport"         # a Expression
-    elif article_type == "case-report":
-        return result + "CaseReport"          # a Expression
-    elif article_type == "discussion":
-        return result + "Expression"          # default value
-    elif article_type == "editorial":
-        return result + "Editorial"           # a Expression
-    elif article_type == "letter":
-        return result + "Letter"              # Expression
-    elif article_type == "article-commentary":
-        return result + "Expression"          # default value
-    elif article_type == "meeting-report":
-        return result + "MeetingReport"       # a Expression
-    elif article_type == "correction":
-        return result + "Expression"          # default value
-    else:
-        return result + "Expression"
+    if article_type == "research-article":  return fabio.JournalArticle     # a Expression 
+    if article_type == "review-article":    return fabio.ReviewArticle      # a Expression 
+    if article_type == "brief-report":      return fabio.BriefReport        # a Expression
+    if article_type == "case-report":       return fabio.CaseReport         # a Expression
+    if article_type == "discussion":        return fabio.Expression         # default value
+    if article_type == "editorial":         return fabio.Editorial          # a Expression
+    if article_type == "letter":            return fabio.Letter             # Expression
+    if article_type == "article-commentary":return fabio.Expression         # default value
+    if article_type == "meeting-report":    return fabio.MeetingReport      # a Expression
+    if article_type == "correction":        return fabio.Expression         # default value
+    return fabio.Expression
 
     # sample values found in 3000 publications
     # 2186     "article_type": "research-article",
@@ -589,7 +559,6 @@ if __name__ == '__main__':
     ann_fld_dic = dict()
     cnt_cls_spl = dict()
 
-
     ftp_server = "denver.hesge.ch"
     annot_base_url = "/SIBiLS/anapmc21/baseline/"
     publi_base_url = "/SIBiLS_v3/bibpmc/baseline/"
@@ -600,14 +569,19 @@ if __name__ == '__main__':
     # choose action
     action = sys.argv[1]
     print("### action:", sys.argv[1])
-    
+
+    # - - - - - - - - - - - - - - - - - - - - - - - -     
     if sys.argv[1] == "download":
+    # - - - - - - - - - - - - - - - - - - - - - - - -     
     
         ftp_content = get_content_from_ftp()
         file_name = "pmc21n0757.json.gz"
         download_chunk_from_ftp(file_name)
+
         
+    # - - - - - - - - - - - - - - - - - - - - - - - -     
     elif sys.argv[1] == "fetch_pam":
+    # - - - - - - - - - - - - - - - - - - - - - - - -     
         ## get set of pmcid and save it as a file
         file_name = "pmc21n0757.json"
         json_file = proxy_dir + file_name
@@ -647,9 +621,12 @@ if __name__ == '__main__':
                 print("### saved", jsonfile)
         
 
-
+    # - - - - - - - - - - - - - - - - - - - - - - - -     
     elif sys.argv[1] == "parse":
-                
+    # - - - - - - - - - - - - - - - - - - - - - - - -     
+
+        max_pub = 100000000
+        if len(sys.argv)>=3: max_pub = int(sys.argv[2])
 
         filename = fetch_dir + "pmcid_set.pickle"
         print("### Reading pmcid set", filename)        
@@ -657,10 +634,15 @@ if __name__ == '__main__':
         pmcid_set = pickle.load(f_in)
         f_in.close()
 
-        print("### Prefixes")        
-        for line in Pfx.toTurtle(): print(line)
-
+        print("### Parsing pmcid set", filename)   
+        
+        t0 = datetime.datetime.now()
+        pub_no = 0
         for pmcid in pmcid_set:
+            
+            pub_no += 1
+            if pub_no > max_pub: break
+        
             subdir = fetch_dir + pmcid[:5] + "/"
             jsonfile = subdir + pmcid + ".pickle"
 
@@ -670,8 +652,7 @@ if __name__ == '__main__':
             f_in.close()
 
             print("### Building RDF for current publi")
-            triple_list = get_triples_for_publi(publi)
-            for el in triple_list: print(el)            
+            get_triples_for_publi(publi)
 
         print("### Sct with title and annotations")
         for k in sct_uuids:
@@ -690,44 +671,19 @@ if __name__ == '__main__':
         for cls in cnt_cls_spl:
             print("###", cls, cnt_cls_spl[cls])
 
-        print("### Parsing ended")
-    
-    
-    elif sys.argv[1] == "parse_old":
-                
-        file_name = "pmc21n0757.json"
-        json_file = proxy_dir + file_name
-        f_in = open(json_file, "rb")
-        obj = json.load(f_in)        
-        f_in.close()
-        print("### read chunk", json_file, "len(obj)", len(obj))
-        # build a dictionary with PMCID as the key
-        publi_dic = dict()
-        for publi in obj:
-            pmcid = publi["pmcid"]
-            publi_dic[pmcid] = publi
-        print("### created publi dictionary for chunk ", json_file, "len(obj)", len(obj))    
-
-        print("### Prefixes")        
-        for line in Pfx.toTurtle(): print(line)
         
-        pmcid_list = list(publi_dic.keys())
-        pmcid_list.sort()
-        for pmcid in pmcid_list:
-            publi = publi_dic[pmcid]
-            triple_list = get_triples_for_publi(publi)
-            for el in triple_list: print(el)            
+        duration = datetime.datetime.now()-t0
+        m,s = divmod(duration.seconds,60)
+        print("duration:", m, "min", s, "seconds")
+        print("### Serializing")            
 
-        print("### Tag list")
-        for k in sct_uuids:
-            print("### tag",k, sct_uuids[k])
-            
-        print("### Cnt fld list")
-        for k in cnt_fields:
-            print("### cnt fld",k, cnt_fields[k])
-            
-        print("### Parsing ended")
-    
+        t0 = datetime.datetime.now()        
+        graph.serialize(destination="toto.ttl" , format="turtle", encoding="utf-8")
+        duration = datetime.datetime.now()-t0
+        m,s = divmod(duration.seconds,60)
+        print("duration:", m, "min", s, "seconds")
+        
+        
 
     print("### End")
     
