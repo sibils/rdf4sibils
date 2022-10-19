@@ -6,6 +6,37 @@ from rdflib import BNode, Literal, URIRef, Graph, Namespace
 from rdflib.namespace import XSD,RDF, RDFS, OWL, SKOS
 from get_publi_rdf import get_term_URIRef_from_term, get_terminology_URIRef, sibilc, sibilt, sibilo
 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+class TransitiveRelation:
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    relation_dict = dict()
+
+    def __init__(self):
+        self.relation_dict = dict()
+        print("### TransitiveRelation init()")
+
+    def add_relation(self, a,b):
+        if a not in self.relation_dict: self.relation_dict[a] = set()
+        self.relation_dict[a].add(b)
+
+    def get_parent_set(self):
+        parents = list(self.relation_dict.keys())
+        return sorted(parents)
+
+    def get_child_set(self, parent):
+        if parent not in self.relation_dict: 
+            return None
+        children = set()
+        for child in self.relation_dict[parent]:
+            children.add(child)
+            grand_children = self.get_child_set(child)
+            if grand_children is not None:
+                children.update(grand_children)
+        return children
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 def get_terminologies():
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -70,6 +101,9 @@ def save_rdf_for_terminology(data, terminology):
     for concept in data["concepts"]:
         defined_concepts.add(concept["id"])
 
+    # initialize tree-like structure for concept transitive relationships
+    narrower_rel = TransitiveRelation()
+
     # now iterate on defined concepts and RDFize each of them
     for concept in data["concepts"]:
         id = concept["id"]
@@ -86,7 +120,16 @@ def save_rdf_for_terminology(data, terminology):
                 continue
             graph.add((concept_URI, SKOS.broader, get_term_URIRef_from_term(parent_id, terminology)))
             graph.add((get_term_URIRef_from_term(parent_id, terminology), SKOS.narrower, concept_URI))
+            narrower_rel.add_relation(parent_id, id)
     
+    # now add transitive narrower relationships
+    trans_cnt=0
+    for parent_id in narrower_rel.get_parent_set():
+        for id in narrower_rel.get_child_set(parent_id):
+            trans_cnt += 1
+            graph.add((get_term_URIRef_from_term(parent_id, terminology), SKOS.narrowerTransitive, get_term_URIRef_from_term(id, terminology)))
+    print("### added transitive narrower relationships", trans_cnt)
+
     file_name = terminology["term_source"] + "_" + terminology["term_type"] + ".ttl"  
     file_name = file_name.replace(" ","_")     
     print("### Serializing", file_name)            
