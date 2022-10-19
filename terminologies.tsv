@@ -1,0 +1,18 @@
+atc_*.json	Drug	ATC	67680
+chebi_*.json	Chemical	Chebi	165460
+disprot_type1_*.json	DisProt_type1	DisProt	5244
+disprot_type2_*.json	DisProt_type2	DisProt	2270
+disprot_type3_*.json	DisProt_type3	DisProt	616
+disprot_type4_*.json	DisProt_type4	DisProt	396
+drugbank_*.json	Drug	Drugbank	158243
+eco_*.json	Evidence	ECO	1807
+go_bp_*.json	Biological Process	GO	39790
+go_cc_*.json	Cellular Component	GO	12307
+go_mf_*.json	Molecular Function	GO	21147
+icdo3_*.json	Disease	ICD-O-3 v3.1	1735
+mesh_*.json	MESH	MESH	478791
+ncit_*.json	Disease	NCI Thesaurus	316591
+nextprot_*.json	Gene	neXtProt	187406
+ppi-ptm_*.json	PPI-PTM	PPI PTM Thesaurus	8646
+species_*.json	Species	Species	17493
+uniprot_small_*.json	Gene	UniProt small	157089

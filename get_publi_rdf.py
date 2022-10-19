@@ -7,6 +7,7 @@ import enum
 import pickle
 import requests
 import datetime
+import urllib.parse
 
 from rdflib import BNode, Literal, URIRef, Graph, Namespace
 from rdflib.namespace import XSD,RDF, RDFS, OWL, FOAF
@@ -14,6 +15,9 @@ from rdflib.namespace import XSD,RDF, RDFS, OWL, FOAF
 
 sibilo = Namespace("http://sibils.org/rdf#")
 sibils = Namespace("http://sibils.org/rdf/data/")
+sibilc = Namespace("http://sibils.org/rdf/concept/")
+sibilt = Namespace("http://sibils.org/rdf/terminology/")
+
 doco = Namespace("http://purl.org/spar/doco/")
 fabio = Namespace("http://purl.org/spar/fabio/")   
 frbr = Namespace("http://purl.org/vocab/frbr/core#")
@@ -23,16 +27,22 @@ openbiodiv = Namespace("http://openbiodiv.net/")
 CNT = Namespace("http://www.w3.org/2011/content#")
 deo = Namespace("http://purl.org/spar/deo/")  
 po = Namespace("http://www.essepuntato.it/2008/12/pattern#")
+oa = Namespace("http://www.w3.org/ns/oa#")
+
 
 graph = Graph()
+
 graph.bind("xsd", XSD)
 graph.bind("rdf", RDF)
 graph.bind("rdfs", RDFS)
-graph.bind("xsd", OWL)
+graph.bind("owl", OWL)
 graph.bind("foaf", FOAF)
 
-graph.bind("sibilo",sibilo)
-graph.bind("sibils",sibils)
+graph.bind("sibilo",sibilo)  # sibils ontology
+graph.bind("sibils",sibils)  # sibils data
+graph.bind("sibilc",sibilc)  # sibils concepts
+graph.bind("sibilt",sibilt)  # sibils terminologies
+
 graph.bind("doco", doco)
 graph.bind("fabio", fabio)
 graph.bind("frbr", frbr)
@@ -42,6 +52,7 @@ graph.bind("openbiodiv", openbiodiv)
 graph.bind("cnt", CNT)
 graph.bind("deo", deo)
 graph.bind("po", po)
+graph.bind("oa", oa)
 
 
 # TODO ontology: define sibilo:FloatMatter
@@ -114,19 +125,84 @@ def download_chunk_from_ftp(file_name):
     ftp.quit()
 
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_triple(s, p, o):
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return s + " " + p + " " + o + " ."
-
-
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_triples_for_annotations(annotations):
+# OK for sibils version 2.x
+def get_term_URIRef_from_annot(annot):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    type = annot["type"]
+    src = annot["concept_source"]
+    db = src + "_" + type
+    db = db.replace(" ","_")
+    ac = annot["concept_id"]
+    name = db + "|" +ac
+    encoded_name = urllib.parse.quote(name)
+    return URIRef(encoded_name, sibilc)    
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# OK for sibils version 2.x
+def get_term_URIRef_from_term(concept_id, terminology):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    type = terminology["term_type"]
+    src = terminology["term_source"]
+    db = src + "_" + type
+    db = db.replace(" ","_")
+    ac = concept_id
+    name = db + "|" +ac
+    encoded_name = urllib.parse.quote(name)
+    return URIRef(encoded_name, sibilc)    
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# OK for sibils version 2.x
+def get_terminology_URIRef(terminology):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    type = terminology["term_type"]
+    src = terminology["term_source"]
+    name = src + "_" + type
+    name = name.replace(" ","_")
+    encoded_name = urllib.parse.quote(name)
+    return URIRef(encoded_name, sibilt)    
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_triples_for_publi_annotations(publi):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    annotations = publi.get("annotation")
+    publi_uri = get_publi_URIRef(publi)
     for annot in annotations:
-        print(annot)
+        
+        # - - - temp / for debug  - - -
+        typ = annot["type"]
+        src = annot["concept_source"]
+        key = typ + " | " + src
+        if key not in termino_dic: termino_dic[key]=0
+        termino_dic[key] += 1        
+        # - - - - - - - - - - - - - - -
+        
+        annot_bn = BNode()
+        graph.add((publi_uri, URIRef(sibilo.has_annotation), annot_bn)) # simple way to link an annotation to its target publi
+        graph.add((annot_bn, RDF.type, oa.Annotation))
+        graph.add((annot_bn, oa.hasBody,  get_term_URIRef_from_annot(annot))) # the named entity found
+        target_bn = BNode()
+        graph.add((annot_bn, oa.hasTarget, target_bn))
+        
+        part_uri = get_part_URIRef(publi_uri, annot)
+        subfield = (annot.get("subfield") or "").lower()
+        if subfield == "caption":
+            part_uri = get_part_caption_URIRef(part_uri)
+        elif subfield == "footer":
+            part_uri = get_part_footer_URIRef(part_uri)
+            
+        graph.add((target_bn, oa.hasSource, part_uri))
+        selector_bn = BNode()
+        graph.add((target_bn, oa.hasSelector, selector_bn))
+        graph.add((selector_bn, RDF.type, oa.TextPositionSelector))
+        start_pos = int(annot["concept_offset_in_section"]) # is actually offset in content, not in section !!!
+        graph.add((selector_bn, oa.start, Literal(start_pos, datatype=XSD.integer)))
+        end_pos = start_pos + int(annot["concept_length"])
+        graph.add((selector_bn, oa.end, Literal(end_pos, datatype=XSD.integer)))
+        concept_form = annot["concept_form"]
+        graph.add((selector_bn, oa.exact, Literal(concept_form, datatype=XSD.string)))        
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -311,7 +387,7 @@ def get_triples_for_publi(publi):
 
                     foot = cnt.get("footer")
                     if foot:
-                        foot_uri = get_part_label_URIRef(cnt_uri)
+                        foot_uri = get_part_footer_URIRef(cnt_uri)
                         graph.add((cnt_uri, dcterms.hasPart, foot_uri))
                         graph.add((foot_uri, RDF.type, sibilo.TableFooter))
                         graph.add((foot_uri, CNT.chars, Literal(foot, datatype=XSD.string)))
@@ -410,9 +486,12 @@ def get_part_footer_URIRef(part_uri):
     return URIRef(part_uri + "_footer")
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_part_URIRef(publi_uri, part):
+def get_part_URIRef(publi_uri, part_or_annot):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    part_id = part.get("id")
+    # the second parameter can be a part or an annotation
+    # we retrieve the part_id from a part using the "id" key or 
+    # we retrieve the part_id from an annotation using the "content_id" key
+    part_id = part_or_annot.get("id") or part_or_annot.get("content_id")
     return URIRef(publi_uri + "_part_" + part_id)
 
 
@@ -558,6 +637,7 @@ if __name__ == '__main__':
     cnt_fields = dict()
     ann_fld_dic = dict()
     cnt_cls_spl = dict()
+    termino_dic = dict()
 
     ftp_server = "denver.hesge.ch"
     annot_base_url = "/SIBiLS/anapmc21/baseline/"
@@ -646,13 +726,15 @@ if __name__ == '__main__':
             subdir = fetch_dir + pmcid[:5] + "/"
             jsonfile = subdir + pmcid + ".pickle"
 
-            print("### Reading publi", jsonfile)
+            print("### Reading publi", jsonfile, "file no.", pub_no)
             f_in = open(jsonfile, 'rb')
             publi = pickle.load(f_in)
             f_in.close()
 
             print("### Building RDF for current publi")
             get_triples_for_publi(publi)
+            get_triples_for_publi_annotations(publi)
+            
 
         print("### Sct with title and annotations")
         for k in sct_uuids:
@@ -671,7 +753,13 @@ if __name__ == '__main__':
         for cls in cnt_cls_spl:
             print("###", cls, cnt_cls_spl[cls])
 
-        
+        print("### terminology type / source, concept count")
+        keys = [k for k in termino_dic]
+        keys.sort()
+        for k in keys:
+            print("### terminology type|src", k, termino_dic[k])
+            
+
         duration = datetime.datetime.now()-t0
         m,s = divmod(duration.seconds,60)
         print("duration:", m, "min", s, "seconds")
