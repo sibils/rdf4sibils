@@ -1,14 +1,17 @@
 # rdf4sibils
 
-## how to setup SPARQL endpoint
+## Setup SPARQL endpoint
 
-### download image
+1. download image
+'''
 docker pull openlink/virtuoso-opensource-7
-
-### check version
+'''
+2. check version
+'''
 docker run openlink/virtuoso-opensource-7 version
-
-### create initial database
+'''
+3. create initial database
+'''
 mkdir sibils_virtdb
 cd sibils_virtdb
 docker run \
@@ -21,30 +24,49 @@ docker run \
     --user $(id -u):$(id -g) \
     --volume `pwd`:/database \
     openlink/virtuoso-opensource-7:latest
-
+'''
 ^C (stop container)
 
-### modifiy virtuoso.ini
+4. modifiy virtuoso.ini
+'''
 DirsAllowed = ., ../database/input, ../vad, /usr/share/proj
-
-### restart container
+'''
+5. restart container
+'''
 docker start sibils_virtdb
-
-### open isql in interactive mode
+'''
+6. open isql in interactive mode
+'''
 docker exec -i sibils_virtdb isql 1111
-
-### send commands to isql
-
-#### tune some parameters
+'''
+7. send commands to isql
+   - tune some parameters
+'''
 grant select on "DB.DBA.SPARQL_SINV_2" to "SPARQL";
 grant execute on "DB.DBA.SPARQL_SINV_IMP" to "SPARQL";
 GRANT SPARQL_SPONGE TO "SPARQL";
 GRANT EXECUTE ON DB.DBA.L_O_LOOK TO "SPARQL";
-
-#### delete / reload data
+'''
+   - delete / reload data
+'''
 delete from DB.DBA.load_list;
 ld_dir ('../database/input', '*.ttl', 'http://sibils.org/rdf') ;
 select * from DB.DBA.load_list;
 rdf_loader_run();
+'''
 
+## SPARQL query examples
 
+sponge from nextprot
+'''
+PREFIX fabio: <http://purl.org/spar/fabio/>
+PREFIX np: <http://nextprot.org/rdf#>
+select * where {
+  SERVICE <https://api.nextprot.org/sparql> {
+select  
+  ?e where {
+  ?e a np:Entry .
+}
+limit 10		   
+}}
+'''
