@@ -40,14 +40,14 @@ docker start sibils_virtdb
 docker exec -i sibils_virtdb isql 1111
 ```
 7. send commands to isql
-   - tune some parameters
+- tune some parameters
 ```
 grant select on "DB.DBA.SPARQL_SINV_2" to "SPARQL";
 grant execute on "DB.DBA.SPARQL_SINV_IMP" to "SPARQL";
 GRANT SPARQL_SPONGE TO "SPARQL";
 GRANT EXECUTE ON DB.DBA.L_O_LOOK TO "SPARQL";
 ```
-   - delete / reload data
+- delete / reload data
 ```
 delete from DB.DBA.load_list;
 ld_dir ('../database/input', '*.ttl', 'http://sibils.org/rdf') ;
@@ -56,6 +56,57 @@ rdf_loader_run();
 ```
 
 ## SPARQL query examples
+
+useful prefixes
+```
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX cnt: <http://www.w3.org/2011/content#> 
+PREFIX dcterms: <http://purl.org/dc/terms/> 
+PREFIX deo: <http://purl.org/spar/deo/> 
+PREFIX doco: <http://purl.org/spar/doco/> 
+PREFIX fabio: <http://purl.org/spar/fabio/> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX frbr: <http://purl.org/vocab/frbr/core#> 
+PREFIX oa: <http://www.w3.org/ns/oa#> 
+PREFIX openbiodiv: <http://openbiodiv.net/> 
+PREFIX po: <http://www.essepuntato.it/2008/12/pattern#> 
+PREFIX prism: <http://prismstandard.org/namespaces/basic/2.0/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+PREFIX sibilo: <http://sibils.org/rdf#> 
+PREFIX sibilc: <http://sibils.org/rdf/concept/> 
+PREFIX sibilt: <http://sibils.org/rdf/terminology/> 
+PREFIX sibils: <http://sibils.org/rdf/data/> 
+```
+
+publi count by class
+```
+select  ?publi_class (count(*) as ?count) where {
+  ?s fabio:hasPubMedCentralId ?o.
+  ?s a ?publi_class.
+} group by ?publi_class
+```
+
+
+entities extracted with their position in a publication
+```
+select (str(?doi) as ?doi) (str(?cpt_id) as ?cpt_id) (str(?scheme) as ?scheme) (str(?start) as ?start) (str(?token) as ?token) (str(?part) as ?section) where {
+    values ?publi { sibils:PMC2718325 }
+    ?publi prism:doi ?doi.
+    ?publi sibilo:has_annotation ?a .
+    ?a oa:hasBody ?cpt .
+    ?cpt skos:notation ?cpt_id .
+    ?cpt skos:inScheme / rdfs:label ?scheme .
+    ?a oa:hasTarget ?trg.
+    ?trg oa:hasSource ?part.
+    ?trg oa:hasSelector ?sel .
+    ?sel oa:start ?start.
+    ?sel oa:exact ?token.
+} 
+order by ?part ?start ?token
+LIMIT 1000
+```
+
 
 sponge from nextprot
 ```
