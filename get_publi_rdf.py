@@ -180,7 +180,7 @@ def get_triples_for_publi_annotations(publi):
         # - - - - - - - - - - - - - - -
         
         annot_bn = BNode()
-        graph.add((publi_uri, URIRef(sibilo.has_annotation), annot_bn)) # simple way to link an annotation to its target publi
+        graph.add((publi_uri, URIRef(sibilo.hasAnnotation), annot_bn)) # simple way to link an annotation to its target publi
         graph.add((annot_bn, RDF.type, oa.Annotation))
         graph.add((annot_bn, oa.hasBody,  get_term_URIRef_from_annot(annot))) # the named entity found
         target_bn = BNode()
@@ -193,6 +193,7 @@ def get_triples_for_publi_annotations(publi):
         elif subfield == "footer":
             part_uri = get_part_footer_URIRef(part_uri)
             
+        graph.add((target_bn, RDF.type, sibilo.AnnotationTarget))
         graph.add((target_bn, oa.hasSource, part_uri))
         selector_bn = BNode()
         graph.add((target_bn, oa.hasSelector, selector_bn))
@@ -590,17 +591,17 @@ def get_publi_class_URIRef(article_type):
     # TODO: check my mapping like the one described below:     
     # https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw
 
-    if article_type == "research-article":  return fabio.JournalArticle     # a Expression 
-    if article_type == "review-article":    return fabio.ReviewArticle      # a Expression 
-    if article_type == "brief-report":      return fabio.BriefReport        # a Expression
-    if article_type == "case-report":       return fabio.CaseReport         # a Expression
-    if article_type == "discussion":        return fabio.Expression         # default value
-    if article_type == "editorial":         return fabio.Editorial          # a Expression
-    if article_type == "letter":            return fabio.Letter             # Expression
-    if article_type == "article-commentary":return fabio.Expression         # default value
-    if article_type == "meeting-report":    return fabio.MeetingReport      # a Expression
-    if article_type == "correction":        return fabio.Expression         # default value
-    return fabio.Expression
+    if article_type == "research-article":  return sibilo.JournalArticle     # a Expression 
+    if article_type == "review-article":    return sibilo.ReviewArticle      # a Expression 
+    if article_type == "brief-report":      return sibilo.BriefReport        # a Expression
+    if article_type == "case-report":       return sibilo.CaseReport         # a Expression
+    if article_type == "discussion":        return sibilo.Publication        # default value
+    if article_type == "editorial":         return sibilo.Editorial          # a Expression
+    if article_type == "letter":            return sibilo.Letter             # Expression
+    if article_type == "article-commentary":return sibilo.Publication        # default value
+    if article_type == "meeting-report":    return sibilo.MeetingReport      # a Expression
+    if article_type == "correction":        return sibilo.Publication        # default value
+    return sibilo.Publication
 
     # sample values found in 3000 publications
     # 2186     "article_type": "research-article",
@@ -766,7 +767,7 @@ if __name__ == '__main__':
         print("### Serializing")            
 
         t0 = datetime.datetime.now()        
-        graph.serialize(destination="toto.ttl" , format="turtle", encoding="utf-8")
+        graph.serialize(destination="publication_set.ttl" , format="turtle", encoding="utf-8")
         duration = datetime.datetime.now()-t0
         m,s = divmod(duration.seconds,60)
         print("duration:", m, "min", s, "seconds")
