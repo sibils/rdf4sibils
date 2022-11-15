@@ -4,7 +4,7 @@ import glob
 import datetime
 from rdflib import BNode, Literal, URIRef, Graph, Namespace
 from rdflib.namespace import XSD,RDF, RDFS, OWL, SKOS
-from get_publi_rdf import get_term_URIRef_from_term, get_terminology_URIRef, sibilc, sibilt, sibilo
+from get_publi_rdf import get_term_URIRef_from_term, get_terminology_URIRef, sibilc, sibilo
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -84,17 +84,10 @@ def save_rdf_for_terminology(data, terminology):
     graph.bind("xsd", XSD)
     graph.bind("rdf", RDF)
     graph.bind("rdfs", RDFS)
-    graph.bind("OWL", OWL)
-    graph.bind("SKOS", SKOS)
-    graph.bind("sibilt", sibilt)  # terminologies
-    graph.bind("sibilc", sibilc)  # concepts
-
-    # add triples related to the terminology features
-    termi_URI = get_terminology_URIRef(terminology)
-    graph.add((termi_URI, RDF.type, SKOS.ConceptScheme))
-    label = terminology["term_source"] + " " + terminology["term_type"]
-    graph.add((termi_URI, RDFS.label, Literal(label, datatype=XSD.string)))
-    graph.add((termi_URI, sibilo.version, Literal(data["description"]["version"], datatype=XSD.string)))
+    graph.bind("owl", OWL)
+    graph.bind("skos", SKOS)
+    graph.bind("sibilc", sibilc)  # sibilis concepts
+    graph.bind(prefix="", namespace=sibilo, override=True, replace=True)  # sibils core ontology
 
     # first create a set of all concepts defined in the terminology
     defined_concepts = set()
@@ -105,6 +98,7 @@ def save_rdf_for_terminology(data, terminology):
     narrower_rel = TransitiveRelation()
 
     # now iterate on defined concepts and RDFize each of them
+    termi_URI = get_terminology_URIRef(terminology) 
     for concept in data["concepts"]:
         id = concept["id"]
         concept_URI = get_term_URIRef_from_term(id, terminology)
@@ -130,7 +124,7 @@ def save_rdf_for_terminology(data, terminology):
             graph.add((get_term_URIRef_from_term(parent_id, terminology), SKOS.narrowerTransitive, get_term_URIRef_from_term(id, terminology)))
     print("### added transitive narrower relationships", trans_cnt)
 
-    file_name = terminology["term_source"] + "_" + terminology["term_type"] + ".ttl"  
+    file_name = "./output/" + terminology["term_source"] + "_" + terminology["term_type"] + ".ttl"  
     file_name = file_name.replace(" ","_")     
     print("### Serializing", file_name)            
     t0 = datetime.datetime.now()
@@ -140,19 +134,67 @@ def save_rdf_for_terminology(data, terminology):
     print("duration:", m, "min", s, "seconds")
 
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+def save_rdf_for_terminology_ontology(terminologies):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    graph = Graph()
+    graph.bind("xsd", XSD)
+    graph.bind("rdf", RDF)
+    graph.bind("rdfs", RDFS)
+    graph.bind("owl", OWL)
+    graph.bind("skos", SKOS)
+    graph.bind(prefix="", namespace=sibilo, override=True, replace=True)  # sibils core ontology
+
+    # define class of sibils terminology: derived from skos ConceptScheme    
+    termi_class_URI = URIRef(sibilo.SibilsTerminology)
+    graph.add((termi_class_URI, RDF.type, OWL.Class))
+    graph.add((termi_class_URI, RDFS.subClassOf, SKOS.ConceptScheme))
+    graph.add((termi_class_URI, RDFS.label, Literal("SIBiLS Terminology", datatype=XSD.string)))
+    graph.add((termi_class_URI, RDFS.comment, Literal("SIBiLS Terminology scheme containing the concepts used for annotating the publications.", datatype=XSD.string)))
+    graph.add((termi_class_URI, RDFS.isDefinedBy, URIRef(sibilo) ))
+
+    for terminology in terminologies:
+        print("Reading file for terminology", terminology["term_source"], terminology["term_type"])
+        data = get_terminology_data(terminology)
+        # add triples related to the terminology features
+        termi_URI = get_terminology_URIRef(terminology)
+        graph.add((termi_URI, RDF.type, OWL.NamedIndividual))
+        graph.add((termi_URI, RDF.type, termi_class_URI))
+        label = terminology["term_source"] + " " + terminology["term_type"]
+        graph.add((termi_URI, RDFS.label, Literal(label, datatype=XSD.string)))
+        graph.add((termi_URI, sibilo.version, Literal(data["description"]["version"], datatype=XSD.string)))
+        graph.add((termi_URI, RDFS.isDefinedBy, URIRef(sibilo) ))
+
+    file_name = "./ontology/terminology-individuals.ttl"  
+    print("### Serializing", file_name)            
+    graph.serialize(destination=file_name , format="turtle", encoding="utf-8")
+
 
 
 
 # --------------------------------------------------------------------------------
 if __name__ == '__main__':
 # --------------------------------------------------------------------------------
-    terminologies = get_terminologies()
-    for t in terminologies:
-        print("Reading file for terminology", t["term_source"], t["term_type"])
-        data = get_terminology_data(t)
-        save_rdf_for_terminology(data, t)
 
-        print("----")
+    terminologies = get_terminologies()
+
+    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
+    if "data" in sys.argv or len(sys.argv)==1 :
+    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
+        print("Saving terminologies to ./output directory...")
+        for t in terminologies:
+            print("Reading file for terminology", t["term_source"], t["term_type"])
+            data = get_terminology_data(t)
+            save_rdf_for_terminology(data, t)
+        print("Saving terminologies to ./output DONE")
+
+    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
+    if "onto" in sys.argv or len(sys.argv)==1 :
+    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
+        print("Saving named individuals for terminologies to ./ontology directory...")
+        save_rdf_for_terminology_ontology(terminologies)
+        print("Saving terminologies named individuals for terminologies to ./ontology DONE")
+
     print("End")
 
 

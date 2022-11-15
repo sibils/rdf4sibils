@@ -1,4 +1,3 @@
-@prefix : <http://sibils.org/rdf#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -21,6 +20,8 @@
 @prefix oa: <http://www.w3.org/ns/oa#> .
 @prefix cnt: <http://www.w3.org/2011/content#> .
 
+@prefix : <http://sibils.org/rdf#> .
+
 <http://sibils.org/rdf> 
   a owl:Ontology ;
   owl:imports po: , deo: , doco: , fabio: , skos: ;
@@ -38,6 +39,7 @@
   dcterms:title "SIBiLS ontology" ;
   owl:versionInfo "Current release"^^xsd:string ;
   .
+
 # ------------------------------------------------------
 
 # Subclasses of https://sparontologies.github.io/deo/current/deo.html
@@ -47,7 +49,7 @@
       rdfs:label "Discourse element"^^xsd:string;
       rdfs:comment "An element of a document that carries out a rhetorical function."^^xsd:string ;
       rdfs:subClassOf deo:DiscourseElement ;
-      rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      rdfs:isDefinedBy <http://sibils.org/rdf#> ;
       .
 
 :Caption
@@ -638,7 +640,6 @@
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
-
 # Classes and properties derived from cnt http://www.w3.org/2011/content#
 
 :chars a rdf:Property, owl:ObjectProperty ;
@@ -651,6 +652,118 @@
       .
 
 
+:ATC_Drug a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "ATC Drug"^^xsd:string ;
+    :version "v2019AB"^^xsd:string ;
+    rdfs:isDefinedBy : .
 
+:Chebi_Chemical a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "Chebi Chemical"^^xsd:string ;
+    :version "v186"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:DisProt_DisProt_type1 a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "DisProt DisProt_type1"^^xsd:string ;
+    :version "v1.0"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:DisProt_DisProt_type2 a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "DisProt DisProt_type2"^^xsd:string ;
+    :version "v1.0"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:DisProt_DisProt_type3 a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "DisProt DisProt_type3"^^xsd:string ;
+    :version "v1.0"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:DisProt_DisProt_type4 a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "DisProt DisProt_type4"^^xsd:string ;
+    :version "v1.0"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:Drugbank_Drug a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "Drugbank Drug"^^xsd:string ;
+    :version "v5.1.5"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:ECO_Evidence a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "ECO Evidence"^^xsd:string ;
+    :version "v2020-02-07"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:GO_Biological_Process a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "GO Biological Process"^^xsd:string ;
+    :version "v2020-03-24"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:GO_Cellular_Component a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "GO Cellular Component"^^xsd:string ;
+    :version "v2020-03-24"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:GO_Molecular_Function a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "GO Molecular Function"^^xsd:string ;
+    :version "v2020-03-24"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:ICD-O-3_v3.1_Disease a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "ICD-O-3 v3.1 Disease"^^xsd:string ;
+    :version "unknown"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:MESH_MESH a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "MESH MESH"^^xsd:string ;
+    :version "v2020"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:NCI_Thesaurus_Disease a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "NCI Thesaurus Disease"^^xsd:string ;
+    :version "v20.02d"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:PPI_PTM_Thesaurus_PPI-PTM a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "PPI PTM Thesaurus PPI-PTM"^^xsd:string ;
+    :version "unknown"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:Species_Species a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "Species Species"^^xsd:string ;
+    :version "v1.0"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:UniProt_small_Gene a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "UniProt small Gene"^^xsd:string ;
+    :version "2020-01"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:neXtProt_Gene a :SibilsTerminology,
+        owl:NamedIndividual ;
+    rdfs:label "neXtProt Gene"^^xsd:string ;
+    :version "v2.26.0"^^xsd:string ;
+    rdfs:isDefinedBy : .
+
+:SibilsTerminology a owl:Class ;
+    rdfs:label "SIBiLS Terminology"^^xsd:string ;
+    rdfs:comment "SIBiLS Terminology scheme containing the concepts used for annotating the publications."^^xsd:string ;
+    rdfs:isDefinedBy : ;
+    rdfs:subClassOf skos:ConceptScheme .
 
 
