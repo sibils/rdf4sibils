@@ -88,7 +88,7 @@
       rdf:type owl:Class ;
       rdfs:label "Block quotation"^^xsd:string ;
       rdfs:comment "A block quotation (also known as a long quotation or extract) is a quotation in a written document which is set off from the main text as a container for distinct paragraphs, which is typically distinguished visually using indentation, a different font, or smaller size. Block quotations are used for longer passages than run-in quotations (which are set off with quotation marks)."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement, doco:BlockQuotation ;
+      rdfs:subClassOf :DiscourseElement, doco:BlockQuotation, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -112,7 +112,7 @@
       rdf:type owl:Class ;
       rdfs:label "Figure box"^^xsd:string ;
       rdfs:comment "A space within a document that contains a figure and its caption."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement, doco:FigureBox ;
+      rdfs:subClassOf :DiscourseElement, doco:FigureBox, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -136,7 +136,7 @@
       rdf:type owl:Class ;
       rdfs:label "Glossary"^^xsd:string ;
       rdfs:comment "A set of definitions of words or phrases of importance to the work, normally alphabetized. In longer works of fiction, the entries may contains places and characters."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement, doco:Glossary ;
+      rdfs:subClassOf :DiscourseElement, doco:Glossary, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -152,7 +152,7 @@
       rdf:type owl:Class ;
       rdfs:label "List item block"^^xsd:string ;
       rdfs:comment "A list item part of a document. Usually appears multiple time in a sequence. May be prefixed with a bullet or a number."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement ;
+      rdfs:subClassOf :DiscourseElement, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -160,7 +160,7 @@
       rdf:type owl:Class ;
       rdfs:label "List of references"^^xsd:string ;
       rdfs:comment "A list of items each representing a reference to a specific part of the same document, or to another publication."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement, doco:ListOfReferences ;
+      rdfs:subClassOf :DiscourseElement, doco:ListOfReferences, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -168,7 +168,7 @@
       rdf:type owl:Class ;
       rdfs:label "Media block"^^xsd:string ;
       rdfs:comment "A reference or link to some media (audio, video) part of a document."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement ;
+      rdfs:subClassOf :DiscourseElement, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -176,7 +176,7 @@
       rdf:type owl:Class ;
       rdfs:label "Object id block"^^xsd:string ;
       rdfs:comment "An identifier appearing as a distinct part of a document."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement ;
+      rdfs:subClassOf :DiscourseElement, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -184,7 +184,7 @@
       rdf:type owl:Class ;
       rdfs:label "Paragraph"^^xsd:string ;
       rdfs:comment "A self-contained unit of discourse that deals with a particular point or idea. Paragraphs contains one or more sentences. The start of a paragraph is indicated by beginning on a new line, which may be indented or separated by a small vertical space by the preceding paragraph."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement, doco:Paragraph ;
+      rdfs:subClassOf :DiscourseElement, doco:Paragraph, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -208,7 +208,7 @@
       rdf:type owl:Class ;
       rdfs:label "Speech block"^^xsd:string ;
       rdfs:comment "A dialog or part of dialog appearing as a distinct part of a document."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement ;
+      rdfs:subClassOf :DiscourseElement, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -217,7 +217,7 @@
       rdf:type owl:Class ;
       rdfs:label "Statement block"^^xsd:string ;
       rdfs:comment "A statement appearing as a distinct part of a document."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement ;
+      rdfs:subClassOf :DiscourseElement, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -225,7 +225,7 @@
       rdf:type owl:Class ;
       rdfs:label "Table"^^xsd:string ;
       rdfs:comment "A set of data arranged in cells within rows and columns."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement, doco:Table ;
+      rdfs:subClassOf :DiscourseElement, doco:Table, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -233,7 +233,7 @@
       rdf:type owl:Class ;
       rdfs:label "Table box"^^xsd:string ;
       rdfs:comment "A space within a document that contains a table and its caption."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement, doco:TableBox ;
+      rdfs:subClassOf :DiscourseElement, doco:TableBox, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -257,7 +257,7 @@
       rdf:type owl:Class ;
       rdfs:label "Verse group block"^^xsd:string ;
       rdfs:comment "A block containing one or several verses appearing as a distinct part of a document."^^xsd:string ;
-      rdfs:subClassOf :DiscourseElement ;
+      rdfs:subClassOf :DiscourseElement, :Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
