@@ -28,32 +28,32 @@ deo = Namespace("http://purl.org/spar/deo/")
 po = Namespace("http://www.essepuntato.it/2008/12/pattern#")
 oa = Namespace("http://www.w3.org/ns/oa#")
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_new_graph():
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    graph = Graph()
+    graph.bind("xsd", XSD)
+    graph.bind("rdf", RDF)
+    graph.bind("rdfs", RDFS)
+    graph.bind("owl", OWL)
+    graph.bind("foaf", FOAF)
+    # - - - - - - - - - - - - - - - - - - - - - - - - 
+    graph.bind(prefix="", namespace=sibilo, override=True, replace=True)  # sibils core ontology
+    graph.bind("sibilc",sibilc)  # sibils concepts
+    graph.bind("sibils",sibils)  # sibils data
+    # - - - - - - - - - - - - - - - - - - - - - - - - 
+    graph.bind("doco", doco)
+    graph.bind("fabio", fabio)
+    graph.bind("frbr", frbr)
+    graph.bind("dcterms", dcterms)
+    graph.bind("prism", prism)
+    graph.bind("openbiodiv", openbiodiv)
+    graph.bind(prefix="cnt", namespace=CNT, override=True, replace=True)
+    graph.bind("deo", deo)
+    graph.bind("po", po)
+    graph.bind("oa", oa)
+    return graph
 
-graph = Graph()
-
-graph.bind("xsd", XSD)
-graph.bind("rdf", RDF)
-graph.bind("rdfs", RDFS)
-graph.bind("owl", OWL)
-graph.bind("foaf", FOAF)
-
-graph.bind(prefix="", namespace=sibilo, override=True, replace=True)  # sibils core ontology
-graph.bind("sibilc",sibilc)  # sibils concepts
-graph.bind("sibils",sibils)  # sibils data
-
-
-graph.bind("doco", doco)
-graph.bind("fabio", fabio)
-graph.bind("frbr", frbr)
-graph.bind("dcterms", dcterms)
-graph.bind("prism", prism)
-graph.bind("openbiodiv", openbiodiv)
-graph.bind(prefix="cnt", namespace=CNT, override=True, replace=True)
-graph.bind("deo", deo)
-graph.bind("po", po)
-graph.bind("oa", oa)
-
-    
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def gunzip(gz_file):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -564,6 +564,19 @@ def get_sct_part_class_URIRef(sct):
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_split_lists(big_list, max_size):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    lists = list()
+    first_el = 0
+    while True:
+        last_el = first_el + max_size
+        if last_el > len(big_list): last_el = len(big_list)
+        if last_el <= first_el: break
+        lists.append(list(big_list[first_el:last_el]))
+        first_el = last_el
+    return lists
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def find_affiliation_name(publi, aff_id):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     affs = publi.get("affiliations")
@@ -622,15 +635,38 @@ def get_publi_class_URIRef(article_type):
     #    1     "article_type": "in-brief",
    
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def print_debug_info():
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        print("### Sct with title and annotations")
+        for k in sct_uuids:
+            if sct_uuids[k]>0:
+                print("### sct",k, "annot count:", sct_uuids[k])
+            
+        print("### Cnt fld list")
+        for k in cnt_fields:
+            print("### cnt fld",k, cnt_fields[k])
+            
+        print("### Annot fld/subfield values")
+        for k in ann_fld_dic:
+            print("### annot fld/subfield",k, ann_fld_dic[k])
+        
+        print("### Cnt class / examples")
+        for cls in cnt_cls_spl:
+            print("###", cls, cnt_cls_spl[cls])
 
-
+        print("### terminology type / source, concept count")
+        keys = [k for k in termino_dic]
+        keys.sort()
+        for k in keys:
+            print("### terminology type|src", k, termino_dic[k])
 
 # --------------------------------------------------------------------------------
 if __name__ == '__main__':
 # --------------------------------------------------------------------------------
     global ftp_server, annot_base_url, publi_base_url, proxy_dir, ftp_content
-    
     global sct_uuids, cnt_fields, ann_fld_dic
+    global graph
+
     sct_uuids = dict()
     cnt_fields = dict()
     ann_fld_dic = dict()
@@ -650,12 +686,10 @@ if __name__ == '__main__':
 
     # - - - - - - - - - - - - - - - - - - - - - - - -     
     if sys.argv[1] == "download":
-    # - - - - - - - - - - - - - - - - - - - - - - - -     
-    
+    # - - - - - - - - - - - - - - - - - - - - - - - -       
         ftp_content = get_content_from_ftp()
         file_name = "pmc21n0757.json.gz"
         download_chunk_from_ftp(file_name)
-
         
     # - - - - - - - - - - - - - - - - - - - - - - - -     
     elif sys.argv[1] == "fetch_pam":
@@ -697,79 +731,53 @@ if __name__ == '__main__':
                 pickle.dump(publi, f_out, protocol=3) 
                 f_out.close()
                 print("### saved", jsonfile)
-        
 
     # - - - - - - - - - - - - - - - - - - - - - - - -     
     elif sys.argv[1] == "parse":
     # - - - - - - - - - - - - - - - - - - - - - - - -     
 
+        pub_per_file = 100
         max_pub = 100000000
         if len(sys.argv)>=3: max_pub = int(sys.argv[2])
 
+        # read list of pmcid fro file generated by fetch_pam action above
         filename = fetch_dir + "pmcid_set.pickle"
         print("### Reading pmcid set", filename)        
         f_in = open(filename, 'rb')
         pmcid_set = pickle.load(f_in)
         f_in.close()
-
-        print("### Parsing pmcid set", filename)   
-        
-        t0 = datetime.datetime.now()
         pub_no = 0
-        for pmcid in pmcid_set:
-            
-            pub_no += 1
-            if pub_no > max_pub: break
-        
-            subdir = fetch_dir + pmcid[:5] + "/"
-            jsonfile = subdir + pmcid + ".pickle"
 
-            print("### Reading publi", jsonfile, "file no.", pub_no)
-            f_in = open(jsonfile, 'rb')
-            publi = pickle.load(f_in)
-            f_in.close()
+        # create a ttl file for each pmcid subset
+        pmcid_subsets = get_split_lists(list(pmcid_set), pub_per_file)
+        for pmcid_subset in pmcid_subsets:
+            offset = pub_no
+            graph = get_new_graph()
+            print("### Parsing pmcid set", filename, "offset", offset)
+            for pmcid in pmcid_subset:
+                pub_no += 1
+                if pub_no > max_pub: break
+                subdir = fetch_dir + pmcid[:5] + "/"
+                jsonfile = subdir + pmcid + ".pickle"
 
-            print("### Building RDF for current publi")
-            get_triples_for_publi(publi)
-            get_triples_for_publi_annotations(publi)
-            
+                print("### Reading publi", jsonfile, "file no.", pub_no)
+                f_in = open(jsonfile, 'rb')
+                publi = pickle.load(f_in)
+                f_in.close()
 
-        print("### Sct with title and annotations")
-        for k in sct_uuids:
-            if sct_uuids[k]>0:
-                print("### sct",k, "annot count:", sct_uuids[k])
-            
-        print("### Cnt fld list")
-        for k in cnt_fields:
-            print("### cnt fld",k, cnt_fields[k])
-            
-        print("### Annot fld/subfield values")
-        for k in ann_fld_dic:
-            print("### annot fld/subfield",k, ann_fld_dic[k])
-        
-        print("### Cnt class / examples")
-        for cls in cnt_cls_spl:
-            print("###", cls, cnt_cls_spl[cls])
+                print("### Building RDF for current publi")
+                get_triples_for_publi(publi)
+                get_triples_for_publi_annotations(publi)
+                
+            print_debug_info()
 
-        print("### terminology type / source, concept count")
-        keys = [k for k in termino_dic]
-        keys.sort()
-        for k in keys:
-            print("### terminology type|src", k, termino_dic[k])
-            
-
-        duration = datetime.datetime.now()-t0
-        m,s = divmod(duration.seconds,60)
-        print("duration:", m, "min", s, "seconds")
-        print("### Serializing")            
-
-        t0 = datetime.datetime.now()        
-        graph.serialize(destination="./output/publication_set.ttl" , format="turtle", encoding="utf-8")
-        duration = datetime.datetime.now()-t0
-        m,s = divmod(duration.seconds,60)
-        print("duration:", m, "min", s, "seconds")
-        
-        
+            ttl_file = "./output/publication_set_" + str(offset) + ".ttl"
+            print("### Serializing to", ttl_file)            
+            t0 = datetime.datetime.now()      
+            graph.serialize(destination=ttl_file , format="turtle", encoding="utf-8")
+            duration = datetime.datetime.now()-t0
+            m,s = divmod(duration.seconds,60)
+            print("duration:", m, "min", s, "seconds")
 
     print("### End")
     
