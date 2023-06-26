@@ -1,4 +1,5 @@
 import sys
+import os
 import json
 import glob
 import datetime
@@ -36,12 +37,17 @@ class TransitiveRelation:
                 children.update(grand_children)
         return children
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+def get_terminologies_metadata():
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    # 1) current-version.txt is tsv file provided by sibils in denver://D:/sibils/v3.2/terminologies
+    #    provides a mapping from terminology id (concept_source) to file name
+    # 2) terminologies.psv: documentation file, copied manually 
+    #    from the main table of https://github.com/sibils/techdoc/blob/master/docs/terminologies.md
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-def get_terminologies():
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    t_list = list()
-    file_name = "terminologies.tsv"
+    t_dict = dict()
+    term_dir = "terminologies/"
+    file_name = term_dir + "current-version.txt"
     f_in = open(file_name)
     line_no=0
     print("Reading", file_name)
@@ -50,35 +56,82 @@ def get_terminologies():
         if line == "": break
         line_no += 1
         fields = line.strip().split("\t")
-        if len(fields)!=4:
+        if len(fields)!=2:
+            print("ERROR, Unexpected number of fields at line", line_no)
+            sys.exit()
+        concept_source = fields[0]
+        file_name = fields[1]
+        file_exists = os.path.exists(term_dir + fields[1])
+        if not file_exists:
+            print("WARNING, terminology json file not found", file_name)
+        t_dict[concept_source] = {
+          "concept_source" : concept_source,
+          "file_name" : file_name,
+          "file_exists" : file_exists
+        }
+    f_in.close()
+
+    #   | Name | Code | Type | Update / Version | Description | Link |  Concept_source |   
+    # 0    1      2       3           4                5          6            7         8 
+    file_name = "terminologies/terminologies.psv"
+    f_in = open(file_name)
+    line_no=0
+    print("Reading", file_name)
+    while True:
+        line = f_in.readline()
+        if line == "": break
+        line_no += 1
+        fields = line.strip().split("|")
+        if len(fields)!=9:
             print("Unexpected number of fields at line", line_no)
             sys.exit()
-        t_list.append({
-          "file_pattern" : fields[0],
-          "term_type" : fields[1],
-          "term_source" : fields[2]
-        })
+        name = fields[1].strip()
+        version = fields[4].strip()
+        descr = fields[5].strip()
+        concept_source = fields[7].strip()
+        if concept_source not in t_dict or not t_dict[concept_source]["file_exists"]:
+            print("WARNING, identifier in terminology.psv does not match any json file", concept_source)
+            continue
+        t_dict[concept_source]["name"] = name
+        t_dict[concept_source]["version"] = version
+        t_dict[concept_source]["description"] = descr
     f_in.close()
-    return t_list
+    # set default values (name, descr, version) for items not found in documentation file
+    for el in t_dict.values():
+        if not el.get("name"):
+            el["name"] = el["concept_source"]
+            print("WARNING, no documentation for terminology, setting default name to", el["concept_source"])
+        if not el.get("version"):
+            el["version"] = "unknown"
+            print("WARNING, no documentation for terminology, setting default version to", el["concept_source"])
+        if not el.get("description"):
+            el["description"] = ""
+
+    for k in t_dict:
+        print(k, t_dict[k])
+
+    return t_dict
+
+
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-def get_terminology_data(terminology):
+def get_terminology_data(terminology_md):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    pattern = terminology["file_pattern"]
+    pattern = terminology_md["file_name"]
     f_list = glob.glob("./terminologies/" + pattern)
     if len(f_list)!=1:
         print("Error, json file not found", pattern)
         return None
     json_file = f_list[0]
     f_in = open(json_file, "rb")
-    data = json.load(f_in)        
+    data = json.load(f_in)
     f_in.close()
     return data
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-def save_rdf_for_terminology(data, terminology):
+def save_rdf_for_terminology(data, terminology_md):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     graph = Graph()
     graph.bind("xsd", XSD)
@@ -98,10 +151,10 @@ def save_rdf_for_terminology(data, terminology):
     narrower_rel = TransitiveRelation()
 
     # now iterate on defined concepts and RDFize each of them
-    termi_URI = get_terminology_URIRef(terminology) 
+    termi_URI = get_terminology_URIRef(terminology_md) 
     for concept in data["concepts"]:
         id = concept["id"]
-        concept_URI = get_term_URIRef_from_term(id, terminology)
+        concept_URI = get_term_URIRef_from_term(id, terminology_md)
         graph.add((concept_URI, SKOS.inScheme, termi_URI))
         graph.add((concept_URI, RDF.type, SKOS.Concept))
         graph.add((concept_URI, SKOS.notation, Literal(id, datatype=XSD.string)))
@@ -110,10 +163,10 @@ def save_rdf_for_terminology(data, terminology):
             graph.add((concept_URI, SKOS.altLabel, Literal(syn["term"], datatype=XSD.string)))
         for parent_id in concept["parents"]:
             if parent_id not in defined_concepts:
-                print("Warning, ignored undefined parent concept", parent_id, "from", terminology["term_source"], terminology["term_type"])
+                print("Warning, ignored undefined parent concept", parent_id, "from", terminology_md["concept_source"])
                 continue
-            graph.add((concept_URI, SKOS.broader, get_term_URIRef_from_term(parent_id, terminology)))
-            graph.add((get_term_URIRef_from_term(parent_id, terminology), SKOS.narrower, concept_URI))
+            graph.add((concept_URI, SKOS.broader, get_term_URIRef_from_term(parent_id, terminology_md)))
+            graph.add((get_term_URIRef_from_term(parent_id, terminology_md), SKOS.narrower, concept_URI))
             narrower_rel.add_relation(parent_id, id)
     
     # now add transitive narrower relationships
@@ -121,10 +174,10 @@ def save_rdf_for_terminology(data, terminology):
     for parent_id in narrower_rel.get_parent_set():
         for id in narrower_rel.get_child_set(parent_id):
             trans_cnt += 1
-            graph.add((get_term_URIRef_from_term(parent_id, terminology), SKOS.narrowerTransitive, get_term_URIRef_from_term(id, terminology)))
+            graph.add((get_term_URIRef_from_term(parent_id, terminology_md), SKOS.narrowerTransitive, get_term_URIRef_from_term(id, terminology_md)))
     print("### added transitive narrower relationships", trans_cnt)
 
-    file_name = "./output/" + terminology["term_source"] + "_" + terminology["term_type"] + ".ttl"  
+    file_name = "./output/" + terminology_md["concept_source"] + ".ttl"  
     file_name = file_name.replace(" ","_")     
     print("### Serializing", file_name)            
     t0 = datetime.datetime.now()
@@ -135,7 +188,7 @@ def save_rdf_for_terminology(data, terminology):
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-def save_rdf_for_terminology_ontology(terminologies):
+def save_rdf_for_terminology_ontology(terminologies_md):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     graph = Graph()
     graph.bind("xsd", XSD)
@@ -153,16 +206,19 @@ def save_rdf_for_terminology_ontology(terminologies):
     graph.add((termi_class_URI, RDFS.comment, Literal("SIBiLS Terminology scheme containing the concepts used for annotating the publications.", datatype=XSD.string)))
     graph.add((termi_class_URI, RDFS.isDefinedBy, URIRef(sibilo) ))
 
-    for terminology in terminologies:
-        print("Reading file for terminology", terminology["term_source"], terminology["term_type"])
-        data = get_terminology_data(terminology)
-        # add triples related to the terminology features
-        termi_URI = get_terminology_URIRef(terminology)
+    for term_id in terminologies_md:
+        print("Reading file for terminology", term_id)
+        meta_data = terminologies_md[term_id]
+        if not meta_data["file_exists"]: continue
+        termi_URI = get_terminology_URIRef(meta_data)
         graph.add((termi_URI, RDF.type, OWL.NamedIndividual))
         graph.add((termi_URI, RDF.type, termi_class_URI))
-        label = terminology["term_source"] + " " + terminology["term_type"]
+        label = meta_data["name"]
         graph.add((termi_URI, RDFS.label, Literal(label, datatype=XSD.string)))
-        graph.add((termi_URI, sibilo.version, Literal(data["description"]["version"], datatype=XSD.string)))
+        graph.add((termi_URI, sibilo.version, Literal(meta_data["version"], datatype=XSD.string)))
+        descr = meta_data.get("description")
+        if descr is not None and len(descr)>0:
+            graph.add((termi_URI, RDFS.comment, Literal(descr, datatype=XSD.string)))
         graph.add((termi_URI, RDFS.isDefinedBy, URIRef(sibilo) ))
 
     file_name = "./ontology/terminology-individuals.ttl"  
@@ -176,27 +232,27 @@ def save_rdf_for_terminology_ontology(terminologies):
 if __name__ == '__main__':
 # --------------------------------------------------------------------------------
 
-    terminologies = get_terminologies()
-
-    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
-    if "data" in sys.argv or len(sys.argv)==1 :
-    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
-        print("Saving terminologies to ./output directory...")
-        for t in terminologies:
-            print("Reading file for terminology", t["term_source"], t["term_type"])
-            data = get_terminology_data(t)
-            save_rdf_for_terminology(data, t)
-        print("Saving terminologies to ./output DONE")
+    terminologies_md = get_terminologies_metadata()
 
     # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
     if "onto" in sys.argv or len(sys.argv)==1 :
     # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
         print("Saving named individuals for terminologies to ./ontology directory...")
-        save_rdf_for_terminology_ontology(terminologies)
+        save_rdf_for_terminology_ontology(terminologies_md)
         print("Saving terminologies named individuals for terminologies to ./ontology DONE")
 
+    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
+    if "data" in sys.argv or len(sys.argv)==1 :
+    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
+        print("Saving terminologies to ./output directory...")
+        for term_id in terminologies_md:
+            meta_data = terminologies_md[term_id]
+            print("Reading file for terminology", term_id)
+            if meta_data["file_exists"]:
+                data = get_terminology_data(meta_data)
+                save_rdf_for_terminology(data, meta_data)
+            else:
+                print("WARNING, json file for",term_id, "not found, won't generate ttl file for it")
+        print("Saving terminologies to ./output DONE")
+
     print("End")
-
-
-
-

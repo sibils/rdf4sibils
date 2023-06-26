@@ -123,43 +123,33 @@ def download_chunk_from_ftp(file_name):
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# OK for sibils version 2.x
+# OK for sibils version 3.2 (not retro-compatible with v2.x)
 def get_term_URIRef_from_annot(annot):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    type = annot["type"]
-    src = annot["concept_source"]
-    db = src + "_" + type
-    db = db.replace(" ","_")
+    db = annot["concept_source"].replace(" ","_")
     ac = annot["concept_id"]
     name = db + "|" +ac
     encoded_name = urllib.parse.quote(name)
     return URIRef(sibilc + encoded_name)    
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# OK for sibils version 2.x
+# OK for sibils version 3.2 (not retro-compatible with v2.x)
 def get_term_URIRef_from_term(concept_id, terminology):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    type = terminology["term_type"]
-    src = terminology["term_source"]
-    db = src + "_" + type
-    db = db.replace(" ","_")
+    db = terminology["concept_source"].replace(" ","_")
     ac = concept_id
     name = db + "|" +ac
     encoded_name = urllib.parse.quote(name)
     return URIRef(sibilc + encoded_name)    
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# OK for sibils version 2.x
+# OK for sibils version 3.2 (not retro-compatible with v2.x)
 def get_terminology_URIRef(terminology):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    type = terminology["term_type"]
-    src = terminology["term_source"]
-    name = src + "_" + type
-    name = name.replace(" ","_")
+    name = terminology["concept_source"].replace(" ","_")
     encoded_name = urllib.parse.quote(name)
     uri = URIRef(sibilo + encoded_name)
     return uri
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_triples_for_publi_annotations(publi):

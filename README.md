@@ -47,7 +47,24 @@ grant execute on "DB.DBA.SPARQL_SINV_IMP" to "SPARQL";
 GRANT SPARQL_SPONGE TO "SPARQL";
 GRANT EXECUTE ON DB.DBA.L_O_LOOK TO "SPARQL";
 ```
-- delete / reload data
+- delete data
+```
+# display list of graphs (incl. system graphs)
+SPARQL SELECT  DISTINCT ?g FROM  <http://localhost:8890/> { GRAPH  ?g     { ?s  a  ?t } } ;
+
+log_enable(3,1);
+SPARQL CLEAR GRAPH <http://sibils.org/rdf>; -- took ~4 minutes for 25 mega triples
+or
+log_enable(3,1);
+SPARQL DROP SILENT GRAPH <http://sibils.org/rdf>;
+or
+log_enable(3,1);
+DELETE FROM rdf_quad WHERE g = iri_to_id ('http://mygraph.org');
+or
+log_enable(3,1);
+
+```
+- reload data
 ```
 delete from DB.DBA.load_list;
 ld_dir ('../database/input', '*.ttl', 'http://sibils.org/rdf') ;
