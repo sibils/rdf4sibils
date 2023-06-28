@@ -28,6 +28,19 @@ deo = Namespace("http://purl.org/spar/deo/")
 po = Namespace("http://www.essepuntato.it/2008/12/pattern#")
 oa = Namespace("http://www.w3.org/ns/oa#")
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+def log_it(*things, duration_since=None):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    t1 = datetime.datetime.now()
+    now = t1.isoformat().replace('T',' ')[:23]
+    pid = "[" + str(os.getpid()) + "]"
+    if duration_since is not None:
+        duration = round((t1 - duration_since).total_seconds(),3)
+        print(now, pid, *things, "duration", duration, flush=True)
+    else:
+        print(now, pid, *things, flush=True)
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_new_graph():
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
