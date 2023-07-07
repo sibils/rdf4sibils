@@ -206,6 +206,15 @@
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
+
+:Sentence
+      rdf:type owl:Class ;
+      rdfs:label "Sentence"^^xsd:string ;
+      rdfs:comment "An expression in natural language forming a single grammatical unit. A sentence minimally consists of a subject and an intransitive verb, or a subject, a transitive verb and an object, and may include additional dependent clauses. In written text, a sentence is always terminated by a full stop. A sentence can include words grouped meaningfully to express a statement, a question, an exclamation, a request or a command."^^xsd:string ;
+      rdfs:subClassOf :DiscourseElement, doco:Sentence, :WordSequence ;
+      rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      .
+
 :SpeechBlock
       rdf:type owl:Class ;
       rdfs:label "Speech block"^^xsd:string ;
@@ -239,6 +248,22 @@
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
+:TableCellValues
+      rdf:type owl:Class ;
+      rdfs:label "Table cell values"^^xsd:string ;
+      rdfs:comment "A concatenation of the values found in the cells of a table separated with a space."^^xsd:string ;
+      rdfs:subClassOf :DiscourseElement, :WordSequence ;
+      rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      .
+
+:TableColumnName
+      rdf:type owl:Class ;
+      rdfs:label "Table column name"^^xsd:string ;
+      rdfs:comment "The name given to of a column in a table."^^xsd:string ;
+      rdfs:subClassOf :DiscourseElement, :WordSequence ;
+      rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      .
+
 :TextBox
       rdf:type owl:Class ;
       rdfs:label "Text box"^^xsd:string ;
@@ -259,6 +284,14 @@
       rdf:type owl:Class ;
       rdfs:label "Verse group block"^^xsd:string ;
       rdfs:comment "A block containing one or several verses appearing as a distinct part of a document."^^xsd:string ;
+      rdfs:subClassOf :DiscourseElement ;
+      rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      .
+
+:WordSequence
+      rdf:type owl:Class ;
+      rdfs:label "Sequence of words"^^xsd:string ;
+      rdfs:comment "A super class for sentences, table column names and table cell values"^^xsd:string ;
       rdfs:subClassOf :DiscourseElement ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
@@ -350,6 +383,18 @@
       rdfs:subClassOf po:Block ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
+
+
+# Properties
+:ordinal rdf:type owl:DatatypeProperty ;
+      rdfs:label "ordinal"^^xsd:string ;
+      rdfs:comment "Relative order of appearance of a sentence in the publication. A sentence right after another one usually have an ordinal incremented by 1 but the orginal value can sometimes be arbitrary, for instance between body contents and some floating content."^^xsd:string ;
+      rdfs:domain :WordSequence ;
+      rdfs:range xsd:integer ;
+      rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      .
+
+
 
 # Properties (derived) found in http://openbiodiv.net/
 
