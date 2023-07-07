@@ -823,8 +823,7 @@ if __name__ == '__main__':
             ttl_file = "./output/publication_set_" + str(offset) + ".ttl"
             log_it("INFO", "Serializing to", ttl_file)
             t0 = datetime.datetime.now()
-            #graph.serialize(destination=ttl_file , format="turtle", encoding="utf-8")
-            graph.serialize(destination=ttl_file , format="n3", encoding="utf-8")
+            graph.serialize(destination=ttl_file , format="turtle", encoding="utf-8")
             log_it("INFO", "Serialized", ttl_file, duration_since=t0)
 
     log_it("INFO", "End")
