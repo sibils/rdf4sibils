@@ -273,7 +273,7 @@ def save_rdf_for_terminology_ontology(terminologies_md):
 if __name__ == '__main__':
 # --------------------------------------------------------------------------------
 
-    output_dir = "./output/tmp/"
+    output_dir = "./output/v32/"
 
     terminologies_md = get_terminologies_metadata()
 
