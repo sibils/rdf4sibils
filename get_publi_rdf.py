@@ -130,9 +130,16 @@ def download_chunk_from_ftp_v32(file_name):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
+# derive a NamedIndividual name for a terminology from its correxponding concept_source
+def get_terminology_NI_name(concept_source):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    return concept_source.replace(" ","_").capitalize() + "_St" # St stands for Sibils terminology
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# OK for sibils version 3.2 (not retro-compatible with v2.x)
 def get_term_URIRef_from_annot(annot):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    db = annot["concept_source"].replace(" ","_")
+    db = get_terminology_NI_name(annot["concept_source"])
     ac = annot["concept_id"]
     name = db + "|" +ac
     encoded_name = urllib.parse.quote(name)
@@ -142,7 +149,7 @@ def get_term_URIRef_from_annot(annot):
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
 def get_term_URIRef_from_term(concept_id, terminology):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    db = terminology["concept_source"].replace(" ","_")
+    db = get_terminology_NI_name(terminology["concept_source"])
     ac = concept_id
     name = db + "|" +ac
     encoded_name = urllib.parse.quote(name)
@@ -152,7 +159,7 @@ def get_term_URIRef_from_term(concept_id, terminology):
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
 def get_terminology_URIRef(terminology):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    name = terminology["concept_source"].replace(" ","_")
+    name = get_terminology_NI_name(terminology["concept_source"])
     encoded_name = urllib.parse.quote(name)
     uri = URIRef(sibilo + encoded_name)
     return uri
