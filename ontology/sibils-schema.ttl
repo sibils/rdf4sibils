@@ -34,7 +34,7 @@
 #    sdo:name "Pierre-André Michel"
 #  ] ;
   dcterms:license <http://creativecommons.org/licenses/by/4.0> ;
-  dcterms:modified "2022-11-01"^^xsd:date ;
+  dcterms:modified "2023-07-11"^^xsd:date ;
   dcterms:title "SIBiLS ontology" ;
   owl:versionInfo "Current release"^^xsd:string ;
   .
@@ -392,6 +392,17 @@
       rdfs:range xsd:integer ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
+
+# Properties derived from skos: http://www.w3.org/2004/02/skos/core#
+
+:more_specific_than a rdf:Property, owl:ObjectProperty ;
+      rdfs:subPropertyOf skos:broader ;
+      rdfs:label "more specific than"^^xsd:string ;
+      rdfs:comment "Links two concepts. The subject concept is more specific than the object concept. The semantics is the similar to the skos:broader property but its label less ambiguous."^^xsd:string ;
+      rdfs:domain skos:Concept ;
+      rdfs:range skos:Concept ;
+      rdfs:isDefinedBy <http://sibils.org/rdf> ;
+
 
 # Properties (derived) found in http://openbiodiv.net/
 
