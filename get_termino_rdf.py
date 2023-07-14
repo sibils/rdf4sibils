@@ -16,11 +16,11 @@ class TransitiveRelation:
 
     def __init__(self):
         self.relation_dict = dict()
-        log_it("###", "TransitiveRelation init()")
+        #log_it("###", "TransitiveRelation init()")
 
-    def add_relation(self, a,b):
-        if a not in self.relation_dict: self.relation_dict[a] = set()
-        self.relation_dict[a].add(b)
+    def add_relation(self, parent, child):
+        if parent not in self.relation_dict: self.relation_dict[parent] = set()
+        self.relation_dict[parent].add(child)
 
     def get_parent_set(self):
         parents = list(self.relation_dict.keys())
@@ -41,12 +41,13 @@ class TransitiveRelation:
 def get_terminologies_metadata():
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     # 1) current-version.txt is tsv file provided by sibils in denver://D:/sibils/v3.2/terminologies
+    # 1) current-version.txt is tsv file provided by sibils in denver://D:/users/emilie/terminologies/2023/current
     #    provides a mapping from terminology id (concept_source) to file name
     # 2) terminologies.psv: documentation file, copied manually 
     #    from the main table of https://github.com/sibils/techdoc/blob/master/docs/terminologies.md
 
     t_dict = dict()
-    term_dir = "terminologies/"
+    term_dir = "./terminologies/"
     file_name = term_dir + "current-version.txt"
     f_in = open(file_name)
     line_no=0
@@ -61,7 +62,10 @@ def get_terminologies_metadata():
             sys.exit()
         concept_source = fields[0]
         file_name = fields[1]
-        file_exists = os.path.exists(term_dir + fields[1])
+
+        # os.path.exists() is case INSENSITIVE on Mac, so we have to do something
+        # a bit more complicated to know if the file exists or not
+        file_exists = file_name in os.listdir(os.path.dirname(term_dir + file_name))
         if not file_exists:
             log_it("WARNING, terminology json file not found", file_name)
         t_dict[concept_source] = {
@@ -75,7 +79,9 @@ def get_terminologies_metadata():
     # 0    1      2       3           4                5          6            7         8 
     file_name = "terminologies/terminologies.psv"
     f_in = open(file_name)
-    line_no=0
+    f_in.readline() # skip first line with column names
+    f_in.readline() # skip 2nd line with ------|----|--- ...
+    line_no=2
     log_it("INFO", "Reading", file_name)
     while True:
         line = f_in.readline()
@@ -157,7 +163,7 @@ def save_rdf_for_terminology(data, terminology_md):
     log_it("INFO", "Collected", cpt_count, "concepts from", terminology_md["concept_source"])
 
     # initialize tree-like structure for concept transitive relationships
-    narrower_rel = TransitiveRelation()
+    parent_child_rel = TransitiveRelation()
     # comput IRI for terminology itself (used a lot below)
     termi_URI = get_terminology_URIRef(terminology_md) 
 
@@ -189,11 +195,14 @@ def save_rdf_for_terminology(data, terminology_md):
             if parent_id not in defined_concepts:
                 log_it("WARNING, ignored undefined parent concept", parent_id, "from", terminology_md["concept_source"])
                 continue
-            # SKOS.broader = ?s "has broader concept" ?o
-            graph.add((concept_URI, SKOS.broader, get_term_URIRef_from_term(parent_id, terminology_md)))
-            # SKOS.narrower = ?s "has narrower concept" ?o
-            graph.add((get_term_URIRef_from_term(parent_id, terminology_md), SKOS.narrower, concept_URI))
-            narrower_rel.add_relation(parent_id, id)
+            # INFO SKOS.broader means ?s "has broader concept" ?o
+            # INFO skos property replaced with ours because less ambiguous
+            #graph.add((concept_URI, SKOS.broader, get_term_URIRef_from_term(parent_id, terminology_md)))
+            graph.add((concept_URI, sibilo.more_specific_than, get_term_URIRef_from_term(parent_id, terminology_md)))
+
+            # INFO We forget about transitive relationships beween concepts for now, too costly
+            #parent_child_rel.add_relation(parent_id, id)
+
         # save file each time if contains N=max_per_file concepts
         if cpt_idx % max_per_file == max_per_file - 1:
             serialize_graph(graph, file_name)
@@ -202,27 +211,32 @@ def save_rdf_for_terminology(data, terminology_md):
     if unsaved:
         serialize_graph(graph, file_name)
 
-    # now add transitive narrower relationships
-    max_per_file = 1000000
-    trans_idx = -1
-    unsaved = False
-    file_name = None
-    graph = None
-    for parent_id in narrower_rel.get_parent_set():
-        for id in narrower_rel.get_child_set(parent_id):
-            trans_idx += 1
-            if trans_idx % max_per_file == 0:
-                file_idx = int(trans_idx / max_per_file)
-                file_name = (output_dir + terminology_md["concept_source"] + "_trna_" + str(file_idx) + ".ttl").replace(" ","_")
-                unsaved = True
-                graph = init_graph()
-            graph.add((get_term_URIRef_from_term(parent_id, terminology_md), SKOS.narrowerTransitive, get_term_URIRef_from_term(id, terminology_md)))
-            if trans_idx % max_per_file == max_per_file -1:
-                serialize_graph(graph, file_name)
-                unsaved = False
-    if unsaved:
-        serialize_graph(graph, file_name)
-    log_it("###", "Added transitive narrower relationships from", terminology_md["concept_source"], trans_idx+1)
+    # NOTE for efficient queries about things related to a term T and terms more specific than T,
+    # NOTE we don't use it for now
+    if 1==2:
+        max_per_file = 1000000
+        trans_idx = -1
+        unsaved = False
+        file_name = None
+        graph = None
+        for parent_id in parent_child_rel.get_parent_set():
+            parent_URI = get_term_URIRef_from_term(parent_id, terminology_md)
+            for id in parent_child_rel.get_child_set(parent_id):
+                trans_idx += 1
+                if trans_idx % max_per_file == 0:
+                    file_idx = int(trans_idx / max_per_file)
+                    file_name = (output_dir + terminology_md["concept_source"] + "_trna_" + str(file_idx) + ".ttl").replace(" ","_")
+                    unsaved = True
+                    graph = init_graph()
+                child_URI = get_term_URIRef_from_term(id, terminology_md)
+                graph.add((child_URI, sibilo.more_specific_than_transitive, parent_URI))
+                #graph.add((child_URI, SKOS.broaderTransitive, parent_URI))
+                if trans_idx % max_per_file == max_per_file -1:
+                    serialize_graph(graph, file_name)
+                    unsaved = False
+        if unsaved:
+            serialize_graph(graph, file_name)
+        log_it("###", "Added transitive narrower relationships from", terminology_md["concept_source"], trans_idx+1)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -248,9 +262,11 @@ def save_rdf_for_terminology_ontology(terminologies_md):
     graph.add((termi_class_URI, RDFS.isDefinedBy, URIRef(sibilo) ))
 
     for term_id in terminologies_md:
-        log_it("INFO", "Reading file for terminology", term_id)
         meta_data = terminologies_md[term_id]
-        if not meta_data["file_exists"]: continue
+        if not meta_data["file_exists"]:
+            log_it("WARNING", "No json file, skipping terminology", term_id)
+            continue
+        log_it("INFO", "Reading file for terminology", term_id)
         termi_URI = get_terminology_URIRef(meta_data)
         graph.add((termi_URI, RDF.type, OWL.NamedIndividual))
         graph.add((termi_URI, RDF.type, termi_class_URI))
@@ -273,7 +289,7 @@ def save_rdf_for_terminology_ontology(terminologies_md):
 if __name__ == '__main__':
 # --------------------------------------------------------------------------------
 
-    output_dir = "./output/v32/"
+    output_dir = "./output/v3.3/"
 
     terminologies_md = get_terminologies_metadata()
 
@@ -291,6 +307,7 @@ if __name__ == '__main__':
         for term_id in terminologies_md:
             meta_data = terminologies_md[term_id]
             if meta_data["file_exists"]:
+                # if meta_data["concept_source"] != "go_bp": continue
                 data = get_terminology_data(meta_data)
                 save_rdf_for_terminology(data, meta_data)
             else:
