@@ -108,7 +108,8 @@ select  ?publi_class (count(*) as ?count) where {
 entities extracted with their position in a publication
 ```
 select (str(?doi) as ?doi) (str(?cpt_id) as ?cpt_id) (str(?scheme) as ?scheme) (str(?start) as ?start) (str(?token) as ?token) (str(?part) as ?section) where {
-    values ?publi { sibils:PMC2718325 }
+    values ?publi { sibils:PMC2196267 }
+    # ori values ?publi { sibils:PMC2718325 } 
     ?publi prism:doi ?doi.
     ?publi sibilo:has_annotation ?a .
     ?a oa:hasBody ?cpt .
