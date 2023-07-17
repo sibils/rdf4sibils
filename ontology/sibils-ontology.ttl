@@ -402,6 +402,7 @@
       rdfs:domain skos:Concept ;
       rdfs:range skos:Concept ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      .
 
 
 # Properties (derived) found in http://openbiodiv.net/
