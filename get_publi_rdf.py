@@ -488,12 +488,6 @@ def get_sentence_part_URIRef(publi_uri, sentence_or_annot):
     part_id = str(sentence_or_annot.get("sentence_number"))
     return URIRef(publi_uri + "_sen_" + part_id)
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_sentence_parent_part_URIRef(publi_uri, sen):
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    parent_id = sen["content_id"]
-    publi_uri + "_part_" + parent_id
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_part_URIRef(publi_uri, sct):
