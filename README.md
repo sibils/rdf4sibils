@@ -81,9 +81,13 @@ log_enable(3,1);
 - reload data
 ```
 delete from DB.DBA.load_list;
-ld_dir ('../database/input', '*.ttl', 'http://sibils.org/rdf') ;
+ld_dir ('/input', '*.ttl', 'http://sibils.org/rdf') ;
+
 select * from DB.DBA.load_list;
+
 rdf_loader_run();
+
+select * from DB.DBA.load_list where ll_state = 2;
 ```
 
 ## SPARQL query examples
