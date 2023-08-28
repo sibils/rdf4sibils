@@ -1,278 +1,319 @@
 @prefix : <http://sibils.org/rdf#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sibils: <http://sibils.org/rdf/data/> .
+@prefix sibilc: <http://sibils.org/rdf/concept/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-:Atc_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "ATC"^^xsd:string ;
-    :version "2022-11-07"^^xsd:string ;
-    rdfs:comment "This ontology is a representation of the ATC classification used for the classification of drugs and provided by WHO (World Health Organization). Based on the ATC code of the main ingredient of a product, this medical product can be classify in the ATC system."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:SibilsTerminology rdf:type owl:Class ; 
+     rdfs:subClassOf skos:ConceptScheme ; 
+     rdfs:label "SIBiLS Terminology"^^xsd:string ; 
+     rdfs:comment "SIBiLS Terminology scheme containing the concepts used for annotating the publications."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Cellosaurus_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "Cellosaurus"^^xsd:string ;
-    :version "v43.0"^^xsd:string ;
-    rdfs:comment "xxx"^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Atc_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "ATC"^^xsd:string ; 
+     :version "2022-11-07"^^xsd:string ; 
+     rdfs:comment "This ontology is a representation of the ATC classification used for the classification of drugs and provided by WHO (World Health Organization). Based on the ATC code of the main ingredient of a product, this medical product can be classify in the ATC system."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Chebi_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "CheBI (Chemical Entities of Biological Interest)"^^xsd:string ;
-    :version "v220"^^xsd:string ;
-    rdfs:comment "Chemical Entities of Biological Interest (ChEBI) is a freely available dictionary of molecular entities focused on ‘small’ chemical compounds. The term ‘molecular entity’ refers to any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer, etc., identifiable as a separately distinguishable entity. The molecular entities in question are either products of nature or synthetic products used to intervene in the processes of living organisms. ChEBI incorporates an ontological classification, whereby the relationships between molecular entities or classes of entities and their parents and/or children are specified."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Cellosaurus_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "Cellosaurus"^^xsd:string ; 
+     :version "v43.0"^^xsd:string ; 
+     rdfs:comment "xxx"^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Covocbiomed_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "COVoc Biomedical"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Chebi_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "CheBI (Chemical Entities of Biological Interest)"^^xsd:string ; 
+     :version "v220"^^xsd:string ; 
+     rdfs:comment "Chemical Entities of Biological Interest (ChEBI) is a freely available dictionary of molecular entities focused on ‘small’ chemical compounds. The term ‘molecular entity’ refers to any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer, etc., identifiable as a separately distinguishable entity. The molecular entities in question are either products of nature or synthetic products used to intervene in the processes of living organisms. ChEBI incorporates an ontological classification, whereby the relationships between molecular entities or classes of entities and their parents and/or children are specified."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Covoccelllines_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "COVoc Cell lines"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Covocbiomed_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "COVoc Biomedical"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Covocchemicals_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "COVoc Chemicals"^^xsd:string ;
-    :version "v2.0"^^xsd:string ;
-    rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Covoccelllines_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "COVoc Cell lines"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Covocclinicaltrials_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "COVoc Clinical Trials"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Covocchemicals_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "COVoc Chemicals"^^xsd:string ; 
+     :version "v2.0"^^xsd:string ; 
+     rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Covocconceptualentities_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "COVoc Conceptual Entities"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Covocclinicaltrials_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "COVoc Clinical Trials"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Covocdiseaseandsyndrom_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "COVoc Disease and Syndrome"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Covocconceptualentities_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "COVoc Conceptual Entities"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Covocgeographicloc_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "COVoc Geographic Location"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Covocdiseaseandsyndrom_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "COVoc Disease and Syndrome"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Covocorganism_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "COVoc Organism"^^xsd:string ;
-    :version "v2.0"^^xsd:string ;
-    rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Covocgeographicloc_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "COVoc Geographic Location"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Covocproteinsgenomes_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "COVoc Protein and Genome"^^xsd:string ;
-    :version "v2.0"^^xsd:string ;
-    rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Covocorganism_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "COVoc Organism"^^xsd:string ; 
+     :version "v2.0"^^xsd:string ; 
+     rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Detectionmethods_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "Detection methods"^^xsd:string ;
-    :version "2022"^^xsd:string ;
-    rdfs:comment "List of methods used to detect or study viruses in a corpus of scientific texts."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Covocproteinsgenomes_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "COVoc Protein and Genome"^^xsd:string ; 
+     :version "v2.0"^^xsd:string ; 
+     rdfs:comment "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Disprot_type1_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "Disprot"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "xxx"^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Detectionmethods_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "Detection methods"^^xsd:string ; 
+     :version "2022"^^xsd:string ; 
+     rdfs:comment "List of methods used to detect or study viruses in a corpus of scientific texts."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Disprot_type2_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "Disprot"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "xxx"^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Disprot_type1_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "Disprot"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "xxx"^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Disprot_type3_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "Disprot"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "xxx"^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Disprot_type2_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "Disprot"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "xxx"^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Disprot_type4_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "Disprot"^^xsd:string ;
-    :version "v1.0"^^xsd:string ;
-    rdfs:comment "xxx"^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Disprot_type3_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "Disprot"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "xxx"^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Drugbank_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "Drugbank"^^xsd:string ;
-    :version "v5.1.5"^^xsd:string ;
-    rdfs:comment "The Drugbank database is a freely accessible resource which includes more than 13,000 records (version 5.1.4, released 2019-07-20). It contains information on drugs and drug targets, synonyms and product names."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Disprot_type4_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "Disprot"^^xsd:string ; 
+     :version "v1.0"^^xsd:string ; 
+     rdfs:comment "xxx"^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Eco_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "ECO (Evidence and Conclusion Ontology)"^^xsd:string ;
-    :version "2022/08/05"^^xsd:string ;
-    rdfs:comment "The Evidence & Conclusion Ontology (ECO) describes types of scientific evidence within the biological research domain that arise from laboratory experiments, computational methods, literature curation, or other means."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Drugbank_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "Drugbank"^^xsd:string ; 
+     :version "v5.1.5"^^xsd:string ; 
+     rdfs:comment "The Drugbank database is a freely accessible resource which includes more than 13,000 records (version 5.1.4, released 2019-07-20). It contains information on drugs and drug targets, synonyms and product names."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Envo_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "ENVO (Environment Ontology)"^^xsd:string ;
-    :version "2021/05/14"^^xsd:string ;
-    rdfs:comment "ENVO is an expressive, community ontology which helps humans, machines, and semantic web applications understand environmental entities of all kinds, from microscopic to intergalactic scales."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Eco_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "ECO (Evidence and Conclusion Ontology)"^^xsd:string ; 
+     :version "2022/08/05"^^xsd:string ; 
+     rdfs:comment "The Evidence & Conclusion Ontology (ECO) describes types of scientific evidence within the biological research domain that arise from laboratory experiments, computational methods, literature curation, or other means."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Go_bp_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "GO (Gene Ontology)"^^xsd:string ;
-    :version "2022/12/04"^^xsd:string ;
-    rdfs:comment "The Gene Ontology (GO) knowledgebase is the world's largest source of information on the functions of genes. This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of large-scale molecular biology and genetics experiments in biomedical research. Specific type: Biological process."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Envo_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "ENVO (Environment Ontology)"^^xsd:string ; 
+     :version "2021/05/14"^^xsd:string ; 
+     rdfs:comment "ENVO is an expressive, community ontology which helps humans, machines, and semantic web applications understand environmental entities of all kinds, from microscopic to intergalactic scales."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Go_cc_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "GO (Gene Ontology)"^^xsd:string ;
-    :version "2022/12/04"^^xsd:string ;
-    rdfs:comment "The Gene Ontology (GO) knowledgebase is the world's largest source of information on the functions of genes. This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of large-scale molecular biology and genetics experiments in biomedical research. Specific type: Cellular component."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Go_bp_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "GO (Gene Ontology)"^^xsd:string ; 
+     :version "2022/12/04"^^xsd:string ; 
+     rdfs:comment "The Gene Ontology (GO) knowledgebase is the world's largest source of information on the functions of genes. This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of large-scale molecular biology and genetics experiments in biomedical research. Specific type: Biological process."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Go_mf_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "GO (Gene Ontology)"^^xsd:string ;
-    :version "2022/12/04"^^xsd:string ;
-    rdfs:comment "The Gene Ontology (GO) knowledgebase is the world's largest source of information on the functions of genes. This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of large-scale molecular biology and genetics experiments in biomedical research. Specific type: Molecular function."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Go_cc_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "GO (Gene Ontology)"^^xsd:string ; 
+     :version "2022/12/04"^^xsd:string ; 
+     rdfs:comment "The Gene Ontology (GO) knowledgebase is the world's largest source of information on the functions of genes. This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of large-scale molecular biology and genetics experiments in biomedical research. Specific type: Cellular component."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Icdo3_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "ICD-O-3"^^xsd:string ;
-    :version "unknown (2022)"^^xsd:string ;
-    rdfs:comment "The International Classification of Diseases Oncology (ICD-O) is a biomedical ontology for logical representation of the terms and relations related to the International Classification of Diseases (ICD)."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Go_mf_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "GO (Gene Ontology)"^^xsd:string ; 
+     :version "2022/12/04"^^xsd:string ; 
+     rdfs:comment "The Gene Ontology (GO) knowledgebase is the world's largest source of information on the functions of genes. This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of large-scale molecular biology and genetics experiments in biomedical research. Specific type: Molecular function."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Ictv_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "ICTV (International Committee on Taxonomy of Viruses)"^^xsd:string ;
-    :version "v3"^^xsd:string ;
-    rdfs:comment "The task of the International Committee on Taxonomy of Viruses (ICTV) is to develop a single, universal taxonomic scheme for all the viruses infecting animals (vertebrates, invertebrates and protozoa), plants (higher plants and algae), fungi, bacteria and archaea."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Icdo3_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "ICD-O-3"^^xsd:string ; 
+     :version "unknown (2022)"^^xsd:string ; 
+     rdfs:comment "The International Classification of Diseases Oncology (ICD-O) is a biomedical ontology for logical representation of the terms and relations related to the International Classification of Diseases (ICD)."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:License_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "license"^^xsd:string ;
-    :version "v3.21"^^xsd:string ;
-    rdfs:comment "The SPDX License List itself is a list of commonly found licenses and exceptions used in free and open or collaborative software, data, hardware, or documentation."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Ictv_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "ICTV (International Committee on Taxonomy of Viruses)"^^xsd:string ; 
+     :version "v3"^^xsd:string ; 
+     rdfs:comment "The task of the International Committee on Taxonomy of Viruses (ICTV) is to develop a single, universal taxonomic scheme for all the viruses infecting animals (vertebrates, invertebrates and protozoa), plants (higher plants and algae), fungi, bacteria and archaea."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Lotus_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "LOTUS"^^xsd:string ;
-    :version "2021-03"^^xsd:string ;
-    rdfs:comment "xxx"^^xsd:string ;
-    rdfs:isDefinedBy : .
+:License_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "license"^^xsd:string ; 
+     :version "v3.21"^^xsd:string ; 
+     rdfs:comment "The SPDX License List itself is a list of commonly found licenses and exceptions used in free and open or collaborative software, data, hardware, or documentation."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Mdd_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "MDD (Mammal Diversity Database)"^^xsd:string ;
-    :version "v1.7"^^xsd:string ;
-    rdfs:comment "Mammal species list with synonyms. An initial taxonomy of accepted names + synonyms based on v1.7 of the Mammal Diversity Database (MDD)"^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Lotus_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "LOTUS"^^xsd:string ; 
+     :version "2021-03"^^xsd:string ; 
+     rdfs:comment "xxx"^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Mesh_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "MeSH"^^xsd:string ;
-    :version "v2022"^^xsd:string ;
-    rdfs:comment "The Medical Subject Headings (MeSH), provided by the U.S. National Library of Medicine (NLM), is a controlled vocabulary thesaurus used for indexing articles for PubMed. In comparison with specialzed ontologies like the NCIt, MeSH is less granular and easily identified by Natural Language Processing thanks to synonyms."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Mdd_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "MDD (Mammal Diversity Database)"^^xsd:string ; 
+     :version "v1.7"^^xsd:string ; 
+     rdfs:comment "Mammal species list with synonyms. An initial taxonomy of accepted names + synonyms based on v1.7 of the Mammal Diversity Database (MDD)"^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Ncbitaxon_clinic_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "NCBI Taxonomy Clinic"^^xsd:string ;
-    :version "2022/12/12"^^xsd:string ;
-    rdfs:comment "This terminology was created by the team and includes many species of clinical interest and related code from NCBI taxonomy collection."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Mesh_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "MeSH"^^xsd:string ; 
+     :version "v2022"^^xsd:string ; 
+     rdfs:comment "The Medical Subject Headings (MeSH), provided by the U.S. National Library of Medicine (NLM), is a controlled vocabulary thesaurus used for indexing articles for PubMed. In comparison with specialzed ontologies like the NCIt, MeSH is less granular and easily identified by Natural Language Processing thanks to synonyms."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Ncbitaxon_full_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "NCBI Taxonomy Full"^^xsd:string ;
-    :version "2022/12/12"^^xsd:string ;
-    rdfs:comment "The NCBI Taxonomy Database is a curated classification and nomenclature for all of the organisms in the public sequence databases."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Ncbitaxon_clinic_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "NCBI Taxonomy Clinic"^^xsd:string ; 
+     :version "2022/12/12"^^xsd:string ; 
+     rdfs:comment "This terminology was created by the team and includes many species of clinical interest and related code from NCBI taxonomy collection."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Ncit_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "NCI Thesaurus"^^xsd:string ;
-    :version "v22.11d"^^xsd:string ;
-    rdfs:comment "The NCI Thesaurus (NCIt) is used for disease mapping. It covers clinical care, translational and basic research, public information and administrative activities. Provided by the National Cancer Institute, this terminology is a standard for biomedical coding and reference, used both by public and private scientific partners worldwide. This NCI's reference terminology contains the NCI_CUI, the semantic type, a prefered term, some NCI and MeSH synonyms."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Ncbitaxon_full_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "NCBI Taxonomy Full"^^xsd:string ; 
+     :version "2022/12/12"^^xsd:string ; 
+     rdfs:comment "The NCBI Taxonomy Database is a curated classification and nomenclature for all of the organisms in the public sequence databases."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Nextprot_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "neXtProt"^^xsd:string ;
-    :version "v2.26.0"^^xsd:string ;
-    rdfs:comment "Developed by the SIB (Swiss Institute of Bioinformatics) in 2008, the neXtProt human protein knowledgebase is a comprehensive human-centric discovery platform. More than 20,000 proteins were manually annotated and still updated. The provides to researchers a high-quality synonym for both protein and gene names."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Ncit_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "NCI Thesaurus"^^xsd:string ; 
+     :version "v22.11d"^^xsd:string ; 
+     rdfs:comment "The NCI Thesaurus (NCIt) is used for disease mapping. It covers clinical care, translational and basic research, public information and administrative activities. Provided by the National Cancer Institute, this terminology is a standard for biomedical coding and reference, used both by public and private scientific partners worldwide. This NCI's reference terminology contains the NCI_CUI, the semantic type, a prefered term, some NCI and MeSH synonyms."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Ott_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "OTT (Open Tree of Life)"^^xsd:string ;
-    :version "v3.3"^^xsd:string ;
-    rdfs:comment "Open Tree of Life aims to construct a comprehensive, dynamic and digitally-available tree of life by synthesizing published phylogenetic trees along with taxonomic data. https://doi.org/10.5281/zenodo.3937750"^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Nextprot_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "neXtProt"^^xsd:string ; 
+     :version "v2.26.0"^^xsd:string ; 
+     rdfs:comment "Developed by the SIB (Swiss Institute of Bioinformatics) in 2008, the neXtProt human protein knowledgebase is a comprehensive human-centric discovery platform. More than 20,000 proteins were manually annotated and still updated. The provides to researchers a high-quality synonym for both protein and gene names."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Ppiptm_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "PPI-PTM"^^xsd:string ;
-    :version "unknown"^^xsd:string ;
-    rdfs:comment "xxx"^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Ott_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "OTT (Open Tree of Life)"^^xsd:string ; 
+     :version "v3.3"^^xsd:string ; 
+     rdfs:comment "Open Tree of Life aims to construct a comprehensive, dynamic and digitally-available tree of life by synthesizing published phylogenetic trees along with taxonomic data. https://doi.org/10.5281/zenodo.3937750"^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Pubchemmesh_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "PubchemMesh"^^xsd:string ;
-    :version "unknown"^^xsd:string ;
-    rdfs:comment "Pubchem database, only coumpounds with mesh terms associated. Reconstitution pipeline (Déborah) from FTP, Extras files."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Ppiptm_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "PPI-PTM"^^xsd:string ; 
+     :version "unknown"^^xsd:string ; 
+     rdfs:comment "xxx"^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Robi_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "ROBI (Relation Ontology - Biotic Interactions)"^^xsd:string ;
-    :version "unknown"^^xsd:string ;
-    rdfs:comment "RO is a collection of relations intended primarily for standardization across ontologies in the OBO Foundry and wider OBO library. It incorporates ROCore upper-level relations such as part of as well as biology-specific relationship types such as develops from. We extracted a subset of terms of interest for biotic interactions."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Pubchemmesh_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "PubchemMesh"^^xsd:string ; 
+     :version "unknown"^^xsd:string ; 
+     rdfs:comment "Pubchem database, only coumpounds with mesh terms associated. Reconstitution pipeline (Déborah) from FTP, Extras files."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:Uniprot_small_St a :SibilsTerminology,
-        owl:NamedIndividual ;
-    rdfs:label "UniProtKB/SwissProt"^^xsd:string ;
-    :version "2022-04"^^xsd:string ;
-    rdfs:comment "The UniProt Knowledgebase (UniProtKB) is the central hub for the collection of functional information on proteins, with accurate, consistent and rich annotation. We used a large fraction of the reviewed subset UinProtKB/Swiss-Prot which includes records with information extracted from literature and curator-evaluated computational analysis."^^xsd:string ;
-    rdfs:isDefinedBy : .
+:Robi_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "ROBI (Relation Ontology - Biotic Interactions)"^^xsd:string ; 
+     :version "unknown"^^xsd:string ; 
+     rdfs:comment "RO is a collection of relations intended primarily for standardization across ontologies in the OBO Foundry and wider OBO library. It incorporates ROCore upper-level relations such as part of as well as biology-specific relationship types such as develops from. We extracted a subset of terms of interest for biotic interactions."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .
 
-:SibilsTerminology a owl:Class ;
-    rdfs:label "SIBiLS Terminology"^^xsd:string ;
-    rdfs:comment "SIBiLS Terminology scheme containing the concepts used for annotating the publications."^^xsd:string ;
-    rdfs:isDefinedBy : ;
-    rdfs:subClassOf skos:ConceptScheme .
-
+:Uniprot_small_St rdf:type owl:NamedIndividual , 
+          :SibilsTerminology ; 
+     rdfs:label "UniProtKB/SwissProt"^^xsd:string ; 
+     :version "2022-04"^^xsd:string ; 
+     rdfs:comment "The UniProt Knowledgebase (UniProtKB) is the central hub for the collection of functional information on proteins, with accurate, consistent and rich annotation. We used a large fraction of the reviewed subset UinProtKB/Swiss-Prot which includes records with information extracted from literature and curator-evaluated computational analysis."^^xsd:string ; 
+     rdfs:isDefinedBy <http://sibils.org/rdf> ; 
+    .

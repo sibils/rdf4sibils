@@ -58,6 +58,16 @@
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
+:TableFooter
+      rdf:type owl:Class ;
+      rdfs:label "Table footer"^^xsd:string;
+      rdfs:comment "Text appearing at the bottom of a table."^^xsd:string ;
+      rdfs:subClassOf :DiscourseElement, deo:Caption ;
+      rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      .
+
+
+
 # Subclasses of https://sparontologies.github.io/doco/current/doco.html
 
 :Abstract
@@ -393,7 +403,7 @@
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
-# Properties derived from skos: http://www.w3.org/2004/02/skos/core#
+# Properties derived from / related to skos: http://www.w3.org/2004/02/skos/core#
 
 :more_specific_than a rdf:Property, owl:ObjectProperty ;
       rdfs:subPropertyOf skos:broader ;
@@ -402,6 +412,15 @@
       rdfs:domain skos:Concept ;
       rdfs:range skos:Concept ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      .
+
+:version a rdf:Property, owl:DatatypeProperty ;
+      rdfs:label "version"^^xsd:string ;
+      rdfs:comment "Links a terminology to a version."^^xsd:string ;
+      rdfs:domain skos:SibilsTerminology ;
+      rdfs:range xsd:string ;
+      rdfs:isDefinedBy <http://sibils.org/rdf> ;
+      .
 
 
 # Properties (derived) found in http://openbiodiv.net/

@@ -12,24 +12,38 @@ docker run openlink/virtuoso-opensource-7 version
 ```
 3. create initial database
 ```
-mkdir sibils_virtdb
-cd sibils_virtdb
-docker run \
-    --name sibils_virtdb \
-    --interactive \
-    --tty \
-    --env DBA_PASSWORD=somepassword \
-    --publish 1111:1111 \
-    --publish  8899:8890 \
-    --user $(id -u):$(id -g) \
-    --volume `pwd`:/database \
-    openlink/virtuoso-opensource-7:latest
+docker stop sibils_virtdb
+docker rm sibils_virtdb
+
+rm -rf db
+mkdir db
+mkdir -p input
+
+base_dir=$(pwd)
+db_dir=$base_dir/db
+in_dir=$base_dir/input
+cd $db_dir
+  docker run \
+      --name sibils_virtdb \
+      --interactive \
+      --tty \
+      --env DBA_PASSWORD=dba \
+      --publish 1111:1111 \
+      --publish  8899:8890 \
+      --user $(id -u):$(id -g) \
+      --volume $db_dir:/database \
+      --volume $in_dir:/input \
+      openlink/virtuoso-opensource-7:latest
 ```
 ^C (stop container)
 
+cp virtuoso.ini virtuoso.ini.ori
+cp ../ini.files/virtuoso.ini .
+
 4. modifiy virtuoso.ini
 ```
-DirsAllowed = ., ../database/input, ../vad, /usr/share/proj
+DirsAllowed = ., /input, ../vad, /usr/share/proj
+
 ```
 5. restart container
 ```
@@ -56,10 +70,10 @@ log_enable(3,1);
 SPARQL CLEAR GRAPH <http://sibils.org/rdf>; -- took ~4 minutes for 25 mega triples
 or
 log_enable(3,1);
-SPARQL DROP SILENT GRAPH <http://sibils.org/rdf>;
+SPARQL DROP SILENT GRAPH <http://sibils.org/rdf>;  -- took ~10 minutes
 or
 log_enable(3,1);
-DELETE FROM rdf_quad WHERE g = iri_to_id ('http://mygraph.org');
+DELETE FROM rdf_quad WHERE g = iri_to_id ('http://mygraph.org'); 
 or
 log_enable(3,1);
 
