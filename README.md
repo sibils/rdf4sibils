@@ -80,12 +80,18 @@ log_enable(3,1);
 ```
 - reload data
 ```
-delete from DB.DBA.load_list;
-ld_dir ('/input', '*.ttl', 'http://sibils.org/rdf') ;
+docker exec -it sibils_virtdb sh
 
-select * from DB.DBA.load_list;
+isql exec="delete from DB.DBA.load_list;"
+isql exec="ld_dir ('/input', '*.ttl', 'http://sibils.org/rdf') ;"
 
-rdf_loader_run();
+isql exec="select * from DB.DBA.load_list;"
+
+isql exec="rdf_loader_run();" &
+isql exec="rdf_loader_run();" &
+isql exec="rdf_loader_run();" &
+isql exec="rdf_loader_run();" &
+wait
 
 select * from DB.DBA.load_list where ll_state = 2;
 ```
