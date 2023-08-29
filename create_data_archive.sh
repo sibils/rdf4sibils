@@ -12,3 +12,4 @@ tar cvzf sibils-rdf.tar.gz *.ttl
 
 scp -P10587 sibils-rdf.tar.gz pam@goldorak.hesge.ch:sibils_virtdb/input/
 echo "End"
+
