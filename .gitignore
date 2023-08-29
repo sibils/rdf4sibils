@@ -2,5 +2,5 @@ output/*.ttl
 proxy_output/dir
 xslt
 terminologies/*.json
-terminologies/v.2x/*.json
-terminologies/v3.2/*.json
+terminologies/v.2x
+terminologies/v3.2
