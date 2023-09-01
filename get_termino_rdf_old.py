@@ -3,25 +3,9 @@ import os
 import json
 import glob
 import datetime
-from get_publi_rdf_new import get_term_URIRef_from_term, get_terminology_URIRef, sibilc, sibilo, log_it
-from SibiloNamespace import SibiloNamespace
-from rdfizer import SibilcNamespace, SibilsNamespace
-from rdfizer import RdfNamespace, RdfsNamespace, OwlNamespace, XsdNamespace, SkosNamespace, FoafNamespace
-from rdfizer import getBlankNode, getTtlPrefixDeclaration,   getTriple
-
-sibilo = SibiloNamespace()          # sibils core ontology
-sibils = SibilsNamespace()          # sibils data
-sibilc = SibilcNamespace()          # concepts used in sibils annotation
-rdf = RdfNamespace()
-rdfs = RdfsNamespace()
-xsd = XsdNamespace()
-owl = OwlNamespace()
-skos = SkosNamespace()
-
-TAB = "    "
-COMMA = ","
-SEMICOLON = ";"
-DOTLINE = "    .\n"
+from rdflib import BNode, Literal, URIRef, Graph, Namespace
+from rdflib.namespace import XSD,RDF, RDFS, OWL, SKOS
+from get_publi_rdf_old import get_term_URIRef_from_term, get_terminology_URIRef, sibilc, sibilo, log_it
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -153,14 +137,18 @@ def get_terminology_data(terminology_md):
     log_it("INFO", "Loaded terminology from ", terminology_md["file_name"], duration_since=t0)
     return data
 
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_prefixes():
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    lines = list()
-    for ns in [sibilo, sibils, sibilc,rdf, rdfs, xsd, owl, skos]:
-        lines.append(ns.getTtlPrefixDeclaration())
-    return lines
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+def init_graph():
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    graph = Graph()
+    graph.bind("xsd", XSD)
+    graph.bind("rdf", RDF)
+    graph.bind("rdfs", RDFS)
+    graph.bind("owl", OWL)
+    graph.bind("skos", SKOS)
+    graph.bind("sibilc", sibilc)  # sibilis concepts
+    graph.bind(prefix="", namespace=sibilo, override=True, replace=True)  # sibils core ontology
+    return graph
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 def save_rdf_for_terminology(data, terminology_md):
@@ -180,10 +168,10 @@ def save_rdf_for_terminology(data, terminology_md):
     termi_URI = get_terminology_URIRef(terminology_md) 
 
     # now iterate on defined concepts and RDFize each of them
-    # we need to slice graph to avoid RAM problems (was true with first version using rdflib)
+    # we need to slice graph to avoid RAM problems
     max_per_file = 100000
     cpt_idx = -1
-    unclosed = False
+    unsaved = False
     file_name = None
     graph = None
     for concept in data["concepts"]:
@@ -192,47 +180,45 @@ def save_rdf_for_terminology(data, terminology_md):
         if cpt_idx % max_per_file == 0:
             file_idx = int(cpt_idx / max_per_file)
             file_name = (output_dir + terminology_md["concept_source"] + "_" + str(file_idx) + ".ttl").replace(" ","_")
-            f_out = open(file_name, "w")
-            for pfx_line in get_prefixes(): f_out.write(pfx_line)
-            f_out.write("\n")
-            unclosed = True
+            unsaved = True
+            graph = init_graph()
         # generate triples foc current concept
         id = concept["id"]
         concept_URI = get_term_URIRef_from_term(id, terminology_md)
-        
-        f_out.write(getTriple(concept_URI, rdf.type(), skos.Concept(), SEMICOLON))
-        f_out.write(getTriple(TAB, skos.inScheme(), termi_URI, SEMICOLON))
-        f_out.write(getTriple(TAB, skos.notation(), xsd.string(id), SEMICOLON))
-        f_out.write(getTriple(TAB, skos.prefLabel(), xsd.string(concept["preferred_term"]["term"]), SEMICOLON))
+        graph.add((concept_URI, SKOS.inScheme, termi_URI))
+        graph.add((concept_URI, RDF.type, SKOS.Concept))
+        graph.add((concept_URI, SKOS.notation, Literal(id, datatype=XSD.string)))
+        graph.add((concept_URI, SKOS.prefLabel, Literal(concept["preferred_term"]["term"], datatype=XSD.string)))
         for syn in concept["synonyms"]:
-            f_out.write(getTriple(TAB, skos.altLabel(), xsd.string(syn["term"]), SEMICOLON))
-        for parent_id in set(concept["parents"]):
+            graph.add((concept_URI, SKOS.altLabel, Literal(syn["term"], datatype=XSD.string)))
+        for parent_id in concept["parents"]:
             if parent_id not in defined_concepts:
                 log_it("WARNING, ignored undefined parent concept", parent_id, "from", terminology_md["concept_source"])
                 continue
             # INFO SKOS.broader means ?s "has broader concept" ?o
             # INFO skos property replaced with ours because less ambiguous
             #graph.add((concept_URI, SKOS.broader, get_term_URIRef_from_term(parent_id, terminology_md)))
-            f_out.write(getTriple(TAB, sibilo.more_specific_than(), get_term_URIRef_from_term(parent_id, terminology_md), SEMICOLON))
+            graph.add((concept_URI, sibilo.more_specific_than, get_term_URIRef_from_term(parent_id, terminology_md)))
+
             # INFO We forget about transitive relationships beween concepts for now, too costly
             #parent_child_rel.add_relation(parent_id, id)
-        f_out.write(DOTLINE)
 
-        # close file each time if contains N=max_per_file concepts
+        # save file each time if contains N=max_per_file concepts
         if cpt_idx % max_per_file == max_per_file - 1:
-            f_out.close()
-            unclosed = False
+            serialize_graph(graph, file_name)
+            unsaved = False
     # save remaining concepts to be saved
-    if unclosed:
-        f_out.close()
+    if unsaved:
+        serialize_graph(graph, file_name)
 
     # NOTE for efficient queries about things related to a term T and terms more specific than T,
     # NOTE we don't use it for now
     if 1==2:
         max_per_file = 1000000
         trans_idx = -1
-        unclosed = False
+        unsaved = False
         file_name = None
+        graph = None
         for parent_id in parent_child_rel.get_parent_set():
             parent_URI = get_term_URIRef_from_term(parent_id, terminology_md)
             for id in parent_child_rel.get_child_set(parent_id):
@@ -240,62 +226,61 @@ def save_rdf_for_terminology(data, terminology_md):
                 if trans_idx % max_per_file == 0:
                     file_idx = int(trans_idx / max_per_file)
                     file_name = (output_dir + terminology_md["concept_source"] + "_trna_" + str(file_idx) + ".ttl").replace(" ","_")
-                    f_out = open(file_name, "w")
-                    for pfx_line in get_prefixes(): f_out.write(pfx_line)
-                    f_out.write("\n")
-                    unclosed = True
+                    unsaved = True
+                    graph = init_graph()
                 child_URI = get_term_URIRef_from_term(id, terminology_md)
-                f_out.write(getTriple(child_URI, sibilo.more_specific_than_transitive(), parent_URI))
+                graph.add((child_URI, sibilo.more_specific_than_transitive, parent_URI))
+                #graph.add((child_URI, SKOS.broaderTransitive, parent_URI))
                 if trans_idx % max_per_file == max_per_file -1:
-                    f_out.close()
-                    unclosed = False
-        if unclosed:
-            f_out.close()
+                    serialize_graph(graph, file_name)
+                    unsaved = False
+        if unsaved:
+            serialize_graph(graph, file_name)
         log_it("###", "Added transitive narrower relationships from", terminology_md["concept_source"], trans_idx+1)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+def serialize_graph(graph, file_name):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    log_it("###", "Serializing", file_name)
+    t0 = datetime.datetime.now()
+    graph.serialize(destination=file_name , format="turtle", encoding="utf-8")
+    log_it("###", "Serialized", file_name, duration_since=t0)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 def save_rdf_for_terminology_ontology(terminologies_md):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    file_name = "./ontology/terminology-individuals.ttl"  
-    log_it("###", "Serializing", file_name)
-    f_out = open(file_name, "w")
-    for pfx_line in get_prefixes(): f_out.write(pfx_line)
-    f_out.write("\n")
-    # remove final # of sibilo baseurl
-    onto_IRI = sibilo.baseurl()
-    if onto_IRI.endswith("#"): onto_IRI = onto_IRI[:-1]
-    onto_IRI = "<" + onto_IRI + ">"
-    # define class of sibils terminology: derived from skos ConceptScheme
-    termi_class_URI = sibilo.SibilsTerminology()
-    f_out.write(getTriple(termi_class_URI, rdf.type(), owl.Class(), SEMICOLON))
-    f_out.write(getTriple(TAB, rdfs.subClassOf(), skos.ConceptScheme(), SEMICOLON))
-    f_out.write(getTriple(TAB, rdfs.label(), xsd.string("SIBiLS Terminology"), SEMICOLON))
-    f_out.write(getTriple(TAB, rdfs.comment(), xsd.string("SIBiLS Terminology scheme containing the concepts used for annotating the publications."), SEMICOLON))
-    f_out.write(getTriple(TAB, rdfs.isDefinedBy(), onto_IRI, SEMICOLON))
-    f_out.write(DOTLINE)
- 
+    graph = init_graph()
+
+    # define class of sibils terminology: derived from skos ConceptScheme    
+    termi_class_URI = URIRef(sibilo.SibilsTerminology)
+    graph.add((termi_class_URI, RDF.type, OWL.Class))
+    graph.add((termi_class_URI, RDFS.subClassOf, SKOS.ConceptScheme))
+    graph.add((termi_class_URI, RDFS.label, Literal("SIBiLS Terminology", datatype=XSD.string)))
+    graph.add((termi_class_URI, RDFS.comment, Literal("SIBiLS Terminology scheme containing the concepts used for annotating the publications.", datatype=XSD.string)))
+    graph.add((termi_class_URI, RDFS.isDefinedBy, URIRef(sibilo) ))
+
     for term_id in terminologies_md:
         meta_data = terminologies_md[term_id]
         if not meta_data["file_exists"]:
             log_it("WARNING", "No json file, skipping terminology", term_id)
             continue
         log_it("INFO", "Reading file for terminology", term_id)
-        f_out.write("\n")
         termi_URI = get_terminology_URIRef(meta_data)
-        f_out.write(getTriple(termi_URI, rdf.type(), owl.NamedIndividual(), COMMA))
-        f_out.write(getTriple(TAB, TAB, termi_class_URI, SEMICOLON))
+        graph.add((termi_URI, RDF.type, OWL.NamedIndividual))
+        graph.add((termi_URI, RDF.type, termi_class_URI))
         label = meta_data["name"]
-        f_out.write(getTriple(TAB, rdfs.label(), xsd.string(label), SEMICOLON))
-        f_out.write(getTriple(TAB, sibilo.version(), xsd.string(meta_data["version"]), SEMICOLON))
+        graph.add((termi_URI, RDFS.label, Literal(label, datatype=XSD.string)))
+        graph.add((termi_URI, sibilo.version, Literal(meta_data["version"], datatype=XSD.string)))
         descr = meta_data.get("description")
         if descr is not None and len(descr)>0:
-            f_out.write(getTriple(TAB, rdfs.comment(), xsd.string(descr), SEMICOLON))
-        f_out.write(getTriple(TAB, rdfs.isDefinedBy(), onto_IRI, SEMICOLON))
-        f_out.write(DOTLINE)
+            graph.add((termi_URI, RDFS.comment, Literal(descr, datatype=XSD.string)))
+        graph.add((termi_URI, RDFS.isDefinedBy, URIRef(sibilo) ))
 
-    f_out.close()
-    log_it("###", "Serialized", file_name)
+    file_name = "./ontology/terminology-individuals.ttl"  
+    log_it("###", "Serializing", file_name)
+    graph.serialize(destination=file_name , format="turtle", encoding="utf-8")
 
 
 
@@ -305,7 +290,6 @@ if __name__ == '__main__':
 # --------------------------------------------------------------------------------
 
     output_dir = "./output/v3.3/"
-    json_nl_dir = "./output/json.nl/"
 
     terminologies_md = get_terminologies_metadata()
 
@@ -326,23 +310,6 @@ if __name__ == '__main__':
                 # if meta_data["concept_source"] != "go_bp": continue
                 data = get_terminology_data(meta_data)
                 save_rdf_for_terminology(data, meta_data)
-            else:
-                log_it("WARNING", "json file for",term_id, "not found, won't generate ttl file for it")
-        log_it("INFO", "Saving terminologies to", output_dir, "DONE")
-
-    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
-    if "json.nl" in sys.argv or len(sys.argv)==1 :
-    # - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - - 
-        log_it("INFO", "Saving terminologies to", output_dir, "directory...")
-        for term_id in terminologies_md:
-            meta_data = terminologies_md[term_id]
-            if meta_data["file_exists"]:
-                # if meta_data["concept_source"] != "go_bp": continue
-                data = get_terminology_data(meta_data)
-                #json.dump(date, fileToSave, ensure_ascii=True, indent=4, sort_keys=True)
-                f_out=open(json_nl_dir + meta_data["name"] + ".json", "w")
-                json.dump(data, fp=f_out, ensure_ascii=True, indent=4)
-                f_out.close()
             else:
                 log_it("WARNING", "json file for",term_id, "not found, won't generate ttl file for it")
         log_it("INFO", "Saving terminologies to", output_dir, "DONE")

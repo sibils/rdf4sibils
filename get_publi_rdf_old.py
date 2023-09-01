@@ -9,18 +9,24 @@ import requests
 import datetime
 import urllib.parse
 
-from SibiloNamespace import SibiloNamespace
-from rdfizer import SibilcNamespace, SibilsNamespace
-from rdfizer import RdfNamespace, RdfsNamespace, OwlNamespace, XsdNamespace, SkosNamespace, FoafNamespace
-from rdfizer import getBlankNode, getTtlPrefixDeclaration, getTriple
+from rdflib import BNode, Literal, URIRef, Graph, Namespace
+from rdflib.namespace import XSD,RDF, RDFS, OWL, FOAF
 
-sibilo = SibiloNamespace()          # sibils core ontology
-sibils = SibilsNamespace()          # sibils data
-sibilc = SibilcNamespace()          # concepts used in sibils annotation
-rdf = RdfNamespace()
-rdfs = RdfsNamespace()
-xsd = XsdNamespace()
-foaf = FoafNamespace()
+sibilo = Namespace("http://sibils.org/rdf#")          # sibils core ontology
+sibils = Namespace("http://sibils.org/rdf/data/")     # sibils data
+sibilc = Namespace("http://sibils.org/rdf/concept/")  # name space for concepts used in sibils annotation 
+
+# sibilo defines subclasses  subproperties for all the resources defined in the namespaces below
+doco = Namespace("http://purl.org/spar/doco/")
+fabio = Namespace("http://purl.org/spar/fabio/")   
+frbr = Namespace("http://purl.org/vocab/frbr/core#")
+dcterms = Namespace("http://purl.org/dc/terms/")
+prism = Namespace("http://prismstandard.org/namespaces/basic/2.0/")
+openbiodiv = Namespace("http://openbiodiv.net/")
+CNT = Namespace("http://www.w3.org/2011/content#") # in uppercase to avoid collision with cnt variable
+deo = Namespace("http://purl.org/spar/deo/")  
+po = Namespace("http://www.essepuntato.it/2008/12/pattern#")
+oa = Namespace("http://www.w3.org/ns/oa#")
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 def log_it(*things, duration_since=None):
@@ -36,13 +42,30 @@ def log_it(*things, duration_since=None):
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def get_prefixes():
+def get_new_graph():
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    lines = list()
-    for ns in [sibilo, sibils, sibilc,rdf, rdfs, xsd, foaf]:
-        lines.append(ns.getTtlPrefixDeclaration())
-    return lines
-
+    graph = Graph()
+    graph.bind("xsd", XSD)
+    graph.bind("rdf", RDF)
+    graph.bind("rdfs", RDFS)
+    graph.bind("owl", OWL)
+    graph.bind("foaf", FOAF)
+    # - - - - - - - - - - - - - - - - - - - - - - - - 
+    graph.bind(prefix="", namespace=sibilo, override=True, replace=True)  # sibils core ontology
+    graph.bind("sibilc",sibilc)  # sibils concepts
+    graph.bind("sibils",sibils)  # sibils data
+    # - - - - - - - - - - - - - - - - - - - - - - - - 
+    graph.bind("doco", doco)
+    graph.bind("fabio", fabio)
+    graph.bind("frbr", frbr)
+    graph.bind("dcterms", dcterms)
+    graph.bind("prism", prism)
+    graph.bind("openbiodiv", openbiodiv)
+    graph.bind(prefix="cnt", namespace=CNT, override=True, replace=True)
+    graph.bind("deo", deo)
+    graph.bind("po", po)
+    graph.bind("oa", oa)
+    return graph
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def gunzip(gz_file):
@@ -107,7 +130,7 @@ def download_chunk_from_ftp_v32(file_name):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
-# derive a NamedIndividual name for a terminology from its corresponding concept_source
+# derive a NamedIndividual name for a terminology from its correxponding concept_source
 def get_terminology_NI_name(concept_source):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     return concept_source.replace(" ","_").capitalize() + "_St" # St stands for Sibils terminology
@@ -120,7 +143,7 @@ def get_term_URIRef_from_annot(annot):
     ac = annot["concept_id"]
     name = db + "|" +ac
     encoded_name = urllib.parse.quote(name)
-    return sibilc.IRI(encoded_name)
+    return URIRef(sibilc + encoded_name)    
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
@@ -130,7 +153,7 @@ def get_term_URIRef_from_term(concept_id, terminology):
     ac = concept_id
     name = db + "|" +ac
     encoded_name = urllib.parse.quote(name)
-    return sibilc.IRI(encoded_name)
+    return URIRef(sibilc + encoded_name)    
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
@@ -138,126 +161,124 @@ def get_terminology_URIRef(terminology):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     name = get_terminology_NI_name(terminology["concept_source"])
     encoded_name = urllib.parse.quote(name)
-    return sibilo.IRI(encoded_name)
+    uri = URIRef(sibilo + encoded_name)
+    return uri
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_triples_for_publi_annotations(publi):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    lines = list()
     publi_doc = publi["document"]
     publi_uri = get_publi_URIRef(publi_doc)
     annotations = publi["annotations"]
     for annot in annotations:
         
-        annot_bn = getBlankNode()
-        lines.append(getTriple(publi_uri, sibilo.hasAnnotation(), annot_bn))
-        lines.append(getTriple(annot_bn, rdf.type(), sibilo.Annotation()))
-        
-        # the named entity found
-        lines.append(getTriple(annot_bn, sibilo.hasBody(), get_term_URIRef_from_annot(annot))) 
-        target_bn = getBlankNode()
-        lines.append(getTriple(annot_bn, sibilo.hasTarget(), target_bn))
-
+        annot_bn = BNode()
+        graph.add((publi_uri, URIRef(sibilo.hasAnnotation), annot_bn)) # simple way to link an annotation to its target publi
+        graph.add((annot_bn, RDF.type, sibilo.Annotation))
+        graph.add((annot_bn, sibilo.hasBody,  get_term_URIRef_from_annot(annot))) # the named entity found
+        target_bn = BNode()
+        graph.add((annot_bn, sibilo.hasTarget, target_bn))
         # only sentences are annotated since version 3.2
         part_uri = get_sentence_part_URIRef(publi_uri, annot) # sentence_number is an annot property
-        lines.append(getTriple(target_bn, rdf.type(), sibilo.AnnotationTarget()))
-        lines.append(getTriple(target_bn, sibilo.hasSource(), part_uri))
-        selector_bn = getBlankNode()
-        lines.append(getTriple(target_bn, sibilo.hasSelector(), selector_bn))
-        lines.append(getTriple(selector_bn, rdf.type(), sibilo.TextPositionSelector()))
+        graph.add((target_bn, RDF.type, sibilo.AnnotationTarget))
+        graph.add((target_bn, sibilo.hasSource, part_uri))
+        selector_bn = BNode()
+        graph.add((target_bn, sibilo.hasSelector, selector_bn))
+        graph.add((selector_bn, RDF.type, sibilo.TextPositionSelector))
         start_pos = int(annot["start_index"]) # index of concept form in the sentence
-        lines.append(getTriple(selector_bn, sibilo.start(), xsd.integer(start_pos)))
+        graph.add((selector_bn, sibilo.start, Literal(start_pos, datatype=XSD.integer)))
         end_pos = start_pos + int(annot["concept_length"])
-        lines.append(getTriple(selector_bn, sibilo.end(), xsd.integer(end_pos)))
+        graph.add((selector_bn, sibilo.end, Literal(end_pos, datatype=XSD.integer)))
         concept_form = annot["concept_form"]
-        lines.append(getTriple(selector_bn, sibilo.exact(), xsd.string3(concept_form)))
-
-    return lines
-
+        graph.add((selector_bn, sibilo.exact, Literal(concept_form, datatype=XSD.string)))        
+        
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_triples_for_publi(publi):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    lines = list()
+    
     publi_doc = publi["document"]
+
     pmcid = publi_doc["pmcid"]
     log_it("INFO", "pmcid", pmcid)
+
     publi_uri = get_publi_URIRef(publi_doc)
-    publi_class_uri = get_publi_class_URIRef(publi_doc["article_type"])
-    lines.append(getTriple(publi_uri , rdf.type(), publi_class_uri))    
-    lines.append(getTriple(publi_uri, sibilo.hasPubMedCentralId(), xsd.string3(pmcid)))
+    publi_class_uri = get_publi_class_URIRef(publi_doc["article_type"])  
+    graph.add((publi_uri , RDF.type, publi_class_uri))
+    
+    graph.add((publi_uri, sibilo.hasPubMedCentralId, Literal(pmcid, datatype=XSD.string)))
 
     medline_ta = publi_doc.get("medline_ta")
     if medline_ta is not None:
-        lines.append(getTriple(publi_uri, sibilo.hasNLMJournalTitleAbbreviation(), xsd.string3(medline_ta)))
+        graph.add((publi_uri, sibilo.hasNLMJournalTitleAbbreviation, Literal(medline_ta, datatype=XSD.string)))
 
     pmid = publi_doc.get("pmid")
     if pmid is not None:
-        lines.append(getTriple(publi_uri, sibilo.hasPubMedId(), xsd.string3(pmid)))
-
+        graph.add((publi_uri, sibilo.hasPubMedId, Literal(pmid, datatype=XSD.string)))
+    
     doi = publi_doc.get("doi")
     if doi is not None:
-        lines.append(getTriple(publi_uri, sibilo.doi(), xsd.string3(doi)))
-
+        graph.add((publi_uri, sibilo.doi, Literal(doi, datatype=XSD.string)))
+        
     pubyear = publi_doc.get("pubyear")
     if pubyear is not None:
-        lines.append(getTriple(publi_uri, sibilo.hasPublicationYear(), xsd.integer(pubyear)))
-
+        graph.add((publi_uri, sibilo.hasPublicationYear, Literal(pubyear, datatype=XSD.integer)))
+    
     pubdate = publi_doc.get("publication_date")
     if pubdate is not None:
-        lines.append(getTriple(publi_uri, sibilo.publicationDate(), xsd.date(date_to_yyyy_mm_dd(pubdate))))
-
+        graph.add((publi_uri, sibilo.publicationDate, Literal(date_to_yyyy_mm_dd(pubdate), datatype=XSD.date)))
+    
     keywords = publi_doc.get("keywords")
     if keywords is not None and isinstance(keywords,list):
         for k in keywords:
-            lines.append(getTriple(publi_uri, sibilo.keyword(), xsd.string3(k)))
-
+            graph.add((publi_uri, sibilo.keyword, Literal(k, datatype=XSD.string)))
+    
     issue = publi_doc.get("issue")
     if issue is not None and len(issue)>0:
-        lines.append(getTriple(publi_uri, sibilo.issueIdentifier(), xsd.string3(issue)))
+        graph.add((publi_uri, sibilo.issueIdentifier, Literal(issue, datatype=XSD.string)))
 
     volume = publi_doc.get("volume")
     if issue is not None and len(volume)>0:
-        lines.append(getTriple(publi_uri, sibilo.volume(), xsd.string3(volume)))
-        
+        graph.add((publi_uri, sibilo.volume, Literal(volume, datatype=XSD.string)))
+
     # starting, ending page and page range,
     # see https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw
-    blank_node = getBlankNode()
+    blank_node = BNode()
     bn_empty = True
     o = publi_doc.get("start_page")
     if o is not None and len(o)>0 : 
         bn_empty = False
-        lines.append(getTriple(blank_node, sibilo.startingPage(), xsd.string3(o)))
+        graph.add((blank_node, sibilo.startingPage, Literal(o, datatype=XSD.string)))
 
     o = publi_doc.get("end_page")
     if o is not None and len(o)>0 : 
         bn_empty = False
-        lines.append(getTriple(blank_node, sibilo.endingPage(), xsd.string3(o)))
+        graph.add((blank_node, sibilo.endingPage, Literal(o, datatype=XSD.string)))
 
     o = publi_doc.get("medline_pgn")
     if o is not None and len(o)>0 : 
         bn_empty = False
-        lines.append(getTriple(blank_node, sibilo.pageRange(), xsd.string3(o)))
-
+        graph.add((blank_node, sibilo.pageRange, Literal(o, datatype=XSD.string)))
+    
     if not bn_empty:
-        lines.append(getTriple(blank_node, rdf.type(), sibilo.Manifestation()))
-        lines.append(getTriple(publi_uri, sibilo.embodiment(), blank_node))
+        graph.add((blank_node, RDF.type, sibilo.Manifestation))
+        graph.add((publi_uri, sibilo.embodiment, blank_node))
     # end page stuff
     
     o = publi_doc.get("title")
     if o is not None and len(o)>0 : 
-        lines.append(getTriple(publi_uri, sibilo.title(), xsd.string3(o)))
-
+        graph.add((publi_uri, sibilo.title, Literal(o, datatype=XSD.string)))
+    
     o = publi_doc.get("abstract")
     if o is not None and len(o)>0 : 
-        lines.append(getTriple(publi_uri, sibilo.abstract(), xsd.string3(o)))
-
-    lines.extend(add_triples_for_authors(publi_doc))
+        graph.add((publi_uri, sibilo.abstract, Literal(o, datatype=XSD.string)))
+    
+    add_triples_for_authors(publi_doc)
             
     # create FrontMatter
     front_uri = get_front_matter_URIRef(publi_uri)
-    lines.append(getTriple(publi_uri, sibilo.contains(), front_uri))
-    lines.append(getTriple(front_uri, rdf.type(), sibilo.FrontMatter()))
+    graph.add((publi_uri, sibilo.contains, front_uri))
+    graph.add((front_uri, RDF.type, sibilo.FrontMatter ))
     
     # add sections
     # parent_dic = dict() # DEBUG
@@ -271,9 +292,9 @@ def get_triples_for_publi(publi):
                 sct_uri = get_part_URIRef(publi_uri, sct)
                 
                 # create part type and part parent relationship 
-                lines.append(getTriple(parent_uri, sibilo.contains(), sct_uri))
+                graph.add((parent_uri, sibilo.contains, sct_uri ))
                 part_class_uri = get_sct_part_class_URIRef(sct)
-                lines.append(getTriple(sct_uri, rdf.type(), part_class_uri))
+                graph.add((sct_uri, RDF.type, part_class_uri ))
 
                 # # DEBUG: add sct_uri to parent_dic
                 # parent_dic[parent_uri]=list()
@@ -283,19 +304,19 @@ def get_triples_for_publi(publi):
                 # add section caption if appropriate
                 # note: no sentences are generated by Julien for sct["caption"]
                 # kept as a blank node because never used in annotations
-                if part_class_uri == sibilo.CaptionedBox():
-                    blank_node = getBlankNode()
-                    lines.append(getTriple(blank_node, rdf.type(), sibilo.Caption()))
-                    lines.append(getTriple(blank_node, sibilo.chars(), xsd.string3(sct["caption"])))
-                    lines.append(getTriple(sct_uri, sibilo.hasPart(), blank_node))
-
+                if part_class_uri == sibilo.CaptionedBox:
+                    blank_node = BNode()
+                    graph.add((blank_node, RDF.type, sibilo.Caption))
+                    graph.add((blank_node, sibilo.chars, Literal(sct["caption"], datatype=XSD.string) ))
+                    graph.add((sct_uri, sibilo.hasPart, blank_node))
+                
                 # add section title if appropriate
                 # note: sentences related to sct["title"] have sen["field"] = "section_title"
                 sct_title = sct.get("title")
                 if sct_title is not None and len(sct_title)>0 and sct_title != "Title" and sct_title != "Abstract":
                     tit_uri = get_part_title_URIRef(sct_uri)
-                    lines.append(getTriple(tit_uri, rdf.type(), sibilo.SectionLabel()))
-                    lines.append(getTriple(sct_uri, sibilo.hasPart(), tit_uri))
+                    graph.add((tit_uri, RDF.type, sibilo.SectionLabel))
+                    graph.add((sct_uri, sibilo.hasPart, tit_uri))
 
                     # # DEBUG: add tit_uri to parent_dic
                     # parent_dic[tit_uri]=list()
@@ -306,8 +327,8 @@ def get_triples_for_publi(publi):
 
                     # link to parent section and set content class
                     cnt_uri = get_part_URIRef(publi_uri, cnt)
-                    lines.append(getTriple(sct_uri, sibilo.contains(), cnt_uri))
-                    lines.append(getTriple(cnt_uri, rdf.type(), get_cnt_part_class_URIRef(cnt)))
+                    graph.add((sct_uri, sibilo.contains, cnt_uri))
+                    graph.add((cnt_uri, RDF.type, get_cnt_part_class_URIRef(cnt)))
 
                     # # DEBUG: add tit_uri to parent_dic
                     # parent_dic[cnt_uri]=list()
@@ -315,25 +336,26 @@ def get_triples_for_publi(publi):
 
                     xrefUrl = cnt.get("xref_url")
                     if xrefUrl:
-                        lines.append(getTriple(cnt_uri, rdfs.seeAlso(), "<" + xrefUrl + ">"))
+                        graph.add((cnt_uri, RDFS.seeAlso, URIRef(xrefUrl)))
                         
                     capt = cnt.get("caption")
                     if capt:
                         capt_uri = get_part_caption_URIRef(cnt_uri)
-                        lines.append(getTriple(cnt_uri, sibilo.hasPart(), capt_uri))
-                        lines.append(getTriple(capt_uri, rdf.type(), sibilo.Caption()))
+                        graph.add((cnt_uri, sibilo.hasPart, capt_uri))
+                        graph.add((capt_uri, RDF.type, sibilo.Caption))
                         # # DEBUG: add tit_uri to parent_dic
                         # parent_dic[capt_uri]=list()
                         # # end DEBUG
 
+
                     label = cnt.get("label")
                     if label:
                         label_uri = get_part_label_URIRef(cnt_uri)
-                        lines.append(getTriple(cnt_uri, sibilo.hasPart(), label_uri))
-                        lines.append(getTriple(label_uri, rdf.type(), sibilo.Label()))
+                        graph.add((cnt_uri, sibilo.hasPart, label_uri))
+                        graph.add((label_uri, RDF.type, sibilo.Label))
                         # note: no sentences are generated by Julien for cnt["label"], so declare :chars here
                         # often used for figs and tables (i.e. Fig 1, Table 2)
-                        lines.append(getTriple(label_uri, sibilo.chars(), xsd.string3(label)))
+                        graph.add((label_uri, sibilo.chars, Literal(label, datatype=XSD.string)))
                         # # DEBUG: add tit_uri to parent_dic
                         # parent_dic[label_uri]=list()
                         # # end DEBUG
@@ -341,8 +363,8 @@ def get_triples_for_publi(publi):
                     foot = cnt.get("footer")
                     if foot:
                         foot_uri = get_part_footer_URIRef(cnt_uri)
-                        lines.append(getTriple(cnt_uri, sibilo.hasPart(), foot_uri))
-                        lines.append(getTriple(foot_uri, rdf.type(), sibilo.TableFooter()))
+                        graph.add((cnt_uri, sibilo.hasPart, foot_uri))
+                        graph.add((foot_uri, RDF.type, sibilo.TableFooter))
                         # # DEBUG: add tit_uri to parent_dic
                         # parent_dic[foot_uri]=list()
                         # # end DEBUG
@@ -360,13 +382,13 @@ def get_triples_for_publi(publi):
         if len(sen_txt)==0: continue
         sen_uri = get_sentence_part_URIRef(publi_uri, sen)
         sen_parent_uri = get_parent_part_URIRef(publi_uri, sen)
-        lines.append(getTriple(sen_parent_uri, sibilo.contains(), sen_uri))
+        graph.add((sen_parent_uri, sibilo.contains, sen_uri))
         sen_class = get_sen_part_class_URIRef(sen) 
-        lines.append(getTriple(sen_uri, rdf.type(), sen_class))
-        lines.append(getTriple(sen_uri, sibilo.chars(), xsd.string3(sen_txt)))
+        graph.add((sen_uri, RDF.type, sen_class))
+        graph.add((sen_uri, sibilo.chars, Literal(sen_txt, datatype=XSD.string)))
         sen_ord = int(sen["sentence_number"])
-        lines.append(getTriple(sen_uri, sibilo.ordinal(), xsd.integer(sen_ord)))
-        
+        graph.add((sen_uri, sibilo.ordinal, Literal(sen_ord, datatype=XSD.integer)))
+
         # # DEBUG add sen_uri / parent pair to dico
         # sen_parent_dic[sen_uri]=sen_parent_uri
 
@@ -380,9 +402,6 @@ def get_triples_for_publi(publi):
     #         parent_dic[parent_uri].append(sen_uri)
     #         print("INFO", sen_uri, parent_uri)
     # print("Checked", len(sen_parent_dic),"sentences")
-
-    return lines
-
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -404,13 +423,12 @@ def flatten_nested_lists(elem, flat_list):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def add_triples_for_authors(publi):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    lines = list()
     author_list = publi.get("authors")
     if author_list is not None:
         for author in author_list:
-            blank_node = getBlankNode()
-            lines.append(getTriple(blank_node, rdf.type(), foaf.Person()))
-            lines.append(getTriple(blank_node, rdfs.label(), xsd.string3(author.get("name"))))
+            blank_node = BNode()
+            graph.add((blank_node, RDF.type, FOAF.Person))
+            graph.add((blank_node, RDFS.label, Literal(author.get("name"), datatype=XSD.string)))
             aff_id_list = author.get("affiliations")
             if aff_id_list is not None:
                 for aff_id in aff_id_list:
@@ -424,58 +442,58 @@ def add_triples_for_authors(publi):
                                 aff_name = find_affiliation_name(publi, split_aff_id)
                                 if aff_name is not None:
                                     found = True
-                                    lines.append(getTriple(blank_node, sibilo.affiliation(), xsd.string3(aff_name)))
+                                    graph.add((blank_node, sibilo.affiliation, Literal(aff_name, datatype=XSD.string)))
                         if not found:
                             log_it("ERROR", "found no name for affiliation id", aff_id, "in", pmcid)
                     else:
-                        lines.append(getTriple(blank_node, sibilo.affiliation(), xsd.string3(aff_name)))
+                        graph.add((blank_node, sibilo.affiliation, Literal(aff_name, datatype=XSD.string)))
 
-            lines.append(getTriple(get_publi_URIRef(publi), sibilo.creator(), blank_node))
-    return lines
+            graph.add((get_publi_URIRef(publi), sibilo.creator, blank_node))
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_publi_URIRef(publi):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     pmcid = publi.get("pmcid")
-    return sibils.IRI(pmcid)
+    return URIRef(sibils + pmcid)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_front_matter_URIRef(publi_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return publi_uri + "_part_frontMatter"
+    return URIRef(publi_uri + "_part_frontMatter")
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_part_label_URIRef(part_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return part_uri + "_label"
+    return URIRef(part_uri + "_label")
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_part_caption_URIRef(part_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return part_uri + "_caption"
+    return URIRef(part_uri + "_caption")
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_part_footer_URIRef(part_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return part_uri + "_footer"
+    return URIRef(part_uri + "_footer")
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_part_title_URIRef(part_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return part_uri + "_title"
+    return URIRef(part_uri + "_title")
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_sentence_part_URIRef(publi_uri, sentence_or_annot):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     part_id = str(sentence_or_annot.get("sentence_number"))
-    return publi_uri + "_sen_" + part_id
+    return URIRef(publi_uri + "_sen_" + part_id)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_part_URIRef(publi_uri, sct):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     part_id = sct.get("id")
-    return publi_uri + "_part_" + part_id
+    return URIRef(publi_uri + "_part_" + part_id)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -486,13 +504,13 @@ def get_parent_part_URIRef(publi_uri, part):
     if fld is not None:
         part_id = part["content_id"]
         # by order of frequency in data to improve preformance
-        if fld == "text": return "".join([publi_uri , "_part_" , part_id])
-        if fld == "fig_caption": return "".join([publi_uri , "_part_" , part_id , "_caption"])
-        if fld == "section_title": return "".join([publi_uri , "_part_" , part_id , "_title"])
-        if fld == "table_column": return "".join([publi_uri , "_part_" , part_id])
-        if fld == "table_footer": return "".join([publi_uri , "_part_" , part_id , "_footer"])
-        if fld == "table_value": return "".join([publi_uri , "_part_" , part_id])
-        if fld == "table_caption": return "".join([publi_uri , "_part_" , part_id , "_caption"])
+        if fld == "text": return URIRef(publi_uri + "_part_" + part_id)
+        if fld == "fig_caption": return URIRef(publi_uri + "_part_" + part_id + "_caption")
+        if fld == "section_title": return URIRef(publi_uri + "_part_" + part_id + "_title")
+        if fld == "table_column": return URIRef(publi_uri + "_part_" + part_id)
+        if fld == "table_footer": return URIRef(publi_uri + "_part_" + part_id + "_footer")
+        if fld == "table_value": return URIRef(publi_uri + "_part_" + part_id)
+        if fld == "table_caption": return URIRef(publi_uri + "_part_" + part_id + "_caption")
         raise Exception("Unexpected sentence field value in " + publi_uri + ", part_id " + part_id + ", field=" + fld)
     # case 2: part is a top level container
     elif part.get("level") == 1:
@@ -508,35 +526,35 @@ def get_parent_part_URIRef(publi_uri, part):
         part_id = part.get("id")
         # parent id: remove everything from right until LAST <dot> is reached
         parent_id = part_id[:part_id.rfind(".")]
-        return "".join([publi_uri , "_part_" , parent_id])
+        return URIRef(publi_uri + "_part_" + parent_id)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_sen_part_class_URIRef(sentence):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     fld = sentence.get("field")
-    if fld == "table_column": return sibilo.TableColumnName()
-    if fld == "table_value": return sibilo.TableCellValues()
-    return sibilo.Sentence()
+    if fld == "table_column": return sibilo.TableColumnName
+    if fld == "table_value": return sibilo.TableCellValues
+    return sibilo.Sentence
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_cnt_part_class_URIRef(cnt):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # sibilo classes below could be defined as sub classes of po:Block
     tag = cnt.get("tag")
-    if tag == "p":           return sibilo.Paragraph()
-    if tag == "fig":         return sibilo.FigureBox()
-    if tag == "table":       return sibilo.TableBox()
-    if tag == "list-item":   return sibilo.ListItemBlock()      # our extension
-    if tag == "media":       return sibilo.MediaBlock()         # our extension
-    if tag == "def-list":    return sibilo.Glossary()
-    if tag == "disp-quote":  return sibilo.BlockQuotation()
-    if tag == "statement":   return sibilo.StatementBlock()     # our extension
-    if tag == "object-id":   return sibilo.ObjectIdBlock()      # our extension
-    if tag == "speech":      return sibilo.SpeechBlock()         # our extension
-    if tag == "verse-group": return sibilo.VerseGroupBlock()     # our extension
-    if tag == "array":       return sibilo.Table()
-    if tag == "ref-list":    return sibilo.ListOfReferences()
-    return sibilo.Block() # default, parent of doco:Paragraph in essepuntato (po)
+    if tag == "p":           return sibilo.Paragraph
+    if tag == "fig":         return sibilo.FigureBox
+    if tag == "table":       return sibilo.TableBox
+    if tag == "list-item":   return sibilo.ListItemBlock      # our extension
+    if tag == "media":       return sibilo.MediaBlock         # our extension
+    if tag == "def-list":    return sibilo.Glossary
+    if tag == "disp-quote":  return sibilo.BlockQuotation
+    if tag == "statement":   return sibilo.StatementBlock     # our extension
+    if tag == "object-id":   return sibilo.ObjectIdBlock      # our extension
+    if tag == "speech":      return sibilo.SpeechBlock         # our extension
+    if tag == "verse-group": return sibilo.VerseGroupBlock     # our extension
+    if tag == "array":       return sibilo.Table
+    if tag == "ref-list":    return sibilo.ListOfReferences
+    return sibilo.Block # default, parent of doco:Paragraph in essepuntato (po)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -545,29 +563,29 @@ def get_sct_part_class_URIRef(sct):
     tag = sct.get("tag")
     
     if tag is None and sct.get("level") == 1 and sct.get("title") == "Title": 
-        return sibilo.Title()
+        return sibilo.Title
 
     if tag == "sec":
         caption = sct.get("caption")
-        if caption is None or len(caption)==0: return sibilo.Section()
-        return sibilo.CaptionedBox()
+        if caption is None or len(caption)==0: return sibilo.Section
+        return sibilo.CaptionedBox
 
-    if tag == "abstract": return sibilo.Abstract()
-    if tag == "wrap": return sibilo.Section()
+    if tag == "abstract": return sibilo.Abstract
+    if tag == "wrap": return sibilo.Section
 
     if tag == "boxed-text":
         caption = sct.get("caption")
-        if caption is None or len(caption)==0: return sibilo.TextBox()
-        return sibilo.CaptionedBox()
+        if caption is None or len(caption)==0: return sibilo.TextBox
+        return sibilo.CaptionedBox
 
-    if tag == "body": return sibilo.BodyMatter()
-    if tag == "back": return sibilo.BackMatter()
-    if tag == "floats-group": return sibilo.FloatMatter()  # our extension
-    if tag == "app": return sibilo.Appendix()
+    if tag == "body": return sibilo.BodyMatter
+    if tag == "back": return sibilo.BackMatter
+    if tag == "floats-group": return sibilo.FloatMatter  # our extension
+    if tag == "app": return sibilo.Appendix
 
     # return default ancestor class in case of unexpected tag
-    log_it("WARNING", "No section class defined for tag:", tag)
-    return sibilo.DiscourseElement()
+    log_it("WARNING", "No section class defined for tag:", tag)   
+    return sibilo.DiscourseElement
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -608,17 +626,17 @@ def get_publi_class_URIRef(article_type):
     # TODO: check my mapping like the one described below:     
     # https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw
 
-    if article_type == "research-article":  return sibilo.JournalArticle()     # a Expression 
-    if article_type == "review-article":    return sibilo.ReviewArticle()      # a Expression 
-    if article_type == "brief-report":      return sibilo.BriefReport()        # a Expression
-    if article_type == "case-report":       return sibilo.CaseReport()         # a Expression
-    if article_type == "discussion":        return sibilo.Publication()        # default value
-    if article_type == "editorial":         return sibilo.Editorial()          # a Expression
-    if article_type == "letter":            return sibilo.Letter()             # Expression
-    if article_type == "article-commentary":return sibilo.Publication()        # default value
-    if article_type == "meeting-report":    return sibilo.MeetingReport()      # a Expression
-    if article_type == "correction":        return sibilo.Publication()        # default value
-    return sibilo.Publication()
+    if article_type == "research-article":  return sibilo.JournalArticle     # a Expression 
+    if article_type == "review-article":    return sibilo.ReviewArticle      # a Expression 
+    if article_type == "brief-report":      return sibilo.BriefReport        # a Expression
+    if article_type == "case-report":       return sibilo.CaseReport         # a Expression
+    if article_type == "discussion":        return sibilo.Publication        # default value
+    if article_type == "editorial":         return sibilo.Editorial          # a Expression
+    if article_type == "letter":            return sibilo.Letter             # Expression
+    if article_type == "article-commentary":return sibilo.Publication        # default value
+    if article_type == "meeting-report":    return sibilo.MeetingReport      # a Expression
+    if article_type == "correction":        return sibilo.Publication        # default value
+    return sibilo.Publication
 
     # sample values found in 3000 publications
     # 2186     "article_type": "research-article",
@@ -768,9 +786,8 @@ if __name__ == '__main__':
                     print("sentence        :", id, sen["field"], sen["txt"])
             log_it("----")
 
-
     # - - - - - - - - - - - - - - - - - - - - - - - -     
-    elif sys.argv[1] == "parse": 
+    elif sys.argv[1] == "parse":
     # - - - - - - - - - - - - - - - - - - - - - - - -     
 
         pub_per_file = 100
@@ -789,13 +806,8 @@ if __name__ == '__main__':
         pmcid_subsets = get_split_lists(list(pmcid_set), pub_per_file)
         for pmcid_subset in pmcid_subsets:
             offset = pub_no
-            t0 = datetime.datetime.now()
+            graph = get_new_graph()
             log_it("INFO", "Parsing pmcid set", filename, "offset", offset)
-            ttl_file = "./output/publication_set_" + str(offset) + ".ttl"
-            log_it("INFO", "Serializing to", ttl_file)
-            f_out = open(ttl_file, "w")
-            for pfx_line in get_prefixes():
-                f_out.write(pfx_line)
             for pmcid in pmcid_subset:
                 pub_no += 1
                 if pub_no > max_pub: break
@@ -805,14 +817,15 @@ if __name__ == '__main__':
                 f_in = open(jsonfile, 'rb')
                 publi = pickle.load(f_in)
                 f_in.close()
-                for l in get_triples_for_publi(publi):
-                    f_out.write(l)
-                for l in get_triples_for_publi_annotations(publi):
-                    f_out.write(l)
-            
-            f_out.close()
+                log_it("INFO","Building RDF for current publi")
+                get_triples_for_publi(publi)
+                get_triples_for_publi_annotations(publi)
+                
+            ttl_file = "./output/publication_set_" + str(offset) + ".ttl"
+            log_it("INFO", "Serializing to", ttl_file)
+            t0 = datetime.datetime.now()
+            graph.serialize(destination=ttl_file , format="turtle", encoding="utf-8")
             log_it("INFO", "Serialized", ttl_file, duration_since=t0)
-
 
     log_it("INFO", "End")
     

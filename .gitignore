@@ -4,3 +4,7 @@ xslt
 terminologies/*.json
 terminologies/v.2x
 terminologies/v3.2
+
+dir_test/
+
+output/
