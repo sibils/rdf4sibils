@@ -8,3 +8,7 @@ terminologies/v3.2
 dir_test/
 
 output/
+
+proxy_dir/
+
+__pycache__/
