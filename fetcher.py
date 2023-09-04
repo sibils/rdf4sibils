@@ -234,6 +234,7 @@ def prepare_chunk(chunk_name, chunks_dir=chunks_dir):
     save_annotated_publications(chunk_name, chunks_dir)
 
 
+
 # ------------------------------------------------------------------
 def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
 # ------------------------------------------------------------------
