@@ -6,9 +6,9 @@ import json
 import enum
 import pickle
 import datetime
-
 from utils import log_it, gunzip
 
+from get_publi_rdf import get_split_lists, get_triples_for_publi, get_triples_for_publi_annotations, get_prefixes
 
 ftp_server="denver.text-analytics.ch"
 ftp_dir_dict = dict()
@@ -143,6 +143,7 @@ def explode_ana(chunk_name, chunks_dir=chunks_dir):
 
     log_it("INFO", "Saved ana.pickle files in", chunk_dir)
 
+
 # ------------------------------------------------------------------
 def get_rebuilt_annotated_publi_object(chunk_dir, pub_id):
 # ------------------------------------------------------------------
@@ -231,6 +232,50 @@ def prepare_chunk(chunk_name, chunks_dir=chunks_dir):
     explode_sen(chunk_name, chunks_dir)
     explode_ana(chunk_name, chunks_dir)
     save_annotated_publications(chunk_name, chunks_dir)
+
+
+# ------------------------------------------------------------------
+def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
+# ------------------------------------------------------------------
+    chunk_dir = get_chunk_dir(chunk_name, chunks_dir)
+    rdf_dir = chunk_dir + "rdf/"
+    if not os.path.exists(rdf_dir): os.makedirs(rdf_dir)
+    doc_set = load_doc_set(chunk_dir)
+
+    pub_per_file = 500
+    max_pub = 100000000
+    pub_no = 0
+
+    # create a ttl file for each pmcid subset
+    pmcid_subsets = get_split_lists(list(doc_set), pub_per_file)
+    for pmcid_subset in pmcid_subsets:
+        offset = pub_no
+        t0 = datetime.datetime.now()
+        log_it("INFO", "Parsing pmcid set of", chunk_name, "offset", offset)
+        ttl_file = rdf_dir + "publication_set_" + str(offset) + ".ttl"
+        log_it("INFO", "Serializing to", ttl_file)
+        f_out = open(ttl_file, "w")
+        for pfx_line in get_prefixes():
+            f_out.write(pfx_line)
+        for pmcid in pmcid_subset:
+            pub_no += 1
+            if pub_no > max_pub: break
+            jsonfile = chunk_dir + get_pmc_subdir(pmcid) + "/" + pmcid + ".pickle"
+            log_it("INFO", "Reading publi", jsonfile, "file no.", pub_no)
+            f_in = open(jsonfile, 'rb')
+            publi = pickle.load(f_in)
+            f_in.close()
+            for l in get_triples_for_publi(publi):
+                f_out.write(l)
+            for l in get_triples_for_publi_annotations(publi):
+                f_out.write(l)
+        
+        f_out.close()
+        log_it("INFO", "Serialized", ttl_file, duration_since=t0)
+
+
+
+
 
 # ------------------------------------------------------------------
 def get_pmc_subdir(pmcid):
@@ -346,3 +391,12 @@ if __name__ == '__main__':
         # load it
         load_annotated_publications(chunk_name, tmp_dir)
         log_it("DEBUG", "build and load time", duration_since=t0)
+
+# ------------------------------------------------------------------
+    elif sys.argv[1] == "save_rdf_files": # for test
+# ------------------------------------------------------------------
+        t0 = datetime.datetime.now()
+        chunk_name = "pmc23n0022"
+        save_rdf_files(chunk_name, tmp_dir)
+        log_it("DEBUG", "build and load time", duration_since=t0)
+

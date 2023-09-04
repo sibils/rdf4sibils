@@ -24,7 +24,6 @@ xsd = XsdNamespace()
 foaf = FoafNamespace()
 
 
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_prefixes():
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,59 +32,6 @@ def get_prefixes():
         lines.append(ns.getTtlPrefixDeclaration())
     return lines
 
-
-
-
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def download_chunk_from_ftp_v32(file_name):
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    ftp = ftplib.FTP(ftp_server)
-    ftp.login()
-
-    # download main publication gz file if not done yet
-    trg_file = proxy_dir + "bib_" + file_name
-    if not os.path.exists(trg_file):
-        log_it("INFO", "Downloading ", trg_file)
-        ftp.cwd(publi_base_url)
-        f = open(trg_file, "wb")
-        ftp.retrbinary("RETR " + "bib_" + file_name, f.write)
-        f.close()
-        log_it("INFO", "Decompressing ", trg_file)
-        gunzip(trg_file)
-    else:
-        log_it("INFO", "Skipped download, target file already exists", trg_file)
-
-    # in current implementation we use only bib file to extract pmcid list and 
-    # then get the json of annotated publications from sibils http service (see fetch_pam)
-
-    # # download annot gz files if not done yet
-    # trg_file = proxy_dir + "ana_" + file_name
-    # if not os.path.exists(trg_file):
-    #     log_it("INFO", "Downloading ", trg_file)
-    #     ftp.cwd(annot_base_url)
-    #     f = open(trg_file, "wb")
-    #     ftp.retrbinary("RETR " + "ana_" + file_name, f.write)
-    #     f.close()
-    #     log_it("INFO", "Decompressing ", trg_file)
-    #     gunzip(trg_file)
-    # else:
-    #     log_it("INFO", "Skipped download, target file already exists", trg_file)
-
-    # # download annot gz files if not done yet
-    # trg_file = proxy_dir + "sen_" + file_name
-    # if not os.path.exists(trg_file):
-    #     log_it("INFO", "Downloading ", trg_file)
-    #     ftp.cwd(sen_base_url)
-    #     f = open(trg_file, "wb")
-    #     ftp.retrbinary("RETR " + "sen_" + file_name, f.write)
-    #     f.close()
-    #     log_it("INFO", "Decompressing ", trg_file)
-    #     gunzip(trg_file)
-    # else:
-    #     log_it("INFO", "Skipped download, target file already exists", trg_file)
-
-    ftp.quit()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
@@ -349,22 +295,7 @@ def get_triples_for_publi(publi):
         sen_ord = int(sen["sentence_number"])
         lines.append(getTriple(sen_uri, sibilo.ordinal(), xsd.integer(sen_ord)))
         
-        # # DEBUG add sen_uri / parent pair to dico
-        # sen_parent_dic[sen_uri]=sen_parent_uri
-
-    # # DEBUG check parent parts of sentences are all defined above in sct / content
-    # print("Checking sentences all have a parent part")
-    # for sen_uri in sen_parent_dic:
-    #     parent_uri = sen_parent_dic[sen_uri]
-    #     if parent_uri not in parent_dic:
-    #         print("ERROR, sentence with no parent", sen_uri, "parent", parent_uri)
-    #     else:
-    #         parent_dic[parent_uri].append(sen_uri)
-    #         print("INFO", sen_uri, parent_uri)
-    # print("Checked", len(sen_parent_dic),"sentences")
-
     return lines
-
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -373,15 +304,6 @@ def date_to_yyyy_mm_dd(dd_mm_yyyy):
     d,m,y = dd_mm_yyyy.split("-")
     return y + "-" + m + "-" + d
     
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def flatten_nested_lists(elem, flat_list):
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if isinstance(elem, list):
-        for item in elem:
-            flatten_nested_lists(item, flat_list)
-    else:
-        flat_list.append(elem)
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def add_triples_for_authors(publi):
@@ -627,134 +549,14 @@ def get_publi_class_URIRef(article_type):
 # --------------------------------------------------------------------------------
 if __name__ == '__main__':
 # --------------------------------------------------------------------------------
-    global ftp_server, annot_base_url, publi_base_url, proxy_dir, ftp_content
-    global graph
-
-    ftp_server = "denver.hesge.ch"
-    ftp_server = "denver.text-analytics.ch"
-    
-    #annot_base_url = "/SIBiLS/anapmc21/baseline/"
-    #publi_base_url = "/SIBiLS_v3/bibpmc/baseline/"
-
-    annot_base_url = "/SIBiLS_v3.2/pmc/baseline/ana/v1/"
-    publi_base_url = "/SIBiLS_v3.2/pmc/baseline/bib/"
-    sen_base_url = "/SIBiLS_v3.2/pmc/baseline/sen/"
-
-    proxy_dir = "./proxy_dir/v32/"
-    fetch_dir = proxy_dir + "fetch_pam/"
-    prefixes = dict()
     
     # choose action
     action = sys.argv[1]
     log_it("INFO", "action:", sys.argv[1])
 
-    # - - - - - - - - - - - - - - - - - - - - - - - -     
-    if sys.argv[1] == "download":
-    # - - - - - - - - - - - - - - - - - - - - - - - -       
-        file_name = "pmc23n0023.json.gz"target_dir
-        download_chunk_from_ftp_v32(file_name)
 
     # - - - - - - - - - - - - - - - - - - - - - - - -     
-    elif sys.argv[1] == "fetch_pam":
-    # - - - - - - - - - - - - - - - - - - - - - - - -     
-        ## get set of pmcid and save it as a file
-        file_name = "bib_pmc23n0023.json"
-        json_file = proxy_dir + file_name
-        f_in = open(json_file, "rb")
-        obj = json.load(f_in)        
-        f_in.close()
-        pmcid_set = set()
-        publi_list = obj["article_list"]
-        for publi in publi_list:
-            pmcid = publi["pmcid"]
-            pmcid_set.add(pmcid)
-        filename = fetch_dir + "pmcid_set.pickle"
-        f_out = open(filename, 'wb')
-        pickle.dump(pmcid_set, f_out, protocol=3) 
-        f_out.close()
-        log_it("Saved pmcid set ", filename, "len(pmcid_set)", len(pmcid_set))
-        # use fetch_pam to retrieve batches of json publications with annotations
-        while pmcid_set:
-            ids = ""
-            for i in range(30):
-                if pmcid_set:
-                    if len(ids)>0: ids += ","
-                    ids += pmcid_set.pop()
-            # v2.x url = "https://candy.hesge.ch/SIBiLS/PMC/fetch_PAM.jsp?ids=" + ids
-            # v3.2 - use default format
-            url = "https://sibils.text-analytics.ch/api/v3.2/fetch?col=pmc&ids=" + ids
-            log_it("INFO", "### url", url)
-            response = requests.get(url)
-            log_it("INFO", "Got response")
-            data = response.json()
-            log_it("INFO", "Parsed response")
-            publi_sublist = data["sibils_article_set"]
-            for publi in publi_sublist:
-                pmcid = publi.get("_id") # _id contains pmcid or doi or pmid depending on collection
-                subdir = fetch_dir + pmcid[:5] + "/"
-                os.makedirs(subdir, exist_ok=True)
-                jsonfile = subdir + pmcid + ".pickle"
-                f_out = open(jsonfile, 'wb')
-                pickle.dump(publi, f_out, protocol=3) 
-                f_out.close()
-                log_it("INFO", "Saved", jsonfile)
-
-
-    # - - - - - - - - - - - - - - - - - - - - - - - -     
-    elif sys.argv[1] == "test1":
-    # - - - - - - - - - - - - - - - - - - - - - - - -     
-        max_pub = 100000000
-        if len(sys.argv)>=3: max_pub = int(sys.argv[2])
-        # read list of pmcid fro file generated by fetch_pam action above
-        filename = fetch_dir + "pmcid_set.pickle"
-        log_it("INFO", "Reading pmcid set", filename)
-        f_in = open(filename, 'rb')
-        pmcid_set = pickle.load(f_in)
-        f_in.close()
-        pub_no = 0
-        for pmcid in pmcid_set:
-            sct_dic = dict()
-            offset = pub_no
-            pub_no += 1
-            if pub_no > max_pub: break
-            subdir = fetch_dir + pmcid[:5] + "/"
-            jsonfile = subdir + pmcid + ".pickle"
-            log_it("INFO", "Reading publi", jsonfile, "file no.", pub_no)
-            f_in = open(jsonfile, 'rb')
-            publi = pickle.load(f_in)
-            publi_doc = publi["document"]
-            for sct_group in ["body_sections","float_sections", "back_sections"]:
-                for sct in publi_doc[sct_group]:
-                    hasTitle = False
-                    sct_title = sct.get("title")
-                    if sct_title is not None and len(sct_title)>0 and sct_title != "Title" and sct_title != "Abstract": hasTitle = True
-                    sct_caption = sct.get("caption")
-                    hasCaption = False
-                    if sct_caption is not None and len(sct_caption)>0: hasCaption = True
-                    if hasTitle or hasCaption:
-                        sct_id = sct["id"]
-                        sct_dic[sct_id] = {"hasTitle": hasTitle, "hasCaption": hasCaption, "title": sct_title, "caption": sct_caption, "sentences": list()}
-            for sen in publi["sentences"]:
-                cnt_id = sen["content_id"]
-                if cnt_id == "0": continue
-                if cnt_id in sct_dic:
-                    fld = sen["field"]
-                    txt = sen["sentence"]
-                    sct_dic[cnt_id]["sentences"].append({"field":fld, "txt":txt})
-            f_in.close()
-            log_it("pmcid", pmcid)
-            for id in sct_dic:
-                rec = sct_dic[id]
-                #print("section", id, "hasTitle", rec["hasTitle"], "hasCaption", rec["hasCaption"])
-                if rec["hasTitle"]== True:   print("section   title :", id, rec["title"])
-                if rec["hasCaption"]== True: print("section caption :", id, rec["caption"])
-                for sen in rec["sentences"]:
-                    print("sentence        :", id, sen["field"], sen["txt"])
-            log_it("----")
-
-
-    # - - - - - - - - - - - - - - - - - - - - - - - -     
-    elif sys.argv[1] == "parse": 
+    if sys.argv[1] == "build_rdf": 
     # - - - - - - - - - - - - - - - - - - - - - - - -     
 
         pub_per_file = 100
