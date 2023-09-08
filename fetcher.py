@@ -234,7 +234,6 @@ def prepare_chunk(chunk_name, chunks_dir=chunks_dir):
     save_annotated_publications(chunk_name, chunks_dir)
 
 
-
 # ------------------------------------------------------------------
 def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
 # ------------------------------------------------------------------
@@ -275,7 +274,11 @@ def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
         log_it("INFO", "Serialized", ttl_file, duration_since=t0)
 
 
-
+# ------------------------------------------------------------------
+def process_chunk(chunk_name, chunks_dir=chunks_dir):
+# ------------------------------------------------------------------
+    prepare_chunk(chunk_name, chunks_dir)
+    save_rdf_files(chunk_name, chunks_dir)
 
 
 # ------------------------------------------------------------------
@@ -400,4 +403,12 @@ if __name__ == '__main__':
         chunk_name = "pmc23n0022"
         save_rdf_files(chunk_name, tmp_dir)
         log_it("DEBUG", "build and load time", duration_since=t0)
+
+# ------------------------------------------------------------------
+    elif sys.argv[1] == "process_chunk": # for test
+# ------------------------------------------------------------------
+        t0 = datetime.datetime.now()
+        chunk_name = "pmc23n0021"
+        process_chunk(chunk_name, tmp_dir)
+        log_it("DEBUG", "process chunk", chunk_name, chunks_dir, duration_since=t0)
 
