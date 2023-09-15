@@ -556,7 +556,7 @@
 
 :hasPart a rdf:Property, owl:ObjectProperty ;
       rdfs:subPropertyOf dcterms:hasPart ;
-      rdfs:label "creator"^^xsd:string ;
+      rdfs:label "has part"^^xsd:string ;
       rdfs:comment "Links a resource that is included either physically or logically in the described resource."^^xsd:string ;
       rdfs:domain :DiscourseElement ;
       rdfs:range :DiscourseElement ;
