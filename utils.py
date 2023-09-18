@@ -26,3 +26,24 @@ def gunzip(gz_file):
     f_out. close()
     f_in. close()
 
+# ------------------------------------------------------------------
+def get_properties(filename):
+# ------------------------------------------------------------------
+    f_in = open(filename)
+    props = dict()
+    while True:
+        line = f_in.readline()
+        if line == "": break
+        line = line.strip()
+        nv = line.split("=")
+        if len(nv)!=2: continue
+        name = nv[0].strip()
+        if name.startswith("#"): continue
+        value = nv[1].strip()
+        props[name]=value
+    f_in.close()
+    return props
+
+
+
+

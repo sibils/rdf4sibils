@@ -6,20 +6,36 @@ import json
 import enum
 import pickle
 import datetime
-from utils import log_it, gunzip
+from utils import log_it, gunzip, get_properties
 
 from get_publi_rdf import get_split_lists, get_triples_for_publi, get_triples_for_publi_annotations, get_prefixes
 
-ftp_server="denver.text-analytics.ch"
-ftp_dir_dict = dict()
-# ftp_dir_dict["ana"] = "/SIBiLS_v3.2/pmc/baseline/ana/v1/"
-# ftp_dir_dict["bib"] = "/SIBiLS_v3.2/pmc/baseline/bib/"
-# ftp_dir_dict["sen"] = "/SIBiLS_v3.2/pmc/baseline/sen/"
-ftp_dir_dict["ana"] = "/SIBiLS_v3.3/pmc/baseline/ana/v2/"
-ftp_dir_dict["bib"] = "/SIBiLS_v3.3/pmc/baseline/bib/"
-ftp_dir_dict["sen"] = "/SIBiLS_v3.3/pmc/baseline/sen/"
 
-chunks_dir = "./chunks/"
+# ------------------------------------------------------------------
+# global variables
+# ------------------------------------------------------------------
+ftp_server = ""
+ftp_dir_dict = dict()
+chunks_dir = ""
+rdf_dir = ""
+
+
+# ------------------------------------------------------------------
+def init_properties(prop_file):
+# ------------------------------------------------------------------
+    global ftp_server, ftp_dir_dict, chunks_dir, rdf_dir
+
+    props = get_properties(prop_file)
+    
+    ftp_server = props.get("ftp_server")
+    ftp_dir_dict["bib"] = props.get("ftp_bib_dir")
+    ftp_dir_dict["sen"] = props.get("ftp_sen_dir")
+    ftp_dir_dict["ana"] = props.get("ftp_ana_dir")
+    chunks_dir = props.get("chunks_dir")
+    rdf_dir = props.get("rdf_dir")
+    log_it("DEBUG", "init_properties()", "rdf_dir", rdf_dir)
+
+
 
 # ------------------------------------------------------------------
 def fetch_by_ftp(ftp_dir, ftp_file, target_dir):
@@ -42,7 +58,7 @@ def fetch_by_ftp(ftp_dir, ftp_file, target_dir):
     ftp.quit()
 
 # ------------------------------------------------------------------
-def fetch_chunk(chunk_name, chunks_dir=chunks_dir):
+def fetch_chunk(chunk_name, chunks_dir):
 # ------------------------------------------------------------------
     log_it("INFO", "Fetching chunk ", chunk_name)
     for key in ftp_dir_dict:
@@ -54,7 +70,7 @@ def fetch_chunk(chunk_name, chunks_dir=chunks_dir):
 
 
 # ------------------------------------------------------------------
-def explode_bib(chunk_name, chunks_dir=chunks_dir):
+def explode_bib(chunk_name, chunks_dir):
 # ------------------------------------------------------------------
     log_it("INFO", "Exploding bib file for", chunk_name)
 
@@ -93,7 +109,7 @@ def explode_bib(chunk_name, chunks_dir=chunks_dir):
     log_it("INFO", "Saved bib.pickle files in", chunk_dir)
 
 # ------------------------------------------------------------------
-def explode_sen(chunk_name, chunks_dir=chunks_dir):
+def explode_sen(chunk_name, chunks_dir):
 # ------------------------------------------------------------------
     log_it("INFO", "Exploding sen file", chunk_name)
 
@@ -121,7 +137,7 @@ def explode_sen(chunk_name, chunks_dir=chunks_dir):
 
 
 # ------------------------------------------------------------------
-def explode_ana(chunk_name, chunks_dir=chunks_dir):
+def explode_ana(chunk_name, chunks_dir):
 # ------------------------------------------------------------------
     log_it("INFO", "Exploding ana file", chunk_name)
 
@@ -178,7 +194,7 @@ def get_rebuilt_annotated_publi_object(chunk_dir, pub_id):
 
 
 # ------------------------------------------------------------------
-def save_annotated_publications(chunk_name, chunks_dir=chunks_dir, format="pickle"):
+def save_annotated_publications(chunk_name, chunks_dir, format="pickle"):
 # ------------------------------------------------------------------
     log_it("INFO", "Saving annotated publications of", chunk_name)
     t0 = datetime.datetime.now()
@@ -204,7 +220,7 @@ def save_annotated_publications(chunk_name, chunks_dir=chunks_dir, format="pickl
     log_it("INFO", "Saved publication json files in sub directories of", chunk_dir, duration_since=t0)
 
 # ------------------------------------------------------------------
-def load_annotated_publications(chunk_name, chunks_dir=chunks_dir, format="pickle"):
+def load_annotated_publications(chunk_name, chunks_dir, format="pickle"):
 # ------------------------------------------------------------------
     log_it("INFO", "Loading annotated publications of", chunk_name)
     t0 = datetime.datetime.now()
@@ -230,7 +246,7 @@ def load_annotated_publications(chunk_name, chunks_dir=chunks_dir, format="pickl
 
 
 # ------------------------------------------------------------------
-def prepare_chunk(chunk_name, chunks_dir=chunks_dir):
+def prepare_chunk(chunk_name, chunks_dir):
 # ------------------------------------------------------------------
     fetch_chunk(chunk_name, chunks_dir)
     explode_bib(chunk_name, chunks_dir)
@@ -256,12 +272,12 @@ def publi_can_be_rdfized(publi, pmcid):
     return True
 
 
-# ------------------------------------------------------------------
-def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
-# ------------------------------------------------------------------
+# -----------------------------------------------------------------------
+def save_rdf_files(chunk_name, chunks_dir, rdf_dir):
+# -----------------------------------------------------------------------
+    log_it("DEBUG", "save_rdf_files()", "rdf_dir", rdf_dir)
+    chunk_rdf_dir = get_chunk_rdf_dir(chunk_name, rdf_dir)
     chunk_dir = get_chunk_dir(chunk_name, chunks_dir)
-    rdf_dir = chunk_dir + "rdf/"
-    if not os.path.exists(rdf_dir): os.makedirs(rdf_dir)
     doc_set = load_doc_set(chunk_dir)
 
     pub_per_file = 500
@@ -274,7 +290,7 @@ def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
         offset = pub_no
         t0 = datetime.datetime.now()
         log_it("INFO", "Parsing pmcid set of", chunk_name, "offset", offset)
-        ttl_file = rdf_dir + "chunk_" + chunk_name + "_publiset_" + str(offset) + ".ttl"
+        ttl_file = chunk_rdf_dir + "chunk_" + chunk_name + "_publiset_" + str(offset) + ".ttl"
         log_it("INFO", "Serializing to", ttl_file)
         f_out = open(ttl_file, "w")
         for pfx_line in get_prefixes():
@@ -298,10 +314,11 @@ def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
 
 
 # ------------------------------------------------------------------
-def process_chunk(chunk_name, chunks_dir=chunks_dir):
+def process_chunk(chunk_name, chunks_dir, rdf_dir):
 # ------------------------------------------------------------------
+    log_it("DEBUG", "process_chunk()", "rdf_dir", rdf_dir)
     prepare_chunk(chunk_name, chunks_dir)
-    save_rdf_files(chunk_name, chunks_dir)
+    save_rdf_files(chunk_name, chunks_dir, rdf_dir)
 
 
 # ------------------------------------------------------------------
@@ -333,8 +350,19 @@ def load_doc_set(chunk_dir):
 def get_chunk_dir(chunk_name, chunks_dir):
 # ------------------------------------------------------------------
     if not chunks_dir.endswith("/"): chunks_dir += "/"
-    return chunks_dir + chunk_name + "/"
+    chunk_dir = chunks_dir + chunk_name + "/"
+    if not os.path.exists(chunk_dir): os.makedirs(chunk_dir)
+    return chunk_dir
 
+
+# ------------------------------------------------------------------
+def get_chunk_rdf_dir(chunk_name, rdf_dir):
+# ------------------------------------------------------------------
+    log_it("DEBUG", "get_chunk_rdf_dir()", "rdf_dir", rdf_dir)
+    if not rdf_dir.endswith("/"): rdf_dir += "/"
+    chunk_rdf_dir = rdf_dir + chunk_name + "/"
+    if not os.path.exists(chunk_rdf_dir): os.makedirs(chunk_rdf_dir)
+    return chunk_rdf_dir
 
 # Structure returned by https://sibils.text-analytics.ch/api/v3.2/fetch?col=pmc&ids=PMC4909023
 # {
@@ -360,7 +388,8 @@ def get_chunk_dir(chunk_name, chunks_dir):
 if __name__ == '__main__':
 # ============================================================
 
-    tmp_dir = "./dir_test/fetch_by_ftp"
+    init_properties("rdfizer.properties")
+    my_chunks_dir = "./dir_test/fetch_by_ftp"
     
 # ------------------------------------------------------------------
     if sys.argv[1] == "fetch_by_ftp": # for test
@@ -370,22 +399,22 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------
     elif sys.argv[1] == "fetch_chunk": # for test
 # ------------------------------------------------------------------
-        fetch_chunk("pmc23n0023", tmp_dir)
+        fetch_chunk("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
     elif sys.argv[1] == "explode_bib": # for test
 # ------------------------------------------------------------------
-        explode_bib("pmc23n0023", tmp_dir)
+        explode_bib("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
     elif sys.argv[1] == "explode_sen": # for test
 # ------------------------------------------------------------------
-        explode_sen("pmc23n0023", tmp_dir)
+        explode_sen("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
     elif sys.argv[1] == "explode_ana": # for test
 # ------------------------------------------------------------------
-        explode_ana("pmc23n0023", tmp_dir)
+        explode_ana("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
     elif sys.argv[1] == "rebuild_one_publi": # for test
@@ -399,24 +428,24 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------
     elif sys.argv[1] == "save_publi": # for test
 # ------------------------------------------------------------------
-        save_annotated_publications("pmc23n0023", tmp_dir)
+        save_annotated_publications("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
     elif sys.argv[1] == "load_publi": # for test
 # ------------------------------------------------------------------
-        load_annotated_publications("pmc23n0023", tmp_dir)
+        load_annotated_publications("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
     elif sys.argv[1] == "prepare_chunk": # for test
 # ------------------------------------------------------------------
         # delete chunk data
-        os.system("rm -rf " + tmp_dir)
+        os.system("rm -rf " + my_chunks_dir)
         # build it
         t0 = datetime.datetime.now()
         chunk_name = "pmc23n0022"
-        prepare_chunk(chunk_name, tmp_dir)
+        prepare_chunk(chunk_name, my_chunks_dir)
         # load it
-        load_annotated_publications(chunk_name, tmp_dir)
+        load_annotated_publications(chunk_name, my_chunks_dir)
         log_it("DEBUG", "build and load time", duration_since=t0)
 
 # ------------------------------------------------------------------
@@ -424,14 +453,14 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------
         t0 = datetime.datetime.now()
         chunk_name = "pmc23n0022"
-        save_rdf_files(chunk_name, tmp_dir)
+        save_rdf_files(chunk_name, my_chunks_dir, rdf_dir)
         log_it("DEBUG", "build and load time", duration_since=t0)
 
 # ------------------------------------------------------------------
     elif sys.argv[1] == "process_chunk": # for test
 # ------------------------------------------------------------------
         t0 = datetime.datetime.now()
-        chunk_name = "pmc23n0021"
-        process_chunk(chunk_name, tmp_dir)
+        chunk_name = "pmc23n0016"
+        process_chunk(chunk_name, my_chunks_dir, rdf_dir)
         log_it("DEBUG", "process chunk", chunk_name, chunks_dir, duration_since=t0)
 
