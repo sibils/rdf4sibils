@@ -12,9 +12,12 @@ from get_publi_rdf import get_split_lists, get_triples_for_publi, get_triples_fo
 
 ftp_server="denver.text-analytics.ch"
 ftp_dir_dict = dict()
-ftp_dir_dict["ana"] = "/SIBiLS_v3.2/pmc/baseline/ana/v1/"
-ftp_dir_dict["bib"] = "/SIBiLS_v3.2/pmc/baseline/bib/"
-ftp_dir_dict["sen"] = "/SIBiLS_v3.2/pmc/baseline/sen/"
+# ftp_dir_dict["ana"] = "/SIBiLS_v3.2/pmc/baseline/ana/v1/"
+# ftp_dir_dict["bib"] = "/SIBiLS_v3.2/pmc/baseline/bib/"
+# ftp_dir_dict["sen"] = "/SIBiLS_v3.2/pmc/baseline/sen/"
+ftp_dir_dict["ana"] = "/SIBiLS_v3.3/pmc/baseline/ana/v2/"
+ftp_dir_dict["bib"] = "/SIBiLS_v3.3/pmc/baseline/bib/"
+ftp_dir_dict["sen"] = "/SIBiLS_v3.3/pmc/baseline/sen/"
 
 chunks_dir = "./chunks/"
 
@@ -86,6 +89,7 @@ def explode_bib(chunk_name, chunks_dir=chunks_dir):
         pickle.dump(doc, f_out, protocol=3) 
         f_out.close()
 
+    del obj
     log_it("INFO", "Saved bib.pickle files in", chunk_dir)
 
 # ------------------------------------------------------------------
@@ -112,6 +116,7 @@ def explode_sen(chunk_name, chunks_dir=chunks_dir):
         pickle.dump(sentences, f_out, protocol=3) 
         f_out.close()
 
+    del obj
     log_it("INFO", "Saved sen.pickle files in", chunk_dir)
 
 
@@ -141,8 +146,8 @@ def explode_ana(chunk_name, chunks_dir=chunks_dir):
         pickle.dump(annots, f_out, protocol=3) 
         f_out.close()
 
+    del obj
     log_it("INFO", "Saved ana.pickle files in", chunk_dir)
-
 
 # ------------------------------------------------------------------
 def get_rebuilt_annotated_publi_object(chunk_dir, pub_id):
@@ -235,6 +240,23 @@ def prepare_chunk(chunk_name, chunks_dir=chunks_dir):
 
 
 # ------------------------------------------------------------------
+def publi_can_be_rdfized(publi, pmcid):
+# ------------------------------------------------------------------
+    id = publi.get("_id")
+    if id == "":
+        log_it("WARNING", "no _id for", pmcid, "skipping rdfization of this publication")
+        return False
+
+    doc = publi.get("document")
+    typ = doc.get("article_type")
+    if typ == "correction":
+        log_it("WARNING", pmcid, "is a correction, skipping rdfization of this publication")
+        return False
+
+    return True
+
+
+# ------------------------------------------------------------------
 def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
 # ------------------------------------------------------------------
     chunk_dir = get_chunk_dir(chunk_name, chunks_dir)
@@ -252,7 +274,7 @@ def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
         offset = pub_no
         t0 = datetime.datetime.now()
         log_it("INFO", "Parsing pmcid set of", chunk_name, "offset", offset)
-        ttl_file = rdf_dir + "publication_set_" + str(offset) + ".ttl"
+        ttl_file = rdf_dir + "chunk_" + chunk_name + "_publiset_" + str(offset) + ".ttl"
         log_it("INFO", "Serializing to", ttl_file)
         f_out = open(ttl_file, "w")
         for pfx_line in get_prefixes():
@@ -261,14 +283,15 @@ def save_rdf_files(chunk_name, chunks_dir=chunks_dir):
             pub_no += 1
             if pub_no > max_pub: break
             jsonfile = chunk_dir + get_pmc_subdir(pmcid) + "/" + pmcid + ".pickle"
-            log_it("INFO", "Reading publi", jsonfile, "file no.", pub_no)
+            #log_it("DEBUG", "Reading publi", jsonfile, "file no.", pub_no)
             f_in = open(jsonfile, 'rb')
             publi = pickle.load(f_in)
             f_in.close()
-            for l in get_triples_for_publi(publi):
-                f_out.write(l)
-            for l in get_triples_for_publi_annotations(publi):
-                f_out.write(l)
+            if publi_can_be_rdfized(publi, pmcid):
+                for l in get_triples_for_publi(publi):
+                    f_out.write(l)
+                for l in get_triples_for_publi_annotations(publi):
+                    f_out.write(l)
         
         f_out.close()
         log_it("INFO", "Serialized", ttl_file, duration_since=t0)
@@ -367,8 +390,8 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------
     elif sys.argv[1] == "rebuild_one_publi": # for test
 # ------------------------------------------------------------------
-        publi = get_rebuilt_annotated_publi_object("./dir_test/fetch_by_ftp/pmc23n0023", "PMC2211799")
-        fname ="./dir_test/fetch_by_ftp/pmc23n0023/99/PMC2211799.json"
+        publi = get_rebuilt_annotated_publi_object("./dir_test/fetch_by_ftp/pmc23n0021/", "PMC2172800")
+        fname ="./dir_test/fetch_by_ftp/pmc23n0021/00/PMC2172800.json"
         f_out = open(fname, "w")
         json.dump(publi, f_out, indent=4, sort_keys=True)
         f_out.close()

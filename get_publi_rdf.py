@@ -109,7 +109,7 @@ def get_triples_for_publi(publi):
     lines = list()
     publi_doc = publi["document"]
     pmcid = publi_doc["pmcid"]
-    log_it("INFO", "pmcid", pmcid)
+    #log_it("DEBUG", "pmcid", pmcid)
     publi_uri = get_publi_URIRef(publi_doc)
     publi_class_uri = get_publi_class_URIRef(publi_doc["article_type"])
     lines.append(getTriple(publi_uri , rdf.type(), publi_class_uri))    
@@ -275,8 +275,8 @@ def get_triples_for_publi(publi):
                         # parent_dic[foot_uri]=list()
                         # # end DEBUG
 
-        else:
-            log_it("INFO", sct_list_name, "empty")
+        elif len(sct_list)==0 and sct_list_name == "body_sections" : 
+            log_it("WARNING", sct_list_name, "empty")
 
     # add sentences
     # sen_parent_dic = dict() # DEBUG
