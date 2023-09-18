@@ -180,7 +180,7 @@ def get_triples_for_publi(publi):
     if o is not None and len(o)>0 : 
         lines.append(getTriple(publi_uri, sibilo.abstract(), xsd.string3(o)))
 
-    lines.extend(add_triples_for_authors(publi_doc))
+    lines.extend(add_triples_for_authors(publi_doc, pmcid))
             
     # create FrontMatter
     front_uri = get_front_matter_URIRef(publi_uri)
@@ -306,7 +306,7 @@ def date_to_yyyy_mm_dd(dd_mm_yyyy):
     
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def add_triples_for_authors(publi):
+def add_triples_for_authors(publi, pmcid):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     lines = list()
     author_list = publi.get("authors")

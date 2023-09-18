@@ -388,11 +388,21 @@ def get_chunk_rdf_dir(chunk_name, rdf_dir):
 if __name__ == '__main__':
 # ============================================================
 
+    my_chunks_dir = "./dir_test/fetch_by_ftp" # for test
+
     init_properties("rdfizer.properties")
-    my_chunks_dir = "./dir_test/fetch_by_ftp"
+
+# ------------------------------------------------------------------
+    if sys.argv[1] == "process_chunk": # for real
+# ------------------------------------------------------------------
+        chunk_name = sys.argv[2].strip()
+        t0 = datetime.datetime.now()
+        log_it("INFO", "processing chunk", chunk_name, chunks_dir)
+        process_chunk(chunk_name, my_chunks_dir, rdf_dir)
+        log_it("INFO", "processed chunk", chunk_name, chunks_dir, duration_since=t0)
     
 # ------------------------------------------------------------------
-    if sys.argv[1] == "fetch_by_ftp": # for test
+    elif sys.argv[1] == "fetch_by_ftp": # for test
 # ------------------------------------------------------------------
         fetch_by_ftp(ftp_dir_dict["bib"], "bib_pmc23n0023.json.gz", "./dir_test/fetch_by_ftp/pmc23n0023")
 
@@ -456,11 +466,4 @@ if __name__ == '__main__':
         save_rdf_files(chunk_name, my_chunks_dir, rdf_dir)
         log_it("DEBUG", "build and load time", duration_since=t0)
 
-# ------------------------------------------------------------------
-    elif sys.argv[1] == "process_chunk": # for test
-# ------------------------------------------------------------------
-        t0 = datetime.datetime.now()
-        chunk_name = "pmc23n0016"
-        process_chunk(chunk_name, my_chunks_dir, rdf_dir)
-        log_it("DEBUG", "process chunk", chunk_name, chunks_dir, duration_since=t0)
 
