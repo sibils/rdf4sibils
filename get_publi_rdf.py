@@ -1,14 +1,8 @@
-import ftplib
-import os
-import gzip
 import sys
-import json
-import enum
 import pickle
-import requests
 import datetime
 import urllib.parse
-from utils import log_it, gunzip
+from utils import log_it
 
 from SibiloNamespace import SibiloNamespace
 from rdfizer import SibilcNamespace, SibilsNamespace
@@ -554,6 +548,7 @@ if __name__ == '__main__':
     action = sys.argv[1]
     log_it("INFO", "action:", sys.argv[1])
 
+    fetch_dir = "./please/define/this/dir/"
 
     # - - - - - - - - - - - - - - - - - - - - - - - -     
     if sys.argv[1] == "build_rdf": 

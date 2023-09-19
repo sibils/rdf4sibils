@@ -1,8 +1,8 @@
 import ftplib
 import os
-import gzip
 import sys
-import json
+#import json
+import orjson as json
 import subprocess
 import pickle
 import datetime
@@ -284,13 +284,13 @@ def publi_can_be_rdfized(publi, pmcid):
 # ------------------------------------------------------------------
     id = publi.get("_id")
     if id == "":
-        log_it("WARNING", "no _id for", pmcid, "skipping rdfization of this publication")
+        log_it("WARNING", "no _id for", pmcid, "skipping rdfization")
         return False
 
     doc = publi.get("document")
     typ = doc.get("article_type")
     if typ == "correction":
-        log_it("WARNING", pmcid, "is a correction, skipping rdfization of this publication")
+        log_it("WARNING", pmcid, "is a correction, skipping rdfization")
         return False
 
     return True
