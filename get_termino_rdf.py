@@ -1,7 +1,7 @@
 import sys
 import os
-#import json
-import orjson as json
+import json
+#import orjson as json
 import glob
 import datetime
 from get_publi_rdf import get_term_URIRef_from_term, get_terminology_URIRef, sibilc, sibilo, log_it
