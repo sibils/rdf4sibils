@@ -4,11 +4,9 @@ xslt
 terminologies/*.json
 terminologies/v.2x
 terminologies/v3.2
-
+rdf/
+chunks/
 dir_test/
-
 output/
-
 proxy_dir/
-
 __pycache__/

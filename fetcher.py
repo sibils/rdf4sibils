@@ -3,7 +3,7 @@ import os
 import gzip
 import sys
 import json
-import enum
+import subprocess
 import pickle
 import datetime
 from utils import log_it, gunzip, get_properties
@@ -27,6 +27,7 @@ def init_properties(prop_file):
 
     props = get_properties(prop_file)
     
+    # set global variables in this module
     ftp_server = props.get("ftp_server")
     ftp_dir_dict["bib"] = props.get("ftp_bib_dir")
     ftp_dir_dict["sen"] = props.get("ftp_sen_dir")
@@ -35,6 +36,29 @@ def init_properties(prop_file):
     rdf_dir = props.get("rdf_dir")
     log_it("DEBUG", "init_properties()", "rdf_dir", rdf_dir)
 
+    # also return raw properties for calling madules...
+    return props
+
+
+
+# ------------------------------------------------------------------
+def get_chunk_names_from_ftp():
+# ------------------------------------------------------------------
+    ftp_dir = ftp_dir_dict.get("bib")
+    log_it("INFO", "Getting chunk names from parameters defined in rdfizer.properties")
+    log_it("INFO", "param ftp_server:", ftp_server)
+    log_it("INFO", "param bib directory:", ftp_dir)
+    chunk_list=list()
+    ftp = ftplib.FTP(ftp_server)
+    ftp.login()
+    ftp.cwd(ftp_dir)
+    items = ftp.nlst()
+    for item in items:
+        if item.endswith(".json.gz"): # i.e. bib_pmc23n1017.json.gz
+            chunk = item[4:-8]
+            chunk_list.append(chunk)
+    ftp.quit()
+    return chunk_list
 
 
 # ------------------------------------------------------------------
@@ -316,9 +340,13 @@ def save_rdf_files(chunk_name, chunks_dir, rdf_dir):
 # ------------------------------------------------------------------
 def process_chunk(chunk_name, chunks_dir, rdf_dir):
 # ------------------------------------------------------------------
-    log_it("DEBUG", "process_chunk()", "rdf_dir", rdf_dir)
-    prepare_chunk(chunk_name, chunks_dir)
-    save_rdf_files(chunk_name, chunks_dir, rdf_dir)
+    if chunk_rdf_dir_exists(chunk_name, rdf_dir):
+        log_it("INFO", "Skipped chunk processing, target RDF directory already exists for", chunk_name)
+    else:
+        log_it("INFO", "Chunk processing starts for", chunk_name)
+        prepare_chunk(chunk_name, chunks_dir)
+        save_rdf_files(chunk_name, chunks_dir, rdf_dir)
+        clean_chunk(chunk_name, chunks_dir)
 
 
 # ------------------------------------------------------------------
@@ -364,6 +392,38 @@ def get_chunk_rdf_dir(chunk_name, rdf_dir):
     if not os.path.exists(chunk_rdf_dir): os.makedirs(chunk_rdf_dir)
     return chunk_rdf_dir
 
+
+# ------------------------------------------------------------------
+def chunk_rdf_dir_exists(chunk_name, rdf_dir):
+# ------------------------------------------------------------------
+    if not rdf_dir.endswith("/"): rdf_dir += "/"
+    chunk_rdf_dir = rdf_dir + chunk_name + "/"
+    return os.path.exists(chunk_rdf_dir)
+
+
+# ------------------------------------------------------------------
+def run_cmd(cmd):
+# ------------------------------------------------------------------
+    log_it("INFO", "Running", cmd)
+    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = process.communicate()
+    if len(err)>0: log_it("ERROR", "message", "stderr:", err.decode(), "stdout:", out.decode())
+    if process.returncode !=0: log_it("ERROR", "while running", process)
+
+
+# ------------------------------------------------------------------
+def clean_chunk(chunk_name, chunks_dir):
+# ------------------------------------------------------------------
+    chunk_dir = get_chunk_dir(chunk_name, chunks_dir)
+    tmp_dir = "./tmp_" + chunk_name + "/"
+    if not os.path.exists(tmp_dir): os.makedirs(tmp_dir)
+    run_cmd("mkdir -p " + tmp_dir)
+    run_cmd("mv " + chunk_dir + "*.gz " + tmp_dir)
+    run_cmd("rm -rf " + chunk_dir + "*")
+    run_cmd("mv " + tmp_dir + "*.gz " + chunk_dir)
+    run_cmd("rmdir " + tmp_dir)
+ 
+
 # Structure returned by https://sibils.text-analytics.ch/api/v3.2/fetch?col=pmc&ids=PMC4909023
 # {
 #   sibils_version: "3.2.1",
@@ -382,8 +442,6 @@ def get_chunk_rdf_dir(chunk_name, rdf_dir):
 # }
 
 
-
-
 # ============================================================
 if __name__ == '__main__':
 # ============================================================
@@ -397,10 +455,22 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------
         chunk_name = sys.argv[2].strip()
         t0 = datetime.datetime.now()
-        log_it("INFO", "processing chunk", chunk_name, chunks_dir)
-        process_chunk(chunk_name, my_chunks_dir, rdf_dir)
-        log_it("INFO", "processed chunk", chunk_name, chunks_dir, duration_since=t0)
-    
+        log_it("INFO", "Processing chunk", chunk_name, chunks_dir)
+        process_chunk(chunk_name, chunks_dir, rdf_dir)
+        log_it("INFO", "Processed chunk", chunk_name, duration_since=t0)
+
+
+
+# ------------------------------------------------------------------
+# T E S T S
+# ------------------------------------------------------------------
+
+# ------------------------------------------------------------------
+    elif sys.argv[1] == "ftp_nlst": # for test
+# ------------------------------------------------------------------
+        list = get_chunk_names_from_ftp()
+        print("Found", len(list), "chunks")
+
 # ------------------------------------------------------------------
     elif sys.argv[1] == "fetch_by_ftp": # for test
 # ------------------------------------------------------------------
@@ -466,4 +536,11 @@ if __name__ == '__main__':
         save_rdf_files(chunk_name, my_chunks_dir, rdf_dir)
         log_it("DEBUG", "build and load time", duration_since=t0)
 
+# ------------------------------------------------------------------
+    elif sys.argv[1] == "clean_chunk": # for test
+# ------------------------------------------------------------------
+        t0 = datetime.datetime.now()
+        chunk_name = sys.argv[2]
+        clean_chunk(chunk_name, my_chunks_dir)
+        log_it("DEBUG", "clean_chunk", duration_since=t0)
 
