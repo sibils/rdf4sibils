@@ -58,7 +58,16 @@ if __name__ == "__main__":
     
 
     # TODOs
-    # - num proc as command argument
+    # - OK - num proc as command argument
     # - OK - clean most files in chunks except downloaded ones
     # - OK - skip tasks already done (chunk name processing based on rdf subdir existence)
+    # STATS
+    # python multi_fetcher.py 1 10 => 2023-09-19 13:27:44.569 [15264] INFO MASTER END duration 1668.287
+    # python multi_fetcher.py 2 10 => 2023-09-19 14:04:19.118 [15460] INFO MASTER END duration 1005.464
+    # python multi_fetcher.py 4 10 => 2023-09-19 14:15:45.146 [15622] INFO MASTER END duration 584.693
+    # python multi_fetcher.py 8 10 => 2023-09-19 14:24:27.257 [15754] INFO MASTER END duration 368.748
+    # python multi_fetcher.py 1 10 => 2023-09-19 14:53:20.553 [15881] INFO MASTER END duration 1681.925
 
+    # with orjson instead of json
+    # python multi_fetcher.py 4 10 => 
+    # python multi_fetcher.py 8 10 => 
