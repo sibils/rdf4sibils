@@ -5,6 +5,8 @@ terminologies/*.json
 terminologies/v.2x
 terminologies/v3.2
 rdf/
+ttl/
+*.log
 chunks/
 dir_test/
 output/
