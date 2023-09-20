@@ -299,7 +299,6 @@ def publi_can_be_rdfized(publi, pmcid):
 # -----------------------------------------------------------------------
 def save_rdf_files(chunk_name, chunks_dir, rdf_dir):
 # -----------------------------------------------------------------------
-    log_it("DEBUG", "save_rdf_files()", "rdf_dir", rdf_dir)
     chunk_rdf_dir = get_chunk_rdf_dir(chunk_name, rdf_dir)
     chunk_dir = get_chunk_dir(chunk_name, chunks_dir)
     doc_set = load_doc_set(chunk_dir)
@@ -336,6 +335,8 @@ def save_rdf_files(chunk_name, chunks_dir, rdf_dir):
         f_out.close()
         log_it("INFO", "Serialized", ttl_file, duration_since=t0)
 
+    # compress the (-m)ultiple ttl files generated with lz4 and remove(--rm) the source ttl files
+    run_cmd("lz4 --rm -m " + chunk_rdf_dir + "*.ttl")
 
 # ------------------------------------------------------------------
 def process_chunk(chunk_name, chunks_dir, rdf_dir):
@@ -446,9 +447,11 @@ def clean_chunk(chunk_name, chunks_dir):
 if __name__ == '__main__':
 # ============================================================
 
-    my_chunks_dir = "./dir_test/fetch_by_ftp" # for test
 
     init_properties("rdfizer.properties")
+
+    my_chunks_dir = "./dir_test/fetch_by_ftp" # for test
+
 
 # ------------------------------------------------------------------
     if sys.argv[1] == "process_chunk": # for real
