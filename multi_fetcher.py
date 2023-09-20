@@ -39,7 +39,8 @@ if __name__ == "__main__":
     max_task = int(sys.argv[2])
 
     log_it("INFO", "MASTER", "num_processes:", num_processes)
-    log_it("INFO", "MASTER", "max_tasks", max_task)
+    log_it("INFO", "MASTER", "max_tasks:", max_task)
+    log_it("INFO", "MASTER", "chunk list size:", len(chunks))
 
     tasks = list()
     task_num=0
@@ -69,5 +70,5 @@ if __name__ == "__main__":
     # python multi_fetcher.py 1 10 => 2023-09-19 14:53:20.553 [15881] INFO MASTER END duration 1681.925
 
     # with orjson instead of json
-    # python multi_fetcher.py 4 10 => 
+    # python multi_fetcher.py 4 10 =>  
     # python multi_fetcher.py 8 10 => 
