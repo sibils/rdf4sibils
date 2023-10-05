@@ -1,4 +1,4 @@
-from fetcher import get_chunk_names_from_ftp, init_properties, chunk_rdf_dir_exists, rdf_dir
+from fetcher import get_chunk_names_from_ftp, init_properties, chunk_rdf_dir_exists, rdf_dir, chunk_dir_exists
 from utils import log_it
 from datetime import datetime
 
@@ -29,31 +29,55 @@ if __name__ == "__main__":
     props = init_properties("rdfizer.properties")
 
     rdf_dir = props.get("rdf_dir")
+    chunks_dir = props.get("chunks_dir")
     chunks = get_chunk_names_from_ftp()
 
-    if len(sys.argv) != 3:
-        print("\nERROR, usage is multi_fetcher.py <num_processes> <max_tasks>\n\n  Example: multi_fetcher.py 4 100\n")
+    if len(sys.argv) != 4:
+        print("\nERROR, usage is multi_fetcher.py <num_processes> <max_tasks> <task_name>\n\n  Example: multi_fetcher.py 4 100 do_this\n")
         sys.exit()
     
     num_processes = int(sys.argv[1])
     max_task = int(sys.argv[2])
+    task_name = sys.argv[3]
 
     log_it("INFO", "MASTER", "num_processes:", num_processes)
     log_it("INFO", "MASTER", "max_tasks:", max_task)
+    log_it("INFO", "MASTER", "task_name:", task_name)
     log_it("INFO", "MASTER", "chunk list size:", len(chunks))
 
-    tasks = list()
-    task_num=0
-    for chunk in chunks:
-        if chunk_rdf_dir_exists(chunk, rdf_dir):
-            log_it("INFO", "MASTER", "Skipping, rdf directory exists for chunk", chunk)
-        else:
-            task_num += 1
-            if task_num > max_task: break
-            tasks.append(["python", "fetcher.py", "process_chunk", chunk])
+    # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    if task_name == "process_chunk":
+    # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+        tasks = list()
+        task_num=0
+        for chunk in chunks:
+            if chunk_rdf_dir_exists(chunk, rdf_dir):
+                log_it("INFO", "MASTER", "Skipping, rdf directory exists for chunk", chunk)
+            else:
+                task_num += 1
+                if task_num > max_task: break
+                tasks.append(["python", "fetcher.py", "process_chunk", chunk])
 
-    pool = multiprocessing.Pool(num_processes)
-    pool.map(run_proc, tasks)
+        pool = multiprocessing.Pool(num_processes)
+        pool.map(run_proc, tasks)
+
+    # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+    elif task_name == "load_chunk":
+    # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+        tasks = list()
+        task_num=0
+        for chunk in chunks:
+            if chunk_rdf_dir_exists(chunk, rdf_dir):
+                task_num += 1
+                if task_num > max_task: break
+                tasks.append(["./load_chunk.sh", chunk])
+            else:
+                log_it("WARNING", "MASTER", "Skipping, rdf directory does NOT exist, chunk", chunk)
+
+        pool = multiprocessing.Pool(num_processes)
+        pool.map(run_proc, tasks)
+
+    # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
     log_it("INFO", "MASTER", "END", duration_since=t0)
     
@@ -62,7 +86,7 @@ if __name__ == "__main__":
     # - OK - num proc as command argument
     # - OK - clean most files in chunks except downloaded ones
     # - OK - skip tasks already done (chunk name processing based on rdf subdir existence)
-    # STATS
+    # STATS task process_chunk
     # python multi_fetcher.py 1 10 => 2023-09-19 13:27:44.569 [15264] INFO MASTER END duration 1668.287
     # python multi_fetcher.py 2 10 => 2023-09-19 14:04:19.118 [15460] INFO MASTER END duration 1005.464
     # python multi_fetcher.py 4 10 => 2023-09-19 14:15:45.146 [15622] INFO MASTER END duration 584.693

@@ -80,10 +80,32 @@ log_enable(3,1);
 ```
 - reload data
 ```
+
+START-TMP
+delete from DB.DBA.load_list;
+ld_dir ('/share/rdf/ttl/pmc23n0001', '*.ttl', 'http://sibils.org/rdf') ;
+select * from DB.DBA.load_list;
+rdf_loader_run();
+
+
+isql-vt 1111 dba $DBA_PW 'EXEC=select * from DB.DBA.load_list;'
+
+
+
+prefix : <http://sibils.org/rdf#>
+select count(*) where {
+  ?s a :JournalArticle
+}
+
+-- or --
+
+END-TMP
+
 docker exec -it sibils_virtdb sh
 
 isql exec="delete from DB.DBA.load_list;"
 isql exec="ld_dir ('/input', '*.ttl', 'http://sibils.org/rdf') ;"
+
 
 isql exec="select * from DB.DBA.load_list;"
 
