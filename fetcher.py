@@ -395,6 +395,31 @@ def get_chunk_rdf_dir(chunk_name, rdf_dir):
 
 
 # ------------------------------------------------------------------
+def chunk_rdf_dir_status_is_loading(chunk_name, rdf_dir):
+# ------------------------------------------------------------------
+    dir = get_chunk_rdf_dir(chunk_name, rdf_dir)
+    return os.path.isfile(dir + "LOADING")
+
+# ------------------------------------------------------------------
+def chunk_rdf_dir_status_is_loaded(chunk_name, rdf_dir):
+# ------------------------------------------------------------------
+    dir = get_chunk_rdf_dir(chunk_name, rdf_dir)
+    return os.path.isfile(dir + "LOADED")
+
+# ------------------------------------------------------------------
+def set_chunk_rdf_dir_loading_status(chunk_name, rdf_dir):
+# ------------------------------------------------------------------
+    dir = get_chunk_rdf_dir(chunk_name, rdf_dir)
+    open(dir + "LOADING", 'a').close()
+
+# ------------------------------------------------------------------
+def set_chunk_rdf_dir_loaded_status(chunk_name, rdf_dir):
+# ------------------------------------------------------------------
+    dir = get_chunk_rdf_dir(chunk_name, rdf_dir)
+    open(dir + "LOADED", 'a').close()
+
+
+# ------------------------------------------------------------------
 def chunk_dir_exists(chunk_name, chunks_dir):
 # ------------------------------------------------------------------
     if not chunks_dir.endswith("/"): chunks_dir += "/"

@@ -1,4 +1,7 @@
-from fetcher import get_chunk_names_from_ftp, init_properties, chunk_rdf_dir_exists, rdf_dir, chunk_dir_exists
+from fetcher import get_chunk_names_from_ftp, init_properties
+from fetcher import chunk_rdf_dir_exists, rdf_dir, chunk_dir_exists
+from fetcher import chunk_rdf_dir_status_is_loaded, chunk_rdf_dir_status_is_loading
+from fetcher import set_chunk_rdf_dir_loaded_status, set_chunk_rdf_dir_loading_status
 from utils import log_it
 from datetime import datetime
 
@@ -14,9 +17,11 @@ def run_proc(proc_and_args):
 
     t0 = datetime.now()
     log_it("INFO", "MASTER", "Must do", proc_and_args)
+    if "load_chunk" in proc_and_args[0]: set_chunk_rdf_dir_loading_status(proc_and_args[1], rdf_dir)
     process = subprocess.Popen(proc_and_args)
     log_it("INFO", "MASTER", "Starting", proc_and_args, "pid", process.pid)
     status = process.wait()
+    if "load_chunk" in proc_and_args[0]: set_chunk_rdf_dir_loaded_status(proc_and_args[1], rdf_dir)
     log_it("INFO", "MASTER", "Completed", proc_and_args, "pid", process.pid, "status:", status, duration_since=t0)
 
 
@@ -68,9 +73,14 @@ if __name__ == "__main__":
         task_num=0
         for chunk in chunks:
             if chunk_rdf_dir_exists(chunk, rdf_dir):
-                task_num += 1
-                if task_num > max_task: break
-                tasks.append(["./load_chunk.sh", chunk])
+                if not chunk_rdf_dir_status_is_loading(chunk, rdf_dir) and not chunk_rdf_dir_status_is_loaded(chunk, rdf_dir):
+                    task_num += 1
+                    if task_num > max_task: break
+                    tasks.append(["./load_chunk.sh", chunk])
+                elif chunk_rdf_dir_status_is_loaded(chunk, rdf_dir):
+                    log_it("INFO", "MASTER", "Skipping, rdf directory already loaded, chunk", chunk)
+                elif chunk_rdf_dir_status_is_loading(chunk, rdf_dir):
+                    log_it("ERROR", "MASTER", "Skipping, rdf directory has status LOADING, chunk", chunk)
             else:
                 log_it("WARNING", "MASTER", "Skipping, rdf directory does NOT exist, chunk", chunk)
 
