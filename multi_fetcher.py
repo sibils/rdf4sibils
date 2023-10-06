@@ -81,8 +81,8 @@ if __name__ == "__main__":
                     log_it("INFO", "MASTER", "Skipping, rdf directory already loaded, chunk", chunk)
                 elif chunk_rdf_dir_status_is_loading(chunk, rdf_dir):
                     log_it("ERROR", "MASTER", "Skipping, rdf directory has status LOADING, chunk", chunk)
-            else:
-                log_it("WARNING", "MASTER", "Skipping, rdf directory does NOT exist, chunk", chunk)
+            #else:
+            #    log_it("WARNING", "MASTER", "Skipping, rdf directory does NOT exist, chunk", chunk)
 
         pool = multiprocessing.Pool(num_processes)
         pool.map(run_proc, tasks)
