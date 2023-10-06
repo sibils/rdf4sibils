@@ -71,6 +71,8 @@ if __name__ == "__main__":
     # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
         tasks = list()
         task_num=0
+        loaded_num=0
+        loading_num=0
         for chunk in chunks:
             if chunk_rdf_dir_exists(chunk, rdf_dir):
                 if not chunk_rdf_dir_status_is_loading(chunk, rdf_dir) and not chunk_rdf_dir_status_is_loaded(chunk, rdf_dir):
@@ -78,14 +80,22 @@ if __name__ == "__main__":
                     if task_num > max_task: break
                     tasks.append(["./load_chunk.sh", chunk])
                 elif chunk_rdf_dir_status_is_loaded(chunk, rdf_dir):
+                    loaded_num += 1
                     log_it("INFO", "MASTER", "Skipping, rdf directory already loaded, chunk", chunk)
                 elif chunk_rdf_dir_status_is_loading(chunk, rdf_dir):
+                    loading_num += 1
                     log_it("ERROR", "MASTER", "Skipping, rdf directory has status LOADING, chunk", chunk)
             #else:
             #    log_it("WARNING", "MASTER", "Skipping, rdf directory does NOT exist, chunk", chunk)
 
+        log_it("INFO", "MASTER", "load tasks todo           :", len(tasks))
+        log_it("INFO", "MASTER", "load tasks already loaded :", loaded_num)
+        log_it("INFO", "MASTER", "load tasks loading        :", loading_num, "(should be 0)")
+
         pool = multiprocessing.Pool(num_processes)
         pool.map(run_proc, tasks)
+
+
 
     # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 

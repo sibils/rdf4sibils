@@ -5,7 +5,7 @@ if [ "$1" == "" ]; then
   exit 1
 fi
 
-echo "DBA_PW: ${DBA_PW}"
+#echo "DBA_PW: ${DBA_PW}"
 
 if [ "${DBA_PW}" == "" ]; then
   echo "ERROR, please define and export environment variable DBA_PW"
