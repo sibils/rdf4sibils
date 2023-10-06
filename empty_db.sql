@@ -19,3 +19,8 @@ select * from DB.DBA.load_list;
 
 -- done
 
+# ---------------------------- alternative ----------------------
+
+service virtuoso-opensource-7 stop
+cd /var/lib/virtuoso-opensource-7
+
