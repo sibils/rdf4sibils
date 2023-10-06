@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$1" == "" ]; then 
   echo "ERROR, usage is $0 <chunk_name>"
@@ -14,9 +14,6 @@ fi
 
 chunk=$1
 chunk_dir=/share/rdf/ttl/${chunk}
-
-echo "................ doing the job ${chunk}"
-exit
 
 echo "$(date) - Decompressing files in $chunk_dir"
 
