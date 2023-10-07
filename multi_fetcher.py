@@ -102,10 +102,6 @@ if __name__ == "__main__":
     log_it("INFO", "MASTER", "END", duration_since=t0)
     
 
-    # TODOs
-    # - OK - num proc as command argument
-    # - OK - clean most files in chunks except downloaded ones
-    # - OK - skip tasks already done (chunk name processing based on rdf subdir existence)
     # STATS task process_chunk
     # python multi_fetcher.py 1 10 => 2023-09-19 13:27:44.569 [15264] INFO MASTER END duration 1668.287
     # python multi_fetcher.py 2 10 => 2023-09-19 14:04:19.118 [15460] INFO MASTER END duration 1005.464
@@ -113,6 +109,13 @@ if __name__ == "__main__":
     # python multi_fetcher.py 8 10 => 2023-09-19 14:24:27.257 [15754] INFO MASTER END duration 368.748
     # python multi_fetcher.py 1 10 => 2023-09-19 14:53:20.553 [15881] INFO MASTER END duration 1681.925
 
-    # with orjson instead of json
-    # python multi_fetcher.py 4 10 =>  
-    # python multi_fetcher.py 8 10 => 
+    # STATS task load_chunk
+    # nohup python3 multi_fetcher.py 1 6 load_chunk > load-6-chunks-p1.log 2>&1 &
+    # 2023-10-06 12:06:54.429 [8375] INFO MASTER END duration 1239.69
+
+    # nohup python3 multi_fetcher.py 2 6 load_chunk > load-6-chunks-p2.log 2>&1 & 
+    # 2023-10-06 19:20:53.378 [9660] INFO MASTER END duration 661.877
+
+    # nohup python3 multi_fetcher.py 1 32 load_chunk > load-32-chunks-p1.log 2>&1 &
+    # 2023-10-06 21:04:53.690 [9902] INFO MASTER END duration 5774.725 - 1'735'376'234 triples
+
