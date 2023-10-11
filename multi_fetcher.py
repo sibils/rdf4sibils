@@ -116,6 +116,21 @@ if __name__ == "__main__":
     # nohup python3 multi_fetcher.py 2 6 load_chunk > load-6-chunks-p2.log 2>&1 & 
     # 2023-10-06 19:20:53.378 [9660] INFO MASTER END duration 661.877
 
+
+
     # nohup python3 multi_fetcher.py 1 32 load_chunk > load-32-chunks-p1.log 2>&1 &
     # 2023-10-06 21:04:53.690 [9902] INFO MASTER END duration 5774.725 - 1'735'376'234 triples
 
+    # nohup python3 multi_fetcher.py 2 32 load_chunk > load-32-chunks-p2.log 2>&1 &
+    # 2023-10-07 17:15:43.698 [13191] INFO MASTER END duration 3249.467 - 1'735'376'234 triples
+
+    # nohup python3 multi_fetcher.py 4 32 load_chunk > load-32-chunks-p4.log 2>&1 &
+    # 2023-10-07 20:00:03.617 [13962] INFO MASTER END duration 1954.277 - 1'735'376'234 triples
+
+    # nohup python3 multi_fetcher.py 8 32 load_chunk > load-32-chunks-p8.log 2>&1 &
+    # 2023-10-08 12:11:43.141 [16218] INFO MASTER END duration 1245.354 - 1'735'376'234 triples
+
+
+
+    # nohup python3 multi_fetcher.py 8 200 load_chunk > load-200-chunks-p8.log 2>&1 &
+    # 2023-10-08 22:41:46.615 [17497] INFO MASTER END duration 12099.219 - ???

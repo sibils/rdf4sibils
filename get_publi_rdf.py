@@ -32,7 +32,7 @@ def get_prefixes():
 # derive a NamedIndividual name for a terminology from its corresponding concept_source
 def get_terminology_NI_name(concept_source):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return concept_source.replace(" ","_").capitalize() + "_St" # St stands for Sibils terminology
+    return concept_source.replace(" ","_").upper()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
@@ -40,7 +40,7 @@ def get_term_URIRef_from_annot(annot):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     db = get_terminology_NI_name(annot["concept_source"])
     ac = annot["concept_id"]
-    name = db + "|" +ac
+    name = db + "_" +ac
     encoded_name = urllib.parse.quote(name)
     return sibilc.IRI(encoded_name)
 
@@ -50,7 +50,7 @@ def get_term_URIRef_from_term(concept_id, terminology):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     db = get_terminology_NI_name(terminology["concept_source"])
     ac = concept_id
-    name = db + "|" +ac
+    name = db + "_" +ac
     encoded_name = urllib.parse.quote(name)
     return sibilc.IRI(encoded_name)
 

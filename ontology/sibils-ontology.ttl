@@ -556,7 +556,7 @@
 
 :hasPart a rdf:Property, owl:ObjectProperty ;
       rdfs:subPropertyOf dcterms:hasPart ;
-      rdfs:label "creator"^^xsd:string ;
+      rdfs:label "has part"^^xsd:string ;
       rdfs:comment "Links a resource that is included either physically or logically in the described resource."^^xsd:string ;
       rdfs:domain :DiscourseElement ;
       rdfs:range :DiscourseElement ;
@@ -736,7 +736,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Atc_St rdf:type owl:NamedIndividual , 
+:ATC rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "ATC"^^xsd:string ; 
      :version "2022-11-07"^^xsd:string ; 
@@ -744,7 +744,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Cellosaurus_St rdf:type owl:NamedIndividual , 
+:CELLOSAURUS rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "Cellosaurus"^^xsd:string ; 
      :version "v43.0"^^xsd:string ; 
@@ -752,7 +752,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Chebi_St rdf:type owl:NamedIndividual , 
+:CHEBI rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "CheBI (Chemical Entities of Biological Interest)"^^xsd:string ; 
      :version "v220"^^xsd:string ; 
@@ -760,7 +760,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Covocbiomed_St rdf:type owl:NamedIndividual , 
+:COVOCBIOMED rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "COVoc Biomedical"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -768,7 +768,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Covoccelllines_St rdf:type owl:NamedIndividual , 
+:COVOCCELLLINES rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "COVoc Cell lines"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -776,7 +776,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Covocchemicals_St rdf:type owl:NamedIndividual , 
+:COVOCCHEMICALS rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "COVoc Chemicals"^^xsd:string ; 
      :version "v2.0"^^xsd:string ; 
@@ -784,7 +784,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Covocclinicaltrials_St rdf:type owl:NamedIndividual , 
+:COVOCCLINICALTRIALS rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "COVoc Clinical Trials"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -792,7 +792,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Covocconceptualentities_St rdf:type owl:NamedIndividual , 
+:COVOCCONCEPTUALENTITIES rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "COVoc Conceptual Entities"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -800,7 +800,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Covocdiseaseandsyndrom_St rdf:type owl:NamedIndividual , 
+:COVOCDISEASEANDSYNDROM rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "COVoc Disease and Syndrome"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -808,7 +808,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Covocgeographicloc_St rdf:type owl:NamedIndividual , 
+:COVOCGEOGRAPHICLOC rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "COVoc Geographic Location"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -816,7 +816,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Covocorganism_St rdf:type owl:NamedIndividual , 
+:COVOCORGANISM rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "COVoc Organism"^^xsd:string ; 
      :version "v2.0"^^xsd:string ; 
@@ -824,7 +824,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Covocproteinsgenomes_St rdf:type owl:NamedIndividual , 
+:COVOCPROTEINSGENOMES rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "COVoc Protein and Genome"^^xsd:string ; 
      :version "v2.0"^^xsd:string ; 
@@ -832,7 +832,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Detectionmethods_St rdf:type owl:NamedIndividual , 
+:DETECTIONMETHODS rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "Detection methods"^^xsd:string ; 
      :version "2022"^^xsd:string ; 
@@ -840,7 +840,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Disprot_type1_St rdf:type owl:NamedIndividual , 
+:DISPROT_TYPE1 rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "Disprot"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -848,7 +848,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Disprot_type2_St rdf:type owl:NamedIndividual , 
+:DISPROT_TYPE2 rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "Disprot"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -856,7 +856,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Disprot_type3_St rdf:type owl:NamedIndividual , 
+:DISPROT_TYPE3 rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "Disprot"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -864,7 +864,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Disprot_type4_St rdf:type owl:NamedIndividual , 
+:DISPROT_TYPE4 rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "Disprot"^^xsd:string ; 
      :version "v1.0"^^xsd:string ; 
@@ -872,7 +872,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Drugbank_St rdf:type owl:NamedIndividual , 
+:DRUGBANK rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "Drugbank"^^xsd:string ; 
      :version "v5.1.5"^^xsd:string ; 
@@ -880,7 +880,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Eco_St rdf:type owl:NamedIndividual , 
+:ECO rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "ECO (Evidence and Conclusion Ontology)"^^xsd:string ; 
      :version "2022/08/05"^^xsd:string ; 
@@ -888,7 +888,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Envo_St rdf:type owl:NamedIndividual , 
+:ENVO rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "ENVO (Environment Ontology)"^^xsd:string ; 
      :version "2021/05/14"^^xsd:string ; 
@@ -896,7 +896,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Go_bp_St rdf:type owl:NamedIndividual , 
+:GO_BP rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "GO (Gene Ontology)"^^xsd:string ; 
      :version "2022/12/04"^^xsd:string ; 
@@ -904,7 +904,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Go_cc_St rdf:type owl:NamedIndividual , 
+:GO_CC rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "GO (Gene Ontology)"^^xsd:string ; 
      :version "2022/12/04"^^xsd:string ; 
@@ -912,7 +912,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Go_mf_St rdf:type owl:NamedIndividual , 
+:GO_MF rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "GO (Gene Ontology)"^^xsd:string ; 
      :version "2022/12/04"^^xsd:string ; 
@@ -920,7 +920,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Icdo3_St rdf:type owl:NamedIndividual , 
+:ICDO3 rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "ICD-O-3"^^xsd:string ; 
      :version "unknown (2022)"^^xsd:string ; 
@@ -928,7 +928,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Ictv_St rdf:type owl:NamedIndividual , 
+:ICTV rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "ICTV (International Committee on Taxonomy of Viruses)"^^xsd:string ; 
      :version "v3"^^xsd:string ; 
@@ -936,7 +936,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:License_St rdf:type owl:NamedIndividual , 
+:LICENSE rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "license"^^xsd:string ; 
      :version "v3.21"^^xsd:string ; 
@@ -944,7 +944,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Lotus_St rdf:type owl:NamedIndividual , 
+:LOTUS rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "LOTUS"^^xsd:string ; 
      :version "2021-03"^^xsd:string ; 
@@ -952,7 +952,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Mdd_St rdf:type owl:NamedIndividual , 
+:MDD rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "MDD (Mammal Diversity Database)"^^xsd:string ; 
      :version "v1.7"^^xsd:string ; 
@@ -960,7 +960,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Mesh_St rdf:type owl:NamedIndividual , 
+:MESH rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "MeSH"^^xsd:string ; 
      :version "v2022"^^xsd:string ; 
@@ -968,7 +968,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Ncbitaxon_clinic_St rdf:type owl:NamedIndividual , 
+:NCBITAXON_CLINIC rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "NCBI Taxonomy Clinic"^^xsd:string ; 
      :version "2022/12/12"^^xsd:string ; 
@@ -976,7 +976,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Ncbitaxon_full_St rdf:type owl:NamedIndividual , 
+:NCBITAXON_FULL rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "NCBI Taxonomy Full"^^xsd:string ; 
      :version "2022/12/12"^^xsd:string ; 
@@ -984,7 +984,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Ncit_St rdf:type owl:NamedIndividual , 
+:NCIT rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "NCI Thesaurus"^^xsd:string ; 
      :version "v22.11d"^^xsd:string ; 
@@ -992,7 +992,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Nextprot_St rdf:type owl:NamedIndividual , 
+:NEXTPROT rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "neXtProt"^^xsd:string ; 
      :version "v2.26.0"^^xsd:string ; 
@@ -1000,7 +1000,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Ott_St rdf:type owl:NamedIndividual , 
+:OTT rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "OTT (Open Tree of Life)"^^xsd:string ; 
      :version "v3.3"^^xsd:string ; 
@@ -1008,7 +1008,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Ppiptm_St rdf:type owl:NamedIndividual , 
+:PPIPTM rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "PPI-PTM"^^xsd:string ; 
      :version "unknown"^^xsd:string ; 
@@ -1016,7 +1016,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Pubchemmesh_St rdf:type owl:NamedIndividual , 
+:PUBCHEMMESH rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "PubchemMesh"^^xsd:string ; 
      :version "unknown"^^xsd:string ; 
@@ -1024,7 +1024,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Robi_St rdf:type owl:NamedIndividual , 
+:ROBI rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "ROBI (Relation Ontology - Biotic Interactions)"^^xsd:string ; 
      :version "unknown"^^xsd:string ; 
@@ -1032,7 +1032,7 @@
      rdfs:isDefinedBy <http://sibils.org/rdf> ; 
     .
 
-:Uniprot_small_St rdf:type owl:NamedIndividual , 
+:UNIPROT_SMALL rdf:type owl:NamedIndividual , 
           :SibilsTerminology ; 
      rdfs:label "UniProtKB/SwissProt"^^xsd:string ; 
      :version "2022-04"^^xsd:string ; 
