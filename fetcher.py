@@ -387,7 +387,7 @@ def get_chunk_dir(chunk_name, chunks_dir):
 # ------------------------------------------------------------------
 def get_chunk_rdf_dir(chunk_name, rdf_dir):
 # ------------------------------------------------------------------
-    log_it("DEBUG", "get_chunk_rdf_dir()", "rdf_dir", rdf_dir)
+    #log_it("DEBUG", "get_chunk_rdf_dir()", "rdf_dir", rdf_dir)
     if not rdf_dir.endswith("/"): rdf_dir += "/"
     chunk_rdf_dir = rdf_dir + chunk_name + "/"
     if not os.path.exists(chunk_rdf_dir): os.makedirs(chunk_rdf_dir)

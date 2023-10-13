@@ -365,9 +365,9 @@ def get_part_title_URIRef(part_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_sentence_part_URIRef(publi_uri, sentence_or_annot):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    part_id = str(sentence_or_annot.get("id_sentence"))
-    if part_id is None: part_id = str(sentence_or_annot.get("sentence_number"))
-    return publi_uri + "_sen_" + part_id
+    part_id = sentence_or_annot.get("id_sentence")                            # found in annotation object
+    if part_id is None: part_id = sentence_or_annot.get("sentence_number")    # found in sentence object
+    return publi_uri + "_sen_" + str(part_id)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
