@@ -1,0 +1,5 @@
+prefix : <http://sibils.org/rdf#>
+select ?publi_class (count(?publi) as ?publi_count) where { 
+    ?publi_class rdfs:subClassOf* :Publication .
+    ?publi rdf:type ?publi_class.
+} group by ?publi_class

@@ -134,3 +134,32 @@ if __name__ == "__main__":
 
     # nohup python3 multi_fetcher.py 8 200 load_chunk > load-200-chunks-p8.log 2>&1 &
     # 2023-10-08 22:41:46.615 [17497] INFO MASTER END duration 12099.219 - ???
+
+
+
+    # rdfizer  : python get_termino_rdf.py onto
+    # rdfizer  : get_termino_rdf.py data
+    # rdfizer  : nohup python3 multi_fetcher.py 8 200 process_chunk > process-200-chunks-p8.log 2>&1 &
+    # 2023-10-11 16:12:38.533 [3186] INFO MASTER END duration 6672.545
+    
+    # endpoint : nohup python3 multi_fetcher.py 6 200 load_chunk > load-200-chunks-p6.log 2>&1 &
+    # 2023-10-11 20:16:12.709 [5204] INFO MASTER END duration 14228.64 - 15'687'143'650 triples
+
+    # ... sentence IRI broken !
+
+    # rdfizer  : nohup python3 multi_fetcher.py 8 200 process_chunk > process-200-chunks-p8.log 2>&1 &
+    # 2023-10-12 03:07:21.023 [6497] INFO MASTER END duration 7065.069
+
+    # endpoint : ./load_onto_terms.sh => OK
+    # endpoint : nohup python3 multi_fetcher.py 6 200 load_chunk > load-200-chunks-p6.log 2>&1 &
+    # 2023-10-12 13:50:45.078 [9709] INFO MASTER END duration 15692.394
+
+
+    # ... sentence was still IRI broken !
+
+    # rdfizer  : nohup python3 multi_fetcher.py 8 200 process_chunk > process-200-chunks-p8.log 2>&1 &
+    # 2023-10-13 13:56:25.497 [11166] INFO MASTER END duration 7596.963
+
+    # endpoint : ./load_onto_terms.sh => OK
+    # endpoint : nohup python3 multi_fetcher.py 8 200 load_chunk > load-200-chunks-p8.log 2>&1 &
+    # 2023-10-13 17:47:03.317 [15549] INFO MASTER END duration 13703.871
