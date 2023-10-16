@@ -216,7 +216,7 @@ def save_rdf_for_terminology(data, terminology_md):
             #graph.add((concept_URI, SKOS.broader, get_term_URIRef_from_term(parent_id, terminology_md)))
             f_out.write(getTriple(TAB, sibilo.more_specific_than(), get_term_URIRef_from_term(parent_id, terminology_md), SEMICOLON))
             # INFO We forget about transitive relationships beween concepts for now, too costly
-            #parent_child_rel.add_relation(parent_id, id)
+            parent_child_rel.add_relation(parent_id, id)
         f_out.write(DOTLINE)
 
         # close file each time if contains N=max_per_file concepts
@@ -229,7 +229,7 @@ def save_rdf_for_terminology(data, terminology_md):
 
     # NOTE for efficient queries about things related to a term T and terms more specific than T,
     # NOTE we don't use it for now
-    if 1==2:
+    if 1==1:
         max_per_file = 1000000
         trans_idx = -1
         unclosed = False

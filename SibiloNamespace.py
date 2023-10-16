@@ -48,6 +48,7 @@ class SibiloNamespace(BaseNamespace):
     def Block(self): return ":Block"
     def ordinal(self): return ":ordinal"
     def more_specific_than(self): return ":more_specific_than"
+    def more_specific_than_transitive(self): return ":more_specific_than_transitive"
     def affiliation(self): return ":affiliation"
     def contains(self): return ":contains"
     def doi(self): return ":doi"
