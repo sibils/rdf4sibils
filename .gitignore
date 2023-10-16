@@ -6,6 +6,8 @@ terminologies/v.2x
 terminologies/v3.2
 rdf/
 ttl/
+ttl
+*.gz
 *.log
 chunks/
 dir_test/

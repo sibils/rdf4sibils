@@ -6,8 +6,8 @@ export DBA_PW=Gx3DWCyHsj3bVY3MU2nR
 
 echo "$(date) - Adding files to virtuoso load list"
 
-isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/terminologies', '*.ttl', 'http://sibils.org/rdf') ;"
-isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/ontology', '*.ttl', 'http://sibils.org/rdf') ;"
+isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/terminologies', '*.ttl', 'http://sibils.org/rdf/concepts') ;"
+isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/ontology', '*.ttl', 'http://sibils.org/rdf/ontology') ;"
 
 isql-vt 1111 dba $DBA_PW "EXEC=select * from DB.DBA.load_list;"
 
