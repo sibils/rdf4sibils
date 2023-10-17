@@ -282,7 +282,7 @@ def save_rdf_for_terminology(data, terminology_md):
                 if trans_idx % max_per_file == 0:
                     file_idx = int(trans_idx / max_per_file)
                     file_name = (output_dir + terminology_md["concept_source"] + "_trna_" + str(file_idx) + ".ttl").replace(" ","_")
-                    log_it("###", "Serializing ", file_name, "idx", trans_idx+1)
+                    log_it("INFO", "Serializing ", file_name, "idx", trans_idx+1)
                     f_out = open(file_name, "w")
                     for pfx_line in get_prefixes(): f_out.write(pfx_line)
                     f_out.write("\n")
@@ -294,14 +294,14 @@ def save_rdf_for_terminology(data, terminology_md):
                     unclosed = False
         if unclosed:
             f_out.close()
-        log_it("###", "Added transitive narrower relationships from", terminology_md["concept_source"], trans_idx+1)
+        log_it("INFO", "Added transitive narrower relationships from", terminology_md["concept_source"], trans_idx+1)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 def save_rdf_for_terminology_ontology(terminologies_md):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     file_name = "./ontology/terminology-individuals.ttl"  
-    log_it("###", "Serializing", file_name)
+    log_it("INFO", "Serializing", file_name)
     f_out = open(file_name, "w")
     for pfx_line in get_prefixes(): f_out.write(pfx_line)
     f_out.write("\n")
@@ -338,7 +338,7 @@ def save_rdf_for_terminology_ontology(terminologies_md):
         f_out.write(DOTLINE)
 
     f_out.close()
-    log_it("###", "Serialized", file_name)
+    log_it("INFO", "Serialized", file_name)
 
 
 
