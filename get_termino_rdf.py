@@ -43,16 +43,44 @@ class TransitiveRelation:
         parents = list(self.relation_dict.keys())
         return sorted(parents)
 
-    def get_child_set(self, parent):
+    # recursive version, stack overflow on big trees
+    def get_child_set_rv(self, parent):
         if parent not in self.relation_dict: 
             return None
         children = set()
         for child in self.relation_dict[parent]:
             children.add(child)
-            grand_children = self.get_child_set(child)
+            grand_children = self.get_child_set_rv(child)
             if grand_children is not None:
                 children.update(grand_children)
         return children
+
+    # non recursive version
+    def get_child_set_nr(self, parent):
+        final_child_set = set()
+        curr_child_set = set()
+        curr_child_set.add(parent)
+        iter = 0
+        while True:
+            iter += 1
+            next_child_set = set()
+            for child in curr_child_set:
+                final_child_set.add(child)
+                if child in self.relation_dict:
+                    for grand_child in self.relation_dict[child]:
+                        # if grand_child in final_child_set:
+                        #     print(grand_child, "was in final child set")
+                        # if grand_child in curr_child_set:
+                        #     print(grand_child, "was in current child set")
+                        if grand_child not in final_child_set and grand_child not in curr_child_set:
+                            next_child_set.add(grand_child)
+            if len(next_child_set) == 0: break
+            #print("parent", parent,  "iter", iter, len(curr_child_set), len(next_child_set))
+            curr_child_set = next_child_set
+            next_child_set = set()
+        final_child_set.remove(parent)
+        return final_child_set        
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 def get_terminologies_metadata():
@@ -187,6 +215,7 @@ def save_rdf_for_terminology(data, terminology_md):
     unclosed = False
     file_name = None
     graph = None
+    undefined_parent_cnt = 0
     for concept in data["concepts"]:
         cpt_idx += 1
         # create new file and init graph each time cpt_idx % == 0
@@ -209,7 +238,7 @@ def save_rdf_for_terminology(data, terminology_md):
             f_out.write(getTriple(TAB, skos.altLabel(), xsd.string(syn["term"]), SEMICOLON))
         for parent_id in set(concept["parents"]):
             if parent_id not in defined_concepts:
-                log_it("WARNING, ignored undefined parent concept", parent_id, "from", terminology_md["concept_source"])
+                undefined_parent_cnt += 1
                 continue
             # INFO SKOS.broader means ?s "has broader concept" ?o
             # INFO skos property replaced with ours because less ambiguous
@@ -227,6 +256,10 @@ def save_rdf_for_terminology(data, terminology_md):
     if unclosed:
         f_out.close()
 
+    if undefined_parent_cnt>0:   
+       log_it("WARNING, ignored undefined parent concepts count", undefined_parent_cnt)
+
+
     # NOTE for efficient queries about things related to a term T and terms more specific than T,
     # NOTE we don't use it for now
     if 1==1:
@@ -236,11 +269,20 @@ def save_rdf_for_terminology(data, terminology_md):
         file_name = None
         for parent_id in parent_child_rel.get_parent_set():
             parent_URI = get_term_URIRef_from_term(parent_id, terminology_md)
-            for id in parent_child_rel.get_child_set(parent_id):
+            #child_set2 = parent_child_rel.get_child_set_rv(parent_id)
+            child_set = parent_child_rel.get_child_set_nr(parent_id)
+            # if child_set == child_set2: 
+            #     print(">>>>>> OK sets are same")
+            # else:
+            #     print(">>>> ERROR sets are differents")
+            #     print(parent_id, child_set)
+            #     print(parent_id, child_set2)
+            for id in child_set:
                 trans_idx += 1
                 if trans_idx % max_per_file == 0:
                     file_idx = int(trans_idx / max_per_file)
                     file_name = (output_dir + terminology_md["concept_source"] + "_trna_" + str(file_idx) + ".ttl").replace(" ","_")
+                    log_it("###", "Serializing ", file_name, "idx", trans_idx+1)
                     f_out = open(file_name, "w")
                     for pfx_line in get_prefixes(): f_out.write(pfx_line)
                     f_out.write("\n")
