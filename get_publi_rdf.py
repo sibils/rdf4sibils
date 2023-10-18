@@ -34,25 +34,31 @@ def get_terminology_NI_name(concept_source):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     return concept_source.replace(" ","_").upper()
 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def get_term_URIRef_from_dbac(db, concept_id):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    ac = concept_id.replace(":","_")
+    name = db + "_" +ac
+    if db in ["CHEBI", "ECO", "ENVO", "GO_BP", "GO_CC", "GO_MF"]: name = ac
+    encoded_name = urllib.parse.quote(name)
+    return sibilc.IRI(encoded_name)
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
 def get_term_URIRef_from_annot(annot):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     db = get_terminology_NI_name(annot["concept_source"])
-    ac = annot["concept_id"]
-    name = db + "_" +ac
-    encoded_name = urllib.parse.quote(name)
-    return sibilc.IRI(encoded_name)
+    concept_id = annot["concept_id"]
+    return get_term_URIRef_from_dbac(db, concept_id)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # OK for sibils version 3.2 (not retro-compatible with v2.x)
 def get_term_URIRef_from_term(concept_id, terminology):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     db = get_terminology_NI_name(terminology["concept_source"])
-    ac = concept_id
-    name = db + "_" +ac
-    encoded_name = urllib.parse.quote(name)
-    return sibilc.IRI(encoded_name)
+    return get_term_URIRef_from_dbac(db, concept_id)
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # OK for sibils version 3.2 (not retro-compatible with v2.x)

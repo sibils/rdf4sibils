@@ -30,8 +30,10 @@ class EndpointClient:
     def query_from_file(self, file_name):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-        with open(file_name,"r") as f: query = f.read() 
-        return self.run_query(query)
+        with open(file_name,"r") as f: query = f.read()
+        response = self.run_query(query)
+        response["query_file"] = file_name 
+        return response
     
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -85,6 +87,7 @@ if __name__ == '__main__' :
         print("ERROR", response.get("error_type"))
         print(response.get("error_msg"))
     
+    print("META\tquery_file\t", response.get("query_file"))
     print("META\tsuccess\t", response.get("success"))
     print("META\tduration[s]\t", response.get("duration"))
     print("META\tcount\t", response.get("rows"))

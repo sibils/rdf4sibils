@@ -31,9 +31,10 @@ WHERE {
   ?sel2 :start ?pos2 .
   ?trg2 :hasSource ?part.
   ?a2 :hasBody ?cpt2.
-  ?cpt2 :more_specific_than+ sibilc:NCIT_C53547 . # non neoplasic...
-  #?cpt2 :more_specific_than+ sibilc:NCIT_C26726 . # infectious disease
-  #?cpt2 :more_specific_than+ sibilc:NCIT_C2991 . # disease or disorder
+  ?cpt2 :more_specific_than_transitive sibilc:NCIT_C53547 . # non neoplasic...
+  #?cpt2 :more_specific_than_transitive sibilc:NCIT_C26726 . # infectious disease
+  #?cpt2 :more_specific_than_transitive sibilc:NCIT_C2991 . # disease or disorder
+
   ?cpt2 skos:notation ?cpt_id2.
 
  FILTER (?pos2 - ?pos < 30 && ?pos2 -?pos > 0 && ?a != ?a2)
