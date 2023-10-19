@@ -28,13 +28,13 @@ echo "$(date) - Adding files to virtuoso load list and loading"
 
 isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/${chunk}', '*.ttl', 'http://sibils.org/rdf') ;"
 if [ "$?" != "0" ]; then 
-  msg="ERROR while adding files to load list with isql for chunk $chunk"; fi
+  msg="ERROR while adding files to load list with isql for chunk $chunk";
   exit 5
 fi
 
 isql-vt 1111 dba $DBA_PW "EXEC=select * from DB.DBA.load_list where ll_file like '*pmc*' ;"
 if [ "$?" != "0" ]; then 
-  msg="ERROR while reading list of files to load with isql for chunk $chunk"; fi
+  msg="ERROR while reading list of files to load with isql for chunk $chunk";
   exit 6
 fi
 
