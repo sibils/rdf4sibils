@@ -32,7 +32,7 @@ if [ "$?" != "0" ]; then
   exit 5
 fi
 
-isql-vt 1111 dba $DBA_PW "EXEC=select * from DB.DBA.load_list where ll_file like '*pmc*' ;"
+isql-vt 1111 dba $DBA_PW "EXEC=select * from DB.DBA.load_list where ll_file like '*$chunk*' ;"
 if [ "$?" != "0" ]; then 
   msg="ERROR while reading list of files to load with isql for chunk $chunk";
   exit 6
