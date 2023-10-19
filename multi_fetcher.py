@@ -45,10 +45,10 @@ if __name__ == "__main__":
     max_task = int(sys.argv[2])
     task_name = sys.argv[3]
 
-    log_it("INFO", "MASTER", "num_processes:", num_processes)
-    log_it("INFO", "MASTER", "max_tasks:", max_task)
-    log_it("INFO", "MASTER", "task_name:", task_name)
-    log_it("INFO", "MASTER", "chunk list size:", len(chunks))
+    log_it("INFO", "MASTER", "num_processes   :", num_processes)
+    log_it("INFO", "MASTER", "max_tasks       :", max_task)
+    log_it("INFO", "MASTER", "task_name       :", task_name)
+    log_it("INFO", "MASTER", "chunk list size :", len(chunks))
 
     # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
     if task_name == "process_chunk":
@@ -95,15 +95,15 @@ if __name__ == "__main__":
         pool = multiprocessing.Pool(num_processes)
         pool.map(run_proc, tasks)
 
+        # perform a checkpoint
+        log_it("INFO", "MASTER", "Performing a checkpoint")
+        process = subprocess.Popen(["./checkpoint.sh"])
+        status = process.wait()
+        log_it("INFO", "MASTER", "Performed checkpoint", "status:", status, duration_since=t0)
 
 
     # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-    # perform a checkpoint
-    log_it("INFO", "MASTER", "Performing a checkpoint")
-    process = subprocess.Popen(["./checkpoint.sh"])
-    status = process.wait()
-    log_it("INFO", "MASTER", "Performed checkpoint", "status:", status, duration_since=t0)
     
     log_it("INFO", "MASTER", "END", duration_since=t0)
     
