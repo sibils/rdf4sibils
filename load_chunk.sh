@@ -17,13 +17,24 @@ chunk_dir=/share/rdf/ttl/${chunk}
 
 echo "$(date) - Decompressing files in $chunk_dir"
 
+msg=""
 lz4 -m -d ${chunk_dir}/*.ttl.lz4
+if [ "$?" != "0" ]; then msg="ERROR while decompressing files in $chunk_dir"; fi
+exit 4
 
 echo "$(date) - Adding files to virtuoso load list and loading"
 
 isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/${chunk}', '*.ttl', 'http://sibils.org/rdf') ;"
-isql-vt 1111 dba $DBA_PW "EXEC=select * from DB.DBA.load_list;"
+if [ "$?" != "0" ]; then msg="ERROR while adding files to load list with isql for chunk $chunk"; fi
+exit 5
+
+isql-vt 1111 dba $DBA_PW "EXEC=select * from DB.DBA.load_list where ll_file like '*pmc*' ;"
+if [ "$?" != "0" ]; then msg="ERROR while reading list of files to load with isql for chunk $chunk"; fi
+exit 6
+
 isql-vt 1111 dba $DBA_PW "EXEC=rdf_loader_run();"
+if [ "$?" != "0" ]; then msg="ERROR while running load with isql for chunk $chunk"; fi
+exit 7
 
 echo "$(date) - Deleting decompressed files"
 

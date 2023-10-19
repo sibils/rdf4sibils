@@ -99,6 +99,12 @@ if __name__ == "__main__":
 
     # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
+    # perform a checkpoint
+    log_it("INFO", "MASTER", "Performing a checkpoint")
+    process = subprocess.Popen(["./checkpoint.sh"])
+    status = process.wait()
+    log_it("INFO", "MASTER", "Performed checkpoint", "status:", status, duration_since=t0)
+    
     log_it("INFO", "MASTER", "END", duration_since=t0)
     
 
@@ -163,3 +169,14 @@ if __name__ == "__main__":
     # endpoint : ./load_onto_terms.sh => OK
     # endpoint : nohup python3 multi_fetcher.py 8 200 load_chunk > load-200-chunks-p8.log 2>&1 &
     # 2023-10-13 17:47:03.317 [15549] INFO MASTER END duration 13703.871
+
+    # ... with clean term IRIs
+
+    # rdfizer  : python get_termino_rdf.py onto
+    # rdfizer  : cd ontology; ./build-sibils-ontology.sh ; cd ..
+    # rdfizer  : python get_termino_rdf.py data > get-termino-rdf-data.log 2>&1 &
+    # rdfizer  : nohup python3 multi_fetcher.py 8 200 process_chunk > process-200-chunks-p8.log 2>&1 &
+    # ...
+    # endpoint : ./load_onto_terms.sh
+    # endpoint : nohup python3 multi_fetcher.py 8 200 load_chunk > load-200-chunks-p8.log 2>&1 &
+

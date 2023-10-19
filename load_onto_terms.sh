@@ -19,7 +19,6 @@ isql-vt 1111 dba $DBA_PW "EXEC=rdf_loader_run();" &
 wait
 
 echo "$(date) - Making a checkpoint"
-isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;" &
-
+isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
 echo "$(date) - Done"
 
