@@ -180,3 +180,13 @@ if __name__ == "__main__":
     # endpoint : ./load_onto_terms.sh
     # endpoint : nohup python3 multi_fetcher.py 8 200 load_chunk > load-200-chunks-p8.log 2>&1 &
 
+    # ... with shell wrapper and multiple checkpoints
+
+    # nohup ./load_program.sh 6 30 7 > load-program-6-30-7.log 2>&1 &
+    # started  Thu 19 Oct 18:38:17 CEST 2023
+    # ended    Thu 19 Oct 23:32:38 CEST 2023
+    # duration 4h54
+    # HEAD	graph	tripleCount
+    # ROWS	http://sibils.org/rdf	17'389'665'741
+    # ROWS	http://sibils.org/rdf/concepts	196'197'351
+    # ROWS	http://sibils.org/rdf/ontology	756
