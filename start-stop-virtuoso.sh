@@ -5,6 +5,12 @@ if [ "$1" == "" ]; then
     exit 1
 fi
 
+this_script="$(basename $0)"
+if ! [ -e "$this_script" ]; then
+    echo "ERROR, $0 must be run from its own directory"
+    exit 2
+fi
+
 DBA_PW=Gx3DWCyHsj3bVY3MU2nR
 DAEMON=virtuoso-t
 ISQL=isql-vt
@@ -23,9 +29,9 @@ stop() {
     if pgrep $DAEMON; then
         echo "$(date) stopping virtuoso..."
         echo "$(date) requesting checkpoint"
-        isql 1111 dba $DBA_PW exec="checkpoint;"
+        $ISQL 1111 dba $DBA_PW exec="checkpoint;"
         echo "$(date) requesting shutdown"
-        isql 1111 dba $DBA_PW exec="shutdown;"
+        $ISQL 1111 dba $DBA_PW exec="shutdown;"
         sleep 5
         echo "$(date) virtuoso stopped"
     fi
@@ -33,7 +39,7 @@ stop() {
 
 start() {
     status
-    if pgrep $DAEMON; then exit
+    if pgrep $DAEMON; then exit; fi
 
     echo "$(date) starting virtuoso..."
     /usr/bin/virtuoso-t +wait +configfile /etc/virtuoso-opensource-7/virtuoso.ini
