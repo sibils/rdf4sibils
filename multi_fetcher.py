@@ -1,7 +1,7 @@
 from fetcher import get_chunk_names_from_ftp, init_properties
 from fetcher import chunk_rdf_dir_exists, rdf_dir, chunk_dir_exists
-from fetcher import chunk_rdf_dir_status_is_loaded, chunk_rdf_dir_status_is_loading
-from fetcher import set_chunk_rdf_dir_loaded_status, set_chunk_rdf_dir_loading_status
+from fetcher import chunk_rdf_dir_status_is_loaded, chunk_rdf_dir_status_is_loading, chunk_rdf_dir_status_is_load_error 
+from fetcher import set_chunk_rdf_dir_loaded_status, set_chunk_rdf_dir_loading_status, set_chunk_rdf_dir_load_error_status 
 from utils import log_it
 from datetime import datetime
 
@@ -21,8 +21,12 @@ def run_proc(proc_and_args):
     process = subprocess.Popen(proc_and_args)
     log_it("INFO", "MASTER", "Starting", proc_and_args, "pid", process.pid)
     status = process.wait()
-    if "load_chunk" in proc_and_args[0]: set_chunk_rdf_dir_loaded_status(proc_and_args[1], rdf_dir)
-    log_it("INFO", "MASTER", "Completed", proc_and_args, "pid", process.pid, "status:", status, duration_since=t0)
+    if status == 0:
+        if "load_chunk" in proc_and_args[0]: set_chunk_rdf_dir_loaded_status(proc_and_args[1], rdf_dir)
+        log_it("INFO", "MASTER", "Completed", proc_and_args, "pid", process.pid, "status:", status, duration_since=t0)
+    else:
+        if "load_chunk" in proc_and_args[0]: set_chunk_rdf_dir_load_error_status(proc_and_args[1], rdf_dir)
+        log_it("ERROR", "MASTER", "Completed with error", proc_and_args, "pid", process.pid, "status:", status, duration_since=t0)
 
 
 # ====================================================
@@ -190,3 +194,17 @@ if __name__ == "__main__":
     # ROWS	http://sibils.org/rdf	17'389'665'741
     # ROWS	http://sibils.org/rdf/concepts	196'197'351
     # ROWS	http://sibils.org/rdf/ontology	756
+
+    # going on with more chunks...
+
+    # rdfizer  : nohup python3 multi_fetcher.py 8 750 process_chunk > process-750-chunks-p8.log 2>&1 &
+    # started  : Fri 20 Oct 15:33 CEST 2023
+    # ended    : 2023-10-20 23:59:50.269
+    # duration : env 8h
+    # status   : not completed, no space left on device
+    # chunks list        : 1027
+    # chunks completed   : 692 (all status: 0)
+    # chunks skipped     : 292
+    # correction skipped : 44754
+    # chunks dir         : 991
+    # rdf dir            : 990

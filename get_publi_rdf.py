@@ -330,7 +330,7 @@ def add_triples_for_authors(publi, pmcid):
                                     found = True
                                     lines.append(getTriple(blank_node, sibilo.affiliation(), xsd.string3(aff_name)))
                         if not found:
-                            log_it("ERROR", "found no name for affiliation id", aff_id, "in", pmcid)
+                            log_it("WARNING", "found no name for affiliation id", aff_id, "in", pmcid)
                     else:
                         lines.append(getTriple(blank_node, sibilo.affiliation(), xsd.string3(aff_name)))
 
