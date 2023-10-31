@@ -100,10 +100,11 @@ if __name__ == "__main__":
         pool.map(run_proc, tasks)
 
         # perform a checkpoint
+        t0cp = datetime.now()
         log_it("INFO", "MASTER", "Performing a checkpoint")
         process = subprocess.Popen(["./checkpoint.sh"])
         status = process.wait()
-        log_it("INFO", "MASTER", "Performed checkpoint", "status:", status, duration_since=t0)
+        log_it("INFO", "MASTER", "Performed checkpoint", "status:", status, duration_since=t0cp)
 
 
     # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -208,3 +209,34 @@ if __name__ == "__main__":
     # correction skipped : 44754
     # chunks dir         : 991
     # rdf dir            : 990
+
+    # got more HD space
+    # rdfizer  : nohup python3 multi_fetcher.py 6 60 process_chunk > process-60-chunks-p6.log 2>&1 &
+    # started  : 2023-10-31 15:21:56.540
+    # ended    : 2023-10-31 16:20:00.374 [63165] INFO MASTER END duration 3483.83
+    # duration : < 1 hour
+    # chunks list        : 1027
+    # chunks completed   :   55
+    # chunks skipped     :  972
+    # chunks dir         : 1027
+    # rdf dir            : 1027
+    # status   : OK
+
+    # we now have the full baseline of the pmc collection, let's try to load it
+    # nohup ./load_program.sh 6 42 20 > load-program-6-42-20.log 2>&1 &
+    # started  : 
+    # ended    :
+    # duration :
+    # HEAD	graph	tripleCount
+    # ...
+
+# Only these were loaded for this chunk (deadlock in virtuoso ! see log):
+
+# *** Error 40001: [Virtuoso Driver][Virtuoso Server]SR172: Transaction deadlocked
+# at line 0 of Top-Level:
+# ld_dir ('/share/rdf/ttl/pmc23n0221', '*.ttl', 'http://sibils.org/rdf') 
+# /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_3500.ttl                      http://sibils.org/rdf                                                             2           2023.10.31 16:59.34 573098000  2023.10.31 17:16.58 59771000  0           NULL        NULL
+# /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_4000.ttl                      http://sibils.org/rdf                                                             2           2023.10.31 16:59.36 573375000  2023.10.31 17:16.58 386626000  0           NULL        NULL
+# /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_4500.ttl                      http://sibils.org/rdf                                                             2           2023.10.31 16:59.37 596780000  2023.10.31 17:17.15 612665000  0           NULL        NULL
+# /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_500.ttl                       http://sibils.org/rdf                                                             2           2023.10.31 17:16.49 479971000  2023.10.31 17:17.32 5765000  0           NULL        NULL
+# /share/rdf/ttl/pmc23n0223/chunk_pmc23n0223_publiset_0.ttl                         http://sibils.org/rdf                                                             2           2023.10.31 16:59.31 659266000  2023.10.31 17:16.54 792882000  0           NULL        NULL
