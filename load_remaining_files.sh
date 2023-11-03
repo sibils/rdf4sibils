@@ -33,6 +33,9 @@ done
 echo "$(date) - Waiting for load processes to return..."
 wait
 
+echo "$(date) - Performing a checkpoint..."
+isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
 todos=$(isql-vt 1111 dba $DBA_PW "EXEC=select ll_file, ll_state, ll_error from DB.DBA.load_list where ll_state=0;" | grep ttl | wc -l)
 echo "$(date) - Found $todos remaining files to be loaded"
 
