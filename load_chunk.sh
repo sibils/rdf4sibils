@@ -121,6 +121,7 @@ echo "$(date) - INFO Starting checkpoint after load of chunk $chunk"
 isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
 if [ "$?" != "0" ]; then 
   msg="$(date) - ERROR chunk $chunk : problem while running checkpoint load"; 
+  touch ${chunk_dir}/LOAD_ERROR
   exit 8
 fi
 
@@ -128,6 +129,7 @@ fi
 echo "$(date) - INFO Deleting decompressed files of chunk $chunk"
 
 rm ${chunk_dir}/*.ttl
+touch ${chunk_dir}/LOADED
 
 
 echo "$(date) - Load of chunk $chunk completed"
