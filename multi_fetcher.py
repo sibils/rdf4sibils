@@ -240,3 +240,142 @@ if __name__ == "__main__":
 # /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_4500.ttl                      http://sibils.org/rdf                                                             2           2023.10.31 16:59.37 596780000  2023.10.31 17:17.15 612665000  0           NULL        NULL
 # /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_500.ttl                       http://sibils.org/rdf                                                             2           2023.10.31 17:16.49 479971000  2023.10.31 17:17.32 5765000  0           NULL        NULL
 # /share/rdf/ttl/pmc23n0223/chunk_pmc23n0223_publiset_0.ttl                         http://sibils.org/rdf                                                             2           2023.10.31 16:59.31 659266000  2023.10.31 17:16.54 792882000  0           NULL        NULL
+
+# TODO_OK : add missing ones in load list
+
+# isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/pmc23n0221', 'chunk_pmc23n0221_publiset_1000.ttl', 'http://sibils.org/rdf') ;"
+# isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/pmc23n0221', 'chunk_pmc23n0221_publiset_1500.ttl', 'http://sibils.org/rdf') ;"
+# isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/pmc23n0221', 'chunk_pmc23n0221_publiset_2000.ttl', 'http://sibils.org/rdf') ;"
+# isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/pmc23n0221', 'chunk_pmc23n0221_publiset_2500.ttl', 'http://sibils.org/rdf') ;"
+# isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/pmc23n0221', 'chunk_pmc23n0221_publiset_3000.ttl', 'http://sibils.org/rdf') ;"
+# isql-vt 1111 dba $DBA_PW "EXEC=ld_dir ('/share/rdf/ttl/pmc23n0221', 'chunk_pmc23n0221_publiset_0.ttl', 'http://sibils.org/rdf') ;"
+
+# done
+
+# and other unloaded files before crash:
+
+# /share/rdf/ttl/pmc23n0557/chunk_pmc23n0557_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0558/chunk_pmc23n0558_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0559/chunk_pmc23n0559_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0560/chunk_pmc23n0560_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0561/chunk_pmc23n0561_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0562/chunk_pmc23n0562_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0563/chunk_pmc23n0563_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0564/chunk_pmc23n0564_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0565/chunk_pmc23n0565_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0566/chunk_pmc23n0566_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0567/chunk_pmc23n0567_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0568/chunk_pmc23n0568_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0569/chunk_pmc23n0569_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0570/chunk_pmc23n0570_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0571/chunk_pmc23n0571_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0572/chunk_pmc23n0572_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0573/chunk_pmc23n0573_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0574/chunk_pmc23n0574_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0575/chunk_pmc23n0575_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0576/chunk_pmc23n0576_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0577/chunk_pmc23n0577_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0578/chunk_pmc23n0578_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0579/chunk_pmc23n0579_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+# /share/rdf/ttl/pmc23n0581/chunk_pmc23n0581_publiset_*.ttl                         http://sibils.org/rdf                                                             0           NULL                 NULL                 NULL        NULL        NULL
+
+
+# cat > load_some.sh
+
+# export DBA_PW=Gx3DWCyHsj3bVY3MU2nR
+
+# ./load_chunk.sh pmc23n0557 &
+# sleep 1
+# ./load_chunk.sh pmc23n0558 &
+# wait
+# isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
+# ./load_chunk.sh pmc23n0559
+# sleep 1
+# ./load_chunk.sh pmc23n0561
+# wait
+# isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
+# ./load_chunk.sh pmc23n0562
+# sleep 1
+# ./load_chunk.sh pmc23n0563
+# wait
+# isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
+# ./load_chunk.sh pmc23n0564
+# sleep 1
+# ./load_chunk.sh pmc23n0565
+# wait
+# isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
+# ./load_chunk.sh pmc23n0566
+# sleep 1
+# ./load_chunk.sh pmc23n0567
+# wait
+# isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
+# ./load_chunk.sh pmc23n0568
+# sleep 1
+# ./load_chunk.sh pmc23n0569
+# wait
+# isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
+# ./load_chunk.sh pmc23n0570
+# sleep 1
+# ./load_chunk.sh pmc23n0571
+# wait
+# isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
+# ./load_chunk.sh pmc23n0572
+# sleep 1
+# ./load_chunk.sh pmc23n0573
+# wait
+# isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
+# ./load_chunk.sh pmc23n0575
+# sleep 1
+# ./load_chunk.sh pmc23n0577
+
+# wait
+# isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+
+# => OK
+
+# reset ll_state to 0 for 5 files and load them again:
+
+# ll_file                                                                           ll_state    ll_started           ll_done
+# VARCHAR NOT NULL                                                                  INTEGER     TIMESTAMP            TIMESTAMP
+# _______________________________________________________________________________
+
+# /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_0.ttl                         1           2023.11.1 15:43.15 116133000  NULL
+# /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_1000.ttl                      1           2023.11.1 15:43.16 140777000  NULL
+# /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_1500.ttl                      1           2023.11.1 15:43.17 147724000  NULL
+# /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_2500.ttl                      1           2023.11.1 15:43.18 147367000  NULL
+# /share/rdf/ttl/pmc23n0221/chunk_pmc23n0221_publiset_3000.ttl                      1           2023.11.1 15:43.19 154189000  NULL
+
+
+# OK - nohup isql-vt 1111 dba Gx3DWCyHsj3bVY3MU2nR "EXEC=update DB.DBA.load_list set ll_state=0 where ll_state=1;"
+# OK - nohup isql-vt 1111 dba Gx3DWCyHsj3bVY3MU2nR "EXEC=rdf_loader_run();"
+# OK - nohup isql-vt 1111 dba Gx3DWCyHsj3bVY3MU2nR "EXEC=rdf_loader_run();"
+# OK - nohup isql-vt 1111 dba Gx3DWCyHsj3bVY3MU2nR "EXEC=rdf_loader_run();"
+
+# OK - nohup isql-vt 1111 dba Gx3DWCyHsj3bVY3MU2nR "EXEC=checkpoint;" &
+
+# => OK: load files in load list
+# => OK: set correct status: LOADED
+# => OK: rm corresponding ttl (keep only lz4 files)
+# => OK: reset properly load status of files remaining to be loaded
+
+# refactoring of loading system: load_chunk.sh
+
+# concept: le load d'un chunk est une tâche qui effectue toutes les opérations dont 
+# le load qui est effectué par N processes isql-vt, le checkpoint est optionnel
+# les fichiers LOADING, LOADED, LOAD_ERROR sont écrit par le script
+
+# Quelques loads faits selon cette nouvelle méthode:
+# 1) Il y a un temps mort (env. 5 minutes entre le moment où le load est terminé et où le chckpoint commence.
+# Le checkpoint est initié juste après le load slon mon log, mais 5 minutes après selon le log de virtuoso.
+# 2) Le premier load_chunk.sh apres un restart virtuoso est souvent très lent (30 minutes)
+# 3) chunks loadés selon cette méthode: pmc23n0979 -> pmc23n0983
+# 4) chunks en cours de load selon cette méthode via load_some.sh: pmc23n0984 -> pmc23n0987 
+

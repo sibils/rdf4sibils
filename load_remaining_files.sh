@@ -32,7 +32,7 @@ done
 
 echo "$(date) - Waiting for load processes to return..."
 wait
-
+    
 echo "$(date) - Performing a checkpoint..."
 isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
 
