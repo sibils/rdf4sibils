@@ -2,7 +2,9 @@
 
 
 if [ "$1" == "" ] || [ "$2" == "" ] ; then 
-  echo "ERROR, usage is $0 <chunk_name> <max_load_process>, ie. $0 pmc23n0978 4"
+  echo "ERROR, usage is $0 <chunk_name> <max_load_process> [no_checkout], i.e.:"
+  echo "- $0 pmc23n0978 4"
+  echo "- $0 pmc23n0981 5 no_checkout"
   exit 1
 fi
 
@@ -19,7 +21,7 @@ chunk_dir=/share/rdf/ttl/${chunk}
 #
 
 if [ -e ${chunk_dir}/LOADED ] || [ -e ${chunk_dir}/LOADING ] || [ -e ${chunk_dir}/LOAD_ERROR ] ; then
-  echo "$(date) - INFO chunk $chunk : load already handled elsewhere"
+  echo "$(date) - INFO chunk $chunk : load already handled, exiting"
   exit 0
 fi
 
@@ -115,22 +117,24 @@ if [ "$ok_cnt" != "$ttl_cnt" ]; then
 fi
 
 
-
-echo "$(date) - INFO Starting checkpoint after load of chunk $chunk"
-
-isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
-if [ "$?" != "0" ]; then 
-  msg="$(date) - ERROR chunk $chunk : problem while running checkpoint load"; 
-  touch ${chunk_dir}/LOAD_ERROR
-  exit 8
-fi
-
-
 echo "$(date) - INFO Deleting decompressed files of chunk $chunk"
 
 rm ${chunk_dir}/*.ttl
 touch ${chunk_dir}/LOADED
 
+
+
+if [ "$3" == "no_checkout" ]; then
+  echo "$(date) - INFO Skipping checkpoint after load of chunk $chunk"
+else
+  echo "$(date) - INFO Starting checkpoint after load of chunk $chunk"
+  isql-vt 1111 dba $DBA_PW "EXEC=checkpoint;"
+  if [ "$?" != "0" ]; then 
+    msg="$(date) - ERROR chunk $chunk : problem while running checkpoint load"; 
+    touch ${chunk_dir}/LOAD_ERROR
+    exit 8
+  fi
+fi
 
 echo "$(date) - Load of chunk $chunk completed"
 
