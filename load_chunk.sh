@@ -19,7 +19,7 @@ chunk_dir=/share/rdf/ttl/${chunk}
 #
 
 if [ -e ${chunk_dir}/LOADED ] || [ -e ${chunk_dir}/LOADING ] || [ -e ${chunk_dir}/LOAD_ERROR ] ; then
-  echo "$(date) - INFO chunk $chunk : load already handled elsewhere"
+  echo "$(date) - INFO chunk $chunk : load already handled, exiting"
   exit 0
 fi
 
