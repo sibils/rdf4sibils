@@ -136,6 +136,6 @@ else
   fi
 fi
 
- "$(date) - Load of chunk $chunk completed"
+echo "$(date) - Load of chunk $chunk completed"
 
 
