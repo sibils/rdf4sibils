@@ -377,5 +377,99 @@ if __name__ == "__main__":
 # Le checkpoint est initié juste après le load slon mon log, mais 5 minutes après selon le log de virtuoso.
 # 2) Le premier load_chunk.sh apres un restart virtuoso est souvent très lent (30 minutes)
 # 3) chunks loadés selon cette méthode: pmc23n0979 -> pmc23n0983
-# 4) chunks en cours de load selon cette méthode via load_some.sh: pmc23n0984 -> pmc23n0987 
+
+# ONGOING 4) chunks en cours de load selon cette méthode via load_some.sh: pmc23n0984 -> pmc23n0987 
+
+# Ideas for improvements:
+# - use gz rather lz4 and let virtuoso decompress on the fly => less IO READs
+# - write more concise ttl files: smaller uuid strings for blank nodes, use more , and ; 
+# - go back to declare multiple chunks to virtuoso before starting N rdf_load() processes
+# - use a python wrapper to communicate with isql ?
+
+
+# superpam@sibils-sparql:~/work/rdf4sibils/ttl/pmc23n0001$ time lz4 -d -m *.lz4
+# real	0m26.308s
+# user	0m4.669s
+# sys	0m7.523s
+
+
+# superpam@sibils-sparql:~/work/rdf4sibils/ttl/pmc23n0001$ time gzip *.ttl
+# real	2m8.732s
+# user	2m3.538s
+# sys	0m4.400s
+
+# superpam@sibils-sparql:~/work/rdf4sibils/ttl/pmc23n0001$ time gunzip *.ttl.gz
+# real	0m47.925s
+# user	0m25.690s
+# sys	0m3.623s
+
+
+# superpam@sibils-sparql:~/work/rdf4sibils/ttl/pmc23n0001$ time gzip --fast *.ttl
+# real	0m54.888s
+# user	0m49.084s
+# sys	0m4.002s
+
+# superpam@sibils-sparql:~/work/rdf4sibils/ttl/pmc23n0001$ time gunzip --fast *.ttl.gz
+# real	0m42.435s
+# user	0m26.264s
+# sys	0m4.736s
+
+
+# superpam@sibils-sparql:~/work/rdf4sibils/ttl/pmc23n0001$ time lz4 -d -m *.lz4
+# real	0m24.556s
+# user	0m4.746s
+# sys	0m7.759s
+
+# superpam@sibils-sparql:~/work/rdf4sibils/ttl/pmc23n0001$ time lz4 -m *.ttl
+# real	0m16.012s
+# user	0m8.266s
+# sys	0m4.232s
+
+#             lz4     gz (fast)
+# compress    16      54
+# decompress  25      42
+
+
+# let's try to generate gz (fast) files for N chunks, then declare the gz files 
+# to virtuoso, then load them with 5 processes, then checkout
+
+# superpam@sibils-sparql:~/work/rdf4sibils$ ./load_experimental.sh ttl/pmc23n091*
+# Mon  6 Nov 14:43:55 CET 2023 - decompressing lz4 files in ttl/pmc23n0910
+# Mon  6 Nov 14:44:34 CET 2023 - gzipping ttl files in ttl/pmc23n0910
+# Mon  6 Nov 14:45:41 CET 2023 - decompressing lz4 files in ttl/pmc23n0911
+# Mon  6 Nov 14:46:17 CET 2023 - gzipping ttl files in ttl/pmc23n0911
+# Mon  6 Nov 14:47:24 CET 2023 - decompressing lz4 files in ttl/pmc23n0912
+# Mon  6 Nov 14:47:53 CET 2023 - gzipping ttl files in ttl/pmc23n0912
+# Mon  6 Nov 14:49:01 CET 2023 - decompressing lz4 files in ttl/pmc23n0913
+# Mon  6 Nov 14:49:35 CET 2023 - gzipping ttl files in ttl/pmc23n0913
+# Mon  6 Nov 14:50:47 CET 2023 - decompressing lz4 files in ttl/pmc23n0914
+# Mon  6 Nov 14:51:16 CET 2023 - gzipping ttl files in ttl/pmc23n0914
+# Mon  6 Nov 14:52:25 CET 2023 - decompressing lz4 files in ttl/pmc23n0915
+# Mon  6 Nov 14:52:59 CET 2023 - gzipping ttl files in ttl/pmc23n0915
+# Mon  6 Nov 14:54:09 CET 2023 - decompressing lz4 files in ttl/pmc23n0916
+# Mon  6 Nov 14:54:40 CET 2023 - gzipping ttl files in ttl/pmc23n0916
+# Mon  6 Nov 14:55:51 CET 2023 - decompressing lz4 files in ttl/pmc23n0917
+# Mon  6 Nov 14:56:27 CET 2023 - gzipping ttl files in ttl/pmc23n0917
+# client_loop: send disconnect: Broken pipe
+
+# => 7 CHUNKS decompressed / recompressed in 12 minutes => 1.7m ou 102 sec / chunk
+
+# ./compress_lz4_to_gz.sh ttl/pmc23n091*
+# ./declare_gz_files.sh ttl/pmc23n091*
+# nohup ./load_gz_files.sh 5 > load-gz-files-5.log 2>&1 &
+# => OK 
+
+# nohup ./cdl.sh 5 ttl/pmc23n092* > load-gz-files-pmc23n092-star-5.log 2>&1 &
+# => OK, environ 1h
+
+# nohup ./doit.sh 6 > doit-pmc23n09-3-4-5-6-7-8-9-0-star-6.log 2>&1 &
+# started      : Mon  6 Nov 23:17:31 CET 2023
+# ended        : Tue  7 Nov 10:20:03 CET 2023 - INFO doit done
+# duration     : env. 11 hours fpr 80 chunks => 8min 15sec / chunk (incl. compress / decompress and checkout) 
+# virtuoso log : 
+
+# => ONGOING...
+
+
+
 
