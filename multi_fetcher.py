@@ -33,22 +33,24 @@ def run_proc(proc_and_args):
 if __name__ == "__main__":
 # ====================================================
 
+    if len(sys.argv) != 5:
+        print("\nERROR, usage is multi_fetcher.py <collection.subcoll> <num_processes> <max_tasks> <task_name>\n\n  Example: multi_fetcher.py pmc.baseline 4 100 do_this\n")
+        sys.exit()
+
     t0 = datetime.now()
     # init properties required for get_chunk_names_from_ftp and rdf_dir
-    props = init_properties("rdfizer.properties")
+    context = sys.argv[1]
+    props = init_properties("rdfizer" + context + "properties")
 
     rdf_dir = props.get("rdf_dir")
     chunks_dir = props.get("chunks_dir")
     chunks = get_chunk_names_from_ftp()
-
-    if len(sys.argv) != 4:
-        print("\nERROR, usage is multi_fetcher.py <num_processes> <max_tasks> <task_name>\n\n  Example: multi_fetcher.py 4 100 do_this\n")
-        sys.exit()
     
-    num_processes = int(sys.argv[1])
-    max_task = int(sys.argv[2])
-    task_name = sys.argv[3]
+    num_processes = int(sys.argv[2])
+    max_task = int(sys.argv[3])
+    task_name = sys.argv[4]
 
+    log_it("INFO", "MASTER", "context         :", context)
     log_it("INFO", "MASTER", "num_processes   :", num_processes)
     log_it("INFO", "MASTER", "max_tasks       :", max_task)
     log_it("INFO", "MASTER", "task_name       :", task_name)
@@ -65,13 +67,18 @@ if __name__ == "__main__":
             else:
                 task_num += 1
                 if task_num > max_task: break
-                tasks.append(["python", "fetcher.py", "process_chunk", chunk])
+                tasks.append(["python", "fetcher.py", context, "process_chunk", chunk])
 
         pool = multiprocessing.Pool(num_processes)
         pool.map(run_proc, tasks)
 
     # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-    elif task_name == "load_chunk":
+
+    # Obsolete or to be used in particular cases 
+    # but requires some adaptation regarding context (collection.subcoll)
+    # We rather use shell scripts only for load of chunks
+
+    elif task_name == "load_chunk" and "think twice before running it" == "okay":
     # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
         tasks = list()
         task_num=0
@@ -466,10 +473,88 @@ if __name__ == "__main__":
 # started      : Mon  6 Nov 23:17:31 CET 2023
 # ended        : Tue  7 Nov 10:20:03 CET 2023 - INFO doit done
 # duration     : env. 11 hours fpr 80 chunks => 8min 15sec / chunk (incl. compress / decompress and checkout) 
-# virtuoso log : 
+# virtuoso log : no error
+# isql-vt      : all have ll_state=2 and ll_error is null
 
-# => ONGOING...
+# => OK
 
+# chunks remaining to load: n06* n07* n08* n10*
+
+# ./compress_lz4_to_gz.sh ttl/pmc23n06* &
+# ./compress_lz4_to_gz.sh ttl/pmc23n07* &
+# ./compress_lz4_to_gz.sh ttl/pmc23n08* &
+# ./compress_lz4_to_gz.sh ttl/pmc23n10* &
+# TODO => OK
+
+# max_proc=6
+# ./declare_load_gz_files.sh $max_proc ttl/pmc23n06*
+# ./declare_load_gz_files.sh $max_proc ttl/pmc23n07*
+# ./declare_load_gz_files.sh $max_proc ttl/pmc23n08*
+# ./declare_load_gz_files.sh $max_proc ttl/pmc23n10*
+
+# in 
+
+# nohup ./action.sh > dlgz-06-07-08-20.log > 2>&1 &
+# TODO => OK
+# started  : Wed  8 Nov 08:54:22 CET 2023 - INFO max_proc: 6
+# ended    : Thu  9 Nov 13:59:26 CET 2023 - INFO ./action.sh done
+# duration : env. 29 hours for 400 chunks and 4 checkpoints = 4min 21sec / chunk (with 6 processes)
+
+
+# load these missing in pmc23n05* chunks, see more_action.sh (recompress to gz, declare, load, single checkpoint)
+
+# nohup ./more_action.sh > gz-decl-load-058-059.log 2>&1 &
+# TODO => OK
+# started  : Thu  9 Nov 19:11:25 CET 2023
+# ended    : Fri 10 Nov 10:46:53 CET 2023 - INFO ./more_action.sh done
+# duration : env. 15.5 hours for 19 chunks and 1 checkout = 49min / chunk (with 6 processes)
+
+# note: these chunks have probably been loaded twice by error
+    #   2 pmc23n0978
+    #   2 pmc23n0979
+    #   2 pmc23n0980
+    #   2 pmc23n0981
+    #   2 pmc23n0982
+    #   2 pmc23n0983
+    #   2 pmc23n0984
+    #   2 pmc23n0985
+    #   2 pmc23n0986
+    #   2 pmc23n0987
+
+
+# status after loading full 2023 PMC baseline
+
+# [pmichel@lin-202 rdf4sibils]$ python sparql_client.py query sparql/graph-stats.rq 
+# HEAD	graph	tripleCount
+
+# ROWS	http://sibils.org/rdf	91'509'722'989
+# ROWS	http://sibils.org/rdf/concepts	196'197'351
+# ROWS	http://sibils.org/rdf/ontology	756
+
+# META	query_file	 sparql/graph-stats.rq
+# META	query_template	 None
+# META	success	 True
+# META	duration[s]	 403.11
+# META	count	 8
+# END
+
+
+# [pmichel@lin-202 rdf4sibils]$ python sparql_client.py query sparql/publi-stats.rq 
+# HEAD	publi_class	publi_count
+# ROWS	:BriefReport	102973
+# ROWS	:CaseReport	238615
+# ROWS	:MeetingReport	12790
+# ROWS	:Publication	440632
+# ROWS	:ReviewArticle	436618
+# ROWS	:Editorial	90072
+# ROWS	:Letter	95545
+# ROWS	:JournalArticle	3651216  
+# META	query_file	 sparql/publi-stats.rq
+# META	query_template	 None
+# META	success	 True
+# META	duration[s]	 0.505
+# META	count	 8
+# END
 
 
 

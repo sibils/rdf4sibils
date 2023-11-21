@@ -18,7 +18,8 @@ ftp_server = ""
 ftp_dir_dict = dict()
 chunks_dir = ""
 rdf_dir = ""
-
+collection = ""
+subcoll = ""
 
 # ------------------------------------------------------------------
 def init_properties(prop_file):
@@ -34,6 +35,9 @@ def init_properties(prop_file):
     ftp_dir_dict["ana"] = props.get("ftp_ana_dir")
     chunks_dir = props.get("chunks_dir")
     rdf_dir = props.get("rdf_dir")
+    collection = props.get("collection")
+    subcoll = props.get("subcoll")
+
     log_it("DEBUG", "init_properties()", "rdf_dir", rdf_dir)
 
     # also return raw properties for calling madules...
@@ -491,16 +495,18 @@ def clean_chunk(chunk_name, chunks_dir):
 if __name__ == '__main__':
 # ============================================================
 
-
-    init_properties("rdfizer.properties")
+    # context example: "pmc.baseline"
+    context = sys.argv[1]
+    prop_file = "rdfizer." + context + ".properties"
+    init_properties(prop_file)
 
     my_chunks_dir = "./dir_test/fetch_by_ftp" # for test
 
 
 # ------------------------------------------------------------------
-    if sys.argv[1] == "process_chunk": # for real
+    if sys.argv[2] == "process_chunk": # for real
 # ------------------------------------------------------------------
-        chunk_name = sys.argv[2].strip()
+        chunk_name = sys.argv[3].strip()
         t0 = datetime.datetime.now()
         log_it("INFO", "Processing chunk", chunk_name, chunks_dir)
         process_chunk(chunk_name, chunks_dir, rdf_dir)
@@ -513,38 +519,38 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "ftp_nlst": # for test
+    elif sys.argv[2] == "ftp_nlst": # for test
 # ------------------------------------------------------------------
         list = get_chunk_names_from_ftp()
         print("Found", len(list), "chunks")
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "fetch_by_ftp": # for test
+    elif sys.argv[2] == "fetch_by_ftp": # for test
 # ------------------------------------------------------------------
         fetch_by_ftp(ftp_dir_dict["bib"], "bib_pmc23n0023.json.gz", "./dir_test/fetch_by_ftp/pmc23n0023")
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "fetch_chunk": # for test
+    elif sys.argv[2] == "fetch_chunk": # for test
 # ------------------------------------------------------------------
         fetch_chunk("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "explode_bib": # for test
+    elif sys.argv[2] == "explode_bib": # for test
 # ------------------------------------------------------------------
         explode_bib("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "explode_sen": # for test
+    elif sys.argv[2] == "explode_sen": # for test
 # ------------------------------------------------------------------
         explode_sen("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "explode_ana": # for test
+    elif sys.argv[2] == "explode_ana": # for test
 # ------------------------------------------------------------------
         explode_ana("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "rebuild_one_publi": # for test
+    elif sys.argv[2] == "rebuild_one_publi": # for test
 # ------------------------------------------------------------------
         publi = get_rebuilt_annotated_publi_object("./dir_test/fetch_by_ftp/pmc23n0021/", "PMC2172800")
         fname ="./dir_test/fetch_by_ftp/pmc23n0021/00/PMC2172800.json"
@@ -553,17 +559,17 @@ if __name__ == '__main__':
         f_out.close()
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "save_publi": # for test
+    elif sys.argv[2] == "save_publi": # for test
 # ------------------------------------------------------------------
         save_annotated_publications("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "load_publi": # for test
+    elif sys.argv[2] == "load_publi": # for test
 # ------------------------------------------------------------------
         load_annotated_publications("pmc23n0023", my_chunks_dir)
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "prepare_chunk": # for test
+    elif sys.argv[2] == "prepare_chunk": # for test
 # ------------------------------------------------------------------
         # delete chunk data
         os.system("rm -rf " + my_chunks_dir)
@@ -576,7 +582,7 @@ if __name__ == '__main__':
         log_it("DEBUG", "build and load time", duration_since=t0)
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "save_rdf_files": # for test
+    elif sys.argv[2] == "save_rdf_files": # for test
 # ------------------------------------------------------------------
         t0 = datetime.datetime.now()
         chunk_name = "pmc23n0022"
@@ -584,10 +590,10 @@ if __name__ == '__main__':
         log_it("DEBUG", "build and load time", duration_since=t0)
 
 # ------------------------------------------------------------------
-    elif sys.argv[1] == "clean_chunk": # for test
+    elif sys.argv[2] == "clean_chunk": # for test
 # ------------------------------------------------------------------
         t0 = datetime.datetime.now()
-        chunk_name = sys.argv[2]
+        chunk_name = sys.argv[3]
         clean_chunk(chunk_name, my_chunks_dir)
         log_it("DEBUG", "clean_chunk", duration_since=t0)
 
