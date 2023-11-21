@@ -24,7 +24,7 @@ subcoll = ""
 # ------------------------------------------------------------------
 def init_properties(prop_file):
 # ------------------------------------------------------------------
-    global ftp_server, ftp_dir_dict, chunks_dir, rdf_dir
+    global ftp_server, ftp_dir_dict, chunks_dir, rdf_dir, collection, subcoll
 
     props = get_properties(prop_file)
     
@@ -511,8 +511,6 @@ if __name__ == '__main__':
         log_it("INFO", "Processing chunk", chunk_name, chunks_dir)
         process_chunk(chunk_name, chunks_dir, rdf_dir)
         log_it("INFO", "Processed chunk", chunk_name, duration_since=t0)
-
-
 
 # ------------------------------------------------------------------
 # T E S T S
