@@ -10,6 +10,7 @@ ttl
 *.gz
 *.log
 chunks/
+data.test/
 dir_test/
 output/
 proxy_dir/
