@@ -1,7 +1,3 @@
-from fetcher import get_chunk_names_from_ftp, init_properties
-from fetcher import chunk_rdf_dir_exists, rdf_dir, chunk_dir_exists
-from fetcher import chunk_rdf_dir_status_is_loaded, chunk_rdf_dir_status_is_loading, chunk_rdf_dir_status_is_load_error 
-from fetcher import set_chunk_rdf_dir_loaded_status, set_chunk_rdf_dir_loading_status, set_chunk_rdf_dir_load_error_status 
 from utils import log_it
 from datetime import datetime
 
@@ -10,6 +6,7 @@ import subprocess
 import os
 import sys
 
+from fetcher import Fetcher
 
 # ----------------------------------------------------
 def run_proc(proc_and_args):
@@ -17,15 +14,12 @@ def run_proc(proc_and_args):
 
     t0 = datetime.now()
     log_it("INFO", "MASTER", "Must do", proc_and_args)
-    if "load_chunk" in proc_and_args[0]: set_chunk_rdf_dir_loading_status(proc_and_args[1], rdf_dir)
     process = subprocess.Popen(proc_and_args)
     log_it("INFO", "MASTER", "Starting", proc_and_args, "pid", process.pid)
     status = process.wait()
     if status == 0:
-        if "load_chunk" in proc_and_args[0]: set_chunk_rdf_dir_loaded_status(proc_and_args[1], rdf_dir)
         log_it("INFO", "MASTER", "Completed", proc_and_args, "pid", process.pid, "status:", status, duration_since=t0)
     else:
-        if "load_chunk" in proc_and_args[0]: set_chunk_rdf_dir_load_error_status(proc_and_args[1], rdf_dir)
         log_it("ERROR", "MASTER", "Completed with error", proc_and_args, "pid", process.pid, "status:", status, duration_since=t0)
 
 
@@ -40,11 +34,12 @@ if __name__ == "__main__":
     t0 = datetime.now()
     # init properties required for get_chunk_names_from_ftp and rdf_dir
     context = sys.argv[1]
-    props = init_properties("rdfizer" + context + "properties")
+    fetcher = Fetcher("rdfizer" + context + "properties")
+    props = fetcher.props
 
     rdf_dir = props.get("rdf_dir")
     chunks_dir = props.get("chunks_dir")
-    chunks = get_chunk_names_from_ftp()
+    chunks = fetcher.get_chunk_names_from_ftp()
     
     num_processes = int(sys.argv[2])
     max_task = int(sys.argv[3])
@@ -62,7 +57,7 @@ if __name__ == "__main__":
         tasks = list()
         task_num=0
         for chunk in chunks:
-            if chunk_rdf_dir_exists(chunk, rdf_dir):
+            if fetcher.chunk_rdf_dir_exists(chunk):
                 log_it("INFO", "MASTER", "Skipping, rdf directory exists for chunk", chunk)
             else:
                 task_num += 1
@@ -85,15 +80,15 @@ if __name__ == "__main__":
         loaded_num=0
         loading_num=0
         for chunk in chunks:
-            if chunk_rdf_dir_exists(chunk, rdf_dir):
-                if not chunk_rdf_dir_status_is_loading(chunk, rdf_dir) and not chunk_rdf_dir_status_is_loaded(chunk, rdf_dir):
+            if fetcher.chunk_rdf_dir_exists(chunk):
+                if not fetcher.chunk_rdf_dir_status_is_loading(chunk) and not fetcher.chunk_rdf_dir_status_is_loaded(chunk):
                     task_num += 1
                     if task_num > max_task: break
                     tasks.append(["./load_chunk.sh", chunk])
-                elif chunk_rdf_dir_status_is_loaded(chunk, rdf_dir):
+                elif fetcher.chunk_rdf_dir_status_is_loaded(chunk):
                     loaded_num += 1
                     log_it("INFO", "MASTER", "Skipping, rdf directory already loaded, chunk", chunk)
-                elif chunk_rdf_dir_status_is_loading(chunk, rdf_dir):
+                elif fetcher.chunk_rdf_dir_status_is_loading(chunk):
                     loading_num += 1
                     log_it("ERROR", "MASTER", "Skipping, rdf directory has status LOADING, chunk", chunk)
             #else:
