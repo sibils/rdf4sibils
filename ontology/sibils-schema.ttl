@@ -344,7 +344,7 @@
       rdf:type owl:Class ;
       rdfs:label "Journal article"^^xsd:string ;
       rdfs:comment "An article, typically the realization of a research paper reporting original research findings, published in a journal issue."^^xsd:string ;
-      rdfs:subClassOf :Publication, fabio: ;
+      rdfs:subClassOf :Publication, fabio:JournalArticle ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
@@ -352,7 +352,7 @@
       rdf:type owl:Class ;
       rdfs:label "Letter"^^xsd:string ;
       rdfs:comment "A written or printed communication of a personal or professional nature between individuals and/or representatives of corporate bodies, usually transmitted by the postal service or published in a periodical. In the latter case, the letter is typically addressed to the editor and comments on or discussed an item previously published by that periodical, or of interest to its readership."^^xsd:string ;
-      rdfs:subClassOf :Publication, fabio:JournalArticle ;
+      rdfs:subClassOf :Publication, fabio:Letter ;
       rdfs:isDefinedBy <http://sibils.org/rdf> ;
       .
 
