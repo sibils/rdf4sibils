@@ -79,7 +79,7 @@ def get_triples_for_publi_annotations(publi):
         
         annot_bn = getBlankNode()
         lines.append(getTriple(publi_uri, sibilo.hasAnnotation(), annot_bn))
-        lines.append(getTriple(annot_bn, rdf.type(), sibilo.Annotation()))
+        lines.append(getTriple(annot_bn, rdf.type(), sibilo.NexAnnotation()))
         
         # the named entity found
         lines.append(getTriple(annot_bn, sibilo.hasBody(), get_term_URIRef_from_annot(annot))) 
@@ -371,7 +371,7 @@ def get_part_title_URIRef(part_uri):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def get_sentence_part_URIRef(publi_uri, sentence_or_annot):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    part_id = sentence_or_annot.get("id_sentence")                            # found in annotation object
+    part_id = sentence_or_annot.get("id_sentence")                            # found in annotation object (not necessary anymore)
     if part_id is None: part_id = sentence_or_annot.get("sentence_number")    # found in sentence object
     return publi_uri + "_sen_" + str(part_id)
 

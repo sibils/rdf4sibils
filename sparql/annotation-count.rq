@@ -1,0 +1,5 @@
+prefix : <http://sibils.org/rdf#>
+select  (count(*) as ?annotattion_count) where { 
+    ?publi :hasAnnotation ?annot .
+}
+

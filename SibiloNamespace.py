@@ -3,17 +3,20 @@ from rdfizer import BaseNamespace
 class SibiloNamespace(BaseNamespace):
     def __init__(self):
         super(SibiloNamespace, self).__init__("","http://sibils.org/rdf#")
-    def DiscourseElement(self): return ":DiscourseElement"
+
     def IRI(self, name): return "".join([":", name])
-    def Caption(self): return ":Caption"
-    def Abstract(self): return ":Abstract"
+
+    # discouse elements either from deo, doco or local
+    def DiscourseElement(self): return ":DiscourseElement"      # deo
+    def Caption(self): return ":Caption"                        # deo
+    def TableFooter(self): return ":TableFooter"                # local
+    def Abstract(self): return ":Abstract"                      # doco
     def Appendix(self): return ":Appendix"
     def BackMatter(self): return ":BackMatter"
     def BlockQuotation(self): return ":BlockQuotation"
     def BodyMatter(self): return ":BodyMatter"
     def CaptionedBox(self): return ":CaptionedBox"
-    def FigureBox(self): return ":FigureBox"
-    def FloatMatter(self): return ":FloatMatter"
+    def FloatMatter(self): return ":FloatMatter"               # local
     def FrontMatter(self): return ":FrontMatter"
     def Glossary(self): return ":Glossary"
     def Label(self): return ":Label"
@@ -31,57 +34,72 @@ class SibiloNamespace(BaseNamespace):
     def TableBox(self): return ":TableBox"
     def TableCellValues(self): return ":TableCellValues"
     def TableColumnName(self): return ":TableColumnName"
-    def TableFooter(self): return ":TableFooter"
     def TextBox(self): return ":TextBox"
     def Title(self): return ":Title"
     def VerseGroupBlock(self): return ":VerseGroupBlock"
     def WordSequence(self): return ":WordSequence"
-    def Publication(self): return ":Publication"
+
+    # publication types from fabio:
+    def JournalArticle(self): return ":JournalArticle"
+    def ReviewArticle(self): return ":ReviewArticle"
     def BriefReport(self): return ":BriefReport"
     def CaseReport(self): return ":CaseReport"
+    def Publication(self): return ":Publication"
     def Editorial(self): return ":Editorial"
-    def JournalArticle(self): return ":JournalArticle"
     def Letter(self): return ":Letter"
     def MeetingReport(self): return ":MeetingReport"
-    def ReviewArticle(self): return ":ReviewArticle"
-    def Manifestation(self): return ":Manifestation"
-    def Block(self): return ":Block"
-    def ordinal(self): return ":ordinal"
-    def more_specific_than(self): return ":more_specific_than"
-    def more_specific_than_transitive(self): return ":more_specific_than_transitive"
-    def affiliation(self): return ":affiliation"
-    def contains(self): return ":contains"
-    def doi(self): return ":doi"
-    def endingPage(self): return ":endingPage"
-    def issueIdentifier(self): return ":issueIdentifier"
-    def keyword(self): return ":keyword"
-    def pageRange(self): return ":pageRange"
-    def publicationDate(self): return ":publicationDate"
-    def startingPage(self): return ":startingPage"
-    def volume(self): return ":volume"
-    def abstract(self): return ":abstract"
-    def title(self): return ":title"
-    def creator(self): return ":creator"
-    def hasPart(self): return ":hasPart"
-    def hasNLMJournalTitleAbbreviation(self): return ":hasNLMJournalTitleAbbreviation"
-    def hasPubMedCentralId(self): return ":hasPubMedCentralId"
-    def hasPubMedId(self): return ":hasPubMedId"
-    def hasPublicationYear(self): return ":hasPublicationYear"
-    def embodiment(self): return ":embodiment"
-    def Annotation(self): return ":Annotation"
-    def AnnotationTarget(self): return ":AnnotationTarget"
-    def TextPositionSelector(self): return ":TextPositionSelector"
-    def hasAnnotation(self): return ":hasAnnotation"
-    def start(self): return ":start"
-    def end(self): return ":end"
-    def exact(self): return ":exact"
-    def hasBody(self): return ":hasBody"
-    def hasSelector(self): return ":hasSelector"
-    def hasSource(self): return ":hasSource"
-    def hasTarget(self): return ":hasTarget"
-    def chars(self): return ":chars"
-    def version(self): return ":version"
-    def Atc_St(self): return ":Atc_St"
+
+    def Manifestation(self): return ":Manifestation"    
+    def Block(self): return ":Block"                            # not used ?
+
+
+    def ordinal(self): return ":ordinal"                                                # local
+    def more_specific_than(self): return ":more_specific_than"                          # local, subclass of skos
+    def more_specific_than_transitive(self): return ":more_specific_than_transitive"    # local, subclass of skos
+
+    def affiliation(self): return ":affiliation"                # schema
+    
+    def doi(self): return ":doi"                                # prism
+    def endingPage(self): return ":endingPage"                  # prism
+    def issueIdentifier(self): return ":issueIdentifier"        # prism
+    def keyword(self): return ":keyword"                        # prism
+    def pageRange(self): return ":pageRange"                    # prism
+    def publicationDate(self): return ":publicationDate"        # prism
+    def startingPage(self): return ":startingPage"              # prism
+    def volume(self): return ":volume"                          # prism
+
+    def abstract(self): return ":abstract"                      # dcterms
+    def title(self): return ":title"                            # dcterms
+    def creator(self): return ":creator"                        # dcterms
+    def hasPart(self): return ":hasPart"                        # dcterms create subprop ?
+
+    def contains(self): return ":contains"                      # po      create subprop ?
+    
+    def embodiment(self): return ":embodiment"                                          # frbr
+
+    def hasNLMJournalTitleAbbreviation(self): return ":hasNLMJournalTitleAbbreviation"  # fabio
+    def hasPubMedCentralId(self): return ":hasPubMedCentralId"                          # fabio
+    def hasPubMedId(self): return ":hasPubMedId"                                        # fabio
+    def hasPublicationYear(self): return ":hasPublicationYear"                          # fabio
+    
+    def NexAnnotation(self): return ":NexAnnotation"                                    # local, subclass of oa:Annotation
+    def AnnotationTarget(self): return ":AnnotationTarget"                              # local, subclass of oa:SpecificResource
+    def TextPositionSelector(self): return ":TextPositionSelector"                      # oa
+    def hasAnnotation(self): return ":hasAnnotation"                                    # local
+    def start(self): return ":start"                                                    # oa
+    def end(self): return ":end"                                                        # oa
+    def exact(self): return ":exact"                                                    # oa
+    def hasBody(self): return ":hasBody"                                                # oa
+    def hasSelector(self): return ":hasSelector"                                        # oa
+    def hasSource(self): return ":hasSource"                                            # oa
+    def hasTarget(self): return ":hasTarget"                                            # oa
+
+    def chars(self): return ":chars"                                                    # cnt
+
+    def version(self): return ":version"                                                # dcterms
+
+
+    def Atc_St(self): return ":Atc_St"                      # <--- go on here: see which classes & props are involved in describing these sibils terminologies
     def Cellosaurus_St(self): return ":Cellosaurus_St"
     def Chebi_St(self): return ":Chebi_St"
     def Covocbiomed_St(self): return ":Covocbiomed_St"
