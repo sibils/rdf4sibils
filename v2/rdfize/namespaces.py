@@ -1,4 +1,5 @@
 import hashlib
+import urllib.parse
 from api_platform import ApiPlatform
 from namespace_term import Term
 
@@ -296,21 +297,28 @@ class SibilsNamespace(BaseNamespace): # Sibils data namespace
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def __init__(self, platform: ApiPlatform): super(SibilsNamespace, self).__init__("sibils", platform.get_rdf_base_IRI() + "/data/")
     def IRI(self, name): 
-        return "".join(["sibils:", name])
+        return ":".join([self.pfx, name])
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 class SibilcNamespace(BaseNamespace): # Sibilc concept namespace
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    def __init__(self, platform: ApiPlatform): super(SibilcNamespace, self).__init__("sibilc", platform.get_rdf_base_IRI() + "/concept/")
-    def IRI(self, name): return "".join(["sibilc:", name])
+    def __init__(self, platform: ApiPlatform): 
+        super(SibilcNamespace, self).__init__("sibilc", platform.get_rdf_base_IRI() + "/concept/")
+    
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+class OurTerminologyNamespace(BaseNamespace):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    def __init__(self, platform: ApiPlatform): 
+        super(OurTerminologyNamespace, self).__init__("sibilt", platform.get_rdf_base_IRI() + "/scheme/")
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 class Sibils2Namespace(BaseNamespace):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def __init__(self, platform: ApiPlatform): 
-        super(Sibils2Namespace, self).__init__("sibils2", platform.get_rdf_base_IRI() + "/ontology/" )
+        super(Sibils2Namespace, self).__init__("sibilo", platform.get_rdf_base_IRI() + "/ontology/" )
 
         # derived from deo:DiscourseElement
         self.TableFooter = self.registerClass("TableFooter", comment = "Text appearing at the bottom of a table.")
@@ -547,13 +555,6 @@ class HelpNamespace(BaseNamespace):
     def __init__(self, platform: ApiPlatform): 
         super(HelpNamespace, self).__init__("help", platform.get_help_base_IRI() + "/")
     def IRI(self, page): return "help:" + page
-
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-class OurDatabaseAndTerminologyNamespace(BaseNamespace):
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    def __init__(self, platform: ApiPlatform): 
-        super(OurDatabaseAndTerminologyNamespace, self).__init__("db", platform.get_rdf_base_IRI() + "/db/")
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

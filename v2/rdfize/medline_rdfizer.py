@@ -1,5 +1,5 @@
 from ApiCommon import log_it
-from rdf_utils import TripleList, getBlankNode, get_term_URIRef_from_annot
+from rdf_utils import TripleList, getBlankNode
 from namespace_registry import NamespaceRegistry
 from publi_rdfizer import PubliRdfizer
 
@@ -104,6 +104,7 @@ class MedlineRdfizer(PubliRdfizer):
         return triples
 
 
+
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # Sentences which were added to the RDF are marked with a "rank" property
     # Only the annotations related to these sentences should be added to the RDF
@@ -131,7 +132,9 @@ class MedlineRdfizer(PubliRdfizer):
             triples.append(annot_bn, ns.rdf.type, ns.sibilo.NexAnnotation)
             
             # the named entity found
-            triples.append(annot_bn, ns.oa.hasBody, get_term_URIRef_from_annot(ns, annot))
+            cpt_IRI = self.get_term_URIRef_from_annot(annot)
+            if cpt_IRI is None: continue
+            triples.append(annot_bn, ns.oa.hasBody, cpt_IRI)
             target_bn = getBlankNode()
             triples.append(annot_bn, ns.oa.hasTarget, target_bn)
 

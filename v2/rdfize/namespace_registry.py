@@ -16,8 +16,8 @@ class NamespaceRegistry:
         # instanciate local namespaces
         self.xref = OurXrefNamespace(platform)
         self.pub = OurPublicationNamespace(platform)
-        self.db = OurDatabaseAndTerminologyNamespace(platform)
-
+        
+        self.sibilt = OurTerminologyNamespace(platform)
         self.sibilo = Sibils2Namespace(platform)
         self.sibilc = SibilcNamespace(platform)
         self.sibils = SibilsNamespace(platform)
@@ -42,7 +42,7 @@ class NamespaceRegistry:
 
         self.namespaces = [
             self.sibilo, self.sibilc, self.sibils, self.deo, self.doco, self.po, self.cnt,
-            self.xref, self.pub, self.db, self.xsd, self.rdf, self.rdfs, self.skos, self.owl, self.dcterms, 
+            self.xref, self.pub, self.sibilt, self.xsd, self.rdf, self.rdfs, self.skos, self.owl, self.dcterms, 
             self.fabio, self.up, self.bibo, self.widoco, self.vann, self.oa, self.sh, self.schema, self.help, self.pubmed,
             # self.NCIt, self.CHEBI, self.ORDO, 
             self.prism, self.OLS ]

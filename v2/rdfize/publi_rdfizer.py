@@ -1,5 +1,6 @@
 from namespace_registry import NamespaceRegistry
 from ApiCommon import log_it
+from termi_extra import TermiExtraRegistry, TermiExtra
 
 class PubliRdfizer:
 
@@ -7,6 +8,7 @@ class PubliRdfizer:
     def __init__(self, ns: NamespaceRegistry, publi): 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         self.ns = ns
+        self.tex: TermiExtraRegistry = TermiExtraRegistry(ns)
         self.publi = publi
 
 
@@ -62,6 +64,19 @@ class PubliRdfizer:
         if fld == "table_column": return ns.sibilo.TableColumnName
         if fld == "table_value": return ns.sibilo.TableCellValues
         return ns.doco.Sentence
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    def get_term_URIRef_from_annot(self, annot):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        termi_id = annot["concept_source"]
+        cpt_id = annot["concept_id"]
+        tx : TermiExtra = self.tex.id2termi.get(termi_id)
+        if tx is None:
+            log_it(f"WARNING, ignoring annotation from unexpected terminology: {termi_id}")
+            return None
+        iri = tx.concept_IRI(cpt_id)            
+        return iri
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
