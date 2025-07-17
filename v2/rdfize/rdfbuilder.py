@@ -299,29 +299,9 @@ if __name__ == '__main__':
 
     builder.write_ttl_gz_files_for_medline()
     builder.write_ttl_gz_files_for_pmc()
-
-    sys.exit()
-
     builder.write_ttl_for_terminologies()
+
+    log_it("INFO, end")
+
     sys.exit()
-
-    filenames = list()
-    for fn in "PMC1253521.json.gz,PMC125375.json.gz,PMC1253832.json.gz".split(","):
-        filenames.append("../out/fetch/pmc/PMC12/" + fn)
-    for fn in "3049071.json.gz,3049153.json.gz,3049254.json.gz".split(","):
-        filenames.append("../out/fetch/medline/30/49/" + fn)
-
-    ttl_file = builder.ttldir + "/data_test.ttl"
-    f_out = open(ttl_file, "w")
-    f_out.write(builder.get_ttl_prefixes())
-    f_out.write("\n")
-
-    for filename in filenames:
-        f_out.write("\n".join(["#", f"# triples related to {filename}", "#", "\n"]))
-        publi_ttl = builder.get_ttl_from_publi_file(filename)
-        f_out.write(publi_ttl)
-
-    f_out.close()
-
-#    log_it("end")
 
