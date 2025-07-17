@@ -194,32 +194,49 @@ class OntologyBuilder:
         # Classes
         #
 
-        # Hierarchy based on fabio Expression
+        # fabio:Expression subclasses
         ns.describe( ns.fabio.Book,                     ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.BookChapter,              ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.JournalArticle,           ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.PatentDocument,           ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.ReportDocument,           ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.ConferencePaper,          ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.Thesis,                   ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.Chapter,                     ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.BookChapter,              ns.rdfs.subClassOf, ns.fabio.Chapter)
+        ns.describe( ns.fabio.Thesis,                   ns.rdfs.subClassOf, ns.fabio.Book)
         ns.describe( ns.fabio.BachelorsThesis,          ns.rdfs.subClassOf, ns.fabio.Thesis)
         ns.describe( ns.fabio.MastersThesis,            ns.rdfs.subClassOf, ns.fabio.Thesis)
         ns.describe( ns.fabio.DoctoralThesis,           ns.rdfs.subClassOf, ns.fabio.Thesis)
-
-        ns.describe( ns.fabio.ClinicalTrialReport,      ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.CaseReport,               ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.Review,                   ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.Article,                  ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.JournalArticle,           ns.rdfs.subClassOf, ns.fabio.Article)
+        ns.describe( ns.fabio.SpecificationDocument,    ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.PatentDocument,           ns.rdfs.subClassOf, ns.fabio.SpecificationDocument)
+        ns.describe( ns.fabio.ReportDocument,           ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.ProceedingsPaper,         ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.ConferencePaper,          ns.rdfs.subClassOf, ns.fabio.ProceedingsPaper)
         ns.describe( ns.fabio.Letter,                   ns.rdfs.subClassOf, ns.fabio.Expression)
         ns.describe( ns.fabio.Abstract,                 ns.rdfs.subClassOf, ns.fabio.Expression)
         ns.describe( ns.fabio.Comment,                  ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.Article,                  ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.Report,                   ns.rdfs.subClassOf, ns.fabio.Expression)
         ns.describe( ns.fabio.NewsItem,                 ns.rdfs.subClassOf, ns.fabio.Expression)
         ns.describe( ns.fabio.Editorial,                ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.Biography,                ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.TechnicalReport,          ns.rdfs.subClassOf, ns.fabio.Expression)
-        ns.describe( ns.fabio.SystematicReview,         ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.ReviewArticle,            ns.rdfs.subClassOf, ns.fabio.Article)
+        ns.describe( ns.fabio.BriefReport,              ns.rdfs.subClassOf, ns.fabio.ReportDocument)
+        ns.describe( ns.fabio.Addendum,                 ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.RapidCommunication,       ns.rdfs.subClassOf, ns.fabio.Expression)
+        ns.describe( ns.fabio.LectureNotes,             ns.rdfs.subClassOf, ns.fabio.Expression)
+    
 
+        # sublasses of fabio:Work
+        ns.describe( ns.fabio.Report,                   ns.rdfs.subClassOf, ns.fabio.Work)
+        ns.describe( ns.fabio.CaseReport,               ns.rdfs.subClassOf, ns.fabio.Report)
+        ns.describe( ns.fabio.TrialReport,              ns.rdfs.subClassOf, ns.fabio.Report)
+        ns.describe( ns.fabio.ClinicalTrialReport,      ns.rdfs.subClassOf, ns.fabio.TrialReport)
+        ns.describe( ns.fabio.Review,                   ns.rdfs.subClassOf, ns.fabio.Work)
+        ns.describe( ns.fabio.SystematicReview,         ns.rdfs.subClassOf, ns.fabio.Review)
+        ns.describe( ns.fabio.BookReview,               ns.rdfs.subClassOf, ns.fabio.Review)
+        ns.describe( ns.fabio.ProductReview,            ns.rdfs.subClassOf, ns.fabio.Review)
+        ns.describe( ns.fabio.Correction,               ns.rdfs.subClassOf, ns.fabio.Work)
+        ns.describe( ns.fabio.Biography,                ns.rdfs.subClassOf, ns.fabio.Work)
+        ns.describe( ns.fabio.TechnicalReport,          ns.rdfs.subClassOf, ns.fabio.Report)
+        ns.describe( ns.fabio.MeetingReport,            ns.rdfs.subClassOf, ns.fabio.Report)
+        ns.describe( ns.fabio.ScholarlyWork,            ns.rdfs.subClassOf, ns.fabio.Work)
+        ns.describe( ns.fabio.MethodsPaper,             ns.rdfs.subClassOf, ns.fabio.ScholarlyWork)
+        
 
         # Relationships with UniProt
         ns.describe( ns.fabio.BookChapter,              ns.skos.closeMatch, ns.up.Book_Citation)  # book citation is for book chapter !

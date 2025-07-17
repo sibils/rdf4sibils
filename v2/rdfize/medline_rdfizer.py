@@ -47,43 +47,77 @@ class MedlineRdfizer(PubliRdfizer):
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    def get_publi_class_URIRef(self, publication_types):
+    def get_publi_expression_class_URIRef(self, publication_types):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    
         ns = self.ns
         for article_type in publication_types:
-            if article_type == "Journal Article":               return ns.fabio.JournalArticle 
-            if article_type == "Introductory Journal Article":  return ns.fabio.JournalArticle
-            if article_type == "Clinical Trial":                return ns.fabio.ClinicalTrialReport      
-            if article_type == "Randomized Controlled Trial":   return ns.fabio.ClinicalTrialReport      
-            if article_type == "Clinical Trial, Phase I":       return ns.fabio.ClinicalTrialReport      
-            if article_type == "Clinical Trial, Phase II":      return ns.fabio.ClinicalTrialReport      
-            if article_type == "Clinical Trial, Phase III":     return ns.fabio.ClinicalTrialReport      
-            if article_type == "Case Reports":                  return ns.fabio.CaseReport      
-            if article_type == "Review":                        return ns.fabio.Review      
-            if article_type == "Letter":                        return ns.fabio.Letter      
-            if article_type == "English Abstract":              return ns.fabio.Abstract      
-            if article_type == "Comment":                       return ns.fabio.Comment      
-            if article_type == "Historical Article":            return ns.fabio.Article      
-            if article_type == "Classical Article":             return ns.fabio.Article      
-            if article_type == "Corrected and Republished Article":  return ns.fabio.Article                  
-            if article_type == "Comparative Study":             return ns.fabio.Report      
-            if article_type == "Clinical Study":                return ns.fabio.Report      
-            if article_type == "Multicenter Study":             return ns.fabio.Report      
-            if article_type == "Evaluation Study":              return ns.fabio.Report      
-            if article_type == "Observational Study":           return ns.fabio.Report      
-            if article_type == "Validation Study":              return ns.fabio.Report      
-            if article_type == "Twin Study":                    return ns.fabio.Report      
-            if article_type == "Meta-Analysis":                 return ns.fabio.Report      
-            if article_type == "News":                          return ns.fabio.NewsItem      
-            if article_type == "Editorial":                     return ns.fabio.Editorial      
-            if article_type == "Biography":                     return ns.fabio.Biography      
-            if article_type == "Autobiography":                 return ns.fabio.Biography      
-            if article_type == "Technical Report":              return ns.fabio.TechnicalReport      
-            if article_type == "Systematic Review":             return ns.fabio.SystematicReview      
+            # Note: "Retracted Publication", "Published erratum" are handled in get_ttl_for_publi()
+            if article_type == "Journal Article":               return ns.fabio.JournalArticle          # Expression
+            if article_type == "Introductory Journal Article":  return ns.fabio.JournalArticle          # Expression
+            if article_type == "Clinical Trial":                return ns.fabio.ReportDocument          # realizationOf ClinicalTrialReport
+            if article_type == "Randomized Controlled Trial":   return ns.fabio.ReportDocument          # realizationOf ClinicalTrialReport
+            if article_type == "Clinical Trial, Phase I":       return ns.fabio.ReportDocument          # realizationOf ClinicalTrialReport
+            if article_type == "Clinical Trial, Phase II":      return ns.fabio.ReportDocument          # realizationOf ClinicalTrialReport
+            if article_type == "Clinical Trial, Phase III":     return ns.fabio.ReportDocument          # realizationOf ClinicalTrialReport
+            if article_type == "Case Reports":                  return ns.fabio.ReportDocument          # realizationOf ClinicalTrialReport
+            if article_type == "Review":                        return ns.fabio.ReviewArticle           # Expression
+            if article_type == "Letter":                        return ns.fabio.Letter                  # Expression
+            if article_type == "English Abstract":              return ns.fabio.Abstract                # Expression
+            if article_type == "Comment":                       return ns.fabio.Comment                 # Expression
+            if article_type == "Historical Article":            return ns.fabio.Article                 # Expression
+            if article_type == "Classical Article":             return ns.fabio.Article                 # Expression
+            if article_type == "Corrected and Republished Article":  return ns.fabio.Article            # Expression      
+            if article_type == "Comparative Study":             return ns.fabio.ReportDocument          # realizationOf Report 
+            if article_type == "Clinical Study":                return ns.fabio.ReportDocument          # realizationOf Report
+            if article_type == "Multicenter Study":             return ns.fabio.ReportDocument          # realizationOf Report
+            if article_type == "Evaluation Study":              return ns.fabio.ReportDocument          # realizationOf Report
+            if article_type == "Observational Study":           return ns.fabio.ReportDocument          # realizationOf Report
+            if article_type == "Validation Study":              return ns.fabio.ReportDocument          # realizationOf Report
+            if article_type == "Twin Study":                    return ns.fabio.ReportDocument          # realizationOf Report
+            if article_type == "Meta-Analysis":                 return ns.fabio.ReportDocument          # realizationOf Report
+            if article_type == "News":                          return ns.fabio.NewsItem                # Expression
+            if article_type == "Editorial":                     return ns.fabio.Editorial               # Expression
+            if article_type == "Biography":                     return ns.fabio.Expression              # realizationOf Biography
+            if article_type == "Autobiography":                 return ns.fabio.Expression              # realizationOf Biography
+            if article_type == "Technical Report":              return ns.fabio.ReportDocument          # realizationOf TechnicalReport
+            if article_type == "Systematic Review":             return ns.fabio.ReviewArticle           # realizationOf SystematicReview
+            if article_type == "Lecture":                       return ns.fabio.LectureNotes            # Expression
+            if article_type.startswith("Research Support"):     return ns.fabio.Expression              # Expression
 
-            # ... "Retracted Publication"
-
+        publi_id = self.get_publi_id()
+        print(f"ERROR, unexpected article_type in publication with id={publi_id}, using default Expression class:", article_type)
         return ns.fabio.Expression
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # Sometimes there is no precise Expression subclass to specify the article type
+    # but instead we have a specific Work subclass which is this the frbr:realizationOf the expression
+    def get_publi_realization_of_work_class_URIRef(self, publication_types):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    
+        ns = self.ns
+        for article_type in publication_types:
+            if article_type == "case-report":                   return ns.fabio.CaseReport              # Work 
+            if article_type == "meeting-report":                return ns.fabio.MeetingReport           # Work 
+            if article_type == "correction":                    return ns.fabio.Correction              # Work 
+            if article_type == "Clinical Trial":                return ns.fabio.ClinicalTrialReport     # Work
+            if article_type == "Randomized Controlled Trial":   return ns.fabio.ClinicalTrialReport     # Work
+            if article_type == "Clinical Trial, Phase I":       return ns.fabio.ClinicalTrialReport     # Work 
+            if article_type == "Clinical Trial, Phase II":      return ns.fabio.ClinicalTrialReport     # Work
+            if article_type == "Clinical Trial, Phase III":     return ns.fabio.ClinicalTrialReport     # Work 
+            if article_type == "Case Reports":                  return ns.fabio.CaseReport              # Work
+            if article_type == "Comparative Study":             return ns.fabio.Report                  # Work
+            if article_type == "Clinical Study":                return ns.fabio.Report                  # Work
+            if article_type == "Multicenter Study":             return ns.fabio.Report                  # Work
+            if article_type == "Evaluation Study":              return ns.fabio.Report                  # Work
+            if article_type == "Observational Study":           return ns.fabio.Report                  # Work
+            if article_type == "Validation Study":              return ns.fabio.Report                  # Work
+            if article_type == "Twin Study":                    return ns.fabio.Report                  # Work
+            if article_type == "Meta-Analysis":                 return ns.fabio.Report                  # Work
+            if article_type == "Biography":                     return ns.fabio.Biography               # Work
+            if article_type == "Autobiography":                 return ns.fabio.Biography               # Work
+            if article_type == "Technical Report":              return ns.fabio.TechnicalReport         # Work
+            if article_type == "Systematic Review":             return ns.fabio.SystematicReview        # Work
+        return None
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -206,12 +240,29 @@ class MedlineRdfizer(PubliRdfizer):
 
         publi_doc = self.publi["document"]
         publi_uri = self.get_publi_URIRef()
-
         pmid = publi_doc.get("pmid")
+
+        #
+        # WARNING 
+        # ignore retractions and erratums because our json file does NOT contain link to retracted / replaced pmid !!!
+        #
+        for publi_type in publi_doc["publication_types"]:
+            if publi_type in ["Published Erratum", "Retraction Notice"]:
+                log_it("WARNING", f"Ignoring rdfization of medline '{publi_type}' file for", pmid)
+                return ""
+
+
         triples.append(publi_uri, ns.fabio.hasPubMedId, ns.xsd.string(pmid))
         
-        publi_class_uri = self.get_publi_class_URIRef(publi_doc["publication_types"])
+        publi_class_uri = self.get_publi_expression_class_URIRef(publi_doc["publication_types"])
         triples.append(publi_uri , ns.rdf.type, publi_class_uri)    
+
+        publi_work_class_uri = self.get_publi_realization_of_work_class_URIRef(publi_doc["publication_types"])
+        if publi_work_class_uri is not None:
+            work_BN = getBlankNode()
+            triples.append(publi_uri, ns.frbr.realizationOf, work_BN)
+            triples.append(work_BN, ns.rdf.type, publi_work_class_uri)
+
 
         pmcid = publi_doc.get("pmcid")  
         if pmcid is not None:

@@ -31,6 +31,7 @@ class NamespaceRegistry:
         self.rdfs = RdfsNamespace(); self.owl = OwlNamespace()
         self.skos = SkosNamespace(); self.dcterms = DctermsNamespace()
         self.fabio = FabioNamespace(); self.up = UniProtCoreNamespace() 
+        self.frbr = FrbrNamespace();  
         self.prism = PrismNamespace()
         self.bibo = BiboNamespace(); self.widoco = WidocoNamespace()
         self.vann = VannNamespace(); self.pubmed = PubMedNamespace()
@@ -43,7 +44,7 @@ class NamespaceRegistry:
         self.namespaces = [
             self.sibilo, self.sibilc, self.sibils, self.deo, self.doco, self.po, self.cnt,
             self.xref, self.pub, self.sibilt, self.xsd, self.rdf, self.rdfs, self.skos, self.owl, self.dcterms, 
-            self.fabio, self.up, self.bibo, self.widoco, self.vann, self.oa, self.sh, self.schema, self.help, self.pubmed,
+            self.fabio, self.frbr, self.up, self.bibo, self.widoco, self.vann, self.oa, self.sh, self.schema, self.help, self.pubmed,
             # self.NCIt, self.CHEBI, self.ORDO, 
             self.prism, self.OLS ]
 

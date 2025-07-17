@@ -34,24 +34,58 @@ class PmcRdfizer(PubliRdfizer):
         return publi_uri + "_sen_" + str(part_id)
 
 
+
+
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    def get_publi_class_URIRef(self, article_type):
+    def get_publi_expression_class_URIRef(self, article_type):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    
-        # see ontology at https://sparontologies.github.io/fabio/current/fabio.html
-        # warning: do not mix Work and Expression, here we choose only Expression subclasses
-        # https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw
+    # Returns a fabio.Expression (subclass) 
+    # see ontology at https://sparontologies.github.io/fabio/current/fabio.html
+    # warning: do not mix Work and Expression, here we choose only Expression subclasses
+    # https://sourceforge.net/p/sempublishing/code/HEAD/tree/JATS2RDF/jats2rdf.pdf?format=raw
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    
         ns = self.ns
-        if article_type == "research-article":  return ns.fabio.JournalArticle      
-        if article_type == "review-article":    return ns.fabio.ReviewArticle       
-        if article_type == "brief-report":      return ns.fabio.BriefReport        
-        if article_type == "case-report":       return ns.fabio.CaseReport         
-        if article_type == "discussion":        return ns.fabio.Expression         # default value
-        if article_type == "editorial":         return ns.fabio.Editorial          
-        if article_type == "letter":            return ns.fabio.Letter             
-        if article_type == "article-commentary":return ns.fabio.Expression         # default value
-        if article_type == "meeting-report":    return ns.fabio.MeetingReport      
-        if article_type == "correction":        return ns.fabio.Expression         # default value
-        print("ERROR, unexpected article_type", article_type)
+        if article_type == "research-article":  return ns.fabio.JournalArticle     # Expression  
+        if article_type == "case-report":       return ns.fabio.ReportDocument     # realizationOf CaseReport
+        if article_type == "discussion":        return ns.fabio.Expression         # Expression
+        if article_type == "editorial":         return ns.fabio.Editorial          # Expression
+        if article_type == "letter":            return ns.fabio.Letter             # Expression
+        if article_type == "article-commentary":return ns.fabio.Expression         # Expression
+        if article_type == "meeting-report":    return ns.fabio.ReportDocument     # realizationOf MeetingReport
+        if article_type == "correction":        return ns.fabio.Expression         # realizationOf Correction
+        if article_type == "review-article":    return ns.fabio.ReviewArticle      # Expression
+        if article_type == "brief-report":      return ns.fabio.BriefReport        # Expression
+        if article_type == "data-paper":        return ns.fabio.Expression         # Expression
+        if article_type == "methods-article":   return ns.fabio.Expression         # Expression        
+        if article_type == "abstract":          return ns.fabio.Abstract           # Expression
+        if article_type == "addendum":          return ns.fabio.Addendum           # Expression
+        if article_type == "book-review":       return ns.fabio.Expression         # realization of BookReview
+        if article_type == "chapter-article":   return ns.fabio.Article            # Expression
+        if article_type == "methods-paper":     return ns.fabio.Expression         # realizationOf MethodsPaper
+        if article_type == "news":              return ns.fabio.NewsItem           # Expression
+        if article_type == "product-review":    return ns.fabio.Expression         # realizationOf ProdutReview
+        if article_type == "rapid-communication": return ns.fabio.RapidCommunication # Expression
+        if article_type == "report":            return ns.fabio.ReportDocument     # realizationOf Report
+        if article_type == "other":             return ns.fabio.Expression         # Expression
+        publi_id = self.get_publi_id()
+        print(f"ERROR, unexpected article_type in publication with id={publi_id}, using default Expression class:", article_type)
+        return ns.fabio.Expression
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # Sometimes there is no precise Expression subclass to specify the article type
+    # but instead we have a specific Work subclass which is this the frbr:realizationOf the expression
+    def get_publi_realization_of_work_class_URIRef(self, article_type):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    
+        ns = self.ns
+        if article_type == "case-report":       return ns.fabio.CaseReport         # Work subclass
+        if article_type == "meeting-report":    return ns.fabio.MeetingReport      # Work subclass
+        if article_type == "correction":        return ns.fabio.Correction         # Work ŝubclass
+        if article_type == "book-review":       return ns.fabio.BookReview         # Work ŝubclass
+        if article_type == "methods-paper":     return ns.fabio.MethodsPaper       # Work ŝubclass
+        if article_type == "product-review":    return ns.fabio.ProductReview      # Work ŝubclass
+        if article_type == "report":            return ns.fabio.Report             # Work ŝubclass
+        return None
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -141,10 +175,24 @@ class PmcRdfizer(PubliRdfizer):
         publi_doc = self.publi["document"]
         pmcid = publi_doc["pmcid"]
 
+        #
+        # WARNING 
+        # ignore retractions because our json file does NOT contain link to retracted / replaced pmcid !!!
+        #
+        if publi_doc["article_type"] == "retraction":
+            log_it("WARNING", "Ignoring rdfization of 'retraction' file for", pmcid)
+            return ""
+
         #log_it("DEBUG", "pmcid", pmcid)
         publi_uri = self.get_publi_URIRef()
-        publi_class_uri = self.get_publi_class_URIRef(publi_doc["article_type"])
-        triples.append(publi_uri , ns.rdf.type, publi_class_uri)    
+        publi_class_uri = self.get_publi_expression_class_URIRef(publi_doc["article_type"])
+        triples.append(publi_uri , ns.rdf.type, publi_class_uri)
+        publi_work_class_uri = self.get_publi_realization_of_work_class_URIRef(publi_doc["article_type"])
+        if publi_work_class_uri is not None:
+            work_BN = getBlankNode()
+            triples.append(publi_uri, ns.frbr.realizationOf, work_BN)
+            triples.append(work_BN, ns.rdf.type, publi_work_class_uri)
+
         triples.append(publi_uri, ns.fabio.hasPubMedCentralId, ns.xsd.string(pmcid))
 
         medline_ta = publi_doc.get("medline_ta")
@@ -201,7 +249,7 @@ class PmcRdfizer(PubliRdfizer):
 
         if not bn_empty:
             triples.append(blank_node, ns.rdf.type, ns.fabio.Manifestation)
-            triples.append(publi_uri, ns.fabio.embodiement, blank_node)
+            triples.append(publi_uri, ns.frbr.embodiment, blank_node)
         # end page stuff
         
         o = publi_doc.get("title")

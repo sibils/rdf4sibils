@@ -77,7 +77,7 @@ class RdfBuilder:
     # reads pmc and medline publis (json.gz files) that were fetched earlier in the pipeline
     # and extracts terminology concepts cited in publi annotations
     # - - - - - - - - - - - - - - - - - - - - 
-    def get_terminologies_with_cited_concepts(self):
+    def get_terminologies_with_cited_concepts(self, sample_only=False):
     # - - - - - - - - - - - - - - - - - - - - 
         gz_files = list()
         for datadir in ["medline", "pmc"]:
@@ -88,7 +88,7 @@ class RdfBuilder:
         log_it("Reading cited concepts in publication json files")
         for file in gz_files:
             count += 1
-            if count > 11000: break
+            if sample_only and count > 11000: break
             if count % 1000 == 0: log_it(f"Getting cited concepts in file {count} / {len(gz_files)}...")
             stream = open(file, 'rb')
             gzipped_data = stream.read()
@@ -179,9 +179,9 @@ class RdfBuilder:
 
 
     # - - - - - - - - - - - - - - - - - - - - 
-    def get_ttl_for_terminologies(self):
+    def write_ttl_for_terminologies(self):
     # - - - - - - - - - - - - - - - - - - - - 
-        terminologies = self.get_terminologies_with_cited_concepts()
+        terminologies = self.get_terminologies_with_cited_concepts(sample_only=False)
         termi2file = self.get_terminology_file_dictionary()
         term2meta = self.get_terminology_metadata_dictionary()
 
@@ -214,6 +214,81 @@ class RdfBuilder:
 
 
 
+    # - - - - - - - - - - - - - - - - - - - - 
+    def write_ttl_gz_file_for_publi_list(self, input_filenames, ttl_gz_file):
+    # - - - - - - - - - - - - - - - - - - - - 
+        log_it(f"INFO, writing ttl file for {len(input_filenames)} json.gz files: {ttl_gz_file}")
+        f_out = open(ttl_gz_file, "w")
+        f_out = gzip.open(ttl_gz_file, 'wt')
+        f_out.write(self.get_ttl_prefixes())
+        f_out.write("\n")
+        for filename in input_filenames:
+            f_out.write("\n".join(["#", f"# triples related to {filename}", "#", "\n"]))
+            publi_ttl = self.get_ttl_from_publi_file(filename)
+            f_out.write(publi_ttl)
+        f_out.close()
+        log_it(f"INFO, wrote ttl file for {len(input_filenames)} json.gz files: {ttl_gz_file}")
+
+
+    # - - - - - - - - - - - - - - - - - - - - 
+    def get_medline_json_filenames(self):
+    # - - - - - - - - - - - - - - - - - - - - 
+        log_it(f"INFO, retrieving list of json.gz medline files to be rdfized")
+        filenames = list()
+        basedir = self.fetchdir + "/medline"
+        for root, dirs, files in os.walk(basedir):
+            for file in files: 
+                if file.endswith("json.gz"):
+                    filenames.append(root + "/" + file)
+        filenames.sort()
+        log_it(f"INFO, retrieved {len(filenames)} json.gz medline file names to be rdfized")
+        return filenames
+    
+
+    # - - - - - - - - - - - - - - - - - - - - 
+    def get_pmc_json_filenames(self):
+    # - - - - - - - - - - - - - - - - - - - - 
+        log_it(f"INFO, retrieving list of json.gz pmc files to be rdfized")
+        filenames = list()
+        basedir = self.fetchdir + "/pmc"
+        for root, dirs, files in os.walk(basedir):
+            for file in files: 
+                if file.endswith("json.gz"):
+                    filenames.append(root + "/" + file)
+        filenames.sort()
+        log_it(f"INFO, retrieved {len(filenames)} json.gz pmc file names to be rdfized")
+        return filenames
+    
+
+    # - - - - - - - - - - - - - - - - - - - - 
+    def write_ttl_gz_files_for_medline(self):
+    # - - - - - - - - - - - - - - - - - - - - 
+        pack_size = 500
+        filenames = self.get_medline_json_filenames()
+        pack_num = 0
+        while pack_num * pack_size < len(filenames):
+            pack_ttlname = self.ttldir + f"/data_medline_{pack_num:04d}.ttl.gz"
+            idx = pack_num * pack_size
+            input_files = filenames[idx : idx + pack_size]
+            #print("DEBUG", pack_ttlname, idx)
+            self.write_ttl_gz_file_for_publi_list(input_files, pack_ttlname)
+            pack_num += 1
+
+
+    # - - - - - - - - - - - - - - - - - - - - 
+    def write_ttl_gz_files_for_pmc(self):
+    # - - - - - - - - - - - - - - - - - - - - 
+        pack_size = 40
+        filenames = self.get_pmc_json_filenames()
+        pack_num = 0
+        while pack_num * pack_size < len(filenames):
+            pack_ttlname = self.ttldir + f"/data_pmc_{pack_num:04d}.ttl.gz"
+            idx = pack_num * pack_size
+            input_files = filenames[idx : idx + pack_size]
+            #print("DEBUG", pack_ttlname, idx)
+            self.write_ttl_gz_file_for_publi_list(input_files, pack_ttlname)
+            pack_num += 1
+
 
 #-------------------------------------------------
 if __name__ == '__main__':
@@ -222,19 +297,13 @@ if __name__ == '__main__':
     ns = NamespaceRegistry(platform)
     builder = RdfBuilder(ns)
 
-    # terminologies = builder.get_terminologies_with_cited_concepts()
-    # termi2file = builder.get_terminology_file_dictionary()
-    # term2meta = builder.get_terminology_metadata_dictionary()
-    # term_id = "covoccelllines"
-    # termino_triples = TripleList()
-    # termifile = termi2file[term_id]
-    # fulltermi = builder.get_full_terminology(termifile)
-    # termimeta = term2meta.get(term_id) or dict()
-    # rdfizer = TermRdfizer(ns, fulltermi, termimeta)
-    # rdfizer.print()
+    builder.write_ttl_gz_files_for_medline()
+    builder.write_ttl_gz_files_for_pmc()
 
-    builder.get_ttl_for_terminologies()
-#    sys.exit()
+    sys.exit()
+
+    builder.write_ttl_for_terminologies()
+    sys.exit()
 
     filenames = list()
     for fn in "PMC1253521.json.gz,PMC125375.json.gz,PMC1253832.json.gz".split(","):

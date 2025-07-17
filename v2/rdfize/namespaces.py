@@ -166,6 +166,7 @@ class FrbrNamespace(BaseNamespace):
 
         # described as standalone
         self.embodiment = self.registerObjectProperty("embodiment", comment="Having a frbr:embodiment implies being something that, amongst other things, is a frbr:Expression")
+        self.realizationOf = self.registerObjectProperty("realizationOf")
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -176,35 +177,53 @@ class FabioNamespace(BaseNamespace):
 
         # described as standalone:
         self.hasPublicationYear = self.registerDatatypeProperty("hasPublicationYear", label="has publication year")
-        self.embodiement = self.registerDatatypeProperty("embodiement", label="has publication year""Links a publication to its manifestation.")
         self.Manifestation = self.registerClass("Manifestation", comment = """A subclass of FRBR manifestation, restricted to manifestations of fabio:Expressions. fabio:Manifestation specifically applies to electronic (digital) as well as to physical manifestations of expressions. """)
         self.Expression = self.registerClass("Expression")
 
-        # described as subclasses of fabio:expression
+        # described as subclasses of fabio:Expression
+        self.Book = self.registerClass("Book")
+        self.Chapter = self.registerClass("Chapter")
+        self.BookChapter = self.registerClass("BookChapter")
         self.Thesis = self.registerClass("Thesis")
         self.BachelorsThesis = self.registerClass("BachelorsThesis", label = "Bachelor's thesis")
         self.MastersThesis = self.registerClass("MastersThesis", label = "Master's thesis")
         self.DoctoralThesis = self.registerClass("DoctoralThesis")
-        self.PatentDocument = self.registerClass("PatentDocument")
+        self.Article = self.registerClass("Article")
         self.JournalArticle = self.registerClass("JournalArticle")
-        self.Book = self.registerClass("Book")
-        self.BookChapter = self.registerClass("BookChapter")
-        self.ConferencePaper = self.registerClass("ConferencePaper")
+        self.SpecificationDocument = self.registerClass("SpecificationDocument")
+        self.PatentDocument = self.registerClass("PatentDocument")
         self.ReportDocument = self.registerClass("ReportDocument")
-        self.ClinicalTrialReport = self.registerClass("ClinicalTrialReport")
-        self.CaseReport = self.registerClass("CaseReport")
-        self.Review = self.registerClass("Review")
+        self.ProceedingsPaper = self.registerClass("ProceedingsPaper")
+        self.ConferencePaper = self.registerClass("ConferencePaper")
         self.Letter = self.registerClass("Letter")
         self.Abstract = self.registerClass("Abstract")
         self.Comment = self.registerClass("Comment")
-        self.Article = self.registerClass("Article")
-        self.Report = self.registerClass("Report")
         self.NewsItem = self.registerClass("NewsItem")
         self.Editorial = self.registerClass("Editorial")
-        self.Biography = self.registerClass("Biography")
-        self.TechnicalReport = self.registerClass("TechnicalReport")
-        self.SystematicReview = self.registerClass("SystematicReview")
+        self.ReviewArticle = self.registerClass("ReviewArticle")
+        self.BriefReport = self.registerClass("BriefReport")
+        self.Addendum = self.registerClass("Addendum")
+        self.RapidCommunication = self.registerClass("RapidCommunication")
+        self.LectureNotes = self.registerClass("LectureNotes")
         
+
+        # described as subclasses of fabio:Work
+        self.Work = self.registerClass("Work")
+        self.Report = self.registerClass("Report")
+        self.CaseReport = self.registerClass("CaseReport")
+        self.TrialReport = self.registerClass("TrialReport")
+        self.ClinicalTrialReport = self.registerClass("ClinicalTrialReport")
+        self.Review = self.registerClass("Review")
+        self.SystematicReview = self.registerClass("SystematicReview")
+        self.BookReview = self.registerClass("BookReview")
+        self.ProductReview = self.registerClass("ProductReview")
+        self.Correction = self.registerClass("Correction")
+        self.Biography = self.registerClass("Biography")
+        self.TechnicalReport = self.registerClass("TechnicalReport")        
+        self.MeetingReport = self.registerClass("MeetingReport")    
+        self.ScholarlyWork = self.registerClass("ScholarlyWork")
+        self.MethodsPaper = self.registerClass("MethodsPaper")
+
 
         # described as subprop of dcterms:identifiers:
         self.hasNLMJournalTitleAbbreviation = self.registerDatatypeProperty("hasNLMJournalTitleAbbreviation", label = "has National Library of Medicine journal title abbreviation", comment="An internal identifier for the abbreviation of the title of journals available from the National Library of Medicine repository.")
