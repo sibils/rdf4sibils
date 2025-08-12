@@ -3,6 +3,8 @@ import os
 import gzip
 import json
 import requests
+import subprocess
+from optparse import OptionParser
 from pathlib import Path
 from io import BytesIO
 from ApiCommon import log_it
@@ -12,6 +14,9 @@ from pmc_rdfizer import PmcRdfizer
 from medline_rdfizer import MedlineRdfizer
 from term_rdfizer import TermRdfizer
 from rdf_utils import TripleList
+from ontology_builder import OntologyBuilder
+from queries_utils import QueryFileReader, Query
+
 
 
 #-------------------------------------------------
@@ -22,6 +27,7 @@ class RdfBuilder:
     def __init__(self, ns: NamespaceRegistry): 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         self.ns = ns
+        self.voidgendir = "../../../sibils-void-generator/"
         self.ttldir = "../out/ttl"
         self.fetchdir = "../out/fetch"
         self.termidir = "../out/terminologies"
@@ -290,16 +296,171 @@ class RdfBuilder:
             pack_num += 1
 
 
+    # - - - - - - - - - - - - - - - - - - - - 
+    def write_ttl_for_ontology(self):
+    # - - - - - - - - - - - - - - - - - - - - 
+        platform = self.ns.platform
+        ob = OntologyBuilder(platform, self.ns)
+        onto_lines = ob.get_onto_pretty_ttl_lines("dev version")
+        onto_ttl_file = "/".join([self.ttldir, "ontology.ttl"])
+        stream=open(onto_ttl_file, "w")
+        stream.write(self.get_ttl_prefixes())
+        stream.write("\n".join(onto_lines))
+        stream.close()
+
+
+    # - - - - - - - - - - - - - - - - - - - - 
+    def write_ttl_gz_files_for_model(self):
+    # - - - - - - - - - - - - - - - - - - - - 
+        pass
+
+    # - - - - - - - - - - - - - - - - - - - - 
+    def write_ttl_file_for_void(self):
+    # - - - - - - - - - - - - - - - - - - - - 
+        log_it("INFO", "BUILD_RDF", "void", "starting...")
+        void_script = "/".join([self.voidgendir, "doit-sibils.sh"])
+        result = subprocess.run(['bash', void_script], capture_output=True, text=True) 
+        if result.returncode == 0:
+            generated_void_ttl = "/".join([self.voidgendir, "void-sibils.ttl"])
+            result = subprocess.run(['cp', generated_void_ttl, self.ttldir], capture_output=True, text=True) 
+        if result.returncode == 0:
+            log_it("INFO", "BUILD_RDF", "void", "succeeded")
+        else:
+            print(result.stdout)
+            print(result.stderr)
+            log_it("ERROR", "BUILD_RDF", "void", "failed")
+
+
+    # - - - - - - - - - - - - - - - - - - - - 
+    def save_virtuoso_isql_setup_file(self, output_file):
+    # - - - - - - - - - - - - - - - - - - - - 
+        lines = []
+        lines.append("""grant select on "DB.DBA.SPARQL_SINV_2" to "SPARQL";""")
+        lines.append("""grant execute on "DB.DBA.SPARQL_SINV_IMP" to "SPARQL";""")
+        lines.append("""GRANT SPARQL_SPONGE TO "SPARQL";""")
+        lines.append("""GRANT EXECUTE ON DB.DBA.L_O_LOOK TO "SPARQL";""")
+        for a_ns in self.ns.namespaces:
+            lines.append(a_ns.getSQLforVirtuoso())
+        f_out = open(output_file, "w")
+        for line in lines: f_out.write(line + "\n")
+        f_out.close()
+
+
+    # - - - - - - - - - - - - - - - - - - - - 
+    def write_ttl_file_for_queries(self):
+    # - - - - - - - - - - - - - - - - - - - - 
+        # create ttl file containing a list of example SPARQL queries 
+ 
+        rdf_dir = self.ttldir + "/"
+        rdf_file = open(rdf_dir + "queries.ttl", "wb")
+        log_it("INFO:", f"serializing example SPARQL queries")   
+        reader = QueryFileReader()
+        rdf_file.write(bytes("#\n", "utf-8"))
+        rdf_file.write(bytes("# example SPARQL queries\n", "utf-8"))
+        rdf_file.write(bytes("#\n\n", "utf-8"))
+        rdf_file.write(bytes("@prefix schema: <https://schema.org/> . \n", "utf-8"))
+        rdf_file.write(bytes("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . \n", "utf-8"))
+        rdf_file.write(bytes("@prefix sh: <http://www.w3.org/ns/shacl#> . \n", "utf-8"))
+        rdf_file.write(bytes(f"@prefix sibilo: <{self.ns.sibilo.url}> .\n", "utf-8"))
+        rdf_file.write(bytes("\n\n", "utf-8"))
+        count = 0
+        for q in reader.query_list:    
+            query : Query = q
+            count += 1
+            ttl = query.get_ttl_for_sparql_endpoint(self.ns)
+            rdf_file.write(bytes(ttl + "\n\n", "utf-8"))
+        log_it("INFO", f"wrote {count} queries")
+        log_it("INFO:", f"serialized example SPARQL queries")
+        rdf_file.close()
+
+
 #-------------------------------------------------
 if __name__ == '__main__':
 #-------------------------------------------------
-    platform = ApiPlatform("prod")
-    ns = NamespaceRegistry(platform)
-    builder = RdfBuilder(ns)
 
-    builder.write_ttl_gz_files_for_medline()
-    builder.write_ttl_gz_files_for_pmc()
-    builder.write_ttl_for_terminologies()
+    parser = OptionParser()
+    parser.add_option(
+        "-p", "--platform", action="store", type="string", dest="platform_key", default="(none)",
+        help="API platform key: test,prod, or local")
+
+    (options, args) = parser.parse_args()
+
+    platform_key = options.platform_key.lower()
+    if platform_key not in ["local", "test", "prod"]: 
+        sys.exit("Invalid --platform option, expected local, test, or prod")
+
+    usage = "Invalid arg1, expected BUILD_RDF, LOAD_RDF" 
+    if len(args) < 1: sys.exit(usage)
+
+    if args[0] not in [ "BUILD_RDF", "LOAD_RDF" ]: 
+        sys.exit(usage)
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    if args[0]=="BUILD_RDF":
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        if len(args) < 2 or args[1] not in ["pmc", "medline", "terminology", "ontology", "model", "queries", "void"]:
+            sys.exit("Invalid arg2, expected pmc, medline, terminology, ontology, queries, model or void")
+
+        platform = ApiPlatform(platform_key)
+        ns = NamespaceRegistry(platform)
+        builder = RdfBuilder(ns)
+
+        if args[1] == "pmc": 
+            builder.write_ttl_gz_files_for_pmc()
+        elif args[1] == "medline": 
+            builder.write_ttl_gz_files_for_medline()
+        elif args[1] == "terminology": 
+            builder.write_ttl_for_terminologies()
+        elif args[1] == "ontology": 
+            builder.write_ttl_for_ontology()
+        elif args[1] == "queries": 
+            builder.write_ttl_file_for_queries()
+        elif args[1] == "void": 
+            builder.write_ttl_file_for_void()
+        elif args[1] == "model": 
+            builder.write_json_file_for_model()
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    elif args[0]=="LOAD_RDF":
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        if len(args) < 2 or args[1] not in ["clear", "pmc", "medline", "terminology", "ontology", "void", "queries"]:
+            sys.exit("Invalid arg2, expected clear, pmc, medline, terminology, ontology, void, queries")
+
+        platform = ApiPlatform(platform_key)
+        ns = NamespaceRegistry(platform)
+        builder = RdfBuilder(ns)
+        result = None
+
+        if args[1] == "clear": 
+            # clear the virtuoso database
+            result = subprocess.run(['bash', '../virt/sparql_service.sh', 'clear'], capture_output=True, text=True) 
+            if result.returncode == 0:
+                # generate and load virtuoso setup file
+                builder.save_virtuoso_isql_setup_file('../virt/virtuoso_setup.sql')
+                result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'setup'], capture_output=True, text=True) 
+
+        elif args[1] == "pmc": 
+            result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'data_pmc', 'no_checkpoint'], capture_output=True, text=True) 
+        elif args[1] == "medline": 
+            result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'data_medline', 'no_checkpoint'], capture_output=True, text=True) 
+        elif args[1] == "terminology": 
+            result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'termino', 'no_checkpoint'], capture_output=True, text=True) 
+            if result: result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'concept', 'no_checkpoint'], capture_output=True, text=True) 
+        elif args[1] == "ontology": 
+            result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'onto', 'no_checkpoint'], capture_output=True, text=True) 
+        elif args[1] == "void": 
+            result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'void', 'no_checkpoint'], capture_output=True, text=True) 
+        elif args[1] == "queries": 
+            result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'queries', 'no_checkpoint'], capture_output=True, text=True) 
+
+        if result.returncode == 0:
+            log_it("INFO", "LOAD_RDF", args[1], "succeeded")
+        else:
+            print(result.stdout)
+            print(result.stderr)
+            log_it("ERROR", "LOAD_RDF", args[1], "failed")
+
 
     log_it("INFO, end")
 

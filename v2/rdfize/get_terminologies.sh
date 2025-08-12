@@ -2,7 +2,7 @@
 
 set -e
 
-echo "Get a l local copy of terminologies..."
+echo "Get a local copy of terminologies..."
 
 
 remote_server="superpam@rdfizer.lan.text-analytics.ch"

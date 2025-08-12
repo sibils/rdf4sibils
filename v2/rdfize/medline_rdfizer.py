@@ -253,6 +253,8 @@ class MedlineRdfizer(PubliRdfizer):
 
 
         triples.append(publi_uri, ns.fabio.hasPubMedId, ns.xsd.string(pmid))
+        triples.append(publi_uri, ns.rdfs.seeAlso, f"<https://pubmed.ncbi.nlm.nih.gov/{pmid}>")
+
         
         publi_class_uri = self.get_publi_expression_class_URIRef(publi_doc["publication_types"])
         triples.append(publi_uri , ns.rdf.type, publi_class_uri)    

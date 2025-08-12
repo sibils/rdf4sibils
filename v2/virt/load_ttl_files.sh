@@ -38,19 +38,20 @@ isql=$virt_base/bin/isql
 prefix=$1
 
 # setup of virtuoso: add predefined prefixes and allow query federation
-if [ "$prefix" == "data" ]; then
+if [ "$prefix" == "setup" ]; then
   echo "$(date) - INFO setup of virtuoso prefixes and allow federated queries"
   $isql 1112 dba dba $scripts_dir/virtuoso_setup.sql
+  exit 0
 fi
 
 # reset load list and display it
 echo "$(date) - INFO Telling virtuoso which files need to be loaded"
 $isql 1112 dba dba "EXEC=delete from DB.DBA.load_list;"
-$isql 1112 dba dba "EXEC=ld_dir ('${input_dir}', '${prefix}*.ttl', 'https://www.sibils.org/rdf/graphs/main') ;"
+$isql 1112 dba dba "EXEC=ld_dir ('${input_dir}', '${prefix}*.ttl*', 'https://www.sibils.org/rdf/graphs/main') ;"
 $isql 1112 dba dba "EXEC=select * from DB.DBA.load_list;"
 
 # run N processes to load the ttl files
-max_proc=2
+max_proc=1
 
 echo "$(date) - INFO loading declared gz files with $max_proc process(es)"
 for ((i=1; i<=max_proc; i++)); do
@@ -66,11 +67,11 @@ if [ "$error_cnt" != "0" ]; then
 fi
 
 
-# run a checkout
-if [ "$2" == "no_checkout" ]; then
-  echo "$(date) - INFO Skipping checkpoint after load of chunk $chunk"
+# run a checkpoint
+if [ "$2" == "no_checkpoint" ]; then
+  echo "$(date) - INFO Skipping checkpoint after load of $prefix files"
 else
-  echo "$(date) - INFO Starting checkpoint after load of chunk $chunk"
+  echo "$(date) - INFO Starting checkpoint after load of $prefix files"
   $isql 1112 dba dba "EXEC=checkpoint;"
   if [ "$?" != "0" ]; then 
     echo "$(date) - ERROR Problem while running checkpoint"; 

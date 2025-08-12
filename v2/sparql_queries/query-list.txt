@@ -1,0 +1,21 @@
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+## Description of the format
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+## blank lines or lines starting with ## are ignored
+## ID: unique id of query (numeric)
+## LB: query label
+## KW: keyword(s) separated by a comma
+## other lines are considered as the SPARQL query itself
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+## ------------------------------------------------------
+ID: 101
+LB: Count of publications by type
+KW: publication
+## ------------------------------------------------------
+select ?publi_type (count(*) as ?instance_count) where {
+ ?publi a ?publi_type . 
+ ?publi_type rdfs:subClassOf+ fabio:Expression .
+}
+
+

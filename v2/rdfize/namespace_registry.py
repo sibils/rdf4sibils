@@ -1,5 +1,4 @@
 from namespaces import *
-from namespace_cello import CelloOntologyNamespace
 from namespace_term import Term
 from api_platform import ApiPlatform
 
@@ -14,11 +13,8 @@ class NamespaceRegistry:
         self.platform = platform
 
         # instanciate local namespaces
-        self.xref = OurXrefNamespace(platform)
-        self.pub = OurPublicationNamespace(platform)
-        
         self.sibilt = OurTerminologyNamespace(platform)
-        self.sibilo = Sibils2Namespace(platform)
+        self.sibilo = SibiloNamespace(platform)
         self.sibilc = SibilcNamespace(platform)
         self.sibils = SibilsNamespace(platform)
         
@@ -30,23 +26,23 @@ class NamespaceRegistry:
         self.xsd  = XsdNamespace(); self.rdf = RdfNamespace(); 
         self.rdfs = RdfsNamespace(); self.owl = OwlNamespace()
         self.skos = SkosNamespace(); self.dcterms = DctermsNamespace()
-        self.fabio = FabioNamespace(); self.up = UniProtCoreNamespace() 
-        self.frbr = FrbrNamespace();  
+        self.fabio = FabioNamespace() 
+        self.up = UniProtCoreNamespace() 
+        self.frbr = FrbrNamespace()  
+        self.IAO = IAONamespace()
         self.prism = PrismNamespace()
         self.bibo = BiboNamespace(); self.widoco = WidocoNamespace()
-        self.vann = VannNamespace(); self.pubmed = PubMedNamespace()
+        self.vann = VannNamespace()
         self.oa = OaNamespace()
         self.sh = ShaclNamespace();self.schema = SchemaOrgNamespace()
-        self.NCIt = NCItNamespace(); 
-        self.CHEBI = CHEBINamespace(); self.ORDO = ORDONamespace(); 
-        self.OLS = OLSNamespace()
 
         self.namespaces = [
-            self.sibilo, self.sibilc, self.sibils, self.deo, self.doco, self.po, self.cnt,
-            self.xref, self.pub, self.sibilt, self.xsd, self.rdf, self.rdfs, self.skos, self.owl, self.dcterms, 
-            self.fabio, self.frbr, self.up, self.bibo, self.widoco, self.vann, self.oa, self.sh, self.schema, self.help, self.pubmed,
-            # self.NCIt, self.CHEBI, self.ORDO, 
-            self.prism, self.OLS ]
+            self.sibilo, self.sibilc, self.sibils, self.sibilt, 
+            self.deo, self.doco, self.po, self.cnt,
+            self.xsd, self.rdf, self.rdfs, self.skos, self.owl, self.dcterms, 
+            self.fabio, self.frbr, self.IAO, self.up, self.bibo, self.widoco, self.vann, self.oa, self.sh, self.schema, self.prism, 
+            self.help
+            ]
 
         self.pfx2ns = dict()
         for ns in self.namespaces: self.pfx2ns[ns.pfx] = ns
@@ -232,17 +228,6 @@ if __name__ == '__main__':
     ns.describe("up:TestClass", ns.skos.exactMatch, ns.OBI.GeneticTransformation)
     ns.describe("up:TestClass", ns.skos.closeMatch, ns.OBI.GeneticTransformation)
     t = ns.up.terms["TestClass"]
-    lines = ns.ttl_lines_for_ns_term(t)
-    print("\n".join(lines))
-
-    print("----")
-    ns.cello.registerClass("TestClass")
-    ns.describe("cello:TestClass", ns.rdfs.comment, ns.xsd.string("""this is my " real comment"""))
-    ns.describe("cello:TestClass", ns.rdfs.label, ns.xsd.string("Test Class label"))
-    ns.describe("cello:TestClass", ns.skos.broadMatch, ns.OBI.GeneticTransformation)
-    ns.describe("cello:TestClass", ns.skos.exactMatch, ns.OBI.GeneticTransformation)
-    ns.describe("cello:TestClass", ns.skos.closeMatch, ns.OBI.GeneticTransformation)
-    t = ns.cello.terms["TestClass"]
     lines = ns.ttl_lines_for_ns_term(t)
     print("\n".join(lines))
 

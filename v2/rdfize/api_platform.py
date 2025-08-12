@@ -26,25 +26,25 @@ class ApiPlatform:
             # WARNING: no final "/", please !
             # ---------------------------------
             "local": {
-                "base_IRI": "http://localhost/rdf",
-                "help_IRI": "http://localhost:8082",                        # http://localhost:8082/ontology.ttl thanks to main.app.mount())
+                "base_IRI": "http://local.sibils.org/rdf",
+                "help_IRI": "https://sibils.org/help/",                   # http://localhost:8082/ontology.ttl thanks to main.app.mount())
                 "public_sparql_IRI": "http://localhost/sparql/service",
-                "private_sparql_IRI" : "http://localhost:8890/sparql",
-                "builder_sparql_IRI" : "http://localhost:8890/sparql"     
+                "private_sparql_IRI" : "http://localhost:8891/sparql",
+                "builder_sparql_IRI" : "http://localhost:8891/sparql"     
             },
             "test": {
-                "base_IRI": "https://www.mix-id1.cellosaurus.org/rdf",
-                "help_IRI": "https://test-api.cellosaurus.org",
-                "public_sparql_IRI": "https://test-sparql.cellosaurus.org/sparql",
-                "private_sparql_IRI" : "http://localhost:8890/sparql",
-                "builder_sparql_IRI" : "http://localhost:8890/sparql"
+                "base_IRI": "https://test.sibils.org/rdf",
+                "help_IRI": "https://sibils.org/help/",
+                "public_sparql_IRI": "https://test-sparql.sibils.org/sparql",
+                "private_sparql_IRI" : "http://localhost:8891/sparql",
+                "builder_sparql_IRI" : "http://localhost:8891/sparql"
             },
             "prod": {
                 "base_IRI": "https://purl.expasy.org/sibils/rdf",
-                "help_IRI": "https://api.cellosaurus.org",
+                "help_IRI": "https://sibils.org/help/",
                 "public_sparql_IRI": "https://sparql.sibils.org/sparql",
-                "private_sparql_IRI" : "http://localhost:8890/sparql",
-                "builder_sparql_IRI" : "http://localhost:8890/sparql"
+                "private_sparql_IRI" : "http://localhost:8891/sparql",
+                "builder_sparql_IRI" : "http://localhost:8891/sparql"
             }
         }
 

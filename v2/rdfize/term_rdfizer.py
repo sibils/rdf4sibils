@@ -99,7 +99,7 @@ class TermRdfizer():
     def get_relevant_concepts(self, cited_concepts):
     # - - - - - - - - - - - - - - - - - - - - 
         relevant_concepts = set()
-        for cpt_id in cited_concepts: # cited_concept is a dictinary where key = cpt_id and value = short list of files where the concept id was cited
+        for cpt_id in cited_concepts: # cited_concepts is a dictionary where key = cpt_id and value = short list of files where the concept id was cited
             parent_concepts = set()
             citing_files = cited_concepts[cpt_id]
             self.get_parent_concepts(cpt_id, citing_files, parent_concepts)
@@ -115,7 +115,7 @@ class TermRdfizer():
     # - - - - - - - - - - - - - - - - - - - - 
         concept = self.terminology["concepts"].get(cpt_id)
         if concept is None: 
-            # weird things we handle
+            # weird things we need to handle
             if cpt_id == "" and self.get_id() == "ott": return # "" is the parent of the root concept !
             if cpt_id == "http://www.w3.org/2002/07/owl#Thing" and self.get_id() == "atc": return
             if cpt_id == "" and self.get_id() == "atc": return
@@ -174,8 +174,11 @@ class TermRdfizer():
             no_accent_label = remove_accents(alt["term"])
             triples.append(cpt_IRI, ns.skos.altLabel, ns.xsd.string(no_accent_label))
         for parent_id in concept.get("parents") or []:
-            parent_IRI = self.get_concept_IRI(parent_id)            
-            triples.append(cpt_IRI, ns.sibilo.more_specific_than, parent_IRI)
+            if self.terminology["concepts"].get(parent_id) is None:
+                log_it(f"WARNING, concept not found in terminology {self.get_id()}: {cpt_id} has unknown parent {parent_id}")
+            else:
+                parent_IRI = self.get_concept_IRI(parent_id)            
+                triples.append(cpt_IRI, ns.sibilo.more_specific_than, parent_IRI)
         exact_match_iri = self.get_concept_exact_match(cpt_id)
         if exact_match_iri is not None:
             triples.append(cpt_IRI, ns.skos.exactMatch, f"<{exact_match_iri}>")

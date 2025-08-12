@@ -202,6 +202,7 @@ class PmcRdfizer(PubliRdfizer):
         pmid = publi_doc.get("pmid")
         if pmid is not None:
             triples.append(publi_uri, ns.fabio.hasPubMedId, ns.xsd.string(pmid))
+            triples.append(publi_uri, ns.rdfs.seeAlso, f"<https://pubmed.ncbi.nlm.nih.gov/{pmid}>")
 
         doi = publi_doc.get("doi")
         if doi is not None:

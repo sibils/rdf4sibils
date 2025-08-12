@@ -59,15 +59,14 @@ class OntologyBuilder:
         ns = self.ns
 
         self.rdfs_domain_to_remove = dict()
-        #self.rdfs_domain_to_remove[ns.cello.accession] = { ns.skos.Concept }
-        #self.rdfs_domain_to_remove[ns.cello.database] = { ns.skos.Concept  }
-        #self.rdfs_domain_to_remove[ns.cello.more_specific_than] = { ns.cello.Xref  }
+        # examples:
+        #self.rdfs_domain_to_remove[ns.xxx.accession] = { ns.skos.Concept }
+        #self.rdfs_domain_to_remove[ns.xxx.database] = { ns.skos.Concept  }
 
         self.rdfs_range_to_remove = dict()
-        #self.rdfs_range_to_remove[ns.cello.seeAlsoXref] = { ns.skos.Concept }
-        #self.rdfs_range_to_remove[ns.cello.isIdentifiedByXref] = { ns.skos.Concept }
-        #self.rdfs_range_to_remove[ns.cello.more_specific_than] = { ns.cello.Xref } 
-        #self.rdfs_range_to_remove[ns.cello.database] = { ns.owl.NamedIndividual, ns.cello.CelloConceptScheme } 
+        # examples:
+        #self.rdfs_range_to_remove[ns.xxx.seeAlsoXref] = { ns.skos.Concept }
+        #self.rdfs_range_to_remove[ns.xxx.isIdentifiedByXref] = { ns.skos.Concept }
         
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -77,13 +76,13 @@ class OntologyBuilder:
         # NOW build tree with (local) child - parent relationships based on rdfs:subClassOf()
         edges = dict()
         relevant_namespaces = ns.namespaces
-        if local_only: relevant_namespaces = [ ns.cello ]
+        #if local_only: relevant_namespaces = [ ns.some_namespace, ns.some_other, ... ]
         for space in relevant_namespaces:
             for term_id in space.terms:
                 term: Term = space.terms[term_id]
                 if not term.isA(ns.owl.Class): continue
                 for parent_iri in term.props.get(ns.rdfs.subClassOf) or set():
-                    if parent_iri.startswith(ns.cello.pfx) or not local_only:
+                    if not local_only:
                         #print("DEBUG tree", term.iri, "has parent", parent_iri)
                         if term.iri in edges:
                             log_it(f"WARNING, multiple parents for {term.iri}:  parent {edges[term.iri]} replaced with {parent_iri}")
@@ -97,8 +96,8 @@ class OntologyBuilder:
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         self.build_class_tree()
         ns = self.ns
-        for term_id in ns.cello.terms:
-            term: Term = ns.cello.terms[term_id]
+        for term_id in ns.sibilo.terms:
+            term: Term = ns.sibilo.terms[term_id]
             if not term.isA(ns.rdf.Property): continue
             # gather domain classes
             log_it("DEBUG", "querying prop_name", term.iri, "domains")
@@ -239,7 +238,7 @@ class OntologyBuilder:
         
 
         # Relationships with UniProt
-        ns.describe( ns.fabio.BookChapter,              ns.skos.closeMatch, ns.up.Book_Citation)  # book citation is for book chapter !
+        ns.describe( ns.fabio.BookChapter,              ns.skos.closeMatch, ns.up.Book_Citation)  # book citation is for book chapter !        
         ns.describe( ns.fabio.JournalArticle,           ns.skos.closeMatch, ns.up.Journal_Citation )
         ns.describe( ns.fabio.PatentDocument,           ns.skos.closeMatch, ns.up.Patent_Citation)
         ns.describe( ns.fabio.Thesis,                   ns.skos.closeMatch, ns.up.Thesis_Citation)
@@ -247,23 +246,29 @@ class OntologyBuilder:
         ns.describe( ns.fabio.MastersThesis,            ns.skos.broadMatch, ns.up.Thesis_Citation)
         ns.describe( ns.fabio.DoctoralThesis,           ns.skos.broadMatch, ns.up.Thesis_Citation)
 
-        ns.describe( ns.sibils2.TableFooter, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
+        ns.describe( ns.sibilo.TableFooter, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.deo.Caption, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
 
         ns.describe( ns.doco.Abstract, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.doco.Appendix, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.doco.BackMatter, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.doco.BodyMatter, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
-        ns.describe( ns.sibils2.FloatMatter, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
+        ns.describe( ns.sibilo.FloatMatter, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.doco.CaptionedBox, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.doco.FrontMatter, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.doco.Label, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.doco.Glossary, ns.rdfs.subClassOf, ns.deo.DiscourseElement)               
         ns.describe( ns.doco.FigureBox, ns.rdfs.subClassOf, ns.deo.DiscourseElement)              
         ns.describe( ns.doco.BlockQuotation, ns.rdfs.subClassOf, ns.deo.DiscourseElement)         
-        ns.describe( ns.doco.ListOfReferences, ns.rdfs.subClassOf, ns.deo.DiscourseElement)       
+
+        ns.describe( ns.doco.List, ns.rdfs.subClassOf, ns.deo.DiscourseElement)  
+        ns.describe( ns.doco.ListOfReferences, ns.rdfs.subClassOf, ns.doco.List)     
+        ns.describe( ns.doco.ListOfAgents,     ns.rdfs.subClassOf, ns.doco.List)       
+        ns.describe( ns.doco.ListOfAuthors,       ns.rdfs.subClassOf, ns.doco.ListOfAgents)       
+        ns.describe( ns.doco.ListOfOrganizations, ns.rdfs.subClassOf, ns.doco.ListOfAgents)       
+        
         ns.describe( ns.doco.Paragraph, ns.rdfs.subClassOf, ns.deo.DiscourseElement)              
-        ns.describe( ns.doco.ListItemBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)          
+        ns.describe( ns.sibilo.ListItemBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)          
 
         ns.describe( ns.doco.Section, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.doco.SectionLabel, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
@@ -273,26 +278,27 @@ class OntologyBuilder:
         ns.describe( ns.doco.Table, ns.rdfs.subClassOf, ns.deo.DiscourseElement)                  
         ns.describe( ns.doco.TableBox, ns.rdfs.subClassOf, ns.deo.DiscourseElement)               
 
-        ns.describe( ns.sibils2.WordSequence, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
-        ns.describe( ns.doco.Sentence, ns.rdfs.subClassOf, ns.sibils2.WordSequence)              
-        ns.describe( ns.sibils2.TableCellValues, ns.rdfs.subClassOf, ns.sibils2.WordSequence)    
-        ns.describe( ns.sibils2.TableColumnName, ns.rdfs.subClassOf, ns.sibils2.WordSequence)    
+        ns.describe( ns.sibilo.WordSequence, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
+        ns.describe( ns.doco.Sentence, ns.rdfs.subClassOf, ns.sibilo.WordSequence)              
+        ns.describe( ns.sibilo.TableCellValues, ns.rdfs.subClassOf, ns.sibilo.WordSequence)    
+        ns.describe( ns.sibilo.TableColumnName, ns.rdfs.subClassOf, ns.sibilo.WordSequence)    
 
-        ns.describe( ns.sibils2.MediaBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)          
-        ns.describe( ns.sibils2.ObjectIdBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)       
-        ns.describe( ns.sibils2.SpeechBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)         
-        ns.describe( ns.sibils2.StatementBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)      
-        ns.describe( ns.sibils2.VerseGroupBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)     
+        ns.describe( ns.sibilo.MediaBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)          
+        ns.describe( ns.sibilo.ObjectIdBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)       
+        ns.describe( ns.sibilo.SpeechBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)         
+        ns.describe( ns.sibilo.StatementBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)      
+        ns.describe( ns.sibilo.VerseGroupBlock, ns.rdfs.subClassOf, ns.deo.DiscourseElement)     
 
-        ns.describe( ns.sibils2.NexAnnotation, ns.rdfs.subClassOf, ns.oa.Annotation)
-        ns.describe( ns.sibils2.AnnotationTarget, ns.rdfs.subClassOf, ns.oa.SpecificResource)
+        ns.describe( ns.sibilo.NexAnnotation, ns.rdfs.subClassOf, ns.oa.Annotation)
+        ns.describe( ns.sibilo.AnnotationTarget, ns.rdfs.subClassOf, ns.oa.SpecificResource)
+        
         
 
         #
         # Properties
         #
-        ns.describe(ns.sibils2.more_specific_than, ns.rdfs.subPropertyOf, ns.skos.broader)
-        ns.describe(ns.sibils2.more_specific_than_transitive, ns.rdfs.subPropertyOf, ns.skos.broaderTransitive)
+        ns.describe(ns.sibilo.more_specific_than, ns.rdfs.subPropertyOf, ns.skos.broader)
+        ns.describe(ns.sibilo.more_specific_than_transitive, ns.rdfs.subPropertyOf, ns.skos.broaderTransitive)
 
         ns.describe(ns.schema.affiliation, ns.rdfs.subPropertyOf, ns.schema.memberOf)
         ns.describe(ns.schema.name, ns.owl.equivalentProperty, ns.dcterms.title)
@@ -300,9 +306,42 @@ class OntologyBuilder:
         ns.describe(ns.fabio.hasNLMJournalTitleAbbreviation, ns.rdfs.subPropertyOf, ns.dcterms.identifier)
         ns.describe(ns.fabio.hasPubMedCentralId, ns.rdfs.subPropertyOf, ns.dcterms.identifier)
         ns.describe(ns.fabio.hasPubMedId, ns.rdfs.subPropertyOf, ns.dcterms.identifier)
+        ns.describe( ns.prism.hasDOI, ns.rdfs.subPropertyOf, ns.dcterms.identifier)
+        ns.describe( ns.prism.volume, ns.rdfs.subPropertyOf, ns.dcterms.identifier)
+        ns.describe( ns.prism.issueIdentifier, ns.rdfs.subPropertyOf, ns.dcterms.identifier)
+
+        ns.describe( ns.dcterms.creator, ns.rdfs.subPropertyOf, ns.dcterms.contributor)
+
+        ns.describe( ns.sibilo.hasAnnotation, ns.owl.inverseOf, ns.IAO.is_about_0000136)
+
+        ns.describe( ns.skos.altLabel, ns.rdfs.subPropertyOf, ns.rdfs.label)
+        ns.describe( ns.skos.prefLabel, ns.rdfs.subPropertyOf, ns.rdfs.label)
 
 
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    def get_onto_abstract(self):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    # in markdown format
+        return """
+Some abstract to be defined...
+"""
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    def get_onto_intro(self):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    # in markdown format
+        return """
+Some introduction to be defined...
+"""
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    def get_onto_descr(self):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    # in markdown format
+        return """
+Some descriptnio to be defined...
+"""
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -321,33 +360,27 @@ class OntologyBuilder:
         
         # set ontology abstract
         # appears in abstract onto page
-        onto_abstract = open('html.templates/onto_abstract.md', 'r').read()
+        onto_abstract = self.get_onto_abstract()
         onto_abstract = onto_abstract.replace("$public_sparql_URL", self.platform.get_public_sparql_service_IRI())
 
         # set ontology introduction
         # appears in onto page, section 1
-        # TODO: pam approach
-        onto_intro = open('html.templates/onto_intro.md', 'r').read()
-        onto_intro = onto_intro.replace("$cello_url", ns.cello.url)
-        onto_intro = onto_intro.replace("$cvcl_url", ns.cvcl.url)
-        onto_intro = onto_intro.replace("$orga_url", ns.orga.url)
-        onto_intro = onto_intro.replace("$db_url", ns.db.url)
-        onto_intro = onto_intro.replace("$xref_url", ns.xref.url)
+        onto_intro = self.get_onto_intro()
 
         # set ontology description
         # appears in onto page, section 3 under webowl
-        # TODO: pam approach
-        onto_descr = open('html.templates/onto_descr.md', 'r').read()
+        onto_descr = self.get_onto_descr()
         
+
         # Note: all the prefixes are declared in namespace.py but not necessarily all the properties because used only once...
         lines.append(onto_url)
         lines.append("    a " + ns.owl.Ontology + " ;")
-        lines.append("    " + ns.rdfs.label + " " + ns.xsd.string("Cellosaurus ontology") + " ;")
-        lines.append("    " + ns.dcterms.created + " " + ns.xsd.date("2025-03-30") + " ;")
+        lines.append("    " + ns.rdfs.label + " " + ns.xsd.string("SIBiLS ontology") + " ;")
+        lines.append("    " + ns.dcterms.created + " " + ns.xsd.date("2025-08-07") + " ;")
         lines.append("    " + ns.dcterms.modified + " " + ns.xsd.date(date_string) + " ;")
         lines.append("    " + ns.dcterms.description + " " + ns.xsd.string3(onto_descr) + " ;")
         lines.append("    " + ns.dcterms.license + " <http://creativecommons.org/licenses/by/4.0> ;")
-        lines.append("    " + ns.dcterms.title + " " + ns.xsd.string("Cellosaurus ontology") + " ;")
+        lines.append("    " + ns.dcterms.title + " " + ns.xsd.string("SIBiLS ontology") + " ;")
 
         version = " - ".join([version, str(datetime.now()), self.platform.platform_key])
 
@@ -363,10 +396,9 @@ class OntologyBuilder:
         lines.append("    " + ns.widoco.ntSerialization + " " + ns.help.IRI("ontology.nt") + " ;")      
         lines.append("    " + ns.widoco.turtleSerialization + " " + ns.help.IRI("ontology.ttl") + " ;")      
         lines.append("    " + ns.widoco.jsonldSerialization + " " + ns.help.IRI("ontology.jsonld") + " ;")
-        lines.append("    " + ns.dcterms.contributor + " " + "<https://orcid.org/0000-0003-2826-6444>" + " ;")
-        lines.append("    " + ns.dcterms.contributor + " " + "<https://orcid.org/0000-0002-0819-0473>" + " ;")
-        lines.append("    " + ns.dcterms.contributor + " " + "<https://orcid.org/0000-0002-7023-1045>" + " ;")
-        lines.append("    " + ns.dcterms.creator + " " + "<https://orcid.org/0000-0002-7023-1045>" + " ;")
+        lines.append("    " + ns.dcterms.contributor + " " + "<https://orcid.org/0000-0002-3374-2962>" + " ;") # patrick
+        lines.append("    " + ns.dcterms.contributor + " " + "<https://orcid.org/0000-0002-7023-1045>" + " ;") # pam
+        lines.append("    " + ns.dcterms.creator + " " + "<https://orcid.org/0000-0002-7023-1045>" + " ;")     # pam
         lines.append("    " + ns.dcterms.publisher + " " + "<https://www.sib.swiss>" + " ;")
         lines.append("    " + ns.dcterms.bibliographicCitation + " " + ns.xsd.string("(to be defined)") + " ;")
         
@@ -375,23 +407,11 @@ class OntologyBuilder:
         for elem in ns.namespaces:
             lines.append("    " + ns.sh.declare + " [ ")
             pfx = elem.pfx
-            if pfx == "": pfx = "cello"
             lines.append("        " + ns.sh._prefix  + " " + ns.xsd.string(pfx) + " ;")
             lines.append("        " + ns.sh.namespace  + " " + ns.xsd.string(elem.url) + " ;")
             lines.append("    ] ;")
         lines.append("    .")
         lines.append("")
-
-        # lines.append("<https://orcid.org/0000-0003-2826-6444>")
-        # lines.append("    " + "<http://www.w3.org/ns/org#memberOf>" + " " + "<https://www.sib.swiss>" + " ;")
-        # lines.append("    " + "<http://xmlns.com/foaf/0.1/name>" + " " + ns.xsd.string("Amos Bairoch") + " ;")
-        # lines.append("    .")
-
-        # lines.append("")
-        # lines.append("<https://orcid.org/0000-0002-0819-0473>")
-        # lines.append("    " + "<http://www.w3.org/ns/org#memberOf>" + " " + "<https://www.sib.swiss>" + " ;")
-        # lines.append("    " + "<http://xmlns.com/foaf/0.1/name>" + " " + ns.xsd.string("Paula Duek") + " ;")
-        # lines.append("    .")
 
         # lines.append("")
         # lines.append("<https://orcid.org/0000-0002-7023-1045>")
@@ -409,7 +429,7 @@ class OntologyBuilder:
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     def get_onto_url(self):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-        onto_url = self.ns.cello.url
+        onto_url = self.ns.sibilo.url
         if onto_url.endswith("#"): onto_url = onto_url[:-1]
         return onto_url
 
@@ -425,28 +445,30 @@ class OntologyBuilder:
         ns = self.ns
         lines = list()
         
-        allButCello = list(ns.namespaces)
+        allButSibils = list(ns.namespaces)
         
         # remove basic ones
-        allButCello.remove(ns.xsd)
-        allButCello.remove(ns.rdf)
-        allButCello.remove(ns.rdfs)
-        allButCello.remove(ns.owl)
-        allButCello.remove(ns.sh)
-        allButCello.remove(ns.widoco)
-        #allButCello.remove(ns.dcterms) # only some terms are hidden for the moment
+        allButSibils.remove(ns.xsd)
+        allButSibils.remove(ns.rdf)
+        allButSibils.remove(ns.rdfs)
+        allButSibils.remove(ns.owl)
+        allButSibils.remove(ns.sh)
+        allButSibils.remove(ns.vann)
+        allButSibils.remove(ns.bibo)
+        allButSibils.remove(ns.widoco)
         
-        # remove namespaces for our data
-        allButCello.remove(ns.cello)
-        allButCello.remove(ns.cvcl)
-        allButCello.remove(ns.db)
-        allButCello.remove(ns.orga)
-        allButCello.remove(ns.xref)
+        # remove namespaces for our onto and data
+        allButSibils.remove(ns.sibilo)
+        allButSibils.remove(ns.sibils)
+        allButSibils.remove(ns.sibilt)
+        allButSibils.remove(ns.sibilc)
         
         # remove irrelevant ones
-        allButCello.remove(ns.pubmed)
+        allButSibils.remove(ns.help)
 
-        for nspace in allButCello: lines.extend(self.get_terms(nspace))
+        for nspace in allButSibils: 
+            log_it("INFO", "Ontology will describe terms from ", nspace.pfx, nspace.url)
+            lines.extend(self.get_terms(nspace))
         return lines
     
 
@@ -465,7 +487,7 @@ class OntologyBuilder:
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     def get_onto_terms(self, owlType=None):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-        return self.get_terms(self.ns.cello, owlType)
+        return self.get_terms(self.ns.sibilo, owlType)
     
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -473,20 +495,18 @@ class OntologyBuilder:
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         ns = self.ns
         lines = list()    
-        lines.extend(self.get_onto_prefixes())
         lines.append("\n#\n# Ontology properties\n#\n")
         lines.extend(self.get_onto_header(version))
         lines.append("#\n# External terms used in ontology\n#\n")
         lines.extend(self.get_imported_terms())
         lines.append("#\n# Classes defined in ontology\n#\n")
         lines.extend(self.get_onto_terms(ns.owl.Class))
-        lines.append("#\n# Annotation Properties used in ontology\n#\n")
+        lines.append("#\n# Annotation Properties defined in ontology\n#\n")
         lines.extend(self.get_onto_terms(ns.owl.AnnotationProperty))
-        lines.append("#\n# Object Properties used in ontology\n#\n")
+        lines.append("#\n# Object Properties defined in ontology\n#\n")
         lines.extend(self.get_onto_terms(ns.owl.ObjectProperty))
-        lines.append("#\n# Datatype Properties used in ontology\n#\n")
+        lines.append("#\n# Datatype Properties defined in ontology\n#\n")
         lines.extend(self.get_onto_terms(ns.owl.DatatypeProperty))
-        lines.extend(self.get_topic_and_topic_annotations())
         return lines
 
 
