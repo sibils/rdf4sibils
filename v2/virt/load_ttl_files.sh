@@ -1,11 +1,10 @@
 #!/bin/bash
 
 scripts_dir="$(dirname $0)"
-#base_dir=$scripts_dir/..
-base_dir=$scripts_dir
+config_dir=$scripts_dir/../config
 
-echo "base_dir: $base_dir"
-conf_file="${base_dir}/$(hostname).config"
+echo "config_dir: $config_dir"
+conf_file="${config_dir}/$(hostname).config"
 if [ ! -f "$conf_file" ]; then
   echo Cannot find config file: $conf_file
   echo Trying to read default.config file

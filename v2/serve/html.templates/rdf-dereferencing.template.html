@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIBiLS Dereferencing service</title>
+    <meta name="description" content="SPARQL RDF resolver examples page" />
+    <link rel="shortcut icon" href="/static/favicon32.png">
+    <style>
+      h1 {
+        font-size: 36px;
+        margin-left: 80px;
+      }
+    </style>    
+  </head>
+
+  <body>
+    <h1>SIBiLS Dereferencing service</h1>
+
+    <div style="padding-left: 80px;">
+      <p>
+        The RDF dereferencing service is the mechanism that, given a URI, returns an RDF description 
+        of the resource identified by that URI, enabling clients to retrieve structured, machine-readable 
+        data about the resource from the web in different formats.
+      <br>
+        All the resources defined in the sibils graph can be dereferenced. 
+        It includes the ontology itself, each ontology term, the annotated publications, the concepts and terminologies used for annotation.
+      </p>
+
+      <h2>Getting description of RDF entities in different formats</h2>
+      <p>
+      Several formats are supported. The format can be chosen by adding the parameter ?format=&lt;format&gt; 
+      or simply by appending the format at the end of the URI, like a file extension.
+      <br>&nbsp;<br>
+      Where format is one of:
+      </p>
+      <ul>
+        <li>html (default)</li>
+        <li>n3</li>
+        <li>ttl</li>
+        <li>rdf</li>
+        <li>jsonld</li>
+      </ul> 
+        Examples      
+      <ul>
+        <li><a target=_blank" href="$base_IRI/ontology/.jsonld">$base_IRI/ontology/?format=jsonld</a> - the ontology entity in jsonld</li>
+        <li><a target=_blank" href="$base_IRI/ontology/more_specific_than">$base_IRI/ontology/more_specific_than</a> - the sibilo:more_specific_than property in HTML</li>
+        <li><a target=_blank" href="$base_IRI/scheme/FLOPO">$base_IRI/scheme/FLOPO.rdf</a> - the sibilt:FLOPO Named Individual in rdf</li>
+        <li><a target=_blank" href="$base_IRI/concept/FLOPO_0900035.ttl">$base_IRI/concept/FLOPO_0900035.ttl</a> - the concept FLOPO_0900035 in ttl</li>
+        <li><a target=_blank" href="$base_IRI/data/27228136.ttl">$base_IRI/data/27228136.ttl</a> - the annotated MedLine publication with pmid 27228136 in ttl</li>
+        <li><a target=_blank" href="$base_IRI/data/PMC8063106.ttl">$base_IRI/data/PMC8063106.ttl</a> - the annotated PMC publication with pmcid PMC8063106 in ttl</li>        
+      </ul>
+
+      <h2>Resolving RDF entities with a script</h2>
+      <p>
+      The SPARQL protocol (and thus the dereferencing service) is based on the HTTP content negotiation. Instead of using the 
+      parameter <i>format</i> as described above, you can use the 'Accept' header to tell the SPARQL server which mime-type you 
+      would like to have in the response.
+      </p>
+      <p>The following mime-type can be used:</p>
+      <ul>
+        <li>text/turtle</li>
+        <li>application/rdf+xml</li>
+        <li>application/n-triples</li>
+        <li>application/ld+json</li>
+        <li>text/html</li>
+      </ul>
+    
+      Get sibilo:more_specific_than resolved using ttl format
+      <pre>
+      curl -H "Accept:text/turtle" $base_IRI/ontology/more_specific_than
+      </pre>
+
+    </div>
+
+  </body>
+</html>

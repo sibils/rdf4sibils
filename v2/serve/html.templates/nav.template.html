@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Website</title>
+    <link rel="stylesheet" href="navstyles.css">
+
+<!-- the script part is used and injected into other templates -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const anchors = document.querySelectorAll("a[href^='#']");
+        anchors.forEach((anchor) => {
+            anchor.addEventListener("click", (e) => {
+                e.preventDefault();
+                const href = anchor.getAttribute("href");
+                const targetElement = document.querySelector(href);
+                const offsetTop = targetElement.getBoundingClientRect().top + window.scrollY - 50; // Adjust 100 to match your menu height
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: "smooth"
+                });
+            });
+        });
+    });        
+    </script>
+</head>
+
+<!-- the body part is used and injected into other templates -->
+<body>
+    <nav class="nav">
+        <a href="https://sibils.org/" class="logo">
+            <img src="/static/sib.png" alt="SIBiLS website">
+        </a>        
+        <ul>
+            <li class="dropdown">
+                <a style="font-weight: bolder; font-size: large;" href="https://sibils.org/" class="dropbtn">SIBiLS</a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">API</a>
+                <div class="dropdown-content">
+                    <a href="/">Quick start</a>
+                    <a href="/api-methods">Methods</a>
+                    <a href="/api-fields">Fields</a>
+                    <a href="/api-search-form">Search form</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">RDF</a>
+                <div class="dropdown-content">
+                    <a href="/rdf-ontology">Ontology</a>
+                    <a href="/rdf-concept-hopper">Concept Hopper</a>
+                    <a href="/rdf-dereferencing">Dereferencing service</a>
+                    <a href="/rdf-downloads">Downloads</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">SPARQL</a>
+                <div class="dropdown-content">
+                    <a href="/sparql-editor">SPARQL editor</a>
+                    <a href="/sparql-service">SPARQL service</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>

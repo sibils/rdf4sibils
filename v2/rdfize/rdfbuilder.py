@@ -389,10 +389,10 @@ if __name__ == '__main__':
     if platform_key not in ["local", "test", "prod"]: 
         sys.exit("Invalid --platform option, expected local, test, or prod")
 
-    usage = "Invalid arg1, expected BUILD_RDF, LOAD_RDF" 
+    usage = "Invalid arg1, expected BUILD_RDF, LOAD_RDF, STATIC_PAGES" 
     if len(args) < 1: sys.exit(usage)
 
-    if args[0] not in [ "BUILD_RDF", "LOAD_RDF" ]: 
+    if args[0] not in [ "BUILD_RDF", "LOAD_RDF", "STATIC_PAGES" ]: 
         sys.exit(usage)
 
 
@@ -460,6 +460,18 @@ if __name__ == '__main__':
             print(result.stdout)
             print(result.stderr)
             log_it("ERROR", "LOAD_RDF", args[1], "failed")
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    elif args[0]=="STATIC_PAGES":
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        result = subprocess.run(['bash', './prepare_static_pages.sh'], capture_output=True, text=True) 
+
+        if result.returncode == 0:
+            log_it("INFO", "STATIC_PAGES", "succeeded")
+        else:
+            print(result.stdout)
+            print(result.stderr)
+            log_it("ERROR", "STATIC_PAGES", "failed")
 
 
     log_it("INFO, end")

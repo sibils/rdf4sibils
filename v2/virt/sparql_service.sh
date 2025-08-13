@@ -1,8 +1,9 @@
 #!/bin/bash
 
 this_dir=$(dirname $0)
+config_dir=$this_dir/../config
 
-conf_file="${this_dir}/$(hostname).config"
+conf_file="${config_dir}/$(hostname).config"
 if [ ! -f "$conf_file" ]; then
   echo Cannot find config file: $conf_file
   echo Trying to read default.config file
