@@ -17,3 +17,6 @@ dir_test/
 output/
 proxy_dir/
 __pycache__/
+v2/serve/static/downloads
+v2/serve/static/sparql
+
