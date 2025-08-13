@@ -6,7 +6,6 @@
     <title>Cellosaurus SPARQL service</title>
     <meta name="description" content="SPARQL RDF resolver examples page" />
     <link rel="shortcut icon" href="/static/favicon32.png">
-    <!-- <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/f/f3/Rdf_logo.svg" /> -->
     <style>
       h1 {
         font-size: 36px;
@@ -22,7 +21,7 @@
   </head>
 
   <body>
-    <h1>Cellosaurus SPARQL service</h1>
+    <h1>SIBiLS SPARQL service</h1>
 
     <div style="padding-left: 80px;">
       <p>
@@ -50,7 +49,7 @@
 #!/bin/bash
 
 ENDPOINT="$public_sparql_URI"
-QUERY='select * where { ?cl a cello:CancerCellLine ; cello:recommendedName ?name } limit 10'
+QUERY='select * where { ?pub a fabio:JournalArticle ; fabio:hasPubMedId ?pmid ; fabio:hasPublicationYear ?year ;  dcterms:title ?title } limit 10'
 
 curl -X POST \
   -H "Content-Type: application/sparql-query" \
@@ -88,7 +87,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 
 endpoint = SPARQLWrapper("$public_sparql_URI")
 
-endpoint.setQuery("select * where { ?cl a cello:CancerCellLine ; cello:recommendedName ?name } limit 10")
+endpoint.setQuery("select * where { ?pub a fabio:JournalArticle ; fabio:hasPubMedId ?pmid ; fabio:hasPublicationYear ?year ;  dcterms:title ?title } limit 10")
 endpoint.setReturnFormat(JSON)
 
 response = endpoint.queryAndConvert()
