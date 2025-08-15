@@ -28,7 +28,7 @@ class RdfBuilder:
     def __init__(self, ns: NamespaceRegistry): 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         self.ns = ns
-        self.voidgendir = "../../../sibils-void-generator/"
+        self.voidgendir = "../../../sibils-void-generator"
         self.ttldir = "../out/ttl"
         self.fetchdir = "../out/fetch"
         self.termidir = "../out/terminologies"
@@ -468,7 +468,7 @@ if __name__ == '__main__':
         #
         # create json file containing sibils RDF data model
         #
-        fileout = "static/datamodel.json"
+        fileout = "../serve/static/datamodel.json"
         log_it("INFO:", f"serializing SIBiLS RDF data model to: {fileout}")        
         platform = ApiPlatform(platform_key)
         builder = DataModelBuilder(platform.get_builder_sparql_service_IRI())
