@@ -289,7 +289,6 @@ async def get_release_info(
     elif format == 'txt':
         data  = "version: " +release_info.get("version") + "; "
         data += "updated: " +release_info.get("updated") + "; "
-        data += "nb-cell-lines: " +release_info.get("nb-cell-lines") + "; "
         data += "nb-publications: " +release_info.get("nb-publications") + "\n"
         log_it("INFO:", "Processed" , request.url, "format", format, duration_since=t0)
         return responses.Response(content=data,media_type="text/plain")
@@ -304,7 +303,6 @@ async def get_release_info(
         rel_el = etree.SubElement(head_el, "release")
         rel_el.attrib["version"] = release_info.get("version")
         rel_el.attrib["updated"] = release_info.get("updated")
-        rel_el.attrib["nb-cell-lines"] = release_info.get("nb-cell-lines")
         rel_el.attrib["nb-publications"] = release_info.get("nb-publications")
         data = etree.tostring(root_el, encoding="utf-8", pretty_print=True)
         log_it("INFO:", "Processed" , request.url, "format", format, duration_since=t0)

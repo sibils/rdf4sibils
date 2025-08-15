@@ -397,6 +397,7 @@ Some descriptnio to be defined...
         lines.append("    " + ns.widoco.turtleSerialization + " " + ns.help.IRI("ontology.ttl") + " ;")      
         lines.append("    " + ns.widoco.jsonldSerialization + " " + ns.help.IRI("ontology.jsonld") + " ;")
         lines.append("    " + ns.dcterms.contributor + " " + "<https://orcid.org/0000-0002-3374-2962>" + " ;") # patrick
+        lines.append("    " + ns.dcterms.contributor + " " + "<https://orcid.org/0000-0003-2209-5218>" + " ;") # alex
         lines.append("    " + ns.dcterms.contributor + " " + "<https://orcid.org/0000-0002-7023-1045>" + " ;") # pam
         lines.append("    " + ns.dcterms.creator + " " + "<https://orcid.org/0000-0002-7023-1045>" + " ;")     # pam
         lines.append("    " + ns.dcterms.publisher + " " + "<https://www.sib.swiss>" + " ;")
