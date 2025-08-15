@@ -149,7 +149,7 @@
             jsonData = await response.json();
             const currentHash = location.hash.substring(1);
             let term = currentHash.replace("_", ":")
-            if (! termIsEntity(term)) term = "cello:CellLine";
+            if (! termIsEntity(term)) term = "fabio:Expression";
             moveToTerm(term);
             setupAutocomplete(document.getElementById("searchInput"));
         } catch (error) {

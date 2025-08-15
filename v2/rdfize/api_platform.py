@@ -26,8 +26,8 @@ class ApiPlatform:
             # WARNING: no final "/", please !
             # ---------------------------------
             "local": {
-                "base_IRI": "https://purl.expasy.org/sibils/rdf",
-                #"base_IRI": "http://local.sibils.org/rdf",
+                #"base_IRI": "https://purl.expasy.org/sibils/rdf",
+                "base_IRI": "http://local.sibils.org/rdf",
                 "help_IRI": "https://sibils.org/help/",                   # http://localhost:8082/ontology.ttl thanks to main.app.mount())
                 "public_sparql_IRI": "http://localhost/sibils-sparql/service",
                 "private_sparql_IRI" : "http://localhost:8891/sparql",

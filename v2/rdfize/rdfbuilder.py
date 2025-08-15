@@ -16,6 +16,7 @@ from term_rdfizer import TermRdfizer
 from rdf_utils import TripleList
 from ontology_builder import OntologyBuilder
 from queries_utils import QueryFileReader, Query
+from datamodel_builder import DataModelBuilder
 
 
 
@@ -361,6 +362,7 @@ class RdfBuilder:
         rdf_file.write(bytes("@prefix schema: <https://schema.org/> . \n", "utf-8"))
         rdf_file.write(bytes("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . \n", "utf-8"))
         rdf_file.write(bytes("@prefix sh: <http://www.w3.org/ns/shacl#> . \n", "utf-8"))
+        rdf_file.write(bytes("@prefix spex: <https://purl.expasy.org/sparql-examples/ontology#> . \n", "utf-8"))
         rdf_file.write(bytes(f"@prefix sibilo: <{self.ns.sibilo.url}> .\n", "utf-8"))
         rdf_file.write(bytes("\n\n", "utf-8"))
         count = 0
@@ -389,18 +391,18 @@ if __name__ == '__main__':
     if platform_key not in ["local", "test", "prod"]: 
         sys.exit("Invalid --platform option, expected local, test, or prod")
 
-    usage = "Invalid arg1, expected BUILD_RDF, LOAD_RDF, STATIC_PAGES" 
+    usage = "Invalid arg1, expected BUILD_RDF, LOAD_RDF, MODEL, STATIC_PAGES" 
     if len(args) < 1: sys.exit(usage)
 
-    if args[0] not in [ "BUILD_RDF", "LOAD_RDF", "STATIC_PAGES" ]: 
+    if args[0] not in [ "BUILD_RDF", "LOAD_RDF", "MODEL", "STATIC_PAGES" ]: 
         sys.exit(usage)
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     if args[0]=="BUILD_RDF":
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-        if len(args) < 2 or args[1] not in ["pmc", "medline", "terminology", "ontology", "model", "queries", "void"]:
-            sys.exit("Invalid arg2, expected pmc, medline, terminology, ontology, queries, model or void")
+        if len(args) < 2 or args[1] not in ["pmc", "medline", "terminology", "ontology", "queries", "void"]:
+            sys.exit("Invalid arg2, expected pmc, medline, terminology, ontology, queries or void")
 
         platform = ApiPlatform(platform_key)
         ns = NamespaceRegistry(platform)
@@ -418,8 +420,6 @@ if __name__ == '__main__':
             builder.write_ttl_file_for_queries()
         elif args[1] == "void": 
             builder.write_ttl_file_for_void()
-        elif args[1] == "model": 
-            builder.write_json_file_for_model()
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     elif args[0]=="LOAD_RDF":
@@ -460,6 +460,21 @@ if __name__ == '__main__':
             print(result.stdout)
             print(result.stderr)
             log_it("ERROR", "LOAD_RDF", args[1], "failed")
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    elif args[0]=="MODEL":
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        #
+        # create json file containing sibils RDF data model
+        #
+        fileout = "static/datamodel.json"
+        log_it("INFO:", f"serializing SIBiLS RDF data model to: {fileout}")        
+        platform = ApiPlatform(platform_key)
+        builder = DataModelBuilder(platform.get_builder_sparql_service_IRI())
+        builder.retrieve_and_save_model(fileout)
+        log_it("INFO:", f"serialized SIBiLS RDF data model to: {fileout}")
+
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     elif args[0]=="STATIC_PAGES":
