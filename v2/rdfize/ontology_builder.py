@@ -318,32 +318,6 @@ class OntologyBuilder:
         ns.describe( ns.skos.prefLabel, ns.rdfs.subPropertyOf, ns.rdfs.label)
 
 
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    def get_onto_abstract(self):
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    # in markdown format
-        return """
-Some abstract to be defined...
-"""
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    def get_onto_intro(self):
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    # in markdown format
-        return """
-Some introduction to be defined...
-"""
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    def get_onto_descr(self):
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    # in markdown format
-        return """
-Some descriptnio to be defined...
-"""
-
-
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     def get_onto_header(self, version="alpha"):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -358,19 +332,21 @@ Some descriptnio to be defined...
         # set ontology URL
         onto_url = "<" + self.get_onto_url() + ">"
         
-        # set ontology abstract
-        # appears in abstract onto page
-        onto_abstract = self.get_onto_abstract()
-        onto_abstract = onto_abstract.replace("$public_sparql_URL", self.platform.get_public_sparql_service_IRI())
+        # set ontology abstract - appears in abstract onto page
+        onto_abstract = open('md/onto_abstract.md', 'r').read()
+        onto_abstract = onto_abstract.replace("$public_sparql_URL", ns.platform.get_public_sparql_service_IRI())
 
-        # set ontology introduction
-        # appears in onto page, section 1
-        onto_intro = self.get_onto_intro()
-
-        # set ontology description
-        # appears in onto page, section 3 under webowl
-        onto_descr = self.get_onto_descr()
+        # set ontology introduction - appears in onto page, section 1
+        onto_intro = open('md/onto_intro.md', 'r').read()
+        onto_intro = onto_intro.replace("$sibils_url", ns.sibils.url)
+        onto_intro = onto_intro.replace("$sibilo_url", ns.sibilo.url)
+        onto_intro = onto_intro.replace("$sibilt_url", ns.sibilt.url)
+        onto_intro = onto_intro.replace("$sibilc_url", ns.sibilc.url)
         
+        # set ontology description - appears in onto page, section 3 under webowl
+        onto_descr = open('md/onto_descr.md', 'r').read()
+        onto_descr = onto_descr.replace("$help_IRI", ns.platform.get_help_base_IRI())
+
 
         # Note: all the prefixes are declared in namespace.py but not necessarily all the properties because used only once...
         lines.append(onto_url)

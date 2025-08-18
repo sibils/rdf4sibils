@@ -54,7 +54,7 @@ echo "$(date) - Generating RDF example queries file and loading it into virtuoso
 python $rdfize_dir/rdfbuilder.py --platform=$platform BUILD_RDF queries
 python $rdfize_dir/rdfbuilder.py --platform=$platform LOAD_RDF queries
 
-# python cellapi_builder.py --platform=$platform MODEL     # not implemented
+python cellapi_builder.py --platform=$platform MODEL
 # python cellapi_builder.py --platform=$platform INFERRED  # not implemented
 
 if [[ "$options" =~ "novoid" ]]; then
@@ -68,5 +68,8 @@ python $rdfize_dir/rdfbuilder.py --platform=$platform LOAD_RDF void
 
 echo "$(date) - Generating widoco documentation for ontology"
 $widoco_dir/doit-sibils.sh $platform
+
+python $rdfize_dir/rdfbuilder.py --platform=$platform STATIC_PAGES
+
 
 echo "$(date) - end"

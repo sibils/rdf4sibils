@@ -298,10 +298,10 @@ class RdfBuilder:
 
 
     # - - - - - - - - - - - - - - - - - - - - 
-    def write_ttl_for_ontology(self):
+    def write_ttl_for_ontology(self, describe_ranges_and_domains=True):
     # - - - - - - - - - - - - - - - - - - - - 
         platform = self.ns.platform
-        ob = OntologyBuilder(platform, self.ns)
+        ob = OntologyBuilder(platform, self.ns, describe_ranges_and_domains=describe_ranges_and_domains)
         onto_lines = ob.get_onto_pretty_ttl_lines("dev version")
         onto_ttl_file = "/".join([self.ttldir, "ontology.ttl"])
         stream=open(onto_ttl_file, "w")
@@ -415,7 +415,10 @@ if __name__ == '__main__':
         elif args[1] == "terminology": 
             builder.write_ttl_for_terminologies()
         elif args[1] == "ontology": 
-            builder.write_ttl_for_ontology()
+            if len(args) > 2 and args[2] == "no-dr":
+                builder.write_ttl_for_ontology(describe_ranges_and_domains=False)
+            else:
+                builder.write_ttl_for_ontology()
         elif args[1] == "queries": 
             builder.write_ttl_file_for_queries()
         elif args[1] == "void": 
@@ -479,7 +482,7 @@ if __name__ == '__main__':
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     elif args[0]=="STATIC_PAGES":
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-        result = subprocess.run(['bash', './prepare_static_pages.sh'], capture_output=True, text=True) 
+        result = subprocess.run(['bash', '../serve/prepare_static_pages.sh'], capture_output=True, text=True) 
 
         if result.returncode == 0:
             log_it("INFO", "STATIC_PAGES", "succeeded")
