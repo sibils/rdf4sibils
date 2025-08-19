@@ -20,16 +20,15 @@ from urllib.parse import urlencode
 import uvicorn
 from enum import Enum
 from starlette.middleware.base import BaseHTTPMiddleware
+import requests
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'rdfize')))
-
-import ApiCommon
-from ApiCommon import log_it, get_format_from_headers
+# Note: the following imports work thanks to line just abvoe
+from ApiCommon import log_it, get_format_from_headers, get_api_version
 from api_platform import ApiPlatform
 from namespace_registry import NamespaceRegistry
 from html_builder import HtmlBuilder
 
-import requests
 
 
 # ----------------------------------------
@@ -142,13 +141,13 @@ class CacheControlMiddleware(BaseHTTPMiddleware):
 
 # general documentation in the header of the page
 app = FastAPI(
-    title="Cellosaurus API methods",
-    description="This API is dedicated to users who want to query and access programmatically Cellosaurus data.",
-    version=ApiCommon.CELLAPI_VERSION,
+    title="SIBiLS RDF API methods",
+    description="This API is dedicated to users who want to query and access programmatically SIBiLS RDF data.",
+    version=get_api_version(),
     terms_of_service="https://www.expasy.org/terms-of-use",
 #    contact={
-#        "name": "Cellosaurus",
-#        "email": "cellosaurus@sib.swiss", # requires a valid email address otherwise openapi.json fails to build
+#        "name": "SIBiLS",
+#        "email": "blabla@sib.swiss", # requires a valid email address otherwise openapi.json fails to build
 #    },
     license_info={
         "name": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
@@ -293,12 +292,12 @@ async def get_release_info(
         log_it("INFO:", "Processed" , request.url, "format", format, duration_since=t0)
         return responses.Response(content=data,media_type="text/plain")
     elif format == 'json':
-        obj = {"Cellosaurus": {"header": {"release": release_info}}}
+        obj = {"SIBiLS-RDF": {"header": {"release": release_info}}}
         data = json.dumps(obj, sort_keys=True, indent=2)
         log_it("INFO:", "Processed" , request.url, "format", format, duration_since=t0)
         return responses.Response(content=data,media_type="application/json")
     elif format == "xml":
-        root_el = etree.Element("Cellosaurus")
+        root_el = etree.Element("SIBiLS-RDF")
         head_el = etree.SubElement(root_el, "header")
         rel_el = etree.SubElement(head_el, "release")
         rel_el.attrib["version"] = release_info.get("version")
@@ -408,7 +407,7 @@ def describe_any(dir, ac, format, request):
     # method to redirect to website in case of text/html Accept header
     # using the virtuoso x-nice-microdata instead was chosen, see below.
     # if format == RdfFormat.html:
-    #     url = "https://www.cellosaurus.org/" + ac
+    #     url = "https://www.somedomain.org/" + ac
     #     log_it("INFO:", "Processed" , request.url, "format", format, duration_since=t0)
     #     return responses.RedirectResponse(url=url, status_code=301) # 301: Permanent redirect
 
@@ -427,7 +426,7 @@ def describe_any(dir, ac, format, request):
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-@app.get("/describe/model" , name="Typical triples found in Cellosaurus RDF", tags=["RDF"], response_class=responses.Response, responses={"200":json_type_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+@app.get("/describe/model" , name="Typical triples found in SIBiLS RDF", tags=["RDF"], response_class=responses.Response, responses={"200":json_type_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 async def get_model_description(request:Request):
     t0 = datetime.datetime.now()
@@ -594,7 +593,7 @@ async def get_sparql_editor(request: Request):
 # see example app.get("/static/toto")
 
 # serve files in ./static as if they were in ./static
-# this is necessary for fastapi / swagger to know where the static files are served i.e. cellosaurus.ng above)
+# this is necessary for fastapi / swagger to know where the static files are served
 # note: the name value is arbitrary
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -622,7 +621,7 @@ if __name__ == '__main__':
 
     #print("I was in __main__")
 
-    parser = argparse.ArgumentParser(description="Run a simple HTTP proxy for cellapi services")
+    parser = argparse.ArgumentParser(description="Run a simple HTTP proxy for SIBiLS RDF services")
     parser.add_argument("-s", "--server", default="localhost", help="IP address on which the server listens")
     parser.add_argument("-p", "--port", type=int, default=8088, help="port on which the server listens")
     parser.add_argument("-w", "--workers", default="1", help="Number of processes to run in parallel")

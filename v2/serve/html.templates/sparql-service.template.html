@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cellosaurus SPARQL service</title>
+    <title>SIBiLS SPARQL service</title>
     <meta name="description" content="SPARQL RDF resolver examples page" />
     <link rel="shortcut icon" href="/static/favicon32.png">
     <style>
@@ -38,10 +38,10 @@
       </p>        
 
       <p>There are many ways to connect to and query the SPARQL service programmatically, 
-        here are a few examples with a basic query which retrieves the IRI and name of 10 cancer cell lines from Cellosaurus:
+        here are a few examples with a basic query which retrieves the IRI, PubMed identifier, year and title of 10 publications from SIBiLS RDF dataset:
       </p>
 
-      <h2>Access to SPARQL endpoint using curl in a bash script</h2>
+      <h3>Access to SPARQL endpoint using curl in a bash script</h3>
       <p>
         1. Copy the following content to a file, e.g. to file <i>test.sh</i>
       </p>
@@ -65,7 +65,7 @@ chmod +x test.sh
 ./test.sh
 </pre>
 
-      <h2>Access to SPARQL endpoint using Python</h2>
+      <h3>Access to SPARQL endpoint using Python</h3>
 
       <p>
         There are several Python libraries providing interfaces between SPARQL and Python, e.g. <i>sparqlwrapper</i>.

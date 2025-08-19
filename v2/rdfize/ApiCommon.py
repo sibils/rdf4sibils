@@ -2,24 +2,11 @@ import datetime
 import os
 import re
 
-SERIAL_DIR = "./serial/"
 
-RI_FILE = SERIAL_DIR + "ri.bin"
-CL_IDX_FILE = SERIAL_DIR + "cl-idx.bin"
-CL_XML_FILE = SERIAL_DIR + "cl-xml.bin"
-CL_JSO_FILE = SERIAL_DIR + "cl-jso.bin"
-CL_TXT_FILE = SERIAL_DIR + "cl-txt.bin"
-
-RF_IDX_FILE = SERIAL_DIR + "rf-idx.bin"
-RF_XML_FILE = SERIAL_DIR + "rf-xml.bin"
-RF_JSO_FILE = SERIAL_DIR + "rf-jso.bin"
-RF_TXT_FILE = SERIAL_DIR + "rf-txt.bin"
-
-FLDDEF_FILE = "./fields_def.txt"
-
-# used in main.py and in fields_utils.py
-CELLAPI_VERSION="1.0.4"
-
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+def get_api_version():
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    return "1.1"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 def split_string(text, max_length=80):
