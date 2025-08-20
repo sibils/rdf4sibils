@@ -144,7 +144,14 @@ class PubliRdfizer:
         return ns.deo.DiscourseElement
 
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    def get_pmca_link(self, collection, id):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        # Examples of output
+        # - https://biodiversitypmc.sibils.org/pmca/?id=PMC10020865&col=pmc
+        # - https://biodiversitypmc.sibils.org/pmca/?id=33411943&col=medline
 
+        return f"https://biodiversitypmc.sibils.org/pmca/?id={id}&col={collection}"
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

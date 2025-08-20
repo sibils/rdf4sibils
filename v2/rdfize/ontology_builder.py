@@ -317,6 +317,9 @@ class OntologyBuilder:
         ns.describe( ns.skos.altLabel, ns.rdfs.subPropertyOf, ns.rdfs.label)
         ns.describe( ns.skos.prefLabel, ns.rdfs.subPropertyOf, ns.rdfs.label)
 
+        ns.describe( ns.sibilo.inCollection, ns.rdfs.subPropertyOf, ns.schema.category)
+        ns.describe( ns.sibilo.seeAlsoAnnotated, ns.rdfs.subPropertyOf, ns.rdfs.seeAlso)
+
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     def get_onto_header(self, version="alpha"):

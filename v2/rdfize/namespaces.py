@@ -359,6 +359,12 @@ class SibiloNamespace(BaseNamespace):
         self.more_specific_than = self.registerObjectProperty("more_specific_than", comment = "Links two concepts. The subject concept is more specific than the object concept. The semantics is the similar to the skos:broader property but its label less ambiguous.")
         self.more_specific_than_transitive = self.registerObjectProperty("more_specific_than_transitive")
  
+        # derived from schema
+        self.inCollection = self.registerAnnotationProperty("inCollection", comment = "Within the SIBiLS RDF dataset, publications are grouped into two distinct collections, each reflecting the source from which they were obtained: 'pmc' or 'medline'.")
+
+        # derived from rdfs
+        self.seeAlsoAnnotated = self.registerAnnotationProperty("seeAlsoAnnotated", comment = "Provides a link to a URI where the annotated publication can be viewed.")
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 class PoNamespace(BaseNamespace):
@@ -425,6 +431,7 @@ class SchemaOrgNamespace(BaseNamespace):
         self.Organization = self.registerClass("Organization")
         self.Person = self.registerClass("Person")
         #self.provider = self.registerObjectProperty("provider")       # unused
+        self.category = self.registerDatatypeProperty("category")
         self.name = self.registerDatatypeProperty("name")
         self.affiliation = self.registerObjectProperty("affiliation", comment="An organization that this person is affiliated with. For example, a school/university, a club, or a team.")
 

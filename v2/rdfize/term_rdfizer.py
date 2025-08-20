@@ -167,7 +167,8 @@ class TermRdfizer():
         triples.append(cpt_IRI, ns.skos.inScheme, self.get_IRI())
         cpt_label = concept["preferred_term"]["term"]
         no_accent_label = remove_accents(cpt_label)
-        triples.append(cpt_IRI, ns.skos.prefLabel, ns.xsd.string(no_accent_label))     
+        if no_accent_label: 
+            triples.append(cpt_IRI, ns.skos.prefLabel, ns.xsd.string(no_accent_label))     
         triples.append(cpt_IRI, ns.skos.notation, ns.xsd.string(self.get_concept_notation(cpt_id)))
         for alt in concept.get("synonyms") or []:
             if alt["relevance"] == False: continue

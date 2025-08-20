@@ -193,27 +193,30 @@ class PmcRdfizer(PubliRdfizer):
             triples.append(publi_uri, ns.frbr.realizationOf, work_BN)
             triples.append(work_BN, ns.rdf.type, publi_work_class_uri)
 
+        triples.append(publi_uri, ns.sibilo.inCollection, ns.xsd.string("pmc"))
         triples.append(publi_uri, ns.fabio.hasPubMedCentralId, ns.xsd.string(pmcid))
+        pmca_link = self.get_pmca_link("pmc", pmcid)
+        triples.append(publi_uri, ns.sibilo.seeAlsoAnnotated, f"<{pmca_link}>")
 
         medline_ta = publi_doc.get("medline_ta")
-        if medline_ta is not None:
+        if medline_ta:
             triples.append(publi_uri, ns.fabio.hasNLMJournalTitleAbbreviation, ns.xsd.string(medline_ta))
 
         pmid = publi_doc.get("pmid")
-        if pmid is not None:
+        if pmid:
             triples.append(publi_uri, ns.fabio.hasPubMedId, ns.xsd.string(pmid))
             triples.append(publi_uri, ns.rdfs.seeAlso, f"<https://pubmed.ncbi.nlm.nih.gov/{pmid}>")
 
         doi = publi_doc.get("doi")
-        if doi is not None:
+        if doi:
             triples.append(publi_uri, ns.prism.hasDOI, ns.xsd.string(doi))
 
         pubyear = publi_doc.get("pubyear")
-        if pubyear is not None:
+        if pubyear:
             triples.append(publi_uri, ns.fabio.hasPublicationYear, ns.xsd.string(pubyear))
 
         pubdate = publi_doc.get("publication_date")
-        if pubdate is not None:
+        if pubdate:
             triples.append(publi_uri, ns.prism.publicationDate, ns.xsd.date(self.date_to_yyyy_mm_dd(pubdate)))
 
         keywords = publi_doc.get("keywords")
@@ -222,11 +225,11 @@ class PmcRdfizer(PubliRdfizer):
                 triples.append(publi_uri, ns.prism.keyword, ns.xsd.string(k))
 
         issue = publi_doc.get("issue")
-        if issue is not None and len(issue)>0:
+        if issue:
             triples.append(publi_uri, ns.prism.issueIdentifier, ns.xsd.string(issue))
 
         volume = publi_doc.get("volume")
-        if issue is not None and len(volume)>0:
+        if issue:
             triples.append(publi_uri, ns.prism.volume, ns.xsd.string(volume))
             
         # starting, ending page and page range,
@@ -234,17 +237,17 @@ class PmcRdfizer(PubliRdfizer):
         blank_node = getBlankNode()
         bn_empty = True
         o = publi_doc.get("start_page")
-        if o is not None and len(o)>0 : 
+        if o : 
             bn_empty = False
             triples.append(blank_node, ns.prism.startingPage, ns.xsd.string(o))
 
         o = publi_doc.get("end_page")
-        if o is not None and len(o)>0 : 
+        if o : 
             bn_empty = False
             triples.append(blank_node, ns.prism.endingPage,ns.xsd.string(o))
 
         o = publi_doc.get("medline_pgn")
-        if o is not None and len(o)>0 : 
+        if o : 
             bn_empty = False
             triples.append(blank_node, ns.prism.pageRange, ns.xsd.string(o))
 
@@ -254,11 +257,11 @@ class PmcRdfizer(PubliRdfizer):
         # end page stuff
         
         o = publi_doc.get("title")
-        if o is not None and len(o)>0 : 
+        if o : 
             triples.append(publi_uri, ns.dcterms.title, ns.xsd.string3(o))
 
         o = publi_doc.get("abstract")
-        if o is not None and len(o)>0 : 
+        if o : 
             triples.append(publi_uri, ns.dcterms.abstract, ns.xsd.string3(o))
 
         triples.extend(self.get_triples_for_authors())
@@ -301,7 +304,7 @@ class PmcRdfizer(PubliRdfizer):
                     # add section title if appropriate
                     # note: sentences related to sct["title"] have sen["field"] = "section_title"
                     sct_title = sct.get("title")
-                    if sct_title is not None and len(sct_title)>0 and sct_title != "Title" and sct_title != "Abstract":
+                    if sct_title and sct_title != "Title" and sct_title != "Abstract":
                         tit_uri = self.get_part_title_URIRef(sct_uri)
                         triples.append(tit_uri, ns.rdf.type, ns.doco.SectionLabel)
                         triples.append(sct_uri, ns.dcterms.hasPart, tit_uri)

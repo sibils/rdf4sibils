@@ -231,7 +231,6 @@ class MedlineRdfizer(PubliRdfizer):
             triples.extend(self.get_triples_for_sentences(field=sct_field, parent_uri=sub_uri, sentence_class=sen_class))
         return triples
 
-
     # - - - - - - - - - - - - - - - - - - - - 
     def get_ttl_for_publi(self):
     # - - - - - - - - - - - - - - - - - - - - 
@@ -251,9 +250,12 @@ class MedlineRdfizer(PubliRdfizer):
                 log_it("WARNING", f"Ignoring rdfization of medline '{publi_type}' file for", pmid)
                 return ""
 
-
+        triples.append(publi_uri, ns.sibilo.inCollection, ns.xsd.string("medline"))
         triples.append(publi_uri, ns.fabio.hasPubMedId, ns.xsd.string(pmid))
         triples.append(publi_uri, ns.rdfs.seeAlso, f"<https://pubmed.ncbi.nlm.nih.gov/{pmid}>")
+        pmca_link = self.get_pmca_link("medline", pmid)
+        triples.append(publi_uri, ns.sibilo.seeAlsoAnnotated, f"<{pmca_link}>")
+        
 
         
         publi_class_uri = self.get_publi_expression_class_URIRef(publi_doc["publication_types"])
@@ -267,23 +269,23 @@ class MedlineRdfizer(PubliRdfizer):
 
 
         pmcid = publi_doc.get("pmcid")  
-        if pmcid is not None:
+        if pmcid :
             triples.append(publi_uri, ns.fabio.hasPubMedCentralId, ns.xsd.string(pmcid))
 
         medline_ta = publi_doc.get("medline_ta")
-        if medline_ta is not None:
+        if medline_ta :
             triples.append(publi_uri, ns.fabio.hasNLMJournalTitleAbbreviation, ns.xsd.string(medline_ta))
 
         doi = publi_doc.get("doi")
-        if doi is not None:
+        if doi :
             triples.append(publi_uri, ns.prism.hasDOI, ns.xsd.string(doi))
 
         pubyear = publi_doc.get("pubyear")
-        if pubyear is not None:
+        if pubyear :
             triples.append(publi_uri, ns.fabio.hasPublicationYear, ns.xsd.string(pubyear))
 
         pubdate = publi_doc.get("entrez_date")
-        if pubdate is not None:
+        if pubdate :
             triples.append(publi_uri, ns.prism.publicationDate, ns.xsd.date(pubdate)) # comes in expected format
 
         keywords = publi_doc.get("keywords")
@@ -292,11 +294,11 @@ class MedlineRdfizer(PubliRdfizer):
                 triples.append(publi_uri, ns.prism.keyword, ns.xsd.string(k))
                     
         o = publi_doc.get("title")
-        if o is not None and len(o)>0 : 
+        if o : 
             triples.append(publi_uri, ns.dcterms.title, ns.xsd.string3(o))
 
         o = publi_doc.get("abstract")
-        if o is not None and len(o)>0 : 
+        if o : 
             triples.append(publi_uri, ns.dcterms.abstract, ns.xsd.string3(o))
 
         triples.extend(self.get_triples_for_authors())
