@@ -100,8 +100,8 @@ class PmcRdfizer(PubliRdfizer):
             for author in author_list:
                 blank_node = getBlankNode()
                 triples.append(blank_node, ns.rdf.type, ns.schema.Person)
-                #triples.append(blank_node, ns.rdfs.label, ns.xsd.string(author.get("name")))
-                triples.append(blank_node, ns.schema.name, ns.xsd.string(author.get("name")))
+                name = author.get("name")
+                if name: triples.append(blank_node, ns.schema.name, ns.xsd.string(name))
                 aff_id_list = author.get("affiliations")
                 if aff_id_list is not None:
                     for aff_id in aff_id_list:
@@ -222,14 +222,14 @@ class PmcRdfizer(PubliRdfizer):
         keywords = publi_doc.get("keywords")
         if keywords is not None and isinstance(keywords,list):
             for k in keywords:
-                triples.append(publi_uri, ns.prism.keyword, ns.xsd.string(k))
+                if k: triples.append(publi_uri, ns.prism.keyword, ns.xsd.string(k))
 
         issue = publi_doc.get("issue")
         if issue:
             triples.append(publi_uri, ns.prism.issueIdentifier, ns.xsd.string(issue))
 
         volume = publi_doc.get("volume")
-        if issue:
+        if volume:
             triples.append(publi_uri, ns.prism.volume, ns.xsd.string(volume))
             
         # starting, ending page and page range,

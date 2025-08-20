@@ -73,7 +73,7 @@
       "count": 288979,
       "definition": [
         "doco:Abstract | rdf:type | owl:Class",
-        "doco:Abstract | rdfs:comment | A brief summary of a book, a research article, thesis, review, conference proceeding or any in-depth analysis of a particular subject or discipline, the purpose of which is to help the reader quickly ascertain the publication's purpose.",
+        "doco:Abstract | rdfs:comment | Abstract as a part of a publication (or fabio:Expression). A brief summary of a book, a research article, thesis, review, conference proceeding or any in-depth analysis of a particular subject or discipline, the purpose of which is to help the reader quickly ascertain the publication's purpose.",
         "doco:Abstract | rdfs:isDefinedBy | doco:",
         "doco:Abstract | rdfs:label | Abstract",
         "doco:Abstract | rdfs:subClassOf | deo:DiscourseElement"
@@ -606,12 +606,13 @@
       "count": 580,
       "definition": [
         "fabio:Abstract | rdf:type | owl:Class",
+        "fabio:Abstract | rdfs:comment | Abstract as a publication in itself (more precisely a subclass of fabio:Expression). A brief summary of a work on a particular subject, designed to act as the point-of-entry that will help the reader quickly to obtain an overview of the work's contents. The abstract may be an integral part of the work itself, written by the same author(s) and appearing at the beginning of a work such as a research paper, report, review or thesis. Alternatively it may be separate from the published work itself, and written by someone other than the author(s) of the published work, for example by a member of a professional abstracting service such as CAB Abstracts.",
         "fabio:Abstract | rdfs:isDefinedBy | fabio:",
         "fabio:Abstract | rdfs:label | Abstract",
         "fabio:Abstract | rdfs:subClassOf | fabio:Expression"
       ],
       "usage": [
-        "fabio:Abstract | prism:doi | xsd:string | 580",
+        "fabio:Abstract | prism:doi | xsd:string | 85",
         "fabio:Abstract | prism:issueIdentifier | xsd:string | 8",
         "fabio:Abstract | prism:keyword | xsd:string | 5",
         "fabio:Abstract | prism:publicationDate | xsd:date | 580",
@@ -620,7 +621,7 @@
         "fabio:Abstract | dcterms:creator | schema:Person | 2571",
         "fabio:Abstract | dcterms:title | xsd:string | 580",
         "fabio:Abstract | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 580",
-        "fabio:Abstract | fabio:hasPubMedCentralId | xsd:string | 580",
+        "fabio:Abstract | fabio:hasPubMedCentralId | xsd:string | 8",
         "fabio:Abstract | fabio:hasPubMedId | xsd:string | 580",
         "fabio:Abstract | fabio:hasPublicationYear | xsd:string | 580",
         "fabio:Abstract | frbr:embodiment | fabio:Manifestation | 8",
@@ -628,7 +629,10 @@
         "fabio:Abstract | po:contains | doco:BodyMatter | 578",
         "fabio:Abstract | po:contains | doco:FrontMatter | 580",
         "fabio:Abstract | rdf:type | owl:Class | 580",
-        "fabio:Abstract | sibilo:hasAnnotation | sibilo:NexAnnotation | 56853"
+        "fabio:Abstract | rdfs:seeAlso | xsd:anyURI | 580",
+        "fabio:Abstract | sibilo:hasAnnotation | sibilo:NexAnnotation | 56853",
+        "fabio:Abstract | sibilo:inCollection | xsd:string | 580",
+        "fabio:Abstract | sibilo:seeAlsoAnnotated | xsd:anyURI | 580"
       ]
     },
     "fabio:Addendum": {
@@ -657,7 +661,10 @@
         "fabio:Addendum | po:contains | doco:BodyMatter | 6",
         "fabio:Addendum | po:contains | doco:FrontMatter | 6",
         "fabio:Addendum | rdf:type | owl:Class | 6",
-        "fabio:Addendum | sibilo:hasAnnotation | sibilo:NexAnnotation | 5072"
+        "fabio:Addendum | rdfs:seeAlso | xsd:anyURI | 6",
+        "fabio:Addendum | sibilo:hasAnnotation | sibilo:NexAnnotation | 5072",
+        "fabio:Addendum | sibilo:inCollection | xsd:string | 6",
+        "fabio:Addendum | sibilo:seeAlsoAnnotated | xsd:anyURI | 6"
       ]
     },
     "fabio:Article": {
@@ -672,15 +679,14 @@
         "fabio:ReviewArticle | rdfs:subClassOf | fabio:Article"
       ],
       "usage": [
-        "fabio:Article | prism:doi | xsd:string | 56",
+        "fabio:Article | prism:doi | xsd:string | 50",
         "fabio:Article | prism:keyword | xsd:string | 56",
         "fabio:Article | prism:publicationDate | xsd:date | 56",
-        "fabio:Article | prism:volume | xsd:string | 5",
         "fabio:Article | dcterms:abstract | xsd:string | 46",
         "fabio:Article | dcterms:creator | schema:Person | 330",
         "fabio:Article | dcterms:title | xsd:string | 56",
         "fabio:Article | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 56",
-        "fabio:Article | fabio:hasPubMedCentralId | xsd:string | 56",
+        "fabio:Article | fabio:hasPubMedCentralId | xsd:string | 16",
         "fabio:Article | fabio:hasPubMedId | xsd:string | 56",
         "fabio:Article | fabio:hasPublicationYear | xsd:string | 56",
         "fabio:Article | frbr:embodiment | fabio:Manifestation | 5",
@@ -689,7 +695,10 @@
         "fabio:Article | po:contains | doco:BodyMatter | 52",
         "fabio:Article | po:contains | doco:FrontMatter | 56",
         "fabio:Article | rdf:type | owl:Class | 56",
-        "fabio:Article | sibilo:hasAnnotation | sibilo:NexAnnotation | 9209"
+        "fabio:Article | rdfs:seeAlso | xsd:anyURI | 56",
+        "fabio:Article | sibilo:hasAnnotation | sibilo:NexAnnotation | 9209",
+        "fabio:Article | sibilo:inCollection | xsd:string | 56",
+        "fabio:Article | sibilo:seeAlsoAnnotated | xsd:anyURI | 56"
       ]
     },
     "fabio:BachelorsThesis": {
@@ -772,12 +781,12 @@
         "fabio:BriefReport | prism:issueIdentifier | xsd:string | 559",
         "fabio:BriefReport | prism:keyword | xsd:string | 1942",
         "fabio:BriefReport | prism:publicationDate | xsd:date | 619",
-        "fabio:BriefReport | prism:volume | xsd:string | 619",
+        "fabio:BriefReport | prism:volume | xsd:string | 559",
         "fabio:BriefReport | dcterms:abstract | xsd:string | 593",
         "fabio:BriefReport | dcterms:title | xsd:string | 619",
         "fabio:BriefReport | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 619",
         "fabio:BriefReport | fabio:hasPubMedCentralId | xsd:string | 619",
-        "fabio:BriefReport | fabio:hasPubMedId | xsd:string | 619",
+        "fabio:BriefReport | fabio:hasPubMedId | xsd:string | 597",
         "fabio:BriefReport | fabio:hasPublicationYear | xsd:string | 619",
         "fabio:BriefReport | frbr:embodiment | fabio:Manifestation | 414",
         "fabio:BriefReport | po:contains | doco:BackMatter | 616",
@@ -785,7 +794,10 @@
         "fabio:BriefReport | po:contains | doco:FrontMatter | 619",
         "fabio:BriefReport | po:contains | sibilo:FloatMatter | 140",
         "fabio:BriefReport | rdf:type | owl:Class | 619",
-        "fabio:BriefReport | sibilo:hasAnnotation | sibilo:NexAnnotation | 524893"
+        "fabio:BriefReport | rdfs:seeAlso | xsd:anyURI | 597",
+        "fabio:BriefReport | sibilo:hasAnnotation | sibilo:NexAnnotation | 524893",
+        "fabio:BriefReport | sibilo:inCollection | xsd:string | 619",
+        "fabio:BriefReport | sibilo:seeAlsoAnnotated | xsd:anyURI | 619"
       ]
     },
     "fabio:CaseReport": {
@@ -841,21 +853,24 @@
         "fabio:Comment | rdfs:subClassOf | fabio:Expression"
       ],
       "usage": [
-        "fabio:Comment | prism:doi | xsd:string | 163",
+        "fabio:Comment | prism:doi | xsd:string | 157",
         "fabio:Comment | prism:keyword | xsd:string | 36",
         "fabio:Comment | prism:publicationDate | xsd:date | 163",
         "fabio:Comment | dcterms:abstract | xsd:string | 75",
         "fabio:Comment | dcterms:creator | schema:Person | 767",
         "fabio:Comment | dcterms:title | xsd:string | 163",
         "fabio:Comment | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 163",
-        "fabio:Comment | fabio:hasPubMedCentralId | xsd:string | 163",
+        "fabio:Comment | fabio:hasPubMedCentralId | xsd:string | 51",
         "fabio:Comment | fabio:hasPubMedId | xsd:string | 163",
         "fabio:Comment | fabio:hasPublicationYear | xsd:string | 163",
         "fabio:Comment | frbr:realizationOf | fabio:Report | 10",
         "fabio:Comment | po:contains | doco:BodyMatter | 163",
         "fabio:Comment | po:contains | doco:FrontMatter | 163",
         "fabio:Comment | rdf:type | owl:Class | 163",
-        "fabio:Comment | sibilo:hasAnnotation | sibilo:NexAnnotation | 11090"
+        "fabio:Comment | rdfs:seeAlso | xsd:anyURI | 163",
+        "fabio:Comment | sibilo:hasAnnotation | sibilo:NexAnnotation | 11090",
+        "fabio:Comment | sibilo:inCollection | xsd:string | 163",
+        "fabio:Comment | sibilo:seeAlsoAnnotated | xsd:anyURI | 163"
       ]
     },
     "fabio:ConferencePaper": {
@@ -910,12 +925,12 @@
         "fabio:Editorial | prism:issueIdentifier | xsd:string | 2",
         "fabio:Editorial | prism:keyword | xsd:string | 63",
         "fabio:Editorial | prism:publicationDate | xsd:date | 24",
-        "fabio:Editorial | prism:volume | xsd:string | 3",
+        "fabio:Editorial | prism:volume | xsd:string | 2",
         "fabio:Editorial | dcterms:abstract | xsd:string | 14",
         "fabio:Editorial | dcterms:creator | schema:Person | 84",
         "fabio:Editorial | dcterms:title | xsd:string | 24",
         "fabio:Editorial | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 24",
-        "fabio:Editorial | fabio:hasPubMedCentralId | xsd:string | 24",
+        "fabio:Editorial | fabio:hasPubMedCentralId | xsd:string | 3",
         "fabio:Editorial | fabio:hasPubMedId | xsd:string | 24",
         "fabio:Editorial | fabio:hasPublicationYear | xsd:string | 24",
         "fabio:Editorial | frbr:embodiment | fabio:Manifestation | 2",
@@ -923,7 +938,10 @@
         "fabio:Editorial | po:contains | doco:BodyMatter | 24",
         "fabio:Editorial | po:contains | doco:FrontMatter | 24",
         "fabio:Editorial | rdf:type | owl:Class | 24",
-        "fabio:Editorial | sibilo:hasAnnotation | sibilo:NexAnnotation | 4725"
+        "fabio:Editorial | rdfs:seeAlso | xsd:anyURI | 24",
+        "fabio:Editorial | sibilo:hasAnnotation | sibilo:NexAnnotation | 4725",
+        "fabio:Editorial | sibilo:inCollection | xsd:string | 24",
+        "fabio:Editorial | sibilo:seeAlsoAnnotated | xsd:anyURI | 24"
       ]
     },
     "fabio:Expression": {
@@ -947,20 +965,22 @@
         "fabio:RapidCommunication | rdfs:subClassOf | fabio:Expression",
         "fabio:ReportDocument | rdfs:subClassOf | fabio:Expression",
         "fabio:SpecificationDocument | rdfs:subClassOf | fabio:Expression",
-        "sibilo:hasAnnotation | rdfs:domain | fabio:Expression"
+        "sibilo:hasAnnotation | rdfs:domain | fabio:Expression",
+        "sibilo:inCollection | rdfs:domain | fabio:Expression",
+        "sibilo:seeAlsoAnnotated | rdfs:domain | fabio:Expression"
       ],
       "usage": [
-        "fabio:Expression | prism:doi | xsd:string | 268",
+        "fabio:Expression | prism:doi | xsd:string | 260",
         "fabio:Expression | prism:issueIdentifier | xsd:string | 131",
         "fabio:Expression | prism:keyword | xsd:string | 705",
         "fabio:Expression | prism:publicationDate | xsd:date | 268",
-        "fabio:Expression | prism:volume | xsd:string | 250",
+        "fabio:Expression | prism:volume | xsd:string | 131",
         "fabio:Expression | dcterms:abstract | xsd:string | 147",
         "fabio:Expression | dcterms:creator | schema:Person | 68",
         "fabio:Expression | dcterms:title | xsd:string | 268",
         "fabio:Expression | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 268",
-        "fabio:Expression | fabio:hasPubMedCentralId | xsd:string | 268",
-        "fabio:Expression | fabio:hasPubMedId | xsd:string | 268",
+        "fabio:Expression | fabio:hasPubMedCentralId | xsd:string | 253",
+        "fabio:Expression | fabio:hasPubMedId | xsd:string | 243",
         "fabio:Expression | fabio:hasPublicationYear | xsd:string | 268",
         "fabio:Expression | frbr:embodiment | fabio:Manifestation | 115",
         "fabio:Expression | frbr:realizationOf | fabio:Biography | 11",
@@ -973,7 +993,10 @@
         "fabio:Expression | po:contains | doco:FrontMatter | 268",
         "fabio:Expression | po:contains | sibilo:FloatMatter | 47",
         "fabio:Expression | rdf:type | owl:Class | 268",
-        "fabio:Expression | sibilo:hasAnnotation | sibilo:NexAnnotation | 150309"
+        "fabio:Expression | rdfs:seeAlso | xsd:anyURI | 243",
+        "fabio:Expression | sibilo:hasAnnotation | sibilo:NexAnnotation | 150309",
+        "fabio:Expression | sibilo:inCollection | xsd:string | 268",
+        "fabio:Expression | sibilo:seeAlsoAnnotated | xsd:anyURI | 268"
       ]
     },
     "fabio:JournalArticle": {
@@ -988,17 +1011,17 @@
         "fabio:JournalArticle | skos:closeMatch | up:Journal_Citation"
       ],
       "usage": [
-        "fabio:JournalArticle | prism:doi | xsd:string | 256510",
+        "fabio:JournalArticle | prism:doi | xsd:string | 238504",
         "fabio:JournalArticle | prism:issueIdentifier | xsd:string | 30746",
         "fabio:JournalArticle | prism:keyword | xsd:string | 174692",
         "fabio:JournalArticle | prism:publicationDate | xsd:date | 256514",
-        "fabio:JournalArticle | prism:volume | xsd:string | 38595",
+        "fabio:JournalArticle | prism:volume | xsd:string | 30746",
         "fabio:JournalArticle | dcterms:abstract | xsd:string | 247711",
         "fabio:JournalArticle | dcterms:creator | schema:Person | 1307754",
         "fabio:JournalArticle | dcterms:title | xsd:string | 256511",
         "fabio:JournalArticle | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 256514",
-        "fabio:JournalArticle | fabio:hasPubMedCentralId | xsd:string | 256514",
-        "fabio:JournalArticle | fabio:hasPubMedId | xsd:string | 256514",
+        "fabio:JournalArticle | fabio:hasPubMedCentralId | xsd:string | 103616",
+        "fabio:JournalArticle | fabio:hasPubMedId | xsd:string | 255948",
         "fabio:JournalArticle | fabio:hasPublicationYear | xsd:string | 256514",
         "fabio:JournalArticle | frbr:embodiment | fabio:Manifestation | 25160",
         "fabio:JournalArticle | frbr:realizationOf | fabio:CaseReport | 20",
@@ -1011,7 +1034,10 @@
         "fabio:JournalArticle | po:contains | doco:FrontMatter | 256514",
         "fabio:JournalArticle | po:contains | sibilo:FloatMatter | 13517",
         "fabio:JournalArticle | rdf:type | owl:Class | 256514",
-        "fabio:JournalArticle | sibilo:hasAnnotation | sibilo:NexAnnotation | 107658048"
+        "fabio:JournalArticle | rdfs:seeAlso | xsd:anyURI | 255948",
+        "fabio:JournalArticle | sibilo:hasAnnotation | sibilo:NexAnnotation | 107658048",
+        "fabio:JournalArticle | sibilo:inCollection | xsd:string | 256514",
+        "fabio:JournalArticle | sibilo:seeAlsoAnnotated | xsd:anyURI | 256514"
       ]
     },
     "fabio:LectureNotes": {
@@ -1030,13 +1056,16 @@
         "fabio:LectureNotes | dcterms:creator | schema:Person | 14",
         "fabio:LectureNotes | dcterms:title | xsd:string | 4",
         "fabio:LectureNotes | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 4",
-        "fabio:LectureNotes | fabio:hasPubMedCentralId | xsd:string | 4",
+        "fabio:LectureNotes | fabio:hasPubMedCentralId | xsd:string | 1",
         "fabio:LectureNotes | fabio:hasPubMedId | xsd:string | 4",
         "fabio:LectureNotes | fabio:hasPublicationYear | xsd:string | 4",
         "fabio:LectureNotes | po:contains | doco:BodyMatter | 4",
         "fabio:LectureNotes | po:contains | doco:FrontMatter | 4",
         "fabio:LectureNotes | rdf:type | owl:Class | 4",
-        "fabio:LectureNotes | sibilo:hasAnnotation | sibilo:NexAnnotation | 742"
+        "fabio:LectureNotes | rdfs:seeAlso | xsd:anyURI | 4",
+        "fabio:LectureNotes | sibilo:hasAnnotation | sibilo:NexAnnotation | 742",
+        "fabio:LectureNotes | sibilo:inCollection | xsd:string | 4",
+        "fabio:LectureNotes | sibilo:seeAlsoAnnotated | xsd:anyURI | 4"
       ]
     },
     "fabio:Letter": {
@@ -1049,17 +1078,17 @@
         "fabio:Letter | rdfs:subClassOf | fabio:Expression"
       ],
       "usage": [
-        "fabio:Letter | prism:doi | xsd:string | 1238",
+        "fabio:Letter | prism:doi | xsd:string | 1185",
         "fabio:Letter | prism:issueIdentifier | xsd:string | 93",
         "fabio:Letter | prism:keyword | xsd:string | 516",
         "fabio:Letter | prism:publicationDate | xsd:date | 1238",
-        "fabio:Letter | prism:volume | xsd:string | 125",
+        "fabio:Letter | prism:volume | xsd:string | 93",
         "fabio:Letter | dcterms:abstract | xsd:string | 241",
         "fabio:Letter | dcterms:creator | schema:Person | 7734",
         "fabio:Letter | dcterms:title | xsd:string | 1238",
         "fabio:Letter | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 1238",
-        "fabio:Letter | fabio:hasPubMedCentralId | xsd:string | 1238",
-        "fabio:Letter | fabio:hasPubMedId | xsd:string | 1238",
+        "fabio:Letter | fabio:hasPubMedCentralId | xsd:string | 354",
+        "fabio:Letter | fabio:hasPubMedId | xsd:string | 1237",
         "fabio:Letter | fabio:hasPublicationYear | xsd:string | 1238",
         "fabio:Letter | frbr:embodiment | fabio:Manifestation | 99",
         "fabio:Letter | frbr:realizationOf | fabio:Report | 19",
@@ -1068,7 +1097,10 @@
         "fabio:Letter | po:contains | doco:FrontMatter | 1238",
         "fabio:Letter | po:contains | sibilo:FloatMatter | 28",
         "fabio:Letter | rdf:type | owl:Class | 1238",
-        "fabio:Letter | sibilo:hasAnnotation | sibilo:NexAnnotation | 148808"
+        "fabio:Letter | rdfs:seeAlso | xsd:anyURI | 1237",
+        "fabio:Letter | sibilo:hasAnnotation | sibilo:NexAnnotation | 148808",
+        "fabio:Letter | sibilo:inCollection | xsd:string | 1238",
+        "fabio:Letter | sibilo:seeAlsoAnnotated | xsd:anyURI | 1238"
       ]
     },
     "fabio:Manifestation": {
@@ -1147,7 +1179,7 @@
         "fabio:NewsItem | rdfs:subClassOf | fabio:Expression"
       ],
       "usage": [
-        "fabio:NewsItem | prism:doi | xsd:string | 19",
+        "fabio:NewsItem | prism:doi | xsd:string | 18",
         "fabio:NewsItem | prism:issueIdentifier | xsd:string | 1",
         "fabio:NewsItem | prism:publicationDate | xsd:date | 19",
         "fabio:NewsItem | prism:volume | xsd:string | 1",
@@ -1155,7 +1187,7 @@
         "fabio:NewsItem | dcterms:creator | schema:Person | 31",
         "fabio:NewsItem | dcterms:title | xsd:string | 19",
         "fabio:NewsItem | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 19",
-        "fabio:NewsItem | fabio:hasPubMedCentralId | xsd:string | 19",
+        "fabio:NewsItem | fabio:hasPubMedCentralId | xsd:string | 1",
         "fabio:NewsItem | fabio:hasPubMedId | xsd:string | 19",
         "fabio:NewsItem | fabio:hasPublicationYear | xsd:string | 19",
         "fabio:NewsItem | frbr:embodiment | fabio:Manifestation | 1",
@@ -1163,7 +1195,10 @@
         "fabio:NewsItem | po:contains | doco:BodyMatter | 19",
         "fabio:NewsItem | po:contains | doco:FrontMatter | 19",
         "fabio:NewsItem | rdf:type | owl:Class | 19",
-        "fabio:NewsItem | sibilo:hasAnnotation | sibilo:NexAnnotation | 1605"
+        "fabio:NewsItem | rdfs:seeAlso | xsd:anyURI | 19",
+        "fabio:NewsItem | sibilo:hasAnnotation | sibilo:NexAnnotation | 1605",
+        "fabio:NewsItem | sibilo:inCollection | xsd:string | 19",
+        "fabio:NewsItem | sibilo:seeAlsoAnnotated | xsd:anyURI | 19"
       ]
     },
     "fabio:PatentDocument": {
@@ -1231,7 +1266,10 @@
         "fabio:RapidCommunication | po:contains | doco:BodyMatter | 29",
         "fabio:RapidCommunication | po:contains | doco:FrontMatter | 29",
         "fabio:RapidCommunication | rdf:type | owl:Class | 29",
-        "fabio:RapidCommunication | sibilo:hasAnnotation | sibilo:NexAnnotation | 22170"
+        "fabio:RapidCommunication | rdfs:seeAlso | xsd:anyURI | 29",
+        "fabio:RapidCommunication | sibilo:hasAnnotation | sibilo:NexAnnotation | 22170",
+        "fabio:RapidCommunication | sibilo:inCollection | xsd:string | 29",
+        "fabio:RapidCommunication | sibilo:seeAlsoAnnotated | xsd:anyURI | 29"
       ]
     },
     "fabio:Report": {
@@ -1267,17 +1305,17 @@
         "fabio:ReportDocument | rdfs:subClassOf | fabio:Expression"
       ],
       "usage": [
-        "fabio:ReportDocument | prism:doi | xsd:string | 40973",
+        "fabio:ReportDocument | prism:doi | xsd:string | 36836",
         "fabio:ReportDocument | prism:issueIdentifier | xsd:string | 83",
         "fabio:ReportDocument | prism:keyword | xsd:string | 5733",
         "fabio:ReportDocument | prism:publicationDate | xsd:date | 40973",
-        "fabio:ReportDocument | prism:volume | xsd:string | 166",
+        "fabio:ReportDocument | prism:volume | xsd:string | 83",
         "fabio:ReportDocument | dcterms:abstract | xsd:string | 39330",
         "fabio:ReportDocument | dcterms:creator | schema:Person | 234000",
         "fabio:ReportDocument | dcterms:title | xsd:string | 40973",
         "fabio:ReportDocument | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 40973",
-        "fabio:ReportDocument | fabio:hasPubMedCentralId | xsd:string | 40973",
-        "fabio:ReportDocument | fabio:hasPubMedId | xsd:string | 40973",
+        "fabio:ReportDocument | fabio:hasPubMedCentralId | xsd:string | 10413",
+        "fabio:ReportDocument | fabio:hasPubMedId | xsd:string | 40956",
         "fabio:ReportDocument | fabio:hasPublicationYear | xsd:string | 40973",
         "fabio:ReportDocument | frbr:embodiment | fabio:Manifestation | 70",
         "fabio:ReportDocument | frbr:realizationOf | fabio:CaseReport | 6242",
@@ -1290,7 +1328,10 @@
         "fabio:ReportDocument | po:contains | doco:FrontMatter | 40973",
         "fabio:ReportDocument | po:contains | sibilo:FloatMatter | 41",
         "fabio:ReportDocument | rdf:type | owl:Class | 40973",
-        "fabio:ReportDocument | sibilo:hasAnnotation | sibilo:NexAnnotation | 6168962"
+        "fabio:ReportDocument | rdfs:seeAlso | xsd:anyURI | 40956",
+        "fabio:ReportDocument | sibilo:hasAnnotation | sibilo:NexAnnotation | 6168962",
+        "fabio:ReportDocument | sibilo:inCollection | xsd:string | 40973",
+        "fabio:ReportDocument | sibilo:seeAlsoAnnotated | xsd:anyURI | 40973"
       ]
     },
     "fabio:Review": {
@@ -1317,17 +1358,17 @@
         "fabio:ReviewArticle | rdfs:subClassOf | fabio:Article"
       ],
       "usage": [
-        "fabio:ReviewArticle | prism:doi | xsd:string | 274",
+        "fabio:ReviewArticle | prism:doi | xsd:string | 264",
         "fabio:ReviewArticle | prism:issueIdentifier | xsd:string | 159",
         "fabio:ReviewArticle | prism:keyword | xsd:string | 1700",
         "fabio:ReviewArticle | prism:publicationDate | xsd:date | 274",
-        "fabio:ReviewArticle | prism:volume | xsd:string | 271",
+        "fabio:ReviewArticle | prism:volume | xsd:string | 159",
         "fabio:ReviewArticle | dcterms:abstract | xsd:string | 271",
         "fabio:ReviewArticle | dcterms:creator | schema:Person | 12",
         "fabio:ReviewArticle | dcterms:title | xsd:string | 274",
         "fabio:ReviewArticle | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 274",
-        "fabio:ReviewArticle | fabio:hasPubMedCentralId | xsd:string | 274",
-        "fabio:ReviewArticle | fabio:hasPubMedId | xsd:string | 274",
+        "fabio:ReviewArticle | fabio:hasPubMedCentralId | xsd:string | 272",
+        "fabio:ReviewArticle | fabio:hasPubMedId | xsd:string | 264",
         "fabio:ReviewArticle | fabio:hasPublicationYear | xsd:string | 274",
         "fabio:ReviewArticle | frbr:embodiment | fabio:Manifestation | 139",
         "fabio:ReviewArticle | frbr:realizationOf | fabio:CaseReport | 1",
@@ -1336,7 +1377,10 @@
         "fabio:ReviewArticle | po:contains | doco:FrontMatter | 274",
         "fabio:ReviewArticle | po:contains | sibilo:FloatMatter | 58",
         "fabio:ReviewArticle | rdf:type | owl:Class | 274",
-        "fabio:ReviewArticle | sibilo:hasAnnotation | sibilo:NexAnnotation | 571690"
+        "fabio:ReviewArticle | rdfs:seeAlso | xsd:anyURI | 264",
+        "fabio:ReviewArticle | sibilo:hasAnnotation | sibilo:NexAnnotation | 571690",
+        "fabio:ReviewArticle | sibilo:inCollection | xsd:string | 274",
+        "fabio:ReviewArticle | sibilo:seeAlsoAnnotated | xsd:anyURI | 274"
       ]
     },
     "fabio:ScholarlyWork": {
@@ -1806,7 +1850,7 @@
     },
     "prism:doi": {
       "tag": "prop",
-      "count": 300763,
+      "count": 278041,
       "definition": [
         "prism:doi | rdf:type | rdf:Property",
         "prism:doi | rdf:type | owl:DatatypeProperty",
@@ -1815,22 +1859,22 @@
         "prism:doi | rdfs:subPropertyOf | dcterms:identifier"
       ],
       "usage": [
-        "prism:doi | count | xsd:integer | 300763",
-        "prism:doi | domain | fabio:Abstract | 580",
+        "prism:doi | count | xsd:integer | 278041",
+        "prism:doi | domain | fabio:Abstract | 85",
         "prism:doi | domain | fabio:Addendum | 6",
-        "prism:doi | domain | fabio:Article | 56",
+        "prism:doi | domain | fabio:Article | 50",
         "prism:doi | domain | fabio:BriefReport | 619",
-        "prism:doi | domain | fabio:Comment | 163",
+        "prism:doi | domain | fabio:Comment | 157",
         "prism:doi | domain | fabio:Editorial | 24",
-        "prism:doi | domain | fabio:Expression | 268",
-        "prism:doi | domain | fabio:JournalArticle | 256510",
+        "prism:doi | domain | fabio:Expression | 260",
+        "prism:doi | domain | fabio:JournalArticle | 238504",
         "prism:doi | domain | fabio:LectureNotes | 4",
-        "prism:doi | domain | fabio:Letter | 1238",
-        "prism:doi | domain | fabio:NewsItem | 19",
+        "prism:doi | domain | fabio:Letter | 1185",
+        "prism:doi | domain | fabio:NewsItem | 18",
         "prism:doi | domain | fabio:RapidCommunication | 29",
-        "prism:doi | domain | fabio:ReportDocument | 40973",
-        "prism:doi | domain | fabio:ReviewArticle | 274",
-        "prism:doi | range | xsd:string | 300763"
+        "prism:doi | domain | fabio:ReportDocument | 36836",
+        "prism:doi | domain | fabio:ReviewArticle | 264",
+        "prism:doi | range | xsd:string | 278041"
       ]
     },
     "prism:endingPage": {
@@ -1963,7 +2007,7 @@
     },
     "prism:volume": {
       "tag": "prop",
-      "count": 40078,
+      "count": 31817,
       "definition": [
         "prism:volume | rdf:type | rdf:Property",
         "prism:volume | rdf:type | owl:DatatypeProperty",
@@ -1973,20 +2017,19 @@
         "prism:volume | rdfs:subPropertyOf | dcterms:identifier"
       ],
       "usage": [
-        "prism:volume | count | xsd:integer | 40078",
+        "prism:volume | count | xsd:integer | 31817",
         "prism:volume | domain | fabio:Abstract | 8",
         "prism:volume | domain | fabio:Addendum | 6",
-        "prism:volume | domain | fabio:Article | 5",
-        "prism:volume | domain | fabio:BriefReport | 619",
-        "prism:volume | domain | fabio:Editorial | 3",
-        "prism:volume | domain | fabio:Expression | 250",
-        "prism:volume | domain | fabio:JournalArticle | 38595",
-        "prism:volume | domain | fabio:Letter | 125",
+        "prism:volume | domain | fabio:BriefReport | 559",
+        "prism:volume | domain | fabio:Editorial | 2",
+        "prism:volume | domain | fabio:Expression | 131",
+        "prism:volume | domain | fabio:JournalArticle | 30746",
+        "prism:volume | domain | fabio:Letter | 93",
         "prism:volume | domain | fabio:NewsItem | 1",
         "prism:volume | domain | fabio:RapidCommunication | 29",
-        "prism:volume | domain | fabio:ReportDocument | 166",
-        "prism:volume | domain | fabio:ReviewArticle | 271",
-        "prism:volume | range | xsd:string | 40078"
+        "prism:volume | domain | fabio:ReportDocument | 83",
+        "prism:volume | domain | fabio:ReviewArticle | 159",
+        "prism:volume | range | xsd:string | 31817"
       ]
     },
     "IAO:0000136": {
@@ -2033,7 +2076,7 @@
     },
     "dcterms:contributor": {
       "tag": "prop",
-      "count": 2,
+      "count": 3,
       "definition": [
         "dcterms:contributor | rdf:type | rdf:Property",
         "dcterms:contributor | rdf:type | owl:ObjectProperty",
@@ -2042,9 +2085,9 @@
         "dcterms:creator | rdfs:subPropertyOf | dcterms:contributor"
       ],
       "usage": [
-        "dcterms:contributor | count | xsd:integer | 2",
-        "dcterms:contributor | domain | owl:Ontology | 2",
-        "dcterms:contributor | range | xsd:anyURI | 2"
+        "dcterms:contributor | count | xsd:integer | 3",
+        "dcterms:contributor | domain | owl:Ontology | 3",
+        "dcterms:contributor | range | xsd:anyURI | 3"
       ]
     },
     "dcterms:creator": {
@@ -2197,7 +2240,7 @@
     },
     "fabio:hasPubMedCentralId": {
       "tag": "prop",
-      "count": 300767,
+      "count": 115642,
       "definition": [
         "fabio:hasPubMedCentralId | rdf:type | rdf:Property",
         "fabio:hasPubMedCentralId | rdf:type | owl:DatatypeProperty",
@@ -2207,27 +2250,27 @@
         "fabio:hasPubMedCentralId | rdfs:subPropertyOf | dcterms:identifier"
       ],
       "usage": [
-        "fabio:hasPubMedCentralId | count | xsd:integer | 300767",
-        "fabio:hasPubMedCentralId | domain | fabio:Abstract | 580",
+        "fabio:hasPubMedCentralId | count | xsd:integer | 115642",
+        "fabio:hasPubMedCentralId | domain | fabio:Abstract | 8",
         "fabio:hasPubMedCentralId | domain | fabio:Addendum | 6",
-        "fabio:hasPubMedCentralId | domain | fabio:Article | 56",
+        "fabio:hasPubMedCentralId | domain | fabio:Article | 16",
         "fabio:hasPubMedCentralId | domain | fabio:BriefReport | 619",
-        "fabio:hasPubMedCentralId | domain | fabio:Comment | 163",
-        "fabio:hasPubMedCentralId | domain | fabio:Editorial | 24",
-        "fabio:hasPubMedCentralId | domain | fabio:Expression | 268",
-        "fabio:hasPubMedCentralId | domain | fabio:JournalArticle | 256514",
-        "fabio:hasPubMedCentralId | domain | fabio:LectureNotes | 4",
-        "fabio:hasPubMedCentralId | domain | fabio:Letter | 1238",
-        "fabio:hasPubMedCentralId | domain | fabio:NewsItem | 19",
+        "fabio:hasPubMedCentralId | domain | fabio:Comment | 51",
+        "fabio:hasPubMedCentralId | domain | fabio:Editorial | 3",
+        "fabio:hasPubMedCentralId | domain | fabio:Expression | 253",
+        "fabio:hasPubMedCentralId | domain | fabio:JournalArticle | 103616",
+        "fabio:hasPubMedCentralId | domain | fabio:LectureNotes | 1",
+        "fabio:hasPubMedCentralId | domain | fabio:Letter | 354",
+        "fabio:hasPubMedCentralId | domain | fabio:NewsItem | 1",
         "fabio:hasPubMedCentralId | domain | fabio:RapidCommunication | 29",
-        "fabio:hasPubMedCentralId | domain | fabio:ReportDocument | 40973",
-        "fabio:hasPubMedCentralId | domain | fabio:ReviewArticle | 274",
-        "fabio:hasPubMedCentralId | range | xsd:string | 300767"
+        "fabio:hasPubMedCentralId | domain | fabio:ReportDocument | 10413",
+        "fabio:hasPubMedCentralId | domain | fabio:ReviewArticle | 272",
+        "fabio:hasPubMedCentralId | range | xsd:string | 115642"
       ]
     },
     "fabio:hasPubMedId": {
       "tag": "prop",
-      "count": 300767,
+      "count": 300126,
       "definition": [
         "fabio:hasPubMedId | rdf:type | rdf:Property",
         "fabio:hasPubMedId | rdf:type | owl:DatatypeProperty",
@@ -2237,22 +2280,22 @@
         "fabio:hasPubMedId | rdfs:subPropertyOf | dcterms:identifier"
       ],
       "usage": [
-        "fabio:hasPubMedId | count | xsd:integer | 300767",
+        "fabio:hasPubMedId | count | xsd:integer | 300126",
         "fabio:hasPubMedId | domain | fabio:Abstract | 580",
         "fabio:hasPubMedId | domain | fabio:Addendum | 6",
         "fabio:hasPubMedId | domain | fabio:Article | 56",
-        "fabio:hasPubMedId | domain | fabio:BriefReport | 619",
+        "fabio:hasPubMedId | domain | fabio:BriefReport | 597",
         "fabio:hasPubMedId | domain | fabio:Comment | 163",
         "fabio:hasPubMedId | domain | fabio:Editorial | 24",
-        "fabio:hasPubMedId | domain | fabio:Expression | 268",
-        "fabio:hasPubMedId | domain | fabio:JournalArticle | 256514",
+        "fabio:hasPubMedId | domain | fabio:Expression | 243",
+        "fabio:hasPubMedId | domain | fabio:JournalArticle | 255948",
         "fabio:hasPubMedId | domain | fabio:LectureNotes | 4",
-        "fabio:hasPubMedId | domain | fabio:Letter | 1238",
+        "fabio:hasPubMedId | domain | fabio:Letter | 1237",
         "fabio:hasPubMedId | domain | fabio:NewsItem | 19",
         "fabio:hasPubMedId | domain | fabio:RapidCommunication | 29",
-        "fabio:hasPubMedId | domain | fabio:ReportDocument | 40973",
-        "fabio:hasPubMedId | domain | fabio:ReviewArticle | 274",
-        "fabio:hasPubMedId | range | xsd:string | 300767"
+        "fabio:hasPubMedId | domain | fabio:ReportDocument | 40956",
+        "fabio:hasPubMedId | domain | fabio:ReviewArticle | 264",
+        "fabio:hasPubMedId | range | xsd:string | 300126"
       ]
     },
     "fabio:hasPublicationYear": {
@@ -2480,7 +2523,7 @@
     },
     "skos:prefLabel": {
       "tag": "prop",
-      "count": 347264,
+      "count": 347239,
       "definition": [
         "skos:prefLabel | rdf:type | rdf:Property",
         "skos:prefLabel | rdf:type | owl:AnnotationProperty",
@@ -2489,9 +2532,9 @@
         "skos:prefLabel | rdfs:subPropertyOf | rdfs:label"
       ],
       "usage": [
-        "skos:prefLabel | count | xsd:integer | 347264",
-        "skos:prefLabel | domain | skos:Concept | 347264",
-        "skos:prefLabel | range | xsd:string | 347264"
+        "skos:prefLabel | count | xsd:integer | 347239",
+        "skos:prefLabel | domain | skos:Concept | 347239",
+        "skos:prefLabel | range | xsd:string | 347239"
       ]
     },
     "cnt:chars": {
@@ -2664,6 +2707,38 @@
         "sibilo:hasAnnotation | range | sibilo:NexAnnotation | 115334176"
       ]
     },
+    "sibilo:inCollection": {
+      "tag": "prop",
+      "count": 300767,
+      "definition": [
+        "sibilo:inCollection | rdf:type | rdf:Property",
+        "sibilo:inCollection | rdf:type | owl:AnnotationProperty",
+        "sibilo:inCollection | rdfs:comment | Within the SIBiLS RDF dataset, publications are grouped into two distinct collections, each reflecting the source from which they were obtained: 'pmc' or 'medline'.",
+        "sibilo:inCollection | rdfs:domain | fabio:Expression",
+        "sibilo:inCollection | rdfs:isDefinedBy | sibilo:",
+        "sibilo:inCollection | rdfs:label | in collection",
+        "sibilo:inCollection | rdfs:range | xsd:string",
+        "sibilo:inCollection | rdfs:subPropertyOf | schema:category"
+      ],
+      "usage": [
+        "sibilo:inCollection | count | xsd:integer | 300767",
+        "sibilo:inCollection | domain | fabio:Abstract | 580",
+        "sibilo:inCollection | domain | fabio:Addendum | 6",
+        "sibilo:inCollection | domain | fabio:Article | 56",
+        "sibilo:inCollection | domain | fabio:BriefReport | 619",
+        "sibilo:inCollection | domain | fabio:Comment | 163",
+        "sibilo:inCollection | domain | fabio:Editorial | 24",
+        "sibilo:inCollection | domain | fabio:Expression | 268",
+        "sibilo:inCollection | domain | fabio:JournalArticle | 256514",
+        "sibilo:inCollection | domain | fabio:LectureNotes | 4",
+        "sibilo:inCollection | domain | fabio:Letter | 1238",
+        "sibilo:inCollection | domain | fabio:NewsItem | 19",
+        "sibilo:inCollection | domain | fabio:RapidCommunication | 29",
+        "sibilo:inCollection | domain | fabio:ReportDocument | 40973",
+        "sibilo:inCollection | domain | fabio:ReviewArticle | 274",
+        "sibilo:inCollection | range | xsd:string | 300767"
+      ]
+    },
     "sibilo:more_specific_than": {
       "tag": "prop",
       "count": 242922,
@@ -2719,6 +2794,38 @@
         "sibilo:ordinal | range | xsd:integer | 22108649"
       ]
     },
+    "sibilo:seeAlsoAnnotated": {
+      "tag": "prop",
+      "count": 300767,
+      "definition": [
+        "sibilo:seeAlsoAnnotated | rdf:type | rdf:Property",
+        "sibilo:seeAlsoAnnotated | rdf:type | owl:AnnotationProperty",
+        "sibilo:seeAlsoAnnotated | rdfs:comment | Provides a link to a URI where the annotated publication can be viewed.",
+        "sibilo:seeAlsoAnnotated | rdfs:domain | fabio:Expression",
+        "sibilo:seeAlsoAnnotated | rdfs:isDefinedBy | sibilo:",
+        "sibilo:seeAlsoAnnotated | rdfs:label | see also annotated",
+        "sibilo:seeAlsoAnnotated | rdfs:range | rdfs:Resource",
+        "sibilo:seeAlsoAnnotated | rdfs:subPropertyOf | rdfs:seeAlso"
+      ],
+      "usage": [
+        "sibilo:seeAlsoAnnotated | count | xsd:integer | 300767",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Abstract | 580",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Addendum | 6",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Article | 56",
+        "sibilo:seeAlsoAnnotated | domain | fabio:BriefReport | 619",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Comment | 163",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Editorial | 24",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Expression | 268",
+        "sibilo:seeAlsoAnnotated | domain | fabio:JournalArticle | 256514",
+        "sibilo:seeAlsoAnnotated | domain | fabio:LectureNotes | 4",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Letter | 1238",
+        "sibilo:seeAlsoAnnotated | domain | fabio:NewsItem | 19",
+        "sibilo:seeAlsoAnnotated | domain | fabio:RapidCommunication | 29",
+        "sibilo:seeAlsoAnnotated | domain | fabio:ReportDocument | 40973",
+        "sibilo:seeAlsoAnnotated | domain | fabio:ReviewArticle | 274",
+        "sibilo:seeAlsoAnnotated | range | xsd:anyURI | 300767"
+      ]
+    },
     "schema:affiliation": {
       "tag": "prop",
       "count": 0,
@@ -2729,6 +2836,18 @@
         "schema:affiliation | rdfs:isDefinedBy | schema:",
         "schema:affiliation | rdfs:label | affiliation",
         "schema:affiliation | rdfs:subPropertyOf | schema:memberOf"
+      ],
+      "usage": []
+    },
+    "schema:category": {
+      "tag": "prop",
+      "count": 0,
+      "definition": [
+        "sibilo:inCollection | rdfs:subPropertyOf | schema:category",
+        "schema:category | rdf:type | rdf:Property",
+        "schema:category | rdf:type | owl:DatatypeProperty",
+        "schema:category | rdfs:isDefinedBy | schema:",
+        "schema:category | rdfs:label | category"
       ],
       "usage": []
     },
@@ -2787,6 +2906,6 @@
     "sh": "http://www.w3.org/ns/shacl#",
     "schema": "https://schema.org/",
     "prism": "http://prismstandard.org/namespaces/basic/2.0/",
-    "help": "https://sibils.org/help//"
+    "help": "https://xxx.sibils.org/"
   }
 }

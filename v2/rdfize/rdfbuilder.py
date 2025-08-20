@@ -463,6 +463,7 @@ if __name__ == '__main__':
             print(result.stdout)
             print(result.stderr)
             log_it("ERROR", "LOAD_RDF", args[1], "failed")
+            sys.exit(1)
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -490,6 +491,7 @@ if __name__ == '__main__':
             print(result.stdout)
             print(result.stderr)
             log_it("ERROR", "STATIC_PAGES", "failed")
+            sys.exit(1)
 
 
     log_it("INFO, end")

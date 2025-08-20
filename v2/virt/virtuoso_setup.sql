@@ -27,4 +27,4 @@ insert into DB.DBA.SYS_XML_PERSISTENT_NS_DECL values ('oa', 'http://www.w3.org/n
 insert into DB.DBA.SYS_XML_PERSISTENT_NS_DECL values ('sh', 'http://www.w3.org/ns/shacl#');
 insert into DB.DBA.SYS_XML_PERSISTENT_NS_DECL values ('schema', 'https://schema.org/');
 insert into DB.DBA.SYS_XML_PERSISTENT_NS_DECL values ('prism', 'http://prismstandard.org/namespaces/basic/2.0/');
-insert into DB.DBA.SYS_XML_PERSISTENT_NS_DECL values ('help', 'https://sibils.org/help//');
+insert into DB.DBA.SYS_XML_PERSISTENT_NS_DECL values ('help', 'https://xxx.sibils.org/');

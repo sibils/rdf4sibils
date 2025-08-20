@@ -129,11 +129,12 @@ class MedlineRdfizer(PubliRdfizer):
         author_list = self.publi["document"].get("authors")
         if author_list is not None:
             for author in author_list:
-                blank_node = getBlankNode()
-                triples.append(blank_node, ns.rdf.type, ns.schema.Person)
-                #triples.append(blank_node, ns.rdfs.label, ns.xsd.string(author))
-                triples.append(blank_node, ns.schema.name, ns.xsd.string(author))
-                triples.append(self.get_publi_URIRef(), ns.dcterms.creator, blank_node)
+                if author:
+                    blank_node = getBlankNode()
+                    triples.append(blank_node, ns.rdf.type, ns.schema.Person)
+                    #triples.append(blank_node, ns.rdfs.label, ns.xsd.string(author))
+                    triples.append(blank_node, ns.schema.name, ns.xsd.string(author))
+                    triples.append(self.get_publi_URIRef(), ns.dcterms.creator, blank_node)
 
         return triples
 
@@ -291,7 +292,7 @@ class MedlineRdfizer(PubliRdfizer):
         keywords = publi_doc.get("keywords")
         if keywords is not None and isinstance(keywords,list):
             for k in keywords:
-                triples.append(publi_uri, ns.prism.keyword, ns.xsd.string(k))
+                if k: triples.append(publi_uri, ns.prism.keyword, ns.xsd.string(k))
                     
         o = publi_doc.get("title")
         if o : 
@@ -319,8 +320,8 @@ class MedlineRdfizer(PubliRdfizer):
 
         # front matter - authors (also exist as schema:Person in metadata)
         author_list = self.publi["document"].get("authors") or []
-        if len(author_list) > 0:
-            authors_str = ", ".join(author_list)
+        authors_str = ", ".join(author_list)
+        if authors_str :
             authors_uri = self.get_part_URIRef(publi_uri, "2")
             triples.append(front_uri, ns.po.contains, authors_uri)                
             triples.append(authors_uri, ns.rdf.type, ns.doco.ListOfAuthors)
