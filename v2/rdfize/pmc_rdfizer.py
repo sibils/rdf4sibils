@@ -2,15 +2,17 @@ from ApiCommon import log_it
 from rdf_utils import TripleList, getBlankNode
 from namespace_registry import NamespaceRegistry
 from publi_rdfizer import PubliRdfizer
+from source_rdfizer import SourceRdfizer
 
 
 class PmcRdfizer(PubliRdfizer):
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    def __init__(self, ns: NamespaceRegistry, publi): 
+    def __init__(self, ns: NamespaceRegistry, src_rdfizer: SourceRdfizer, publi): 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         super().__init__(ns, publi)
+        self.src_rdfizer = src_rdfizer
         self.skipped_sentences = set()
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -206,6 +208,8 @@ class PmcRdfizer(PubliRdfizer):
         if pmid:
             triples.append(publi_uri, ns.fabio.hasPubMedId, ns.xsd.string(pmid))
             triples.append(publi_uri, ns.rdfs.seeAlso, f"<https://pubmed.ncbi.nlm.nih.gov/{pmid}>")
+        for src_IRI in self.src_rdfizer.get_list_of_source_IRI_citing_pmid(pmid):
+                triples.append(publi_uri, ns.dcterms.isReferencedBy, f"<{src_IRI}>")
 
         doi = publi_doc.get("doi")
         if doi:

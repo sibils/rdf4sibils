@@ -1,0 +1,60 @@
+from api_platform import ApiPlatform
+from namespace_registry import NamespaceRegistry
+from rdf_utils import TripleList
+
+class SourceRdfizer:
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    def __init__(self, ns: NamespaceRegistry): 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        self.ns = ns
+        pmids_dir = "../out/pmids"
+        self.citing_source_dict = dict()
+        self.citing_source_dict["Cellosaurus"] =  { "seeAlso": "https://www.cellosaurus.org"  , "pmids" : set(open(pmids_dir + "/cello-pmid.txt").readlines()) }
+        self.citing_source_dict["Rhea"] =         { "seeAlso": "https://www.rhea-db.org"      , "pmids" : set(open(pmids_dir + "/rhea-pmid.txt").readlines()) }
+        self.citing_source_dict["SwissLipids"] =  { "seeAlso": "https://www.swisslipids.org"  , "pmids" : set(open(pmids_dir + "/swisslipid-pmid.txt").readlines()) }
+        self.citing_source_dict["UniProtKB"] =    { "seeAlso": "https://www.uniprot.org"      , "pmids" : set(open(pmids_dir + "/swissprot-pmid.txt").readlines()) }
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    def get_citing_source_IRI(self, name):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        return ":".join([self.ns.sibils.pfx, name])
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    def get_list_of_source_IRI_citing_pmid(self, pmid):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        result = list()
+        for k in self.citing_source_dict:
+            if pmid in self.citing_source_dict[k]["pmids"]:
+                result.append(self.get_citing_source_IRI(k))
+        return result
+    
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    def get_ttl_for_citing_sources(self):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        ns = self.ns
+        triples = TripleList()
+        for name in self.citing_source_dict:
+            src_IRI = self.get_citing_source_IRI(name)
+            src_lnk = self.citing_source_dict[name]["seeAlso"]
+            triples.append(src_IRI, ns.rdf.type, ns.owl.NamedIndividual)
+            triples.append(src_IRI, ns.rdf.type, ns.sibilo.CitingSource)
+            triples.append(src_IRI, ns.rdfs.label, ns.xsd.string1(name))
+            triples.append(src_IRI, ns.rdfs.seeAlso, f"<{src_lnk}>")
+            triples.append("","","", punctuation="")
+
+        return("".join(triples.lines))
+
+
+#-------------------------------------------------
+if __name__ == '__main__':
+#-------------------------------------------------
+    platform = ApiPlatform("prod")
+    ns = NamespaceRegistry(platform)
+    builder = SourceRdfizer(ns)
+    ttl = builder.get_ttl_for_citing_sources()
+    print(ttl)
+

@@ -24,6 +24,7 @@ if [[ "$options" =~ "nodata" ]]; then
     echo "$(date) - Skipping generating RDF data files in ../out/ttl/"
 else
     echo "$(date) - Generating RDF data files in ../out/ttl/"
+    python rdfbuilder.py --platform=$platform BUILD_RDF sources
     python rdfbuilder.py --platform=$platform BUILD_RDF terminology
     python rdfbuilder.py --platform=$platform BUILD_RDF medline
     python rdfbuilder.py --platform=$platform BUILD_RDF pmc
@@ -39,6 +40,7 @@ echo "$(date) - Clearing and reinit'ing virtuoso database"
 python rdfbuilder.py --platform=$platform LOAD_RDF clear
 
 echo "$(date) - Loading RDF data files into virtuoso"
+python rdfbuilder.py --platform=$platform LOAD_RDF sources
 python rdfbuilder.py --platform=$platform LOAD_RDF terminology
 python rdfbuilder.py --platform=$platform LOAD_RDF medline
 python rdfbuilder.py --platform=$platform LOAD_RDF pmc

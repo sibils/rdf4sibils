@@ -10,6 +10,7 @@ from io import BytesIO
 from ApiCommon import log_it
 from api_platform import ApiPlatform
 from namespace_registry import NamespaceRegistry
+from source_rdfizer import SourceRdfizer
 from pmc_rdfizer import PmcRdfizer
 from medline_rdfizer import MedlineRdfizer
 from term_rdfizer import TermRdfizer
@@ -32,6 +33,7 @@ class RdfBuilder:
         self.ttldir = "../out/ttl"
         self.fetchdir = "../out/fetch"
         self.termidir = "../out/terminologies"
+        self.src_rdfizer = SourceRdfizer(self.ns)
         if not os.path.exists(self.ttldir): os.makedirs(self.ttldir)
 
 
@@ -69,11 +71,11 @@ class RdfBuilder:
         fileparts = filename.split("/")
         if "pmc" in fileparts:
             log_it("INFO, parsing pmc", filename)
-            publi_rdfizer = PmcRdfizer(self.ns, data)
+            publi_rdfizer = PmcRdfizer(self.ns, self.src_rdfizer, data)
             return publi_rdfizer.get_ttl_for_publi()
         elif "medline" in fileparts:
             log_it("INFO, parsing medline", filename)
-            publi_rdfizer = MedlineRdfizer(self.ns, data)
+            publi_rdfizer = MedlineRdfizer(self.ns, self.src_rdfizer, data)
             return publi_rdfizer.get_ttl_for_publi()
         else:
             log_it("ERROR, skipping unknown file type", filename)
@@ -220,12 +222,26 @@ class RdfBuilder:
         stream.close()
 
 
+    # - - - - - - - - - - - - - - - - - - - - 
+    def write_ttl_file_for_citing_sources(self):
+    # - - - - - - - - - - - - - - - - - - - - 
+        ttl_file = "/".join([self.ttldir, "citing-sources.ttl"])
+        log_it(f"INFO, writing ttl file for citing sources: {ttl_file}")
+        f_out = open(ttl_file, "w")
+        f_out.write(self.get_ttl_prefixes())
+        f_out.write("\n")
+        f_out.write("\n".join(["#", f"# List of owl:NamedIndividual for citing sources", "#", "\n"]))
+        ttl_str = self.src_rdfizer.get_ttl_for_citing_sources()        
+        f_out.write(ttl_str)
+        f_out.close()
+        log_it(f"INFO, wrote ttl file for citing sources: {ttl_file}")
+
 
     # - - - - - - - - - - - - - - - - - - - - 
     def write_ttl_gz_file_for_publi_list(self, input_filenames, ttl_gz_file):
     # - - - - - - - - - - - - - - - - - - - - 
         log_it(f"INFO, writing ttl file for {len(input_filenames)} json.gz files: {ttl_gz_file}")
-        f_out = open(ttl_gz_file, "w")
+        #f_out = open(ttl_gz_file, "w")
         f_out = gzip.open(ttl_gz_file, 'wt')
         f_out.write(self.get_ttl_prefixes())
         f_out.write("\n")
@@ -401,8 +417,8 @@ if __name__ == '__main__':
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     if args[0]=="BUILD_RDF":
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-        if len(args) < 2 or args[1] not in ["pmc", "medline", "terminology", "ontology", "queries", "void"]:
-            sys.exit("Invalid arg2, expected pmc, medline, terminology, ontology, queries or void")
+        if len(args) < 2 or args[1] not in ["pmc", "medline", "terminology", "sources", "ontology", "queries", "void"]:
+            sys.exit("Invalid arg2, expected pmc, medline, terminology, sources, ontology, queries or void")
 
         platform = ApiPlatform(platform_key)
         ns = NamespaceRegistry(platform)
@@ -414,6 +430,8 @@ if __name__ == '__main__':
             builder.write_ttl_gz_files_for_medline()
         elif args[1] == "terminology": 
             builder.write_ttl_for_terminologies()
+        elif args[1] == "sources": 
+            builder.write_ttl_file_for_citing_sources()
         elif args[1] == "ontology": 
             if len(args) > 2 and args[2] == "no-dr":
                 builder.write_ttl_for_ontology(describe_ranges_and_domains=False)
@@ -427,8 +445,8 @@ if __name__ == '__main__':
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     elif args[0]=="LOAD_RDF":
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-        if len(args) < 2 or args[1] not in ["clear", "pmc", "medline", "terminology", "ontology", "void", "queries"]:
-            sys.exit("Invalid arg2, expected clear, pmc, medline, terminology, ontology, void, queries")
+        if len(args) < 2 or args[1] not in ["clear", "pmc", "medline", "terminology", "sources", "ontology", "void", "queries"]:
+            sys.exit("Invalid arg2, expected clear, pmc, medline, terminology, sources, ontology, void, queries")
 
         platform = ApiPlatform(platform_key)
         ns = NamespaceRegistry(platform)
@@ -450,6 +468,8 @@ if __name__ == '__main__':
         elif args[1] == "terminology": 
             result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'termino', 'no_checkpoint'], capture_output=True, text=True) 
             if result: result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'concept', 'no_checkpoint'], capture_output=True, text=True) 
+        elif args[1] == "sources": 
+            result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'citing-sources', 'no_checkpoint'], capture_output=True, text=True) 
         elif args[1] == "ontology": 
             result = subprocess.run(['bash', '../virt/load_ttl_files.sh', 'onto', 'no_checkpoint'], capture_output=True, text=True) 
         elif args[1] == "void": 

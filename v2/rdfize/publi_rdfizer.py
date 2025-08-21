@@ -1,6 +1,7 @@
 from namespace_registry import NamespaceRegistry
 from ApiCommon import log_it
 from termi_extra import TermiExtraRegistry, TermiExtra
+from rdf_utils import TripleList
 
 class PubliRdfizer:
 
@@ -191,3 +192,7 @@ class PubliRdfizer:
                     if aff.get("label") == aff_id:
                         return name
         return None
+
+
+
+

@@ -32,7 +32,7 @@ mv data_medline_ttl_gz.tar static/downloads/
 tar cvf terminologies_ttl.tar ../out/ttl/termino*.ttl ../out/ttl/concept_*.ttl
 mv terminologies_ttl.tar static/downloads/
 
-cp ../out/ttl/ontology.ttl ../out/ttl/void-sibils.ttl ../out/ttl/queries.ttl static/downloads/
+cp ../out/ttl/citing-sources.ttl ../out/ttl/ontology.ttl ../out/ttl/void-sibils.ttl ../out/ttl/queries.ttl static/downloads/
 
 echo "done"
 
