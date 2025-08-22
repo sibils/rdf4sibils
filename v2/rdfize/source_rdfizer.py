@@ -8,12 +8,21 @@ class SourceRdfizer:
     def __init__(self, ns: NamespaceRegistry): 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         self.ns = ns
-        pmids_dir = "../out/pmids"
+        self.pmids_dir = "../out/pmids"
         self.citing_source_dict = dict()
-        self.citing_source_dict["Cellosaurus"] =  { "seeAlso": "https://www.cellosaurus.org"  , "pmids" : set(open(pmids_dir + "/cello-pmid.txt").readlines()) }
-        self.citing_source_dict["Rhea"] =         { "seeAlso": "https://www.rhea-db.org"      , "pmids" : set(open(pmids_dir + "/rhea-pmid.txt").readlines()) }
-        self.citing_source_dict["SwissLipids"] =  { "seeAlso": "https://www.swisslipids.org"  , "pmids" : set(open(pmids_dir + "/swisslipid-pmid.txt").readlines()) }
-        self.citing_source_dict["UniProtKB"] =    { "seeAlso": "https://www.uniprot.org"      , "pmids" : set(open(pmids_dir + "/swissprot-pmid.txt").readlines()) }
+        self.citing_source_dict["Cellosaurus"] =  { "seeAlso": "https://www.cellosaurus.org"  , "pmids" : self.get_set_from_file("cello-pmid.txt") }
+        self.citing_source_dict["Rhea"] =         { "seeAlso": "https://www.rhea-db.org"      , "pmids" : self.get_set_from_file("rhea-pmid.txt") }
+        self.citing_source_dict["SwissLipids"] =  { "seeAlso": "https://www.swisslipids.org"  , "pmids" : self.get_set_from_file("swisslipid-pmid.txt") }
+        self.citing_source_dict["UniProtKB"] =    { "seeAlso": "https://www.uniprot.org"      , "pmids" : self.get_set_from_file("swissprot-pmid.txt") }
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    def get_set_from_file(self, filename):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        fullname = "/".join([self.pmids_dir, filename])
+        stream = open(fullname, 'r')
+        lines = [line.rstrip('\n') for line in stream]
+        return set(lines)
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -54,7 +63,23 @@ if __name__ == '__main__':
 #-------------------------------------------------
     platform = ApiPlatform("prod")
     ns = NamespaceRegistry(platform)
-    builder = SourceRdfizer(ns)
-    ttl = builder.get_ttl_for_citing_sources()
+    rdfizer = SourceRdfizer(ns)
+    ttl = rdfizer.get_ttl_for_citing_sources()
     print(ttl)
+    print("----")
+    for k in rdfizer.citing_source_dict:
+        size = len(rdfizer.citing_source_dict[k]["pmids"])
+        print(k, size)
 
+    print("---- cello list excerpt")
+    pmid_list = list(rdfizer.citing_source_dict["Cellosaurus"]["pmids"])
+    mini_list = list()
+    for i in range(10):
+        mini_list.append(pmid_list[i])
+    print(mini_list)
+
+
+    print("----")
+    pmid = "21325339"
+    for item in rdfizer.get_list_of_source_IRI_citing_pmid(pmid):
+        print(pmid, "in", item)
