@@ -259,7 +259,7 @@ class MedlineRdfizer(PubliRdfizer):
         pmca_link = self.get_pmca_link("medline", pmid)
         triples.append(publi_uri, ns.sibilo.seeAlsoAnnotated, f"<{pmca_link}>")
         for src_IRI in self.src_rdfizer.get_list_of_source_IRI_citing_pmid(pmid):
-            triples.append(publi_uri, ns.dcterms.isReferencedBy, f"<{src_IRI}>")
+            triples.append(publi_uri, ns.dcterms.isReferencedBy, src_IRI)
 
         
         publi_class_uri = self.get_publi_expression_class_URIRef(publi_doc["publication_types"])

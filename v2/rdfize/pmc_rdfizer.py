@@ -208,8 +208,8 @@ class PmcRdfizer(PubliRdfizer):
         if pmid:
             triples.append(publi_uri, ns.fabio.hasPubMedId, ns.xsd.string(pmid))
             triples.append(publi_uri, ns.rdfs.seeAlso, f"<https://pubmed.ncbi.nlm.nih.gov/{pmid}>")
-        for src_IRI in self.src_rdfizer.get_list_of_source_IRI_citing_pmid(pmid):
-                triples.append(publi_uri, ns.dcterms.isReferencedBy, f"<{src_IRI}>")
+            for src_IRI in self.src_rdfizer.get_list_of_source_IRI_citing_pmid(pmid):
+                triples.append(publi_uri, ns.dcterms.isReferencedBy, src_IRI)
 
         doi = publi_doc.get("doi")
         if doi:
