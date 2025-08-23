@@ -269,7 +269,7 @@
       ],
       "usage": [
         "doco:FrontMatter | po:contains | doco:Abstract | 39630",
-        "doco:FrontMatter | po:contains | doco:ListOfAuthors | 260603",
+        "doco:FrontMatter | po:contains | doco:ListOfAuthors | 260582",
         "doco:FrontMatter | po:contains | doco:ListOfOrganizations | 238830",
         "doco:FrontMatter | po:contains | doco:Title | 300767",
         "doco:FrontMatter | rdf:type | owl:Class | 300767",
@@ -358,7 +358,7 @@
     },
     "doco:ListOfAuthors": {
       "tag": "class",
-      "count": 260603,
+      "count": 260582,
       "definition": [
         "doco:ListOfAuthors | rdf:type | owl:Class",
         "doco:ListOfAuthors | rdfs:isDefinedBy | doco:",
@@ -366,10 +366,10 @@
         "doco:ListOfAuthors | rdfs:subClassOf | doco:ListOfAgents"
       ],
       "usage": [
-        "doco:FrontMatter | po:contains | doco:ListOfAuthors | 260603",
-        "doco:ListOfAuthors | rdf:type | owl:Class | 260603",
-        "doco:ListOfAuthors | cnt:chars | xsd:string | 260603",
-        "doco:ListOfAuthors | sibilo:ordinal | xsd:integer | 260603"
+        "doco:FrontMatter | po:contains | doco:ListOfAuthors | 260582",
+        "doco:ListOfAuthors | rdf:type | owl:Class | 260582",
+        "doco:ListOfAuthors | cnt:chars | xsd:string | 260582",
+        "doco:ListOfAuthors | sibilo:ordinal | xsd:integer | 260582"
       ]
     },
     "doco:ListOfOrganizations": {
@@ -619,6 +619,8 @@
         "fabio:Abstract | prism:volume | xsd:string | 8",
         "fabio:Abstract | dcterms:abstract | xsd:string | 510",
         "fabio:Abstract | dcterms:creator | schema:Person | 2571",
+        "fabio:Abstract | dcterms:isReferencedBy | owl:NamedIndividual | 582",
+        "fabio:Abstract | dcterms:isReferencedBy | sibilo:CitingSource | 582",
         "fabio:Abstract | dcterms:title | xsd:string | 580",
         "fabio:Abstract | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 580",
         "fabio:Abstract | fabio:hasPubMedCentralId | xsd:string | 8",
@@ -651,6 +653,8 @@
         "fabio:Addendum | prism:publicationDate | xsd:date | 6",
         "fabio:Addendum | prism:volume | xsd:string | 6",
         "fabio:Addendum | dcterms:abstract | xsd:string | 6",
+        "fabio:Addendum | dcterms:isReferencedBy | owl:NamedIndividual | 6",
+        "fabio:Addendum | dcterms:isReferencedBy | sibilo:CitingSource | 6",
         "fabio:Addendum | dcterms:title | xsd:string | 6",
         "fabio:Addendum | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 6",
         "fabio:Addendum | fabio:hasPubMedCentralId | xsd:string | 6",
@@ -682,8 +686,11 @@
         "fabio:Article | prism:doi | xsd:string | 50",
         "fabio:Article | prism:keyword | xsd:string | 56",
         "fabio:Article | prism:publicationDate | xsd:date | 56",
+        "fabio:Article | prism:volume | xsd:string | 5",
         "fabio:Article | dcterms:abstract | xsd:string | 46",
         "fabio:Article | dcterms:creator | schema:Person | 330",
+        "fabio:Article | dcterms:isReferencedBy | owl:NamedIndividual | 57",
+        "fabio:Article | dcterms:isReferencedBy | sibilo:CitingSource | 57",
         "fabio:Article | dcterms:title | xsd:string | 56",
         "fabio:Article | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 56",
         "fabio:Article | fabio:hasPubMedCentralId | xsd:string | 16",
@@ -781,8 +788,10 @@
         "fabio:BriefReport | prism:issueIdentifier | xsd:string | 559",
         "fabio:BriefReport | prism:keyword | xsd:string | 1942",
         "fabio:BriefReport | prism:publicationDate | xsd:date | 619",
-        "fabio:BriefReport | prism:volume | xsd:string | 559",
+        "fabio:BriefReport | prism:volume | xsd:string | 619",
         "fabio:BriefReport | dcterms:abstract | xsd:string | 593",
+        "fabio:BriefReport | dcterms:isReferencedBy | owl:NamedIndividual | 618",
+        "fabio:BriefReport | dcterms:isReferencedBy | sibilo:CitingSource | 618",
         "fabio:BriefReport | dcterms:title | xsd:string | 619",
         "fabio:BriefReport | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 619",
         "fabio:BriefReport | fabio:hasPubMedCentralId | xsd:string | 619",
@@ -858,6 +867,8 @@
         "fabio:Comment | prism:publicationDate | xsd:date | 163",
         "fabio:Comment | dcterms:abstract | xsd:string | 75",
         "fabio:Comment | dcterms:creator | schema:Person | 767",
+        "fabio:Comment | dcterms:isReferencedBy | owl:NamedIndividual | 163",
+        "fabio:Comment | dcterms:isReferencedBy | sibilo:CitingSource | 163",
         "fabio:Comment | dcterms:title | xsd:string | 163",
         "fabio:Comment | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 163",
         "fabio:Comment | fabio:hasPubMedCentralId | xsd:string | 51",
@@ -925,9 +936,11 @@
         "fabio:Editorial | prism:issueIdentifier | xsd:string | 2",
         "fabio:Editorial | prism:keyword | xsd:string | 63",
         "fabio:Editorial | prism:publicationDate | xsd:date | 24",
-        "fabio:Editorial | prism:volume | xsd:string | 2",
+        "fabio:Editorial | prism:volume | xsd:string | 3",
         "fabio:Editorial | dcterms:abstract | xsd:string | 14",
-        "fabio:Editorial | dcterms:creator | schema:Person | 84",
+        "fabio:Editorial | dcterms:creator | schema:Person | 83",
+        "fabio:Editorial | dcterms:isReferencedBy | owl:NamedIndividual | 26",
+        "fabio:Editorial | dcterms:isReferencedBy | sibilo:CitingSource | 26",
         "fabio:Editorial | dcterms:title | xsd:string | 24",
         "fabio:Editorial | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 24",
         "fabio:Editorial | fabio:hasPubMedCentralId | xsd:string | 3",
@@ -974,9 +987,11 @@
         "fabio:Expression | prism:issueIdentifier | xsd:string | 131",
         "fabio:Expression | prism:keyword | xsd:string | 705",
         "fabio:Expression | prism:publicationDate | xsd:date | 268",
-        "fabio:Expression | prism:volume | xsd:string | 131",
+        "fabio:Expression | prism:volume | xsd:string | 250",
         "fabio:Expression | dcterms:abstract | xsd:string | 147",
-        "fabio:Expression | dcterms:creator | schema:Person | 68",
+        "fabio:Expression | dcterms:creator | schema:Person | 67",
+        "fabio:Expression | dcterms:isReferencedBy | owl:NamedIndividual | 244",
+        "fabio:Expression | dcterms:isReferencedBy | sibilo:CitingSource | 244",
         "fabio:Expression | dcterms:title | xsd:string | 268",
         "fabio:Expression | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 268",
         "fabio:Expression | fabio:hasPubMedCentralId | xsd:string | 253",
@@ -1013,11 +1028,13 @@
       "usage": [
         "fabio:JournalArticle | prism:doi | xsd:string | 238504",
         "fabio:JournalArticle | prism:issueIdentifier | xsd:string | 30746",
-        "fabio:JournalArticle | prism:keyword | xsd:string | 174692",
+        "fabio:JournalArticle | prism:keyword | xsd:string | 174686",
         "fabio:JournalArticle | prism:publicationDate | xsd:date | 256514",
-        "fabio:JournalArticle | prism:volume | xsd:string | 30746",
+        "fabio:JournalArticle | prism:volume | xsd:string | 38595",
         "fabio:JournalArticle | dcterms:abstract | xsd:string | 247711",
-        "fabio:JournalArticle | dcterms:creator | schema:Person | 1307754",
+        "fabio:JournalArticle | dcterms:creator | schema:Person | 1307230",
+        "fabio:JournalArticle | dcterms:isReferencedBy | owl:NamedIndividual | 268653",
+        "fabio:JournalArticle | dcterms:isReferencedBy | sibilo:CitingSource | 268653",
         "fabio:JournalArticle | dcterms:title | xsd:string | 256511",
         "fabio:JournalArticle | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 256514",
         "fabio:JournalArticle | fabio:hasPubMedCentralId | xsd:string | 103616",
@@ -1054,6 +1071,8 @@
         "fabio:LectureNotes | prism:publicationDate | xsd:date | 4",
         "fabio:LectureNotes | dcterms:abstract | xsd:string | 4",
         "fabio:LectureNotes | dcterms:creator | schema:Person | 14",
+        "fabio:LectureNotes | dcterms:isReferencedBy | owl:NamedIndividual | 4",
+        "fabio:LectureNotes | dcterms:isReferencedBy | sibilo:CitingSource | 4",
         "fabio:LectureNotes | dcterms:title | xsd:string | 4",
         "fabio:LectureNotes | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 4",
         "fabio:LectureNotes | fabio:hasPubMedCentralId | xsd:string | 1",
@@ -1082,9 +1101,11 @@
         "fabio:Letter | prism:issueIdentifier | xsd:string | 93",
         "fabio:Letter | prism:keyword | xsd:string | 516",
         "fabio:Letter | prism:publicationDate | xsd:date | 1238",
-        "fabio:Letter | prism:volume | xsd:string | 93",
+        "fabio:Letter | prism:volume | xsd:string | 125",
         "fabio:Letter | dcterms:abstract | xsd:string | 241",
-        "fabio:Letter | dcterms:creator | schema:Person | 7734",
+        "fabio:Letter | dcterms:creator | schema:Person | 7724",
+        "fabio:Letter | dcterms:isReferencedBy | owl:NamedIndividual | 1251",
+        "fabio:Letter | dcterms:isReferencedBy | sibilo:CitingSource | 1251",
         "fabio:Letter | dcterms:title | xsd:string | 1238",
         "fabio:Letter | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 1238",
         "fabio:Letter | fabio:hasPubMedCentralId | xsd:string | 354",
@@ -1185,6 +1206,8 @@
         "fabio:NewsItem | prism:volume | xsd:string | 1",
         "fabio:NewsItem | dcterms:abstract | xsd:string | 2",
         "fabio:NewsItem | dcterms:creator | schema:Person | 31",
+        "fabio:NewsItem | dcterms:isReferencedBy | owl:NamedIndividual | 19",
+        "fabio:NewsItem | dcterms:isReferencedBy | sibilo:CitingSource | 19",
         "fabio:NewsItem | dcterms:title | xsd:string | 19",
         "fabio:NewsItem | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 19",
         "fabio:NewsItem | fabio:hasPubMedCentralId | xsd:string | 1",
@@ -1256,6 +1279,8 @@
         "fabio:RapidCommunication | prism:publicationDate | xsd:date | 29",
         "fabio:RapidCommunication | prism:volume | xsd:string | 29",
         "fabio:RapidCommunication | dcterms:abstract | xsd:string | 29",
+        "fabio:RapidCommunication | dcterms:isReferencedBy | owl:NamedIndividual | 36",
+        "fabio:RapidCommunication | dcterms:isReferencedBy | sibilo:CitingSource | 36",
         "fabio:RapidCommunication | dcterms:title | xsd:string | 29",
         "fabio:RapidCommunication | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 29",
         "fabio:RapidCommunication | fabio:hasPubMedCentralId | xsd:string | 29",
@@ -1309,9 +1334,11 @@
         "fabio:ReportDocument | prism:issueIdentifier | xsd:string | 83",
         "fabio:ReportDocument | prism:keyword | xsd:string | 5733",
         "fabio:ReportDocument | prism:publicationDate | xsd:date | 40973",
-        "fabio:ReportDocument | prism:volume | xsd:string | 83",
+        "fabio:ReportDocument | prism:volume | xsd:string | 166",
         "fabio:ReportDocument | dcterms:abstract | xsd:string | 39330",
-        "fabio:ReportDocument | dcterms:creator | schema:Person | 234000",
+        "fabio:ReportDocument | dcterms:creator | schema:Person | 233897",
+        "fabio:ReportDocument | dcterms:isReferencedBy | owl:NamedIndividual | 42197",
+        "fabio:ReportDocument | dcterms:isReferencedBy | sibilo:CitingSource | 42197",
         "fabio:ReportDocument | dcterms:title | xsd:string | 40973",
         "fabio:ReportDocument | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 40973",
         "fabio:ReportDocument | fabio:hasPubMedCentralId | xsd:string | 10413",
@@ -1362,9 +1389,11 @@
         "fabio:ReviewArticle | prism:issueIdentifier | xsd:string | 159",
         "fabio:ReviewArticle | prism:keyword | xsd:string | 1700",
         "fabio:ReviewArticle | prism:publicationDate | xsd:date | 274",
-        "fabio:ReviewArticle | prism:volume | xsd:string | 159",
+        "fabio:ReviewArticle | prism:volume | xsd:string | 271",
         "fabio:ReviewArticle | dcterms:abstract | xsd:string | 271",
         "fabio:ReviewArticle | dcterms:creator | schema:Person | 12",
+        "fabio:ReviewArticle | dcterms:isReferencedBy | owl:NamedIndividual | 267",
+        "fabio:ReviewArticle | dcterms:isReferencedBy | sibilo:CitingSource | 267",
         "fabio:ReviewArticle | dcterms:title | xsd:string | 274",
         "fabio:ReviewArticle | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 274",
         "fabio:ReviewArticle | fabio:hasPubMedCentralId | xsd:string | 272",
@@ -1586,6 +1615,36 @@
         "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableColumnName | 152334",
         "sibilo:AnnotationTarget | oa:hasSource | sibilo:WordSequence | 17512632",
         "sibilo:NexAnnotation | oa:hasTarget | sibilo:AnnotationTarget | 115250697"
+      ]
+    },
+    "sibilo:CitingSource": {
+      "tag": "class",
+      "count": 4,
+      "definition": [
+        "sibilo:CitingSource | rdf:type | owl:Class",
+        "sibilo:CitingSource | rdfs:comment | A knowledge base, repository, or database that cites publications to support its statements.",
+        "sibilo:CitingSource | rdfs:isDefinedBy | sibilo:",
+        "sibilo:CitingSource | rdfs:label | Citing source"
+      ],
+      "usage": [
+        "fabio:Abstract | dcterms:isReferencedBy | sibilo:CitingSource | 582",
+        "fabio:Addendum | dcterms:isReferencedBy | sibilo:CitingSource | 6",
+        "fabio:Article | dcterms:isReferencedBy | sibilo:CitingSource | 57",
+        "fabio:BriefReport | dcterms:isReferencedBy | sibilo:CitingSource | 618",
+        "fabio:Comment | dcterms:isReferencedBy | sibilo:CitingSource | 163",
+        "fabio:Editorial | dcterms:isReferencedBy | sibilo:CitingSource | 26",
+        "fabio:Expression | dcterms:isReferencedBy | sibilo:CitingSource | 244",
+        "fabio:JournalArticle | dcterms:isReferencedBy | sibilo:CitingSource | 268653",
+        "fabio:LectureNotes | dcterms:isReferencedBy | sibilo:CitingSource | 4",
+        "fabio:Letter | dcterms:isReferencedBy | sibilo:CitingSource | 1251",
+        "fabio:NewsItem | dcterms:isReferencedBy | sibilo:CitingSource | 19",
+        "fabio:RapidCommunication | dcterms:isReferencedBy | sibilo:CitingSource | 36",
+        "fabio:ReportDocument | dcterms:isReferencedBy | sibilo:CitingSource | 42197",
+        "fabio:ReviewArticle | dcterms:isReferencedBy | sibilo:CitingSource | 267",
+        "sibilo:CitingSource | rdf:type | xsd:anyURI | 4",
+        "sibilo:CitingSource | rdf:type | owl:Class | 4",
+        "sibilo:CitingSource | rdfs:label | xsd:string | 4",
+        "sibilo:CitingSource | rdfs:seeAlso | xsd:anyURI | 4"
       ]
     },
     "sibilo:FloatMatter": {
@@ -1826,7 +1885,7 @@
     },
     "schema:Person": {
       "tag": "class",
-      "count": 1553365,
+      "count": 1552726,
       "definition": [
         "schema:Person | rdf:type | owl:Class",
         "schema:Person | rdfs:isDefinedBy | schema:",
@@ -1836,16 +1895,16 @@
         "fabio:Abstract | dcterms:creator | schema:Person | 2571",
         "fabio:Article | dcterms:creator | schema:Person | 330",
         "fabio:Comment | dcterms:creator | schema:Person | 767",
-        "fabio:Editorial | dcterms:creator | schema:Person | 84",
-        "fabio:Expression | dcterms:creator | schema:Person | 68",
-        "fabio:JournalArticle | dcterms:creator | schema:Person | 1307754",
+        "fabio:Editorial | dcterms:creator | schema:Person | 83",
+        "fabio:Expression | dcterms:creator | schema:Person | 67",
+        "fabio:JournalArticle | dcterms:creator | schema:Person | 1307230",
         "fabio:LectureNotes | dcterms:creator | schema:Person | 14",
-        "fabio:Letter | dcterms:creator | schema:Person | 7734",
+        "fabio:Letter | dcterms:creator | schema:Person | 7724",
         "fabio:NewsItem | dcterms:creator | schema:Person | 31",
-        "fabio:ReportDocument | dcterms:creator | schema:Person | 234000",
+        "fabio:ReportDocument | dcterms:creator | schema:Person | 233897",
         "fabio:ReviewArticle | dcterms:creator | schema:Person | 12",
-        "schema:Person | rdf:type | owl:Class | 1553365",
-        "schema:Person | schema:name | xsd:string | 1553365"
+        "schema:Person | rdf:type | owl:Class | 1552726",
+        "schema:Person | schema:name | xsd:string | 1552726"
       ]
     },
     "prism:doi": {
@@ -1921,7 +1980,7 @@
     },
     "prism:keyword": {
       "tag": "prop",
-      "count": 185486,
+      "count": 185480,
       "definition": [
         "prism:keyword | rdf:type | rdf:Property",
         "prism:keyword | rdf:type | owl:DatatypeProperty",
@@ -1929,7 +1988,7 @@
         "prism:keyword | rdfs:label | keyword"
       ],
       "usage": [
-        "prism:keyword | count | xsd:integer | 185486",
+        "prism:keyword | count | xsd:integer | 185480",
         "prism:keyword | domain | fabio:Abstract | 5",
         "prism:keyword | domain | fabio:Addendum | 33",
         "prism:keyword | domain | fabio:Article | 56",
@@ -1937,12 +1996,12 @@
         "prism:keyword | domain | fabio:Comment | 36",
         "prism:keyword | domain | fabio:Editorial | 63",
         "prism:keyword | domain | fabio:Expression | 705",
-        "prism:keyword | domain | fabio:JournalArticle | 174692",
+        "prism:keyword | domain | fabio:JournalArticle | 174686",
         "prism:keyword | domain | fabio:Letter | 516",
         "prism:keyword | domain | fabio:RapidCommunication | 5",
         "prism:keyword | domain | fabio:ReportDocument | 5733",
         "prism:keyword | domain | fabio:ReviewArticle | 1700",
-        "prism:keyword | range | xsd:string | 185486"
+        "prism:keyword | range | xsd:string | 185480"
       ]
     },
     "prism:pageRange": {
@@ -2007,7 +2066,7 @@
     },
     "prism:volume": {
       "tag": "prop",
-      "count": 31817,
+      "count": 40078,
       "definition": [
         "prism:volume | rdf:type | rdf:Property",
         "prism:volume | rdf:type | owl:DatatypeProperty",
@@ -2017,19 +2076,20 @@
         "prism:volume | rdfs:subPropertyOf | dcterms:identifier"
       ],
       "usage": [
-        "prism:volume | count | xsd:integer | 31817",
+        "prism:volume | count | xsd:integer | 40078",
         "prism:volume | domain | fabio:Abstract | 8",
         "prism:volume | domain | fabio:Addendum | 6",
-        "prism:volume | domain | fabio:BriefReport | 559",
-        "prism:volume | domain | fabio:Editorial | 2",
-        "prism:volume | domain | fabio:Expression | 131",
-        "prism:volume | domain | fabio:JournalArticle | 30746",
-        "prism:volume | domain | fabio:Letter | 93",
+        "prism:volume | domain | fabio:Article | 5",
+        "prism:volume | domain | fabio:BriefReport | 619",
+        "prism:volume | domain | fabio:Editorial | 3",
+        "prism:volume | domain | fabio:Expression | 250",
+        "prism:volume | domain | fabio:JournalArticle | 38595",
+        "prism:volume | domain | fabio:Letter | 125",
         "prism:volume | domain | fabio:NewsItem | 1",
         "prism:volume | domain | fabio:RapidCommunication | 29",
-        "prism:volume | domain | fabio:ReportDocument | 83",
-        "prism:volume | domain | fabio:ReviewArticle | 159",
-        "prism:volume | range | xsd:string | 31817"
+        "prism:volume | domain | fabio:ReportDocument | 166",
+        "prism:volume | domain | fabio:ReviewArticle | 271",
+        "prism:volume | range | xsd:string | 40078"
       ]
     },
     "IAO:0000136": {
@@ -2092,7 +2152,7 @@
     },
     "dcterms:creator": {
       "tag": "prop",
-      "count": 1553366,
+      "count": 1552727,
       "definition": [
         "dcterms:creator | rdf:type | rdf:Property",
         "dcterms:creator | rdf:type | owl:ObjectProperty",
@@ -2101,21 +2161,21 @@
         "dcterms:creator | rdfs:subPropertyOf | dcterms:contributor"
       ],
       "usage": [
-        "dcterms:creator | count | xsd:integer | 1553366",
+        "dcterms:creator | count | xsd:integer | 1552727",
         "dcterms:creator | domain | fabio:Abstract | 2571",
         "dcterms:creator | domain | fabio:Article | 330",
         "dcterms:creator | domain | fabio:Comment | 767",
-        "dcterms:creator | domain | fabio:Editorial | 84",
-        "dcterms:creator | domain | fabio:Expression | 68",
-        "dcterms:creator | domain | fabio:JournalArticle | 1307754",
+        "dcterms:creator | domain | fabio:Editorial | 83",
+        "dcterms:creator | domain | fabio:Expression | 67",
+        "dcterms:creator | domain | fabio:JournalArticle | 1307230",
         "dcterms:creator | domain | fabio:LectureNotes | 14",
-        "dcterms:creator | domain | fabio:Letter | 7734",
+        "dcterms:creator | domain | fabio:Letter | 7724",
         "dcterms:creator | domain | fabio:NewsItem | 31",
-        "dcterms:creator | domain | fabio:ReportDocument | 234000",
+        "dcterms:creator | domain | fabio:ReportDocument | 233897",
         "dcterms:creator | domain | fabio:ReviewArticle | 12",
         "dcterms:creator | domain | owl:Ontology | 1",
         "dcterms:creator | range | xsd:anyURI | 1",
-        "dcterms:creator | range | schema:Person | 1553365"
+        "dcterms:creator | range | schema:Person | 1552726"
       ]
     },
     "dcterms:hasPart": {
@@ -2177,6 +2237,35 @@
         "fabio:hasPubMedId | rdfs:subPropertyOf | dcterms:identifier"
       ],
       "usage": []
+    },
+    "dcterms:isReferencedBy": {
+      "tag": "prop",
+      "count": 314123,
+      "definition": [
+        "dcterms:isReferencedBy | rdf:type | rdf:Property",
+        "dcterms:isReferencedBy | rdf:type | owl:DatatypeProperty",
+        "dcterms:isReferencedBy | rdfs:isDefinedBy | dcterms:",
+        "dcterms:isReferencedBy | rdfs:label | is referenced by"
+      ],
+      "usage": [
+        "dcterms:isReferencedBy | count | xsd:integer | 314123",
+        "dcterms:isReferencedBy | domain | fabio:Abstract | 582",
+        "dcterms:isReferencedBy | domain | fabio:Addendum | 6",
+        "dcterms:isReferencedBy | domain | fabio:Article | 57",
+        "dcterms:isReferencedBy | domain | fabio:BriefReport | 618",
+        "dcterms:isReferencedBy | domain | fabio:Comment | 163",
+        "dcterms:isReferencedBy | domain | fabio:Editorial | 26",
+        "dcterms:isReferencedBy | domain | fabio:Expression | 244",
+        "dcterms:isReferencedBy | domain | fabio:JournalArticle | 268653",
+        "dcterms:isReferencedBy | domain | fabio:LectureNotes | 4",
+        "dcterms:isReferencedBy | domain | fabio:Letter | 1251",
+        "dcterms:isReferencedBy | domain | fabio:NewsItem | 19",
+        "dcterms:isReferencedBy | domain | fabio:RapidCommunication | 36",
+        "dcterms:isReferencedBy | domain | fabio:ReportDocument | 42197",
+        "dcterms:isReferencedBy | domain | fabio:ReviewArticle | 267",
+        "dcterms:isReferencedBy | range | owl:NamedIndividual | 314123",
+        "dcterms:isReferencedBy | range | sibilo:CitingSource | 314123"
+      ]
     },
     "dcterms:title": {
       "tag": "prop",
@@ -2386,7 +2475,7 @@
     },
     "po:contains": {
       "tag": "prop",
-      "count": 27140048,
+      "count": 27140027,
       "definition": [
         "po:contains | rdf:type | rdf:Property",
         "po:contains | rdf:type | owl:ObjectProperty",
@@ -2395,7 +2484,7 @@
         "po:contains | rdfs:label | contains"
       ],
       "usage": [
-        "po:contains | count | xsd:integer | 27140048",
+        "po:contains | count | xsd:integer | 27140027",
         "po:contains | domain | deo:Caption | 2122097",
         "po:contains | domain | deo:DiscourseElement | 354137",
         "po:contains | domain | doco:Abstract | 302959",
@@ -2404,7 +2493,7 @@
         "po:contains | domain | doco:BlockQuotation | 22",
         "po:contains | domain | doco:BodyMatter | 1265575",
         "po:contains | domain | doco:CaptionedBox | 51486",
-        "po:contains | domain | doco:FrontMatter | 839830",
+        "po:contains | domain | doco:FrontMatter | 839809",
         "po:contains | domain | doco:Glossary | 160",
         "po:contains | domain | doco:List | 6115680",
         "po:contains | domain | doco:ListOfOrganizations | 411509",
@@ -2446,7 +2535,7 @@
         "po:contains | range | doco:FrontMatter | 300767",
         "po:contains | range | doco:Glossary | 156",
         "po:contains | range | doco:List | 791538",
-        "po:contains | range | doco:ListOfAuthors | 260603",
+        "po:contains | range | doco:ListOfAuthors | 260582",
         "po:contains | range | doco:ListOfOrganizations | 238830",
         "po:contains | range | doco:ListOfReferences | 38842",
         "po:contains | range | doco:Paragraph | 1953869",
@@ -2539,7 +2628,7 @@
     },
     "cnt:chars": {
       "tag": "prop",
-      "count": 22394004,
+      "count": 22393983,
       "definition": [
         "cnt:chars | rdf:type | rdf:Property",
         "cnt:chars | rdf:type | owl:DatatypeProperty",
@@ -2548,16 +2637,16 @@
         "cnt:chars | rdfs:label | Character sequence"
       ],
       "usage": [
-        "cnt:chars | count | xsd:integer | 22394004",
+        "cnt:chars | count | xsd:integer | 22393983",
         "cnt:chars | domain | deo:Caption | 14200",
         "cnt:chars | domain | doco:Label | 509985",
-        "cnt:chars | domain | doco:ListOfAuthors | 260603",
+        "cnt:chars | domain | doco:ListOfAuthors | 260582",
         "cnt:chars | domain | doco:SectionLabel | 1040887",
         "cnt:chars | domain | doco:Sentence | 13782761",
         "cnt:chars | domain | sibilo:TableCellValues | 65113",
         "cnt:chars | domain | sibilo:TableColumnName | 193266",
         "cnt:chars | domain | sibilo:WordSequence | 6527189",
-        "cnt:chars | range | xsd:string | 22394004"
+        "cnt:chars | range | xsd:string | 22393983"
       ]
     },
     "oa:end": {
@@ -2772,7 +2861,7 @@
     },
     "sibilo:ordinal": {
       "tag": "prop",
-      "count": 22108649,
+      "count": 22108628,
       "definition": [
         "sibilo:ordinal | rdf:type | rdf:Property",
         "sibilo:ordinal | rdf:type | owl:DatatypeProperty",
@@ -2783,15 +2872,15 @@
         "sibilo:ordinal | rdfs:range | xsd:integer"
       ],
       "usage": [
-        "sibilo:ordinal | count | xsd:integer | 22108649",
+        "sibilo:ordinal | count | xsd:integer | 22108628",
         "sibilo:ordinal | domain | doco:Label | 238830",
-        "sibilo:ordinal | domain | doco:ListOfAuthors | 260603",
+        "sibilo:ordinal | domain | doco:ListOfAuthors | 260582",
         "sibilo:ordinal | domain | doco:SectionLabel | 1040887",
         "sibilo:ordinal | domain | doco:Sentence | 13782761",
         "sibilo:ordinal | domain | sibilo:TableCellValues | 65113",
         "sibilo:ordinal | domain | sibilo:TableColumnName | 193266",
         "sibilo:ordinal | domain | sibilo:WordSequence | 6527189",
-        "sibilo:ordinal | range | xsd:integer | 22108649"
+        "sibilo:ordinal | range | xsd:integer | 22108628"
       ]
     },
     "sibilo:seeAlsoAnnotated": {
@@ -2865,7 +2954,7 @@
     },
     "schema:name": {
       "tag": "prop",
-      "count": 1553365,
+      "count": 1552726,
       "definition": [
         "schema:name | rdf:type | rdf:Property",
         "schema:name | rdf:type | owl:DatatypeProperty",
@@ -2874,9 +2963,9 @@
         "schema:name | owl:equivalentProperty | dcterms:title"
       ],
       "usage": [
-        "schema:name | count | xsd:integer | 1553365",
-        "schema:name | domain | schema:Person | 1553365",
-        "schema:name | range | xsd:string | 1553365"
+        "schema:name | count | xsd:integer | 1552726",
+        "schema:name | domain | schema:Person | 1552726",
+        "schema:name | range | xsd:string | 1552726"
       ]
     }
   },
