@@ -1,6 +1,0 @@
-prefix : <http://sibils.org/rdf#>
-select  (count(?publi) as ?publi_count) where { 
-    ?publi_class rdfs:subClassOf* :Publication .
-    ?publi rdf:type ?publi_class.
-}
-
