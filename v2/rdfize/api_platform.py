@@ -33,10 +33,10 @@ class ApiPlatform:
                 "private_sparql_IRI" : "http://localhost:8891/sparql",
                 "builder_sparql_IRI" : "http://localhost:8891/sparql"     
             },
-            "test": {
+            "test": {                
                 "base_IRI": "https://test.sibils.org/rdf",                          # base URL for IRIs generated in sibils/c/t/o
-                "help_IRI": "https://test-xxx/sibils.org",                          # fastapi server URL (minus final / ) TODO: TO BE DEFINED
-                "public_sparql_IRI": "https://test-sparql.sibils.org/sparql",
+                "help_IRI": "http://pamansible.lan.text-analytics.ch/",             # fastapi server URL (minus final / ) TODO: TO BE DEFINED
+                "public_sparql_IRI": "http://pamansible.lan.text-analytics.ch/sparql",
                 "private_sparql_IRI" : "http://localhost:8891/sparql",
                 "builder_sparql_IRI" : "http://localhost:8891/sparql"
             },
