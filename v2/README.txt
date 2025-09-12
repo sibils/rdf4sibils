@@ -51,8 +51,10 @@ either in ./out/fetch/pmc subtree or in ./out/fetch/medline subtree
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # get a tar.gz from server and decompresses it to ./out/terminologies
-# NOTE: current-version.txt needs to be manually edited cos contains inconsistencies
+# CAUTION 1 : you need a ssh key that is authorized on rdfizer server called by script
+# CAUTION 2 : current-version.txt needs to be manually edited cos contains inconsistencies
 ./rdfize/get_terminologies.sh
+
 
 # build RDF files for terminologies, concepts, publications, ontology and metadata
 # load RDF files into virtuoso
