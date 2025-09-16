@@ -426,7 +426,7 @@ def describe_any(dir, ac, format, request):
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-@app.get("/describe/model" , name="Typical triples found in SIBiLS RDF", tags=["RDF"], response_class=responses.Response, responses={"200":json_type_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+@app.get("/describe/model" , name="Typical triples found in SIBiLS RDF", tags=["RDF"], response_class=responses.Response, responses={"200":json_type_responses, "400": {"model": ErrorMessage}}, include_in_schema=False)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 async def get_model_description(request:Request):
     t0 = datetime.datetime.now()
