@@ -26,23 +26,22 @@ class ApiPlatform:
             # WARNING: no final "/", please !
             # ---------------------------------
             "local": {
-                #"base_IRI": "https://purl.expasy.org/sibils/rdf",                  # base URL for IRIs generated in sibils/c/t/o
-                "base_IRI": "http://local.sibils.org/rdf",                          # fastapi server URL (minus final / )
+                "base_IRI": "https://purl.expasy.org/sibils/rdf",                               # base URL for IRIs generated in sibils/c/t/o
                 "help_IRI": "http://localhost:8891",                
-                "public_sparql_IRI": "http://localhost/sibils-sparql/service",
+                "public_sparql_IRI": "http://localhost/sibils-sparql/service",                  # we implement CORS in apache proxy
                 "private_sparql_IRI" : "http://localhost:8891/sparql",
                 "builder_sparql_IRI" : "http://localhost:8891/sparql"     
             },
             "test": {                
-                "base_IRI": "http://pamansible.lan.text-analytics.ch/describe/entity",                          # base URL for IRIs generated in sibils/c/t/o
-                "help_IRI": "http://pamansible.lan.text-analytics.ch/",             # fastapi server URL (minus final / ) TODO: TO BE DEFINED
+                "base_IRI": "https://purl.expasy.org/sibils/rdf",                               # base URL for IRIs generated in sibils/c/t/o
+                "help_IRI": "http://pamansible.lan.text-analytics.ch",                          # fastapi server URL (minus final / )
                 "public_sparql_IRI": "http://pamansible.lan.text-analytics.ch/sparql",
                 "private_sparql_IRI" : "http://localhost:8891/sparql",
                 "builder_sparql_IRI" : "http://localhost:8891/sparql"
             },
             "prod": {
-                "base_IRI": "https://purl.expasy.org/sibils/rdf",                   # base URL for IRIs generated in sibils/c/t/o
-                "help_IRI": "https://xxx.sibils.org",                               # fastapi server URL (minus final / ) TODO: TO BE DEFINED
+                "base_IRI": "https://purl.expasy.org/sibils/rdf",                               # base URL for IRIs generated in sibils/c/t/o
+                "help_IRI": "https://sparql.sibils.org",                                        # fastapi server URL (minus final / ) TODO: TO BE DEFINED
                 "public_sparql_IRI": "https://sparql.sibils.org/sparql",
                 "private_sparql_IRI" : "http://localhost:8891/sparql",
                 "builder_sparql_IRI" : "http://localhost:8891/sparql"

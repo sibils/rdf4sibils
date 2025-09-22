@@ -90,9 +90,13 @@ ns_reg = NamespaceRegistry(platform)
 
 
 subns_dict = dict()
-for ns in [ns_reg.sibils, ns_reg.sibilo, ns_reg.sibilt, ns_reg.sibilc ]:
-  subdir = ns.url.split("/")[-2]
-  subns_dict[subdir] = subdir
+# for ns in [ns_reg.sibils, ns_reg.sibilo, ns_reg.sibilt, ns_reg.sibilc ]:
+#   subdir = ns.url.split("/")[-2]
+#   subns_dict[subdir] = subdir
+#for ns in [ns_reg.sibils, ns_reg.sibilo, ns_reg.sibilt, ns_reg.sibilc ]:
+for ns in ns_reg.namespaces:
+  pfx = ns.url.split("/")[-2]
+  subns_dict[ns.pfx] = ns.pfx
 SubNs = Enum('SubNs', subns_dict)
 
 class RdfFormat(str, Enum):
@@ -314,7 +318,7 @@ async def get_release_info(
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-@app.get("/describe/entity/ontology/.{format}" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+@app.get("/describe/entity/sibilo.{format}" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 async def describe_onto(
         request: Request,
@@ -323,11 +327,11 @@ async def describe_onto(
             description="Response output format"
             ),
         ):
-    return describe_any(SubNs["ontology"], "", format, request)
+    return describe_any(SubNs["sibilo"], "", format, request)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-@app.get("/describe/entity/ontology/" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+@app.get("/describe/entity/sibilo" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 async def describe_onto(
         request: Request,
@@ -341,7 +345,7 @@ async def describe_onto(
             If both the format parameter and the Accept header are undefined, then the response will use the ld+json format."""
             )
         ):
-    return describe_any(SubNs["ontology"], "", format, request)
+    return describe_any(SubNs["sibilo"], "", format, request)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -392,9 +396,9 @@ async def describe_entity(
     return describe_any(prefix, id, format, request)
 
 
-def describe_any(dir, ac, format, request):
+def describe_any(pfx, ac, format, request):
     t0 = datetime.datetime.now()
-    log_it("INFO", f"called describe_any(dir=\"{dir.value}\", ac=\"{ac}\")")
+    log_it("INFO", f"called describe_any(pfx=\"{pfx.value}\", ac=\"{ac}\")")
 
     # precedence of format over request headers (does NOT work from swagger page !!! but of from curl)
     #print(">>>> format 1", format, format== RdfFormat.jsonld)
@@ -412,7 +416,9 @@ def describe_any(dir, ac, format, request):
     #     return responses.RedirectResponse(url=url, status_code=301) # 301: Permanent redirect
 
     sparql_service = platform.get_private_sparql_service_IRI()
-    iri = f"<{platform.get_rdf_base_IRI()}/{dir.value}/{ac}>"
+    entity_ns = ns_reg.pfx2ns.get(pfx.value)
+    entity_url = entity_ns.url if entity_ns else "http://www.unknown.prefix/"
+    iri = f"<{entity_url}{ac}>"
     query = f"""DEFINE sql:describe-mode "CBD" describe {iri}"""
     print("query:", query)
     payload = {"query": query}
