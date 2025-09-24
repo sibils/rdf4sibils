@@ -362,7 +362,7 @@ class SibiloNamespace(BaseNamespace):
         self.more_specific_than_transitive = self.registerObjectProperty("more_specific_than_transitive")
  
         # derived from schema
-        self.inCollection = self.registerAnnotationProperty("inCollection", comment = "Within the SIBiLS RDF dataset, publications are grouped into two distinct collections, each reflecting the source from which they were obtained: 'pmc' or 'medline'.")
+        self.inCollection = self.registerDatatypeProperty("inCollection", comment = "Within the SIBiLS RDF dataset, publications are grouped into two distinct collections, each reflecting the source from which they were obtained: 'pmc' or 'medline'.")
 
         # derived from rdfs
         self.seeAlsoAnnotated = self.registerAnnotationProperty("seeAlsoAnnotated", comment = "Provides a link to a URI where the annotated publication can be viewed.")
