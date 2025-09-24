@@ -89,15 +89,15 @@ log_it("INFO:", "building namespace registry (ns_reg) from platform", f"PLATFORM
 ns_reg = NamespaceRegistry(platform)
 
 
-subns_dict = dict()
-# for ns in [ns_reg.sibils, ns_reg.sibilo, ns_reg.sibilt, ns_reg.sibilc ]:
-#   subdir = ns.url.split("/")[-2]
-#   subns_dict[subdir] = subdir
-#for ns in [ns_reg.sibils, ns_reg.sibilo, ns_reg.sibilt, ns_reg.sibilc ]:
-for ns in ns_reg.namespaces:
-  pfx = ns.url.split("/")[-2]
-  subns_dict[ns.pfx] = ns.pfx
-SubNs = Enum('SubNs', subns_dict)
+nsdir_dict = dict()
+for ns in [ns_reg.sibils, ns_reg.sibilo, ns_reg.sibilt, ns_reg.sibilc ]:
+  subdir = ns.url.split("/")[-2]
+  nsdir_dict[subdir] = subdir
+NsDir = Enum('NsDir', nsdir_dict)
+
+nspfx_dict = dict()
+for ns in ns_reg.namespaces: nspfx_dict[ns.pfx] = ns.pfx
+NsPfx = Enum('NsPfx', nspfx_dict)
 
 class RdfFormat(str, Enum):
     ttl = "ttl"
@@ -317,8 +317,13 @@ async def get_release_info(
 # see also https://fastapi.tiangolo.com/advanced/additional-responses/
 
 
+# -------------------------------------------------------
+# RDF Description access using namespaces (directories)
+# Note: called by RDF dereferencing service
+# -------------------------------------------------------
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-@app.get("/describe/entity/sibilo.{format}" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+@app.get("/describe/entity/ontology/.{format}" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 async def describe_onto(
         request: Request,
@@ -327,11 +332,11 @@ async def describe_onto(
             description="Response output format"
             ),
         ):
-    return describe_any(SubNs["sibilo"], "", format, request)
+    return describe_subdir_entity(NsDir["ontology"], "", format, request)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-@app.get("/describe/entity/sibilo" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+@app.get("/describe/entity/ontology/" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 async def describe_onto(
         request: Request,
@@ -345,16 +350,99 @@ async def describe_onto(
             If both the format parameter and the Accept header are undefined, then the response will use the ld+json format."""
             )
         ):
-    return describe_any(SubNs["sibilo"], "", format, request)
+    return describe_subdir_entity(NsDir["ontology"], "", format, request)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # TODO: decide whether we keep it or not
-@app.get("/describe/entity/{prefix}/{id}.{format}" , name="RDF description of a SIBiLS entity", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+@app.get("/describe/entity/{subdir}/{id}.{format}" , name="RDF description of a SIBiLS entity", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 async def describe_entity(
         request: Request,
-        prefix: SubNs = Path(        
+        subdir: NsDir = Path(        
+            title="Path of the entity",
+            description="The path (or namespace) of the resource IRI, i.e. 'ontology' in https://purl.expasy.org/sibils/rdf/ontology/CitingSource"            
+            ),
+        id: str = Path(
+            title="Identifier of the entity",
+            description="The identifier of the entity in its namespace, i.e. 'CitingSource' in https://purl.expasy.org/sibils/rdf/ontology/CitingSource"
+            ),
+        format: RdfFormat = Path(
+            title="Response format",
+            description="Response output format"
+            ),
+        ):
+    return describe_subdir_entity(subdir, id, format, request)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+@app.get("/describe/entity/{subdir}/{id}" , name="RDF description of a SIBiLS entity", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+async def describe_entity(
+        request: Request,
+        subdir: NsDir = Path(        
+            title="Path of the entity ",
+            description="The path (or namespace) of the resource IRI, i.e. 'ontology' in https://purl.expasy.org/sibils/rdf/ontology/CitingSource"            
+            ),
+        id: str = Path(
+            title="Identifier of the entity",
+            description="The identifier of the entity in its namespace, i.e. 'CitingSource' in https://purl.expasy.org/sibils/rdf/ontology/CitingSource"
+            ),
+        format: RdfFormat = Query(
+            default= None,
+            title="Response format",
+            description="""Use this parameter to choose the response output format.
+            Alternatively you can also use the HTTP Accept header of your
+            request and set it to either text/turtle, application/rdf+xml, application/n-triples, application/ld+json.
+            If the format parameter is used, the accept header value is ignored.
+            If both the format parameter and the Accept header are undefined, then the response will use the ld+json format."""
+            )
+        ):
+    return describe_subdir_entity(subdir, id, format, request)
+
+
+# ------------------------------------------
+# RDF Description access using prefixes
+# ------------------------------------------
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+@app.get("/describe/prefixed/entity/sibilo.{format}" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+async def describe_onto(
+        request: Request,
+        format: RdfFormat = Path(
+            title="Response format",
+            description="Response output format"
+            ),
+        ):
+    return describe_prefixed_entity(NsPfx["sibilo"], "", format, request)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+@app.get("/describe/prefixed/entity/sibilo" , name="RDF description of the SIBiLS ontology", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+async def describe_onto(
+        request: Request,
+        format: RdfFormat = Query(
+            default= None,
+            title="Response format",
+            description="""Use this parameter to choose the response output format.
+            Alternatively you can also use the HTTP Accept header of your
+            request and set it to either text/turtle, application/rdf+xml, application/n-triples, application/ld+json.
+            If the format parameter is used, the accept header value is ignored.
+            If both the format parameter and the Accept header are undefined, then the response will use the ld+json format."""
+            )
+        ):
+    return describe_prefixed_entity(NsPfx["sibilo"], "", format, request)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# TODO: decide whether we keep it or not
+@app.get("/describe/prefixed/entity/{prefix}/{id}.{format}" , name="RDF description of a SIBiLS entity", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+async def describe_entity(
+        request: Request,
+        prefix: NsPfx = Path(        
             title="Prefix of the entity ",
             description="The prefix (or namespace) of the resource IRI, i.e. 'fabio' in fabio:Abstract"            
             ),
@@ -367,15 +455,15 @@ async def describe_entity(
             description="Response output format"
             ),
         ):
-    return describe_any(prefix, id, format, request)
+    return describe_prefixed_entity(prefix, id, format, request)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-@app.get("/describe/entity/{prefix}/{id}" , name="RDF description of a SIBiLS entity", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
+@app.get("/describe/prefixed/entity/{prefix}/{id}" , name="RDF description of a SIBiLS entity", tags=["RDF"], response_class=responses.Response, responses={"200":rdf_media_types_responses, "400": {"model": ErrorMessage}}, include_in_schema=rdf_is_visible)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 async def describe_entity(
         request: Request,
-        prefix: SubNs = Path(        
+        prefix: NsPfx = Path(        
             title="Prefix of the entity ",
             description="The prefix (or namespace) of the resource IRI, i.e. 'fabio' in fabio:Abstract"            
             ),
@@ -393,13 +481,31 @@ async def describe_entity(
             If both the format parameter and the Accept header are undefined, then the response will use the ld+json format."""
             )
         ):
-    return describe_any(prefix, id, format, request)
+    return describe_prefixed_entity(prefix, id, format, request)
 
 
-def describe_any(pfx, ac, format, request):
+def describe_prefixed_entity(pfx, ac, format, request):
+    log_it("INFO", f"called describe_prefixed_entity(pfx=\"{pfx.value}\", ac=\"{ac}\")")
+    # method to redirect to website in case of text/html Accept header
+    # using the virtuoso x-nice-microdata instead was chosen, see below.
+    # if format == RdfFormat.html:
+    #     url = "https://www.somedomain.org/" + ac
+    #     log_it("INFO:", "Processed" , request.url, "format", format, duration_since=t0)
+    #     return responses.RedirectResponse(url=url, status_code=301) # 301: Permanent redirect
+    entity_ns = ns_reg.pfx2ns.get(pfx.value)
+    entity_url = entity_ns.url if entity_ns else "http://www.unknown.prefix/"
+    iri = f"<{entity_url}{ac}>"
+    return describe_iri(iri, format, request)
+
+def describe_subdir_entity(subdir, ac, format, request):
+    log_it("INFO", f"called describe_subdir_entity(dir=\"{subdir.value}\", ac=\"{ac}\")")
+    base_iri = platform.get_rdf_base_IRI()
+    iri = f"<{base_iri}/{subdir.value}/{ac}>"
+    return describe_iri(iri, format, request)
+
+
+def describe_iri(iri, format, request):
     t0 = datetime.datetime.now()
-    log_it("INFO", f"called describe_any(pfx=\"{pfx.value}\", ac=\"{ac}\")")
-
     # precedence of format over request headers (does NOT work from swagger page !!! but of from curl)
     #print(">>>> format 1", format, format== RdfFormat.jsonld)
     #print(request.headers)
@@ -407,18 +513,7 @@ def describe_any(pfx, ac, format, request):
     #print(">>>> format 2", format, format== RdfFormat.jsonld)
     if format is None: format = RdfFormat.jsonld
     #print(">>>> format 3", format, format== RdfFormat.jsonld)
-
-    # method to redirect to website in case of text/html Accept header
-    # using the virtuoso x-nice-microdata instead was chosen, see below.
-    # if format == RdfFormat.html:
-    #     url = "https://www.somedomain.org/" + ac
-    #     log_it("INFO:", "Processed" , request.url, "format", format, duration_since=t0)
-    #     return responses.RedirectResponse(url=url, status_code=301) # 301: Permanent redirect
-
     sparql_service = platform.get_private_sparql_service_IRI()
-    entity_ns = ns_reg.pfx2ns.get(pfx.value)
-    entity_url = entity_ns.url if entity_ns else "http://www.unknown.prefix/"
-    iri = f"<{entity_url}{ac}>"
     query = f"""DEFINE sql:describe-mode "CBD" describe {iri}"""
     print("query:", query)
     payload = {"query": query}
