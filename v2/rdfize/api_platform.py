@@ -34,8 +34,8 @@ class ApiPlatform:
             },
             "test": {                
                 "base_IRI": "https://purl.expasy.org/sibils/rdf",                               # base URL for IRIs generated in sibils/c/t/o
-                "help_IRI": "http://pamansible.lan.text-analytics.ch",                          # fastapi server URL (minus final / )
-                "public_sparql_IRI": "http://pamansible.lan.text-analytics.ch/sparql",
+                "help_IRI": "http://rdfizer.lan.text-analytics.ch",                             # fastapi server URL (minus final / )
+                "public_sparql_IRI": "http://rdfizer.lan.text-analytics.ch/sparql",
                 "private_sparql_IRI" : "http://localhost:8891/sparql",
                 "builder_sparql_IRI" : "http://localhost:8891/sparql"
             },
