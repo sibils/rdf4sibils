@@ -1,7 +1,8 @@
 #!/bin/bash
 
 this_dir=$(dirname $0)
-config_dir=$this_dir/../config
+cd $this_dir
+config_dir=../config
 
 conf_file="${config_dir}/$(hostname).config"
 if [ ! -f "$conf_file" ]; then
@@ -22,6 +23,7 @@ port=$FASTAPI_PORT
 scope=$FASTAPI_ROOT_PATH
 workers=$FASTAPI_WORKERS
 mypython=$FASTAPI_PYTHON
+mygunicorn=$FASTAPI_GUNICORN
 
 #pattern="gunicorn.main:app"
 pattern="gunicorn"
@@ -50,7 +52,7 @@ echo "pattern   : $pattern"
 
 if [ "$action" == "start" ]; then
   echo "Starting FASTAPI"
-  gunicorn main:app --worker-class uvicorn.workers.UvicornWorker \
+  $mygunicorn main:app --worker-class uvicorn.workers.UvicornWorker \
   --workers $workers  --bind $server:$port --timeout 600 \
   --daemon \
   --access-logfile cellapi.log --error-logfile cellapi.log --capture-output
@@ -81,8 +83,8 @@ elif [ "$action" == "stop" ]; then
   echo "Stopping FASTAPI"
   pids=$(pgrep -f $pattern)
   if [ "$pids" == "" ]; then
-    echo "Oups, found no process to kill"
-    exit 3
+    echo "Warning, found no process to kill"
+    exit 0
   else
     pretty_pids=$(echo $pids | tr '\n', ' ')
     echo "Killing pid(s) $pretty_pids"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 trg_host=sibils-sparql.lan.text-analytics.ch
 cur_dir=/home/pam/work/tools/virtuoso-opensource/sibils_database
 
