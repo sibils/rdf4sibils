@@ -23,7 +23,7 @@ ssh ${trg_host} "mv ${cur_dir} ${old_dir}"
 ssh ${trg_host} "mv ${new_dir} ${cur_dir}"
 
 echo "$(date) Removing old virtuoso db directory on target host ${trg_host}:${old_dir}"
-ssh ${trg_host} "rm -rf ${old_dir}
+ssh ${trg_host} "rm -rf ${old_dir}"
 
 echo "$(date) Restarting virtuoso on target host ${trg_host}"
 ssh ${trg_host} "/home/pam/work/rdf4sibils/v2/virt/sparql_service.sh start"

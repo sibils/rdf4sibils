@@ -17,7 +17,7 @@ ssh ${trg_host} "mv ${cur_dir} ${old_dir}"
 ssh ${trg_host} "mv ${new_dir} ${cur_dir}"
 
 echo "$(date) Removing old static directory on target host ${trg_host}:${old_dir}"
-ssh ${trg_host} "rm -rf ${old_dir}
+ssh ${trg_host} "rm -rf ${old_dir}"
 
 echo "$(date) Restarting fastapi on target host ${trg_host}"
 ssh ${trg_host} 'bash -l -c "/home/pam/work/rdf4sibils/v2/serve/fastapi_service.sh stop"'
