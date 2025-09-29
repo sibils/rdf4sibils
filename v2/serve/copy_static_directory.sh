@@ -12,15 +12,15 @@ echo "$(date) Copying static directory to new target directory ${trg_host}:${new
 ssh ${trg_host} "rm -rf ${new_dir} ; mkdir -p ${new_dir}"
 scp -r ${cur_dir}/* ${trg_host}:${new_dir}
 
-echo "$(date) Switching to new static directory on target host ${tfg_host}"
+echo "$(date) Switching to new static directory on target host ${trg_host}"
 ssh ${trg_host} "mv ${cur_dir} ${old_dir}"
 ssh ${trg_host} "mv ${new_dir} ${cur_dir}"
+
+echo "$(date) Removing old static directory on target host ${trg_host}:${old_dir}"
+ssh ${trg_host} "rm -rf ${old_dir}
 
 echo "$(date) Restarting fastapi on target host ${trg_host}"
 ssh ${trg_host} 'bash -l -c "/home/pam/work/rdf4sibils/v2/serve/fastapi_service.sh stop"'
 ssh ${trg_host} 'bash -l -c "/home/pam/work/rdf4sibils/v2/serve/fastapi_service.sh start"'
 
-echo "!"
-echo "! Don't forget to manually remove old directory ${old_dir}"
-echo "! "
 echo "$(date) End"
