@@ -246,6 +246,8 @@ class OntologyBuilder:
         ns.describe( ns.fabio.MastersThesis,            ns.skos.broadMatch, ns.up.Thesis_Citation)
         ns.describe( ns.fabio.DoctoralThesis,           ns.skos.broadMatch, ns.up.Thesis_Citation)
 
+        ns.describe( ns.sibilo.SibilsConceptScheme,     ns.rdfs.subClassOf, ns.skos.ConceptScheme)
+
         ns.describe( ns.sibilo.TableFooter, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
         ns.describe( ns.deo.Caption, ns.rdfs.subClassOf, ns.deo.DiscourseElement)
 

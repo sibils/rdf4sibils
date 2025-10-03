@@ -14,7 +14,7 @@ Most of the classes and properties defined within the SIBiLS ontology (prefix si
 
 In SIBiLS RDF, publications are annotated with concepts derived from standard terminologies or ontologies:
 
-* each terminology is represented as an owl:NamedIndividual and also as an instance of slos:ConceptScheme. 
+* each terminology is represented as an owl:NamedIndividual and also as an instance of sibilo:SibilsConceptScheme. 
 * each concept is represented as an instance of skos:Concept and linked to its terminology using the skos:inScheme property. 
 
 When a terminology defines a subsumption relationship between two concepts within the same terminology, it is represented by the sibilo:more_specific_than property, which is a sub-property of skos:broader.
@@ -33,7 +33,7 @@ See also SPARQL query examples at [sparql-editor](/sparql-editor)
 
 **Named individuals**
 
-The SIBiLS ontology defines a number of so-called named individuals (owl:NamedIndividual) for terminologies. They belong to the class cello:CelloConceptScheme and there IRIs are  in the _sibilt:_ namespace (e.g. sibilt:uniprot, sibilt:ECO, sibilt:NCBI_TaxID, sibilt:CHEBI, etc.). See [Named Individuals](#namedindividuals) for the full list.
+The SIBiLS ontology defines a number of so-called named individuals (owl:NamedIndividual) for terminologies. They belong to the class sibilo:SibilsConceptScheme and their IRIs are  in the _sibilt:_ namespace (e.g. sibilt:uniprot, sibilt:ECO, sibilt:NCBI_TaxID, sibilt:CHEBI, etc.). See [Named Individuals](#namedindividuals) for the full list.
 
 
 **Main namespaces**

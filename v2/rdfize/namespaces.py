@@ -346,6 +346,7 @@ class SibiloNamespace(BaseNamespace):
         self.TableColumnName = self.registerClass("TableColumnName", comment = "The name given to of a column in a table.")
         self.VerseGroupBlock = self.registerClass("VerseGroupBlock", comment = "A block containing one or several verses appearing as a distinct part of a document.")
         self.WordSequence = self.registerClass("WordSequence", comment = "A super class for sentences, table column names, table cell values or any textual item that is part of a list")
+        self.SibilsConceptScheme = self.registerClass("SibilsConceptScheme", comment = "A subclass of skos:ConceptScheme defined as the list of terminologies used to annotate the publications")
 
         # local only
         self.CitingSource = self.registerClass("CitingSource", comment = "A knowledge base, repository, or database that cites publications to support its statements.")

@@ -137,7 +137,7 @@ class TermRdfizer():
         ns = self.ns
         triples = TripleList()
         termi_IRI = self.get_IRI()
-        triples.append(termi_IRI, ns.rdf.type, ns.skos.ConceptScheme)
+        triples.append(termi_IRI, ns.rdf.type, ns.sibilo.SibilsConceptScheme)
         triples.append(termi_IRI, ns.rdf.type, ns.owl.NamedIndividual)
         version = self.terminology["description"]["version"]
         triples.append(termi_IRI, ns.dcterms.hasVersion, ns.xsd.string(version))
