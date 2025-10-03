@@ -119,6 +119,7 @@ MaxDirtyBuffers          = 1000000
 
 [HTTPServer]
 ServerPort			= 8891
+;ServerName          = sparql.sibils.org
 ServerRoot			= ../vsp
 MaxClientConnections		= 10
 DavRoot				= DAV
