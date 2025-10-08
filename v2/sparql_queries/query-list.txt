@@ -18,4 +18,60 @@ select ?publi_type (count(*) as ?instance_count) where {
  ?publi_type rdfs:subClassOf+ fabio:Expression .
 }
 
+## ------------------------------------------------------
+ID: 102
+LB: Count of publications by citing source
+KW: publication,source
+## ------------------------------------------------------
+PREFIX fabio: <http://purl.org/spar/fabio/>
+select ?citing_source (count(*) as ?publi_count) where {
+ ?publi dcterms:isReferencedBy ?citing_source .
+}
+group by ?citing_source
+
+
+## ------------------------------------------------------
+ID: 103
+LB: Count of publications by collection
+KW: publication,collection
+## ------------------------------------------------------
+select ?collection (count(*) as ?publi_count) where {
+ ?publi sibilo:inCollection ?collection .
+}
+group by ?collection
+
+
+## ------------------------------------------------------
+ID: 104
+LB: Count of concept annotations by terminology
+KW: concept,terminology,annotation
+## ------------------------------------------------------
+SELECT ?scheme (count(?concept) as ?concept_count) (count(distinct ?concept) as ?distinct_concept_count) WHERE {
+  ?annot a sibilo:NexAnnotation .
+  ?annot oa:hasBody ?concept .
+  ?concept skos:inScheme ?scheme .
+}
+group by ?scheme
+order by desc(?concept_count)
+
+
+## ------------------------------------------------------
+ID: 105
+LB: Sentences of publications cited by Cellosaurus annotated with a cell line plus some doubling time info
+KW: publication,sentence,annotation,source
+## ------------------------------------------------------
+select ?publi_lnk ?cl_ac ?cl_id ?textual_content where {
+  ?publi dcterms:isReferencedBy sibils:Cellosaurus .
+  ?publi sibilo:seeAlsoAnnotated ?publi_lnk .
+  ?publi sibilo:hasAnnotation ?annot .
+  ?annot oa:hasBody ?concept .
+  ?concept skos:inScheme sibilt:CVCL ; skos:prefLabel ?cl_id ; skos:notation ?cl_ac .
+  ?annot oa:hasTarget / oa:hasSource ?publi_part .
+  ?publi_part cnt:chars ?textual_content ; sibilo:ordinal ?ordinal  .
+  filter(contains(lcase(?textual_content), 'doubling time'))
+}
+order by ?publi ?ordinal ?cl_ac 
+limit 10000
+
+
 
