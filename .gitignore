@@ -20,4 +20,4 @@ proxy_dir/
 __pycache__/
 v2/serve/static/downloads
 v2/serve/static/sparql
-
+v2/data_analysis

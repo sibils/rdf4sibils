@@ -177,7 +177,7 @@ class RdfBuilder:
     def get_terminology_file_dictionary(self):
     # - - - - - - - - - - - - - - - - - - - - 
         termi2filename = dict()
-        filename = "/".join([self.termidir, "current-version.txt"])
+        filename = "/".join([self.termidir, "my-current-version.txt"]) # a manually-modified version of current-version.txt
         stream = open(filename)
         for line in stream.readlines():
             id, file = line.strip().split("\t")
