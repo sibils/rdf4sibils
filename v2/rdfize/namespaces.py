@@ -478,6 +478,12 @@ class BiboNamespace(BaseNamespace): # hidden in ontology_builder
     def __init__(self): 
         super(BiboNamespace, self).__init__("bibo", "http://purl.org/ontology/bibo/")           # hidden, only describes onto
         self.status = self.registerTerm("status", hidden=True)                                     
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+class GrantNamespace(BaseNamespace): # hidden in ontology_builder
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    def __init__(self): 
+        super(GrantNamespace, self).__init__("grant", "https://doi.org/10.13039/")           # hidden
         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

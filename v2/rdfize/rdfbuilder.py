@@ -196,7 +196,8 @@ class RdfBuilder:
 
         termino_triples = TripleList()
         for term_id in terminologies:
-            if term_id in [ "grant", "identifiers"]:
+            # if term_id in [ "grant", "identifiers"]: grant now is integrated
+            if term_id in [ "identifiers"]:
                 log_it(f"WARNING, Skipped building of ttl for {term_id}...")
                 continue                
             log_it(f"INFO, Building ttl for {term_id}...")

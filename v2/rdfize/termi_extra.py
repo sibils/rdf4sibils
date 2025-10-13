@@ -11,7 +11,7 @@ class TermiExtra:
         self.concept_source = concept_source                # concept_source value used in annotations as a terminology id
         self.rdf_id = rdf_id                                # terminology to be used in RDF
         self.exact_match_pattern = exact_match_pattern      # pattern to build a link to the IRI defining the concept (skos:exactMatch) 
-        self.see_also_pattern = see_also_pattern            # pattern to build a ling to the URL of a webpage defining the concept
+        self.see_also_pattern = see_also_pattern            # pattern to build a link to the URL of a webpage defining the concept
         self.fullname = fullname
 
     def IRI(self):
@@ -68,6 +68,9 @@ class TermiExtraRegistry:
 
     def go_concept_notation(self, cpt_id): return cpt_id
     def go_concept_IRI(self, cpt_id): return self.ns.sibilc.pfx + ":" + cpt_id.replace(":", "_")
+
+    def grant_concept_IRI(self, cpt_id): return self.ns.sibilc.pfx + ":GRANT_" + cpt_id[25:]
+    def grant_concept_notation(self, cpt_id): return "grant:" + cpt_id[25:]
 
 
     # - - - - - - - - - - - - - - - - - -
@@ -214,13 +217,18 @@ class TermiExtraRegistry:
 
         self.uniprot_swissprot = TermiExtra(ns, "uniprot_swissprot", "uniprot", "UniProtKB/SwissProt", "http://purl.uniprot.org/uniprot/{cpt_id}", "https://www.uniprot.org/uniprotkb/{cpt_id}/entry")
         
+        self.grant = TermiExtra(ns, "grant", "GRANT", "Open Funder Registry", "{cpt_id}", None)
+        self.grant.concept_IRI = self.grant_concept_IRI
+        self.grant.concept_notation = self.grant_concept_notation
+
+        
         self.terminologies = [ 
             self.agrovoc, self.atc, self.cellontology, self.cellosaurus, self.chebi, self.covocbiomed, self.covoccelllines, self.covocchemicals, 
             self.covocclinicaltrials, self.covocconceptualentities, self.covocdiseaseandsyndrom, self.covocgeographicloc, self.covocorganism, 
             self.covocproteinsgenomes, self.detectionmethods, self.disprot_type1, self.disprot_type2, self.disprot_type3, self.disprot_type4, 
             self.drugbank, self.eco, self.envo, self.flopo, self.go_bp, self.go_cc, self.go_mf, self.icdo3, self.ictv, self.ictv_subset, self.license, 
             self.lotus, self.mdd, self.mesh, self.ncbitaxon_full, self.ncbitaxon_models, self.ncbitaxon_viruses, self.ncit, self.nextprot, self.ott, 
-            self.po, self.ppiptm, self.psimi, self.pubchemmesh, self.robiext, self.ror, self.uniprot_swissprot ]
+            self.po, self.ppiptm, self.psimi, self.pubchemmesh, self.robiext, self.ror, self.uniprot_swissprot, self.grant ]
 
         self.id2termi = dict()
         for el in self.terminologies: self.id2termi[el.concept_source] = el
@@ -276,6 +284,16 @@ if __name__ == '__main__':
     tex = TermiExtraRegistry(ns)
 
     errors = 0
+
+    errors += test_result(tex.grant, "https://doi.org/10.13039/100022722", {
+        "rdf_id" : "GRANT",
+        "local_IRI" : "sibilt:GRANT",
+        "local_concept_IRI"   : "sibilc:GRANT_100022722",
+        "concept_notation"    : "grant:100022722",
+        "concept_exact_match" : "https://doi.org/10.13039/100022722",
+        "concept_see_also"    : None
+    })
+
     errors += test_result(tex.agrovoc, "c_27580", {
         "rdf_id" : "AGROVOC",
         "local_IRI" : "sibilt:AGROVOC",
@@ -284,7 +302,6 @@ if __name__ == '__main__':
         "concept_exact_match" : "http://aims.fao.org/aos/agrovoc/c_27580",
         "concept_see_also"    : None
     })
-
     errors += test_result(tex.atc, "http://purl.bioontology.org/ontology/STY/L3445", {
         "rdf_id"              : "ATC",
         "local_IRI"           : "sibilt:ATC",

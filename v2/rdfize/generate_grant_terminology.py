@@ -13,6 +13,8 @@ while True:
     alt = fields[0]
     pref = fields[1]
     doi = fields[2]
+    if not doi.startswith("https://doi.org/10.13039/") : print("ERROR, unexpected DOI organization, expected 10.13039", line)
+
     cat = fields[3]
     if doi not in concept_dic: concept_dic[doi] = { "id": doi, "synonyms": dict() }
     record = concept_dic[doi]
