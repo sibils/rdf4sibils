@@ -67,7 +67,7 @@ class Query:
         #
         lines = list()
         sparql_endpoint = ns_reg.platform.get_public_sparql_service_IRI()
-        lines.append(f"sibilo:Query_{self.id} a sh:SPARQLExecutable ;")
+        lines.append(f"sibilo:Query_{self.id} a sh:SPARQLExecutable, sh:SPARQLSelectExecutable ;")
         lines.append(f"    sh:prefixes _:sparql_examples_prefixes ;")
         lines.append(f"    rdfs:comment \"\"\"{self.label}\"\"\"@en ; ")
         quoted_list = list()
