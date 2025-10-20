@@ -56,7 +56,7 @@ either in ./out/fetch/pmc subtree or in ./out/fetch/medline subtree
 # CAUTION 2 : my-current-version.txt needs to be manually edited cos contains inconsistencies
 
 ./rdfize/get_terminologies.sh local
-./rdfize/generate-grant_terminology.py
+python ./rdfize/generate_grant_terminology.py
 
 # build RDF files for terminologies, concepts, publications, ontology and metadata
 # load RDF files into virtuoso
@@ -74,4 +74,7 @@ Script usage: ./rdfize/do-rdfize.sh prod|test|local [nodata|novoid]
 # Step 5 - Start the service(s)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+./serve/fastapi_service.sh start
 
+# virtuoso sparql service is normally already started after step 4
+./virt/sparql_service.sh start 
