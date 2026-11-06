@@ -96,45 +96,56 @@ class DataModelBuilder:
             order by ?subj ?prop ?obj        
         """
 
+        self.class_prop_query = """
+            select ?property where { ?s a <$class_long_IRI> . ?s ?property ?o }
+            group by ?property
+            order by ?property
+        """
+
+        # One query per property of a class: a single query over all the properties
+        # of the biggest classes needs more memory than the store has
         self.class_use_query = """
             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-            select ?subject_class ?property ?object_type (count(*) as ?triple_count) where {
-            values ?subject_class { <$class_long_IRI> }
-            ?s a ?subject_class .
-            ?s ?property ?o .
+            select ?object_type (sum(?n) as ?triple_count) where {
+            { select ?o (count(*) as ?n) where { ?s a <$class_long_IRI> . ?s <$prop_long_IRI> ?o } group by ?o }
             optional {?o a ?o_class }
             bind(coalesce(?o_class, datatype(?o), xsd:anyURI) as ?object_type)
             }
-            group by ?subject_class ?property ?object_type
-            order by ?subject_class ?property ?object_type        
+            group by ?object_type
+            order by ?object_type
         """
 
-        self.prop_use_query = """
+        # Aggregating before the optional join keeps these light: the outer query
+        # only sees one row per distinct value instead of one row per triple
+        self.prop_use_queries = {
+            "count": """
+            select (count(*) as ?triple_count) where { ?s <$prop_long_IRI> ?o }
+            """,
+            "domain": """
             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-            select ?property ?tag ?node_type (count(*) as ?triple_count) where {
-            values ?property { <$prop_long_IRI> }
-            {
-                ?_ ?property ?o .
-                optional {?o a ?o_class }
-                bind(coalesce(?o_class, datatype(?o), xsd:anyURI) as ?node_type)
-                bind('range' as ?tag)
-            } union {
-                ?s ?property ?_ .
-                optional {?s a ?s_class }
-                bind(coalesce(?s_class, datatype(?s), xsd:anyURI) as ?node_type)
-                bind('domain' as ?tag)
-            } union {
-                ?_s ?property ?_o .
-                bind(xsd:integer as ?node_type)
-                bind('count' as ?tag)
+            select ?node_type (sum(?n) as ?triple_count) where {
+            { select ?s (count(*) as ?n) where { ?s <$prop_long_IRI> ?o } group by ?s }
+            optional {?s a ?s_class }
+            bind(coalesce(?s_class, datatype(?s), xsd:anyURI) as ?node_type)
             }
+            group by ?node_type
+            order by ?node_type
+            """,
+            "range": """
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            select ?node_type (sum(?n) as ?triple_count) where {
+            { select ?o (count(*) as ?n) where { ?s <$prop_long_IRI> ?o } group by ?o }
+            optional {?o a ?o_class }
+            bind(coalesce(?o_class, datatype(?o), xsd:anyURI) as ?node_type)
             }
-            group by ?property ?tag ?node_type
-            order by ?property ?tag ?node_type
-        """
+            group by ?node_type
+            order by ?node_type
+            """
+        }
 
         self.prefix_query ="""
             PREFIX sh: <http://www.w3.org/ns/shacl#>
+            PREFIX owl: <http://www.w3.org/2002/07/owl#>
             select ?pfx ?url where {
             ?onto a owl:Ontology .
             ?onto sh:declare ?declaration .
@@ -151,6 +162,14 @@ class DataModelBuilder:
                 id = long_iri[len(url):]
                 return ":".join([pfx, id ])
         return long_iri
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    def get_type_short_IRI(self, long_iri):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        # QLever reports the integers of the data as xsd:int
+        short_iri = self.get_short_IRI(long_iri)
+        return "xsd:integer" if short_iri == "xsd:int" else short_iri
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -183,22 +202,22 @@ class DataModelBuilder:
             if entity["tag"] != "prop" : continue
             #print("entity_key:",entity_key)
             long_IRI = self.get_long_IRI(entity_key)
-            query = self.prop_use_query.replace("$prop_long_IRI", long_IRI)
             log_it("INFO", f"querying for usage of {entity_key}")
-            response = self.client.run_query(query)
-            if not response.get("success"):
-                log_it(f"ERROR while running query for usage of entitites prop", response.get("error_type"))
-                log_it(response.get("error_msg"))
-                sys.exit(2)
-            rows = response.get("results").get("bindings")
-            for row in rows:            
-                prop = self.get_short_IRI(row["property"]["value"])
-                tag = self.get_short_IRI(row["tag"]["value"])
-                node_type = self.get_short_IRI(row["node_type"]["value"])
-                count = row["triple_count"]["value"]
-                if tag == "count": entities[prop]["count"] = int(count)
-                statement = " | ".join([prop, tag, node_type, count])
-                entities[prop]["usage"].append(statement)
+            for tag, template in self.prop_use_queries.items():
+                query = template.replace("$prop_long_IRI", long_IRI)
+                response = self.client.run_query(query)
+                if not response.get("success"):
+                    log_it(f"ERROR while running query for usage of entitites prop", response.get("error_type"))
+                    log_it(response.get("error_msg"))
+                    sys.exit(2)
+                rows = response.get("results").get("bindings")
+                for row in rows:
+                    node_type = self.get_type_short_IRI(row["node_type"]["value"]) if tag != "count" else "xsd:integer"
+                    count = row["triple_count"]["value"]
+                    if int(count) == 0: continue
+                    if tag == "count": entities[entity_key]["count"] = int(count)
+                    statement = " | ".join([entity_key, tag, node_type, count])
+                    entities[entity_key]["usage"].append(statement)
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -208,25 +227,33 @@ class DataModelBuilder:
             entity = entities[entity_key]
             if entity["tag"] != "class" : continue
             long_IRI = self.get_long_IRI(entity_key)
-            query = self.class_use_query.replace("$class_long_IRI", long_IRI)
             log_it("INFO", f"querying for usage of {entity_key}")
-            response = self.client.run_query(query)
-            if not response.get("success"):
-                log_it(f"ERROR while running query for usage of entitites class", response.get("error_type"))
-                log_it(response.get("error_msg"))
-                sys.exit(2)
-            rows = response.get("results").get("bindings")
-            for row in rows:            
-                count = row["triple_count"]["value"]
-                subj = self.get_short_IRI(row["subject_class"]["value"])
-                prop = self.get_short_IRI(row["property"]["value"])
-                obj = self.get_short_IRI(row["object_type"]["value"])
-                if prop == "rdf:type" and subj == entity_key: entities[subj]["count"] = int(count)
-                statement = " | ".join([subj, prop, obj, count])
-                entities[subj]["usage"].append(statement)
-                if obj in entities:
+            prop_rows = self.run_class_use_query(self.class_prop_query.replace("$class_long_IRI", long_IRI))
+            for prop_row in prop_rows:
+                prop_IRI = prop_row["property"]["value"]
+                query = self.class_use_query.replace("$class_long_IRI", long_IRI).replace("$prop_long_IRI", prop_IRI)
+                for row in self.run_class_use_query(query):
+                    count = row["triple_count"]["value"]
+                    subj = entity_key
+                    prop = self.get_short_IRI(prop_IRI)
+                    obj = self.get_type_short_IRI(row["object_type"]["value"])
+                    if prop == "rdf:type" and subj == entity_key: entities[subj]["count"] = int(count)
                     statement = " | ".join([subj, prop, obj, count])
-                    entities[obj]["usage"].append(statement)
+                    entities[subj]["usage"].append(statement)
+                    if obj in entities:
+                        statement = " | ".join([subj, prop, obj, count])
+                        entities[obj]["usage"].append(statement)
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    def run_class_use_query(self, query):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        response = self.client.run_query(query)
+        if not response.get("success"):
+            log_it(f"ERROR while running query for usage of entitites class", response.get("error_type"))
+            log_it(response.get("error_msg"))
+            sys.exit(2)
+        return response.get("results").get("bindings")
 
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 

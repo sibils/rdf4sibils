@@ -1,4 +1,6 @@
 
+import os
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 class PlatformError(Exception): 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -102,6 +104,13 @@ class ApiPlatform:
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         # it is the private URL of the sparql service !!!
         # internal use for API only
-        return self.platform_dict[self.platform_key]["private_sparql_IRI"]
+        return os.getenv("SIBILS_PRIVATE_SPARQL_URL", self.platform_dict[self.platform_key]["private_sparql_IRI"])
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    def get_sparql_engine(self):
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        # virtuoso (default) or qlever
+        return os.getenv("SIBILS_SPARQL_ENGINE", "virtuoso").lower()
 
 

@@ -21,6 +21,7 @@ import uvicorn
 from enum import Enum
 from starlette.middleware.base import BaseHTTPMiddleware
 import requests
+import rdflib
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'rdfize')))
 # Note: the following imports work thanks to line just abvoe
@@ -514,6 +515,8 @@ def describe_iri(iri, format, request):
     if format is None: format = RdfFormat.jsonld
     #print(">>>> format 3", format, format== RdfFormat.jsonld)
     sparql_service = platform.get_private_sparql_service_IRI()
+    if platform.get_sparql_engine() == "qlever":
+        return describe_iri_with_qlever(iri, format, request, sparql_service, t0)
     query = f"""DEFINE sql:describe-mode "CBD" describe {iri}"""
     print("query:", query)
     payload = {"query": query}
@@ -523,6 +526,28 @@ def describe_iri(iri, format, request):
     response = requests.post(sparql_service, data=urlencode(payload), headers=headers)
     log_it("INFO:", "Processed" , request.url, "format", format, duration_since=t0)
     return responses.Response(content=response.text, media_type=mimetype )
+
+
+
+def describe_iri_with_qlever(iri, format, request, sparql_service, t0):
+    # QLever has no DEFINE: its plain DESCRIBE already follows blank nodes.
+    # It only produces Turtle and N-Triples, so rdflib converts to the other RDF formats.
+    if format == RdfFormat.html:
+        return responses.PlainTextResponse("HTML output is not available with QLever yet", status_code=501)
+    mimetype = format2mimetype.get(format)
+    accept = mimetype if format in (RdfFormat.ttl, RdfFormat.n3) else "text/turtle"
+    headers = { "Content-Type": "application/x-www-form-urlencoded" , "Accept" : accept }
+    response = requests.post(sparql_service, data=urlencode({"query": f"describe {iri}"}), headers=headers)
+    if response.status_code != 200:
+        log_it("ERROR", "describe failed", response.status_code, response.text[:300])
+        return responses.PlainTextResponse("SPARQL service error", status_code=502)
+    response.encoding = "utf-8"
+    content = response.text
+    if accept != mimetype:
+        rdflib_format = "json-ld" if format == RdfFormat.jsonld else "xml"
+        content = rdflib.Graph().parse(data=content, format="turtle").serialize(format=rdflib_format)
+    log_it("INFO:", "Processed" , request.url, "format", format, duration_since=t0)
+    return responses.Response(content=content, media_type=mimetype)
 
 
 

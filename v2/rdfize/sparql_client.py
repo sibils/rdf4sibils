@@ -44,7 +44,7 @@ class EndpointClient:
     def term_query(self, pattern, flags=""):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
         elems = list()            
-        elems.append("select ?c as ?concept_IRI ?label_prop (str(?lbl) as ?lbl) where {")
+        elems.append("select (?c as ?concept_IRI) ?label_prop (str(?lbl) as ?lbl) where {")
         if "a" in flags: 
             elems.append("  values ?label_prop { skos:prefLabel skos:altLabel } .")
         else:

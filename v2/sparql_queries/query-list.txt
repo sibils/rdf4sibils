@@ -17,6 +17,7 @@ select ?publi_type (count(*) as ?instance_count) where {
  ?publi a ?publi_type . 
  ?publi_type rdfs:subClassOf+ fabio:Expression .
 }
+group by ?publi_type
 
 ## ------------------------------------------------------
 ID: 102

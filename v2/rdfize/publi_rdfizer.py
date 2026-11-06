@@ -16,7 +16,9 @@ class PubliRdfizer:
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def date_to_yyyy_mm_dd(self, dd_mm_yyyy):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        # SIBiLS now sends ISO dates: swapping those would turn 2022-04-04 into 04-04-2022
         d,m,y = dd_mm_yyyy.split("-")
+        if len(d) == 4: return dd_mm_yyyy
         return y + "-" + m + "-" + d
 
 

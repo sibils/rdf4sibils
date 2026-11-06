@@ -509,7 +509,7 @@
         "doco:Sentence | cnt:chars | xsd:string | 13782761",
         "doco:Sentence | sibilo:ordinal | xsd:integer | 13782761",
         "doco:Table | po:contains | doco:Sentence | 46",
-        "sibilo:AnnotationTarget | oa:hasSource | doco:Sentence | 96534873",
+        "sibilo:AnnotationTarget | oa:hasSource | doco:Sentence | 96617457",
         "sibilo:ListItemBlock | po:contains | doco:Sentence | 29895",
         "sibilo:MediaBlock | po:contains | doco:Sentence | 44379",
         "sibilo:ObjectIdBlock | po:contains | doco:Sentence | 2408",
@@ -1582,7 +1582,7 @@
     },
     "oa:TextPositionSelector": {
       "tag": "class",
-      "count": 115250697,
+      "count": 115333426,
       "definition": [
         "oa:TextPositionSelector | rdf:type | owl:Class",
         "oa:TextPositionSelector | rdfs:comment | The TextPositionSelector describes a range of text by recording the start and end positions of the selection in the stream. Position 0 would be immediately before the first character, position 1 would be immediately before the second character, and so on.",
@@ -1590,16 +1590,16 @@
         "oa:TextPositionSelector | rdfs:label | Text position selector"
       ],
       "usage": [
-        "oa:TextPositionSelector | rdf:type | owl:Class | 115250697",
-        "oa:TextPositionSelector | oa:end | xsd:integer | 115250697",
-        "oa:TextPositionSelector | oa:exact | xsd:string | 115250697",
-        "oa:TextPositionSelector | oa:start | xsd:integer | 115250697",
-        "sibilo:AnnotationTarget | oa:hasSelector | oa:TextPositionSelector | 115250697"
+        "oa:TextPositionSelector | rdf:type | owl:Class | 115333426",
+        "oa:TextPositionSelector | oa:end | xsd:integer | 115333426",
+        "oa:TextPositionSelector | oa:exact | xsd:string | 115333426",
+        "oa:TextPositionSelector | oa:start | xsd:integer | 115333426",
+        "sibilo:AnnotationTarget | oa:hasSelector | oa:TextPositionSelector | 115333426"
       ]
     },
     "sibilo:AnnotationTarget": {
       "tag": "class",
-      "count": 115250697,
+      "count": 115333426,
       "definition": [
         "sibilo:AnnotationTarget | rdf:type | owl:Class",
         "sibilo:AnnotationTarget | rdfs:comment | Target of an annotation: a text selection within a subpart of a publication",
@@ -1608,13 +1608,13 @@
         "sibilo:AnnotationTarget | rdfs:subClassOf | oa:SpecificResource"
       ],
       "usage": [
-        "sibilo:AnnotationTarget | rdf:type | owl:Class | 115250697",
-        "sibilo:AnnotationTarget | oa:hasSelector | oa:TextPositionSelector | 115250697",
-        "sibilo:AnnotationTarget | oa:hasSource | doco:Sentence | 96534873",
-        "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableCellValues | 1050858",
+        "sibilo:AnnotationTarget | rdf:type | owl:Class | 115333426",
+        "sibilo:AnnotationTarget | oa:hasSelector | oa:TextPositionSelector | 115333426",
+        "sibilo:AnnotationTarget | oa:hasSource | doco:Sentence | 96617457",
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableCellValues | 1050868",
         "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableColumnName | 152334",
-        "sibilo:AnnotationTarget | oa:hasSource | sibilo:WordSequence | 17512632",
-        "sibilo:NexAnnotation | oa:hasTarget | sibilo:AnnotationTarget | 115250697"
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:WordSequence | 17512767",
+        "sibilo:NexAnnotation | oa:hasTarget | sibilo:AnnotationTarget | 115333426"
       ]
     },
     "sibilo:CitingSource": {
@@ -1739,8 +1739,8 @@
         "fabio:ReportDocument | sibilo:hasAnnotation | sibilo:NexAnnotation | 6168962",
         "fabio:ReviewArticle | sibilo:hasAnnotation | sibilo:NexAnnotation | 571690",
         "sibilo:NexAnnotation | rdf:type | owl:Class | 115334176",
-        "sibilo:NexAnnotation | oa:hasBody | skos:Concept | 115250697",
-        "sibilo:NexAnnotation | oa:hasTarget | sibilo:AnnotationTarget | 115250697"
+        "sibilo:NexAnnotation | oa:hasBody | skos:Concept | 115333426",
+        "sibilo:NexAnnotation | oa:hasTarget | sibilo:AnnotationTarget | 115333426"
       ]
     },
     "sibilo:ObjectIdBlock": {
@@ -1761,6 +1761,25 @@
         "doco:TextBox | po:contains | sibilo:ObjectIdBlock | 5",
         "sibilo:ObjectIdBlock | po:contains | doco:Sentence | 2408",
         "sibilo:ObjectIdBlock | rdf:type | owl:Class | 2408"
+      ]
+    },
+    "sibilo:SibilsConceptScheme": {
+      "tag": "class",
+      "count": 47,
+      "definition": [
+        "sibilo:SibilsConceptScheme | rdf:type | owl:Class",
+        "sibilo:SibilsConceptScheme | rdfs:comment | A subclass of skos:ConceptScheme defined as the list of terminologies used to annotate the publications",
+        "sibilo:SibilsConceptScheme | rdfs:isDefinedBy | sibilo:",
+        "sibilo:SibilsConceptScheme | rdfs:label | Sibils concept scheme",
+        "sibilo:SibilsConceptScheme | rdfs:subClassOf | skos:ConceptScheme"
+      ],
+      "usage": [
+        "sibilo:SibilsConceptScheme | dcterms:hasVersion | xsd:string | 47",
+        "sibilo:SibilsConceptScheme | rdf:type | xsd:anyURI | 47",
+        "sibilo:SibilsConceptScheme | rdf:type | owl:Class | 47",
+        "sibilo:SibilsConceptScheme | rdfs:comment | xsd:string | 39",
+        "sibilo:SibilsConceptScheme | rdfs:label | xsd:string | 47",
+        "sibilo:SibilsConceptScheme | rdfs:seeAlso | xsd:anyURI | 38"
       ]
     },
     "sibilo:SpeechBlock": {
@@ -1799,7 +1818,7 @@
       ],
       "usage": [
         "doco:TableBox | po:contains | sibilo:TableCellValues | 65113",
-        "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableCellValues | 1050858",
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableCellValues | 1050868",
         "sibilo:TableCellValues | rdf:type | owl:Class | 65113",
         "sibilo:TableCellValues | cnt:chars | xsd:string | 65113",
         "sibilo:TableCellValues | sibilo:ordinal | xsd:integer | 65113"
@@ -1867,7 +1886,7 @@
       "usage": [
         "doco:List | po:contains | sibilo:WordSequence | 6115680",
         "doco:ListOfOrganizations | po:contains | sibilo:WordSequence | 411509",
-        "sibilo:AnnotationTarget | oa:hasSource | sibilo:WordSequence | 17512632",
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:WordSequence | 17512767",
         "sibilo:WordSequence | rdf:type | owl:Class | 6527189",
         "sibilo:WordSequence | cnt:chars | xsd:string | 6527189",
         "sibilo:WordSequence | sibilo:ordinal | xsd:integer | 6527189"
@@ -2206,7 +2225,7 @@
     },
     "dcterms:hasVersion": {
       "tag": "prop",
-      "count": 47,
+      "count": 48,
       "definition": [
         "dcterms:hasVersion | rdf:type | rdf:Property",
         "dcterms:hasVersion | rdf:type | owl:DatatypeProperty",
@@ -2214,11 +2233,11 @@
         "dcterms:hasVersion | rdfs:label | has version"
       ],
       "usage": [
-        "dcterms:hasVersion | count | xsd:integer | 47",
-        "dcterms:hasVersion | domain | owl:NamedIndividual | 46",
+        "dcterms:hasVersion | count | xsd:integer | 48",
+        "dcterms:hasVersion | domain | owl:NamedIndividual | 47",
         "dcterms:hasVersion | domain | owl:Ontology | 1",
-        "dcterms:hasVersion | domain | skos:ConceptScheme | 46",
-        "dcterms:hasVersion | range | xsd:string | 47"
+        "dcterms:hasVersion | domain | sibilo:SibilsConceptScheme | 47",
+        "dcterms:hasVersion | range | xsd:string | 48"
       ]
     },
     "dcterms:identifier": {
@@ -2556,7 +2575,7 @@
     },
     "skos:altLabel": {
       "tag": "prop",
-      "count": 2373927,
+      "count": 2386499,
       "definition": [
         "skos:altLabel | rdf:type | rdf:Property",
         "skos:altLabel | rdf:type | owl:AnnotationProperty",
@@ -2565,9 +2584,9 @@
         "skos:altLabel | rdfs:subPropertyOf | rdfs:label"
       ],
       "usage": [
-        "skos:altLabel | count | xsd:integer | 2373927",
-        "skos:altLabel | domain | skos:Concept | 2373927",
-        "skos:altLabel | range | xsd:string | 2373927"
+        "skos:altLabel | count | xsd:integer | 2386499",
+        "skos:altLabel | domain | skos:Concept | 2386499",
+        "skos:altLabel | range | xsd:string | 2386499"
       ]
     },
     "skos:broader": {
@@ -2596,7 +2615,7 @@
     },
     "skos:notation": {
       "tag": "prop",
-      "count": 347264,
+      "count": 352879,
       "definition": [
         "skos:notation | rdf:type | rdf:Property",
         "skos:notation | rdf:type | owl:DatatypeProperty",
@@ -2605,14 +2624,14 @@
         "skos:notation | rdfs:label | notation"
       ],
       "usage": [
-        "skos:notation | count | xsd:integer | 347264",
-        "skos:notation | domain | skos:Concept | 347264",
-        "skos:notation | range | xsd:string | 347264"
+        "skos:notation | count | xsd:integer | 352879",
+        "skos:notation | domain | skos:Concept | 352879",
+        "skos:notation | range | xsd:string | 352879"
       ]
     },
     "skos:prefLabel": {
       "tag": "prop",
-      "count": 347239,
+      "count": 352854,
       "definition": [
         "skos:prefLabel | rdf:type | rdf:Property",
         "skos:prefLabel | rdf:type | owl:AnnotationProperty",
@@ -2621,9 +2640,9 @@
         "skos:prefLabel | rdfs:subPropertyOf | rdfs:label"
       ],
       "usage": [
-        "skos:prefLabel | count | xsd:integer | 347239",
-        "skos:prefLabel | domain | skos:Concept | 347239",
-        "skos:prefLabel | range | xsd:string | 347239"
+        "skos:prefLabel | count | xsd:integer | 352854",
+        "skos:prefLabel | domain | skos:Concept | 352854",
+        "skos:prefLabel | range | xsd:string | 352854"
       ]
     },
     "cnt:chars": {
@@ -2651,7 +2670,7 @@
     },
     "oa:end": {
       "tag": "prop",
-      "count": 115250697,
+      "count": 115333426,
       "definition": [
         "oa:end | rdf:type | rdf:Property",
         "oa:end | rdf:type | owl:DatatypeProperty",
@@ -2660,14 +2679,14 @@
         "oa:end | rdfs:label | end"
       ],
       "usage": [
-        "oa:end | count | xsd:integer | 115250697",
-        "oa:end | domain | oa:TextPositionSelector | 115250697",
-        "oa:end | range | xsd:integer | 115250697"
+        "oa:end | count | xsd:integer | 115333426",
+        "oa:end | domain | oa:TextPositionSelector | 115333426",
+        "oa:end | range | xsd:integer | 115333426"
       ]
     },
     "oa:exact": {
       "tag": "prop",
-      "count": 115250697,
+      "count": 115333426,
       "definition": [
         "oa:exact | rdf:type | rdf:Property",
         "oa:exact | rdf:type | owl:DatatypeProperty",
@@ -2676,14 +2695,14 @@
         "oa:exact | rdfs:label | exact"
       ],
       "usage": [
-        "oa:exact | count | xsd:integer | 115250697",
-        "oa:exact | domain | oa:TextPositionSelector | 115250697",
-        "oa:exact | range | xsd:string | 115250697"
+        "oa:exact | count | xsd:integer | 115333426",
+        "oa:exact | domain | oa:TextPositionSelector | 115333426",
+        "oa:exact | range | xsd:string | 115333426"
       ]
     },
     "oa:hasBody": {
       "tag": "prop",
-      "count": 115250697,
+      "count": 115333426,
       "definition": [
         "oa:hasBody | rdf:type | rdf:Property",
         "oa:hasBody | rdf:type | owl:DatatypeProperty",
@@ -2692,14 +2711,14 @@
         "oa:hasBody | rdfs:label | has body"
       ],
       "usage": [
-        "oa:hasBody | count | xsd:integer | 115250697",
-        "oa:hasBody | domain | sibilo:NexAnnotation | 115250697",
-        "oa:hasBody | range | skos:Concept | 115250697"
+        "oa:hasBody | count | xsd:integer | 115333426",
+        "oa:hasBody | domain | sibilo:NexAnnotation | 115333426",
+        "oa:hasBody | range | skos:Concept | 115333426"
       ]
     },
     "oa:hasSelector": {
       "tag": "prop",
-      "count": 115250697,
+      "count": 115333426,
       "definition": [
         "oa:hasSelector | rdf:type | rdf:Property",
         "oa:hasSelector | rdf:type | owl:DatatypeProperty",
@@ -2708,14 +2727,14 @@
         "oa:hasSelector | rdfs:label | has selector"
       ],
       "usage": [
-        "oa:hasSelector | count | xsd:integer | 115250697",
-        "oa:hasSelector | domain | sibilo:AnnotationTarget | 115250697",
-        "oa:hasSelector | range | oa:TextPositionSelector | 115250697"
+        "oa:hasSelector | count | xsd:integer | 115333426",
+        "oa:hasSelector | domain | sibilo:AnnotationTarget | 115333426",
+        "oa:hasSelector | range | oa:TextPositionSelector | 115333426"
       ]
     },
     "oa:hasSource": {
       "tag": "prop",
-      "count": 115250697,
+      "count": 115333426,
       "definition": [
         "oa:hasSource | rdf:type | rdf:Property",
         "oa:hasSource | rdf:type | owl:DatatypeProperty",
@@ -2724,17 +2743,17 @@
         "oa:hasSource | rdfs:label | has source"
       ],
       "usage": [
-        "oa:hasSource | count | xsd:integer | 115250697",
-        "oa:hasSource | domain | sibilo:AnnotationTarget | 115250697",
-        "oa:hasSource | range | doco:Sentence | 96534873",
-        "oa:hasSource | range | sibilo:TableCellValues | 1050858",
+        "oa:hasSource | count | xsd:integer | 115333426",
+        "oa:hasSource | domain | sibilo:AnnotationTarget | 115333426",
+        "oa:hasSource | range | doco:Sentence | 96617457",
+        "oa:hasSource | range | sibilo:TableCellValues | 1050868",
         "oa:hasSource | range | sibilo:TableColumnName | 152334",
-        "oa:hasSource | range | sibilo:WordSequence | 17512632"
+        "oa:hasSource | range | sibilo:WordSequence | 17512767"
       ]
     },
     "oa:hasTarget": {
       "tag": "prop",
-      "count": 115250697,
+      "count": 115333426,
       "definition": [
         "oa:hasTarget | rdf:type | rdf:Property",
         "oa:hasTarget | rdf:type | owl:DatatypeProperty",
@@ -2743,14 +2762,14 @@
         "oa:hasTarget | rdfs:label | has target"
       ],
       "usage": [
-        "oa:hasTarget | count | xsd:integer | 115250697",
-        "oa:hasTarget | domain | sibilo:NexAnnotation | 115250697",
-        "oa:hasTarget | range | sibilo:AnnotationTarget | 115250697"
+        "oa:hasTarget | count | xsd:integer | 115333426",
+        "oa:hasTarget | domain | sibilo:NexAnnotation | 115333426",
+        "oa:hasTarget | range | sibilo:AnnotationTarget | 115333426"
       ]
     },
     "oa:start": {
       "tag": "prop",
-      "count": 115250697,
+      "count": 115333426,
       "definition": [
         "oa:start | rdf:type | rdf:Property",
         "oa:start | rdf:type | owl:DatatypeProperty",
@@ -2759,9 +2778,9 @@
         "oa:start | rdfs:label | start"
       ],
       "usage": [
-        "oa:start | count | xsd:integer | 115250697",
-        "oa:start | domain | oa:TextPositionSelector | 115250697",
-        "oa:start | range | xsd:integer | 115250697"
+        "oa:start | count | xsd:integer | 115333426",
+        "oa:start | domain | oa:TextPositionSelector | 115333426",
+        "oa:start | range | xsd:integer | 115333426"
       ]
     },
     "sibilo:hasAnnotation": {
@@ -2801,7 +2820,7 @@
       "count": 300767,
       "definition": [
         "sibilo:inCollection | rdf:type | rdf:Property",
-        "sibilo:inCollection | rdf:type | owl:AnnotationProperty",
+        "sibilo:inCollection | rdf:type | owl:DatatypeProperty",
         "sibilo:inCollection | rdfs:comment | Within the SIBiLS RDF dataset, publications are grouped into two distinct collections, each reflecting the source from which they were obtained: 'pmc' or 'medline'.",
         "sibilo:inCollection | rdfs:domain | fabio:Expression",
         "sibilo:inCollection | rdfs:isDefinedBy | sibilo:",
@@ -2995,6 +3014,6 @@
     "sh": "http://www.w3.org/ns/shacl#",
     "schema": "https://schema.org/",
     "prism": "http://prismstandard.org/namespaces/basic/2.0/",
-    "help": "https://xxx.sibils.org/"
+    "help": "https://sparql.sibils.org/"
   }
 }
