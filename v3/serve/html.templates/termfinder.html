@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autocomplete Textarea</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      font-size: 16px;
+      padding: 10px;
+    }
+
+    .autocomplete-dropdown {
+      position: absolute;
+      border: 1px solid #ccc;
+      background-color: white;
+      max-width: 50%;
+      max-height: 150px;
+      overflow-y: scroll;
+      z-index: 1000;
+      display: none; /* Initially hidden */
+    }
+
+    .autocomplete-item {
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .autocomplete-item:hover {
+      background-color: #f0f0f0;
+    }
+
+    .autocomplete-item em { font-weight: bold; }
+
+  </style>
+</head>
+<body>
+  <textarea id="myTextarea" placeholder="Type here..."></textarea>
+  <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+
+  <script>
+    // JavaScript for autocomplete functionality
+    (function () {
+      const textarea = document.getElementById("myTextarea");
+      const dropdown = document.getElementById("autocompleteDropdown");
+      const options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+      // Position the dropdown near the cursor
+      function positionDropdown() {
+        const rect = textarea.getBoundingClientRect();
+        dropdown.style.left = `${rect.left + window.scrollX}px`;
+        dropdown.style.top = `${rect.bottom + window.scrollY}px`;
+        dropdown.style.width = `${textarea.offsetWidth}px`;
+      }
+
+
+      async function filterOptions(query) {
+        try {
+            const base_url = "http://localhost/tfac";
+            var params = {
+                "defType": "edismax",
+                "q.op": "AND", 
+                "rows": 5,
+                "indent": "true",
+                "hl":"true",
+                "hl.fl": "display",
+                // "hl.snippets": 1,             // is default
+                // "hl.display.fragsize": 30,    // 100 is default, seems not to work
+                // "fragsizeIsMinimum": false,   // default is true
+                "qf": "display",
+                "q": query
+            }
+            const query_string = Object.keys(params)
+                .map(key => `${key}=${encodeURIComponent(params[key])}`)
+                .join("&");
+            const url = base_url + "?" + query_string;
+            console.log("calling", url);
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Failed to fetch options");
+            const data = await response.json();
+            //console.log("data", data);
+            const result_list = [];
+            if (data.response.docs) {
+              console.log("QTime", data.responseHeader.QTime);
+              for (const record of data.response.docs) {
+                const id = record.doc_id;
+                const fullvalue = record["display"];
+                const fragment = data.highlighting[id]["display"][0]; // we expect to ALWAYS have at least 1 highlight fragment
+                const rawfrag = fragment.replaceAll("<em>", "").replaceAll("</em>", "");
+                var elems = [];
+                if (! fullvalue.startsWith(rawfrag)) elems.push("...");
+                elems.push(fragment);
+                if (! fullvalue.endsWith(rawfrag)) elems.push("...");
+                const line = elems.join("");                                        
+                const ttl = record["ttl"];
+                const obj = { line: line, ttl: ttl }                  
+                result_list.push(obj);
+              }
+            }
+            return result_list; 
+        } catch (error) {
+          console.error(error);
+          return []; // Return an empty array on error
+        }
+      }
+
+      // Show the dropdown with filtered options
+      function showDropdown(filteredOptions) {
+        dropdown.innerHTML = ""; // Clear previous items
+        if (filteredOptions.length === 0) {
+          dropdown.style.display = "none";
+          return;
+        }
+
+        filteredOptions.forEach(option => {
+          const item = document.createElement("div");
+          item.classList.add("autocomplete-item");
+          item.innerHTML = option.line;
+          item.dataset.ttl = option.ttl;
+          // Handle click on an autocomplete item
+          item.addEventListener("click", () => {
+            insertTextAtCursor(option.ttl);
+            dropdown.style.display = "none";
+          });
+
+          dropdown.appendChild(item);
+        });
+
+        dropdown.style.display = "block";
+        positionDropdown();
+      }
+
+      // Insert selected text into the textarea at the cursor position
+      function insertTextAtCursor(text) {
+        const startPos = textarea.selectionStart;
+        const endPos = textarea.selectionEnd;
+        const beforeText = textarea.value.substring(0, startPos);
+        const afterText = textarea.value.substring(endPos);
+
+        textarea.value = `${beforeText}${text} ${afterText}`;
+        textarea.focus();
+        textarea.setSelectionRange(startPos + text.length + 1, startPos + text.length + 1); // Move cursor after inserted text
+      }
+
+      // Event listener for keydown to detect CTRL+Space
+      textarea.addEventListener("keydown", async function (e) {
+        if (e.ctrlKey && e.key === " ") {
+          e.preventDefault(); // Prevent default behavior
+
+        //   const cursorPosition = textarea.selectionStart;
+        //   const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+        //   const lastWordMatch = textBeforeCursor.match(/\b(\w+)$/); // Match last word before cursor
+        //   console.log("lastWordMatch", lastWordMatch);
+        //   const query = lastWordMatch ? lastWordMatch[1] : "";
+
+          const start = textarea.selectionStart; // Start index of selection
+          const end = textarea.selectionEnd;     // End index of selection
+          const selectedText = textarea.value.substring(start, end);      
+
+          const rawquery = selectedText;
+          var elems = [];
+          for (const token of rawquery.replaceAll("+", "plus").replaceAll("-","minus").split(" ")) {
+            elems.push(token + "*");
+          }
+          const query = elems.join(" ");
+
+          //console.log("query", query);
+          if (query.length > 0) {
+            const filteredOptions = await filterOptions(query);
+            //console.log("filteredOptions", filteredOptions);
+            showDropdown(filteredOptions);
+          } else {
+            dropdown.style.display = "none";
+          }
+        }
+      });
+
+      // Hide dropdown when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!dropdown.contains(e.target) && e.target !== textarea) {
+          dropdown.style.display = "none";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

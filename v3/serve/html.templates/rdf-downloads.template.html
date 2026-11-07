@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIBiLS RDF files download</title>
+    <meta name="description" content="SIBiLS RDF files download page" />
+    <link rel="shortcut icon" href="/static/favicon32.png">
+    <style>
+      h1 {
+        font-size: 36px;
+        margin-left: 80px;
+      }
+    </style>
+  </head>
+
+  <body>
+      <h1>SIBiLS RDF files download</h1>
+    <div style="padding-left: 80px; padding-right:60px; ">
+      The RDF data is available as a collection of files. Some files are compressed and / or tar archives for practical reasons.
+      It is provided in Turtle format (ttl extension) and includes the ontology, void metadata, query examples and data. <br>
+      The content reflects what is made available at our sparql endpoint.
+      <ul>
+        <li><a download href="/static/downloads/data_medline_ttl_gz.tar">data_medline_ttl_gz.tar</a> - the archive contains multiple compressed ttl.gz files describing a subset of MedLine annotated publications</li>
+        <li><a download href="/static/downloads/data_pmc_ttl_gz.tar">data_pmc_ttl_gz.tar</a> - the archive contains multiple compressed ttl.gz files describing a subset of PMC annotated publications</li>
+        <li><a download href="/static/downloads/terminologies_ttl.tar">terminologies_ttl.tar</a> - the archive contains multiple compressed ttl files describing the concepts used for annotating the publications</li>
+        <li><a download href="/static/downloads/citing-sources.ttl">citing-sources.ttl</a> - the file contains the list of sources (SIB resources) that cite the publications of SIBiLS RDF dataset</li>
+        <li><a download href="/static/downloads/ontology.ttl">ontology.ttl</a> - the file contains a formal desciption of the terms used to descibe publications, annotations and terminologies</li>
+        <li><a download href="/static/downloads/queries.ttl">queries.ttl</a> - the file contains a set of SPARQL example queries</li>
+        <li><a download href="/static/downloads/void-sibils.ttl">void-sibils.ttl</a> - the file contains some metadata about the content of the RDF</li>
+      </ul> 
+
+    </div>
+  </body>
+</html>

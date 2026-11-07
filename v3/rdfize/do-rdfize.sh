@@ -1,0 +1,89 @@
+#!/bin/bash
+
+set -e
+
+if [[ "$1" != "local" && "$1" != "test" && "$1" != "prod" ]]; then
+  echo "Error, invalid platorm name, expected local, test or prod"
+  exit 3
+fi
+
+# checked here so that a missing value fails now and not at the MODEL step, hours later
+if [[ "$SIBILS_SPARQL_ENGINE" != "virtuoso" && "$SIBILS_SPARQL_ENGINE" != "qlever" ]]; then
+  echo "Error, invalid SIBILS_SPARQL_ENGINE '$SIBILS_SPARQL_ENGINE', expected virtuoso or qlever"
+  exit 3
+fi
+
+platform=$1
+echo "platform: $platform"
+echo "sparql engine: $SIBILS_SPARQL_ENGINE"
+
+this_dir=$(dirname $0)
+cd $this_dir
+
+widoco_dir="../../../sibils-widoco/"
+virt_dir="../virt"
+
+options=$2
+echo "options: $options"
+
+
+if [[ "$options" =~ "nodata" ]]; then
+    echo "$(date) - Skipping generating RDF data files in ../out/ttl/"
+else
+    echo "$(date) - Generating RDF data files in ../out/ttl/"
+    python rdfbuilder.py --platform=$platform BUILD_RDF sources
+    python rdfbuilder.py --platform=$platform BUILD_RDF terminology
+    python rdfbuilder.py --platform=$platform BUILD_RDF medline
+    python rdfbuilder.py --platform=$platform BUILD_RDF pmc
+fi
+
+# FIX: 
+# removes triples with is_more_specific_than cos parent field is 
+# inconsistent and makes errors during virtuoso loading
+echo "$(date) - Fixing fix_concept_mdd_ttl.sh"
+./fix_concept_mdd_ttl.sh
+
+echo "$(date) - Clearing and reinit'ing virtuoso database"
+python rdfbuilder.py --platform=$platform LOAD_RDF clear
+
+echo "$(date) - Loading RDF data files into virtuoso"
+python rdfbuilder.py --platform=$platform LOAD_RDF sources
+python rdfbuilder.py --platform=$platform LOAD_RDF terminology
+python rdfbuilder.py --platform=$platform LOAD_RDF medline
+python rdfbuilder.py --platform=$platform LOAD_RDF pmc
+
+# Note: useful for further SPARQL queries to run fast
+echo "$(date) - Performing a vistuoso checkpoint and restarting virtuoso"
+$virt_dir/sparql_service.sh stop
+sleep 3
+$virt_dir/sparql_service.sh start
+sleep 10
+
+echo "$(date) - Generating RDF ontology file and loading it into virtuoso"
+python rdfbuilder.py --platform=$platform BUILD_RDF ontology
+python rdfbuilder.py --platform=$platform LOAD_RDF ontology
+
+echo "$(date) - Generating RDF example queries file and loading it into virtuoso"
+python rdfbuilder.py --platform=$platform BUILD_RDF queries
+python rdfbuilder.py --platform=$platform LOAD_RDF queries
+
+
+python rdfbuilder.py --platform=$platform MODEL
+# python rdfbuilder.py --platform=$platform INFERRED  # not implemented
+
+if [[ "$options" =~ "novoid" ]]; then
+    echo "$(date) - Skipped generating RDF void metadata file and loading it into virtuoso"
+else
+    echo "$(date) - Generating RDF void metadata file and loading it into virtuoso"
+    python rdfbuilder.py --platform=$platform BUILD_RDF void
+fi
+
+python rdfbuilder.py --platform=$platform LOAD_RDF void
+
+echo "$(date) - Generating widoco documentation for ontology"
+$widoco_dir/doit-sibils.sh $platform
+
+python rdfbuilder.py --platform=$platform STATIC_PAGES
+
+
+echo "$(date) - end"
