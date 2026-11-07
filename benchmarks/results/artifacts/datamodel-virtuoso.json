@@ -1,0 +1,3019 @@
+{
+  "entities": {
+    "deo:Caption": {
+      "tag": "class",
+      "count": 285081,
+      "definition": [
+        "deo:Caption | rdf:type | owl:Class",
+        "deo:Caption | rdfs:comment | Caption of a text box.",
+        "deo:Caption | rdfs:isDefinedBy | deo:",
+        "deo:Caption | rdfs:label | Caption",
+        "deo:Caption | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "deo:Caption | po:contains | doco:Sentence | 2122097",
+        "deo:Caption | rdf:type | owl:Class | 285081",
+        "deo:Caption | cnt:chars | xsd:string | 14200",
+        "doco:CaptionedBox | dcterms:hasPart | deo:Caption | 14200",
+        "doco:FigureBox | dcterms:hasPart | deo:Caption | 235278",
+        "doco:TableBox | dcterms:hasPart | deo:Caption | 35603"
+      ]
+    },
+    "deo:DiscourseElement": {
+      "tag": "class",
+      "count": 104723,
+      "definition": [
+        "deo:Caption | rdfs:subClassOf | deo:DiscourseElement",
+        "deo:DiscourseElement | rdf:type | owl:Class",
+        "deo:DiscourseElement | rdfs:comment | An element of a document that carries out a rhetorical function.",
+        "deo:DiscourseElement | rdfs:isDefinedBy | deo:",
+        "deo:DiscourseElement | rdfs:label | Discourse element",
+        "doco:Abstract | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:Appendix | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:BackMatter | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:BlockQuotation | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:BodyMatter | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:CaptionedBox | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:FigureBox | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:FrontMatter | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:Glossary | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:Label | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:List | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:Paragraph | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:Section | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:SectionLabel | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:Table | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:TableBox | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:TextBox | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:Title | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:FloatMatter | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:ListItemBlock | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:MediaBlock | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:ObjectIdBlock | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:SpeechBlock | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:StatementBlock | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:TableFooter | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:VerseGroupBlock | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:WordSequence | rdfs:subClassOf | deo:DiscourseElement",
+        "sibilo:ordinal | rdfs:domain | deo:DiscourseElement"
+      ],
+      "usage": [
+        "deo:DiscourseElement | po:contains | doco:Sentence | 354137",
+        "deo:DiscourseElement | rdf:type | owl:Class | 104723",
+        "doco:Appendix | po:contains | deo:DiscourseElement | 64",
+        "doco:BackMatter | po:contains | deo:DiscourseElement | 75784",
+        "doco:BodyMatter | po:contains | deo:DiscourseElement | 2",
+        "doco:CaptionedBox | po:contains | deo:DiscourseElement | 2",
+        "doco:Section | po:contains | deo:DiscourseElement | 28861",
+        "sibilo:FloatMatter | po:contains | deo:DiscourseElement | 10"
+      ]
+    },
+    "doco:Abstract": {
+      "tag": "class",
+      "count": 288979,
+      "definition": [
+        "doco:Abstract | rdf:type | owl:Class",
+        "doco:Abstract | rdfs:comment | Abstract as a part of a publication (or fabio:Expression). A brief summary of a book, a research article, thesis, review, conference proceeding or any in-depth analysis of a particular subject or discipline, the purpose of which is to help the reader quickly ascertain the publication's purpose.",
+        "doco:Abstract | rdfs:isDefinedBy | doco:",
+        "doco:Abstract | rdfs:label | Abstract",
+        "doco:Abstract | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Abstract | dcterms:hasPart | doco:SectionLabel | 254064",
+        "doco:Abstract | po:contains | doco:FigureBox | 35",
+        "doco:Abstract | po:contains | doco:Paragraph | 285816",
+        "doco:Abstract | po:contains | doco:Section | 16829",
+        "doco:Abstract | po:contains | doco:TableBox | 1",
+        "doco:Abstract | po:contains | sibilo:ListItemBlock | 278",
+        "doco:Abstract | rdf:type | owl:Class | 288979",
+        "doco:BodyMatter | po:contains | doco:Abstract | 249349",
+        "doco:FrontMatter | po:contains | doco:Abstract | 39630"
+      ]
+    },
+    "doco:Appendix": {
+      "tag": "class",
+      "count": 2095,
+      "definition": [
+        "doco:Appendix | rdf:type | owl:Class",
+        "doco:Appendix | rdfs:comment | A supplemental addition to the main work. It may contain data, more detailed information about methods and materials, or provide additional detail concerning the information found in the main work.",
+        "doco:Appendix | rdfs:isDefinedBy | doco:",
+        "doco:Appendix | rdfs:label | Appendix",
+        "doco:Appendix | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Appendix | dcterms:hasPart | doco:SectionLabel | 1190",
+        "doco:Appendix | po:contains | deo:DiscourseElement | 64",
+        "doco:Appendix | po:contains | doco:FigureBox | 110",
+        "doco:Appendix | po:contains | doco:ListOfReferences | 1",
+        "doco:Appendix | po:contains | doco:Paragraph | 2251",
+        "doco:Appendix | po:contains | doco:Section | 1258",
+        "doco:Appendix | po:contains | doco:Table | 2",
+        "doco:Appendix | po:contains | doco:TableBox | 82",
+        "doco:Appendix | po:contains | doco:TextBox | 15",
+        "doco:Appendix | po:contains | sibilo:ListItemBlock | 20",
+        "doco:Appendix | po:contains | sibilo:MediaBlock | 652",
+        "doco:Appendix | po:contains | sibilo:ObjectIdBlock | 8",
+        "doco:Appendix | rdf:type | owl:Class | 2095",
+        "doco:BackMatter | po:contains | doco:Appendix | 2095"
+      ]
+    },
+    "doco:BackMatter": {
+      "tag": "class",
+      "count": 38516,
+      "definition": [
+        "doco:BackMatter | rdf:type | owl:Class",
+        "doco:BackMatter | rdfs:comment | The final principle part of a document, in which is usually found the bibliography, index, appendixes, etc.",
+        "doco:BackMatter | rdfs:isDefinedBy | doco:",
+        "doco:BackMatter | rdfs:label | Back matter",
+        "doco:BackMatter | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:BackMatter | po:contains | deo:DiscourseElement | 75784",
+        "doco:BackMatter | po:contains | doco:Appendix | 2095",
+        "doco:BackMatter | po:contains | doco:CaptionedBox | 721",
+        "doco:BackMatter | po:contains | doco:ListOfReferences | 29867",
+        "doco:BackMatter | po:contains | doco:Section | 42727",
+        "doco:BackMatter | rdf:type | owl:Class | 38516",
+        "fabio:Abstract | po:contains | doco:BackMatter | 7",
+        "fabio:Addendum | po:contains | doco:BackMatter | 6",
+        "fabio:Article | po:contains | doco:BackMatter | 5",
+        "fabio:BriefReport | po:contains | doco:BackMatter | 616",
+        "fabio:Editorial | po:contains | doco:BackMatter | 3",
+        "fabio:Expression | po:contains | doco:BackMatter | 182",
+        "fabio:JournalArticle | po:contains | doco:BackMatter | 37110",
+        "fabio:Letter | po:contains | doco:BackMatter | 125",
+        "fabio:NewsItem | po:contains | doco:BackMatter | 1",
+        "fabio:RapidCommunication | po:contains | doco:BackMatter | 29",
+        "fabio:ReportDocument | po:contains | doco:BackMatter | 165",
+        "fabio:ReviewArticle | po:contains | doco:BackMatter | 267"
+      ]
+    },
+    "doco:BlockQuotation": {
+      "tag": "class",
+      "count": 16,
+      "definition": [
+        "doco:BlockQuotation | rdf:type | owl:Class",
+        "doco:BlockQuotation | rdfs:comment | A block quotation (also known as a long quotation or extract) is a quotation in a written document which is set off from the main text as a container for distinct paragraphs, which is typically distinguished visually using indentation, a different font, or smaller size. Block quotations are used for longer passages than run-in quotations (which are set off with quotation marks).",
+        "doco:BlockQuotation | rdfs:isDefinedBy | doco:",
+        "doco:BlockQuotation | rdfs:label | Block quotation",
+        "doco:BlockQuotation | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:BlockQuotation | po:contains | doco:Sentence | 22",
+        "doco:BlockQuotation | rdf:type | owl:Class | 16",
+        "doco:BodyMatter | po:contains | doco:BlockQuotation | 3",
+        "doco:Section | po:contains | doco:BlockQuotation | 13"
+      ]
+    },
+    "doco:BodyMatter": {
+      "tag": "class",
+      "count": 299176,
+      "definition": [
+        "doco:BodyMatter | rdf:type | owl:Class",
+        "doco:BodyMatter | rdfs:comment | The central principle part of a document, that contains the real content. It may be subdivided hierarchically by the use of chapters and sections.",
+        "doco:BodyMatter | rdfs:isDefinedBy | doco:",
+        "doco:BodyMatter | rdfs:label | Body matter",
+        "doco:BodyMatter | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:BodyMatter | po:contains | deo:DiscourseElement | 2",
+        "doco:BodyMatter | po:contains | doco:Abstract | 249349",
+        "doco:BodyMatter | po:contains | doco:BlockQuotation | 3",
+        "doco:BodyMatter | po:contains | doco:CaptionedBox | 11126",
+        "doco:BodyMatter | po:contains | doco:FigureBox | 961",
+        "doco:BodyMatter | po:contains | doco:Glossary | 131",
+        "doco:BodyMatter | po:contains | doco:Paragraph | 42717",
+        "doco:BodyMatter | po:contains | doco:Section | 960961",
+        "doco:BodyMatter | po:contains | doco:Table | 1",
+        "doco:BodyMatter | po:contains | doco:TableBox | 158",
+        "doco:BodyMatter | po:contains | doco:TextBox | 30",
+        "doco:BodyMatter | po:contains | sibilo:ListItemBlock | 135",
+        "doco:BodyMatter | po:contains | sibilo:ObjectIdBlock | 1",
+        "doco:BodyMatter | rdf:type | owl:Class | 299176",
+        "fabio:Abstract | po:contains | doco:BodyMatter | 578",
+        "fabio:Addendum | po:contains | doco:BodyMatter | 6",
+        "fabio:Article | po:contains | doco:BodyMatter | 52",
+        "fabio:BriefReport | po:contains | doco:BodyMatter | 579",
+        "fabio:Comment | po:contains | doco:BodyMatter | 163",
+        "fabio:Editorial | po:contains | doco:BodyMatter | 24",
+        "fabio:Expression | po:contains | doco:BodyMatter | 262",
+        "fabio:JournalArticle | po:contains | doco:BodyMatter | 254981",
+        "fabio:LectureNotes | po:contains | doco:BodyMatter | 4",
+        "fabio:Letter | po:contains | doco:BodyMatter | 1237",
+        "fabio:NewsItem | po:contains | doco:BodyMatter | 19",
+        "fabio:RapidCommunication | po:contains | doco:BodyMatter | 29",
+        "fabio:ReportDocument | po:contains | doco:BodyMatter | 40973",
+        "fabio:ReviewArticle | po:contains | doco:BodyMatter | 269"
+      ]
+    },
+    "doco:CaptionedBox": {
+      "tag": "class",
+      "count": 14200,
+      "definition": [
+        "doco:CaptionedBox | rdf:type | owl:Class",
+        "doco:CaptionedBox | rdfs:comment | A rectangle space within a page that contains an object and its related caption.",
+        "doco:CaptionedBox | rdfs:isDefinedBy | doco:",
+        "doco:CaptionedBox | rdfs:label | Captioned box",
+        "doco:CaptionedBox | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:BackMatter | po:contains | doco:CaptionedBox | 721",
+        "doco:BodyMatter | po:contains | doco:CaptionedBox | 11126",
+        "doco:CaptionedBox | dcterms:hasPart | deo:Caption | 14200",
+        "doco:CaptionedBox | dcterms:hasPart | doco:SectionLabel | 11932",
+        "doco:CaptionedBox | po:contains | deo:DiscourseElement | 2",
+        "doco:CaptionedBox | po:contains | doco:FigureBox | 35",
+        "doco:CaptionedBox | po:contains | doco:Paragraph | 4158",
+        "doco:CaptionedBox | po:contains | doco:Section | 498",
+        "doco:CaptionedBox | po:contains | doco:TableBox | 14",
+        "doco:CaptionedBox | po:contains | sibilo:ListItemBlock | 6844",
+        "doco:CaptionedBox | po:contains | sibilo:MediaBlock | 39025",
+        "doco:CaptionedBox | po:contains | sibilo:ObjectIdBlock | 910",
+        "doco:CaptionedBox | rdf:type | owl:Class | 14200",
+        "doco:Section | po:contains | doco:CaptionedBox | 268",
+        "sibilo:FloatMatter | po:contains | doco:CaptionedBox | 2085"
+      ]
+    },
+    "doco:FigureBox": {
+      "tag": "class",
+      "count": 236432,
+      "definition": [
+        "doco:FigureBox | rdf:type | owl:Class",
+        "doco:FigureBox | rdfs:comment | A space within a document that contains a figure and its caption.",
+        "doco:FigureBox | rdfs:isDefinedBy | doco:",
+        "doco:FigureBox | rdfs:label | Figure box",
+        "doco:FigureBox | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Abstract | po:contains | doco:FigureBox | 35",
+        "doco:Appendix | po:contains | doco:FigureBox | 110",
+        "doco:BodyMatter | po:contains | doco:FigureBox | 961",
+        "doco:CaptionedBox | po:contains | doco:FigureBox | 35",
+        "doco:FigureBox | dcterms:hasPart | deo:Caption | 235278",
+        "doco:FigureBox | dcterms:hasPart | doco:Label | 235564",
+        "doco:FigureBox | rdf:type | owl:Class | 236432",
+        "doco:FigureBox | rdfs:seeAlso | xsd:anyURI | 236432",
+        "doco:Section | po:contains | doco:FigureBox | 159005",
+        "sibilo:FloatMatter | po:contains | doco:FigureBox | 76286"
+      ]
+    },
+    "doco:FrontMatter": {
+      "tag": "class",
+      "count": 300767,
+      "definition": [
+        "doco:FrontMatter | rdf:type | owl:Class",
+        "doco:FrontMatter | rdfs:comment | The initial principle part of a document, usually containing self-referential metadata. In a book, this typically includes its title, authors, publisher, publication date, ISBN and copyright declaration, together with the preface, foreword, table of content, etc. In a journal article, the front matter is normally restricted to the title, authors and the authors' affiliation details, although the latter may alternatively be included in a footnote or the back matter. In books, the front matter pages may be numbered in lowercase Roman numerals.",
+        "doco:FrontMatter | rdfs:isDefinedBy | doco:",
+        "doco:FrontMatter | rdfs:label | Front matter",
+        "doco:FrontMatter | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:FrontMatter | po:contains | doco:Abstract | 39630",
+        "doco:FrontMatter | po:contains | doco:ListOfAuthors | 260582",
+        "doco:FrontMatter | po:contains | doco:ListOfOrganizations | 238830",
+        "doco:FrontMatter | po:contains | doco:Title | 300767",
+        "doco:FrontMatter | rdf:type | owl:Class | 300767",
+        "fabio:Abstract | po:contains | doco:FrontMatter | 580",
+        "fabio:Addendum | po:contains | doco:FrontMatter | 6",
+        "fabio:Article | po:contains | doco:FrontMatter | 56",
+        "fabio:BriefReport | po:contains | doco:FrontMatter | 619",
+        "fabio:Comment | po:contains | doco:FrontMatter | 163",
+        "fabio:Editorial | po:contains | doco:FrontMatter | 24",
+        "fabio:Expression | po:contains | doco:FrontMatter | 268",
+        "fabio:JournalArticle | po:contains | doco:FrontMatter | 256514",
+        "fabio:LectureNotes | po:contains | doco:FrontMatter | 4",
+        "fabio:Letter | po:contains | doco:FrontMatter | 1238",
+        "fabio:NewsItem | po:contains | doco:FrontMatter | 19",
+        "fabio:RapidCommunication | po:contains | doco:FrontMatter | 29",
+        "fabio:ReportDocument | po:contains | doco:FrontMatter | 40973",
+        "fabio:ReviewArticle | po:contains | doco:FrontMatter | 274"
+      ]
+    },
+    "doco:Glossary": {
+      "tag": "class",
+      "count": 156,
+      "definition": [
+        "doco:Glossary | rdf:type | owl:Class",
+        "doco:Glossary | rdfs:comment | A set of definitions of words or phrases of importance to the work, normally alphabetized. In longer works of fiction, the entries may contains places and characters.",
+        "doco:Glossary | rdfs:isDefinedBy | doco:",
+        "doco:Glossary | rdfs:label | Glossary",
+        "doco:Glossary | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:BodyMatter | po:contains | doco:Glossary | 131",
+        "doco:Glossary | po:contains | doco:Sentence | 160",
+        "doco:Glossary | rdf:type | owl:Class | 156",
+        "doco:Section | po:contains | doco:Glossary | 25"
+      ]
+    },
+    "doco:Label": {
+      "tag": "class",
+      "count": 509985,
+      "definition": [
+        "doco:Label | rdf:type | owl:Class",
+        "doco:Label | rdfs:comment | A block containing text, that may include a number (e.g., \"Chapter Three\", \"3.2\", \"Figure 1\", \"Table\"), used to identify an item within the document, for example a chapter, a figure, a section or a table.",
+        "doco:Label | rdfs:isDefinedBy | doco:",
+        "doco:Label | rdfs:label | Label",
+        "doco:Label | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:FigureBox | dcterms:hasPart | doco:Label | 235564",
+        "doco:Label | rdf:type | owl:Class | 509985",
+        "doco:Label | cnt:chars | xsd:string | 509985",
+        "doco:Label | sibilo:ordinal | xsd:integer | 238830",
+        "doco:ListOfOrganizations | dcterms:hasPart | doco:Label | 238830",
+        "doco:TableBox | dcterms:hasPart | doco:Label | 35591"
+      ]
+    },
+    "doco:List": {
+      "tag": "class",
+      "count": 791538,
+      "definition": [
+        "doco:List | rdf:type | owl:Class",
+        "doco:List | rdfs:comment | List of items",
+        "doco:List | rdfs:isDefinedBy | doco:",
+        "doco:List | rdfs:label | List",
+        "doco:List | rdfs:subClassOf | deo:DiscourseElement",
+        "doco:ListOfAgents | rdfs:subClassOf | doco:List",
+        "doco:ListOfReferences | rdfs:subClassOf | doco:List"
+      ],
+      "usage": [
+        "doco:List | po:contains | sibilo:WordSequence | 6115680",
+        "doco:List | rdf:type | owl:Class | 791538",
+        "doco:Section | po:contains | doco:List | 791538"
+      ]
+    },
+    "doco:ListOfAgents": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "doco:ListOfAgents | rdf:type | owl:Class",
+        "doco:ListOfAgents | rdfs:isDefinedBy | doco:",
+        "doco:ListOfAgents | rdfs:label | List of agents",
+        "doco:ListOfAgents | rdfs:subClassOf | doco:List",
+        "doco:ListOfAuthors | rdfs:subClassOf | doco:ListOfAgents",
+        "doco:ListOfOrganizations | rdfs:subClassOf | doco:ListOfAgents"
+      ],
+      "usage": []
+    },
+    "doco:ListOfAuthors": {
+      "tag": "class",
+      "count": 260582,
+      "definition": [
+        "doco:ListOfAuthors | rdf:type | owl:Class",
+        "doco:ListOfAuthors | rdfs:isDefinedBy | doco:",
+        "doco:ListOfAuthors | rdfs:label | List of authors",
+        "doco:ListOfAuthors | rdfs:subClassOf | doco:ListOfAgents"
+      ],
+      "usage": [
+        "doco:FrontMatter | po:contains | doco:ListOfAuthors | 260582",
+        "doco:ListOfAuthors | rdf:type | owl:Class | 260582",
+        "doco:ListOfAuthors | cnt:chars | xsd:string | 260582",
+        "doco:ListOfAuthors | sibilo:ordinal | xsd:integer | 260582"
+      ]
+    },
+    "doco:ListOfOrganizations": {
+      "tag": "class",
+      "count": 238830,
+      "definition": [
+        "doco:ListOfOrganizations | rdf:type | owl:Class",
+        "doco:ListOfOrganizations | rdfs:comment | A list of items each denoting an agent, such as an author, a contributor or an organization, related to a particular publication.",
+        "doco:ListOfOrganizations | rdfs:isDefinedBy | doco:",
+        "doco:ListOfOrganizations | rdfs:label | List of organizations",
+        "doco:ListOfOrganizations | rdfs:subClassOf | doco:ListOfAgents"
+      ],
+      "usage": [
+        "doco:FrontMatter | po:contains | doco:ListOfOrganizations | 238830",
+        "doco:ListOfOrganizations | dcterms:hasPart | doco:Label | 238830",
+        "doco:ListOfOrganizations | po:contains | sibilo:WordSequence | 411509",
+        "doco:ListOfOrganizations | rdf:type | owl:Class | 238830"
+      ]
+    },
+    "doco:ListOfReferences": {
+      "tag": "class",
+      "count": 38842,
+      "definition": [
+        "doco:ListOfReferences | rdf:type | owl:Class",
+        "doco:ListOfReferences | rdfs:comment | A list of items each representing a reference to a specific part of the same document, or to another publication.",
+        "doco:ListOfReferences | rdfs:isDefinedBy | doco:",
+        "doco:ListOfReferences | rdfs:label | List of references",
+        "doco:ListOfReferences | rdfs:subClassOf | doco:List"
+      ],
+      "usage": [
+        "doco:Appendix | po:contains | doco:ListOfReferences | 1",
+        "doco:BackMatter | po:contains | doco:ListOfReferences | 29867",
+        "doco:ListOfReferences | rdf:type | owl:Class | 38842",
+        "doco:Section | po:contains | doco:ListOfReferences | 8974"
+      ]
+    },
+    "doco:Paragraph": {
+      "tag": "class",
+      "count": 1953869,
+      "definition": [
+        "doco:Paragraph | rdf:type | owl:Class",
+        "doco:Paragraph | rdfs:comment | A self-contained unit of discourse that deals with a particular point or idea. Paragraphs contains one or more sentences. The start of a paragraph is indicated by beginning on a new line, which may be indented or separated by a small vertical space by the preceding paragraph.",
+        "doco:Paragraph | rdfs:isDefinedBy | doco:",
+        "doco:Paragraph | rdfs:label | Paragraph",
+        "doco:Paragraph | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Abstract | po:contains | doco:Paragraph | 285816",
+        "doco:Appendix | po:contains | doco:Paragraph | 2251",
+        "doco:BodyMatter | po:contains | doco:Paragraph | 42717",
+        "doco:CaptionedBox | po:contains | doco:Paragraph | 4158",
+        "doco:Paragraph | po:contains | doco:Sentence | 10375211",
+        "doco:Paragraph | rdf:type | owl:Class | 1953869",
+        "doco:Section | po:contains | doco:Paragraph | 1317894",
+        "doco:TextBox | po:contains | doco:Paragraph | 266",
+        "doco:Title | po:contains | doco:Paragraph | 300767"
+      ]
+    },
+    "doco:Section": {
+      "tag": "class",
+      "count": 1581941,
+      "definition": [
+        "doco:Section | rdf:type | owl:Class",
+        "doco:Section | rdfs:comment | A logical division of the text, usually numbered and/or titled, which may contain subsections.",
+        "doco:Section | rdfs:isDefinedBy | doco:",
+        "doco:Section | rdfs:label | Section",
+        "doco:Section | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Abstract | po:contains | doco:Section | 16829",
+        "doco:Appendix | po:contains | doco:Section | 1258",
+        "doco:BackMatter | po:contains | doco:Section | 42727",
+        "doco:BodyMatter | po:contains | doco:Section | 960961",
+        "doco:CaptionedBox | po:contains | doco:Section | 498",
+        "doco:Section | dcterms:hasPart | doco:SectionLabel | 1546201",
+        "doco:Section | po:contains | deo:DiscourseElement | 28861",
+        "doco:Section | po:contains | doco:BlockQuotation | 13",
+        "doco:Section | po:contains | doco:CaptionedBox | 268",
+        "doco:Section | po:contains | doco:FigureBox | 159005",
+        "doco:Section | po:contains | doco:Glossary | 25",
+        "doco:Section | po:contains | doco:List | 791538",
+        "doco:Section | po:contains | doco:ListOfReferences | 8974",
+        "doco:Section | po:contains | doco:Paragraph | 1317894",
+        "doco:Section | po:contains | doco:Section | 557428",
+        "doco:Section | po:contains | doco:Section | 557428",
+        "doco:Section | po:contains | doco:Table | 24",
+        "doco:Section | po:contains | doco:TableBox | 25593",
+        "doco:Section | po:contains | doco:TextBox | 142",
+        "doco:Section | po:contains | sibilo:ListItemBlock | 15195",
+        "doco:Section | po:contains | sibilo:MediaBlock | 4098",
+        "doco:Section | po:contains | sibilo:ObjectIdBlock | 1484",
+        "doco:Section | rdf:type | owl:Class | 1581941",
+        "doco:TextBox | po:contains | doco:Section | 189",
+        "sibilo:FloatMatter | po:contains | doco:Section | 2051"
+      ]
+    },
+    "doco:SectionLabel": {
+      "tag": "class",
+      "count": 1813443,
+      "definition": [
+        "doco:SectionLabel | rdf:type | owl:Class",
+        "doco:SectionLabel | rdfs:comment | A block containing a label for the section, that may include the section number.",
+        "doco:SectionLabel | rdfs:isDefinedBy | doco:",
+        "doco:SectionLabel | rdfs:label | Section label",
+        "doco:SectionLabel | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Abstract | dcterms:hasPart | doco:SectionLabel | 254064",
+        "doco:Appendix | dcterms:hasPart | doco:SectionLabel | 1190",
+        "doco:CaptionedBox | dcterms:hasPart | doco:SectionLabel | 11932",
+        "doco:Section | dcterms:hasPart | doco:SectionLabel | 1546201",
+        "doco:SectionLabel | po:contains | doco:Sentence | 790085",
+        "doco:SectionLabel | rdf:type | owl:Class | 1813443",
+        "doco:SectionLabel | cnt:chars | xsd:string | 1040887",
+        "doco:SectionLabel | sibilo:ordinal | xsd:integer | 1040887",
+        "doco:TextBox | dcterms:hasPart | doco:SectionLabel | 56"
+      ]
+    },
+    "doco:Sentence": {
+      "tag": "class",
+      "count": 13782761,
+      "definition": [
+        "doco:Sentence | rdf:type | owl:Class",
+        "doco:Sentence | rdfs:comment | An expression in natural language forming a single grammatical unit. A sentence minimally consists of a subject and an intransitive verb, or a subject, a transitive verb and an object, and may include additional dependent clauses. In written text, a sentence is always terminated by a full stop. A sentence can include words grouped meaningfully to express a statement, a question, an exclamation, a request or a command.",
+        "doco:Sentence | rdfs:isDefinedBy | doco:",
+        "doco:Sentence | rdfs:label | Sentence",
+        "doco:Sentence | rdfs:subClassOf | sibilo:WordSequence"
+      ],
+      "usage": [
+        "deo:Caption | po:contains | doco:Sentence | 2122097",
+        "deo:DiscourseElement | po:contains | doco:Sentence | 354137",
+        "doco:BlockQuotation | po:contains | doco:Sentence | 22",
+        "doco:Glossary | po:contains | doco:Sentence | 160",
+        "doco:Paragraph | po:contains | doco:Sentence | 10375211",
+        "doco:SectionLabel | po:contains | doco:Sentence | 790085",
+        "doco:Sentence | rdf:type | owl:Class | 13782761",
+        "doco:Sentence | cnt:chars | xsd:string | 13782761",
+        "doco:Sentence | sibilo:ordinal | xsd:integer | 13782761",
+        "doco:Table | po:contains | doco:Sentence | 46",
+        "sibilo:AnnotationTarget | oa:hasSource | doco:Sentence | 96617457",
+        "sibilo:ListItemBlock | po:contains | doco:Sentence | 29895",
+        "sibilo:MediaBlock | po:contains | doco:Sentence | 44379",
+        "sibilo:ObjectIdBlock | po:contains | doco:Sentence | 2408",
+        "sibilo:TableFooter | po:contains | doco:Sentence | 64261"
+      ]
+    },
+    "doco:Table": {
+      "tag": "class",
+      "count": 27,
+      "definition": [
+        "doco:Table | rdf:type | owl:Class",
+        "doco:Table | rdfs:comment | A set of data arranged in cells within rows and columns.",
+        "doco:Table | rdfs:isDefinedBy | doco:",
+        "doco:Table | rdfs:label | Table",
+        "doco:Table | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Appendix | po:contains | doco:Table | 2",
+        "doco:BodyMatter | po:contains | doco:Table | 1",
+        "doco:Section | po:contains | doco:Table | 24",
+        "doco:Table | po:contains | doco:Sentence | 46",
+        "doco:Table | rdf:type | owl:Class | 27"
+      ]
+    },
+    "doco:TableBox": {
+      "tag": "class",
+      "count": 36864,
+      "definition": [
+        "doco:TableBox | rdf:type | owl:Class",
+        "doco:TableBox | rdfs:comment | A space within a document that contains a table and its caption.",
+        "doco:TableBox | rdfs:isDefinedBy | doco:",
+        "doco:TableBox | rdfs:label | Table box",
+        "doco:TableBox | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Abstract | po:contains | doco:TableBox | 1",
+        "doco:Appendix | po:contains | doco:TableBox | 82",
+        "doco:BodyMatter | po:contains | doco:TableBox | 158",
+        "doco:CaptionedBox | po:contains | doco:TableBox | 14",
+        "doco:Section | po:contains | doco:TableBox | 25593",
+        "doco:TableBox | dcterms:hasPart | deo:Caption | 35603",
+        "doco:TableBox | dcterms:hasPart | doco:Label | 35591",
+        "doco:TableBox | dcterms:hasPart | sibilo:TableFooter | 22563",
+        "doco:TableBox | po:contains | sibilo:TableCellValues | 65113",
+        "doco:TableBox | po:contains | sibilo:TableColumnName | 193266",
+        "doco:TableBox | rdf:type | owl:Class | 36864",
+        "doco:TableBox | rdfs:seeAlso | xsd:anyURI | 36864",
+        "doco:TextBox | po:contains | doco:TableBox | 14",
+        "sibilo:FloatMatter | po:contains | doco:TableBox | 11002"
+      ]
+    },
+    "doco:TextBox": {
+      "tag": "class",
+      "count": 313,
+      "definition": [
+        "doco:TextBox | rdf:type | owl:Class",
+        "doco:TextBox | rdfs:comment | A space within a document that contains textual content relating to, quoting from or expanding upon the main text. Usually a textbox is delimited by a border or use of a background colour distinct from that of the main text.",
+        "doco:TextBox | rdfs:isDefinedBy | doco:",
+        "doco:TextBox | rdfs:label | Text box",
+        "doco:TextBox | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Appendix | po:contains | doco:TextBox | 15",
+        "doco:BodyMatter | po:contains | doco:TextBox | 30",
+        "doco:Section | po:contains | doco:TextBox | 142",
+        "doco:TextBox | dcterms:hasPart | doco:SectionLabel | 56",
+        "doco:TextBox | po:contains | doco:Paragraph | 266",
+        "doco:TextBox | po:contains | doco:Section | 189",
+        "doco:TextBox | po:contains | doco:TableBox | 14",
+        "doco:TextBox | po:contains | sibilo:ListItemBlock | 579",
+        "doco:TextBox | po:contains | sibilo:ObjectIdBlock | 5",
+        "doco:TextBox | rdf:type | owl:Class | 313",
+        "sibilo:FloatMatter | po:contains | doco:TextBox | 126"
+      ]
+    },
+    "doco:Title": {
+      "tag": "class",
+      "count": 300767,
+      "definition": [
+        "doco:Title | rdf:type | owl:Class",
+        "doco:Title | rdfs:comment | A word, phrase or sentence that precedes and indicates the subject of a document or a document component - e.g., a book, a report, a news article, a chapter, a section or a table.",
+        "doco:Title | rdfs:isDefinedBy | doco:",
+        "doco:Title | rdfs:label | Title",
+        "doco:Title | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:FrontMatter | po:contains | doco:Title | 300767",
+        "doco:Title | po:contains | doco:Paragraph | 300767",
+        "doco:Title | rdf:type | owl:Class | 300767"
+      ]
+    },
+    "fabio:Abstract": {
+      "tag": "class",
+      "count": 580,
+      "definition": [
+        "fabio:Abstract | rdf:type | owl:Class",
+        "fabio:Abstract | rdfs:comment | Abstract as a publication in itself (more precisely a subclass of fabio:Expression). A brief summary of a work on a particular subject, designed to act as the point-of-entry that will help the reader quickly to obtain an overview of the work's contents. The abstract may be an integral part of the work itself, written by the same author(s) and appearing at the beginning of a work such as a research paper, report, review or thesis. Alternatively it may be separate from the published work itself, and written by someone other than the author(s) of the published work, for example by a member of a professional abstracting service such as CAB Abstracts.",
+        "fabio:Abstract | rdfs:isDefinedBy | fabio:",
+        "fabio:Abstract | rdfs:label | Abstract",
+        "fabio:Abstract | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:Abstract | prism:doi | xsd:string | 85",
+        "fabio:Abstract | prism:issueIdentifier | xsd:string | 8",
+        "fabio:Abstract | prism:keyword | xsd:string | 5",
+        "fabio:Abstract | prism:publicationDate | xsd:date | 580",
+        "fabio:Abstract | prism:volume | xsd:string | 8",
+        "fabio:Abstract | dcterms:abstract | xsd:string | 510",
+        "fabio:Abstract | dcterms:creator | schema:Person | 2571",
+        "fabio:Abstract | dcterms:isReferencedBy | owl:NamedIndividual | 582",
+        "fabio:Abstract | dcterms:isReferencedBy | sibilo:CitingSource | 582",
+        "fabio:Abstract | dcterms:title | xsd:string | 580",
+        "fabio:Abstract | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 580",
+        "fabio:Abstract | fabio:hasPubMedCentralId | xsd:string | 8",
+        "fabio:Abstract | fabio:hasPubMedId | xsd:string | 580",
+        "fabio:Abstract | fabio:hasPublicationYear | xsd:string | 580",
+        "fabio:Abstract | frbr:embodiment | fabio:Manifestation | 8",
+        "fabio:Abstract | po:contains | doco:BackMatter | 7",
+        "fabio:Abstract | po:contains | doco:BodyMatter | 578",
+        "fabio:Abstract | po:contains | doco:FrontMatter | 580",
+        "fabio:Abstract | rdf:type | owl:Class | 580",
+        "fabio:Abstract | rdfs:seeAlso | xsd:anyURI | 580",
+        "fabio:Abstract | sibilo:hasAnnotation | sibilo:NexAnnotation | 56853",
+        "fabio:Abstract | sibilo:inCollection | xsd:string | 580",
+        "fabio:Abstract | sibilo:seeAlsoAnnotated | xsd:anyURI | 580"
+      ]
+    },
+    "fabio:Addendum": {
+      "tag": "class",
+      "count": 6,
+      "definition": [
+        "fabio:Addendum | rdf:type | owl:Class",
+        "fabio:Addendum | rdfs:isDefinedBy | fabio:",
+        "fabio:Addendum | rdfs:label | Addendum",
+        "fabio:Addendum | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:Addendum | prism:doi | xsd:string | 6",
+        "fabio:Addendum | prism:issueIdentifier | xsd:string | 6",
+        "fabio:Addendum | prism:keyword | xsd:string | 33",
+        "fabio:Addendum | prism:publicationDate | xsd:date | 6",
+        "fabio:Addendum | prism:volume | xsd:string | 6",
+        "fabio:Addendum | dcterms:abstract | xsd:string | 6",
+        "fabio:Addendum | dcterms:isReferencedBy | owl:NamedIndividual | 6",
+        "fabio:Addendum | dcterms:isReferencedBy | sibilo:CitingSource | 6",
+        "fabio:Addendum | dcterms:title | xsd:string | 6",
+        "fabio:Addendum | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 6",
+        "fabio:Addendum | fabio:hasPubMedCentralId | xsd:string | 6",
+        "fabio:Addendum | fabio:hasPubMedId | xsd:string | 6",
+        "fabio:Addendum | fabio:hasPublicationYear | xsd:string | 6",
+        "fabio:Addendum | frbr:embodiment | fabio:Manifestation | 2",
+        "fabio:Addendum | po:contains | doco:BackMatter | 6",
+        "fabio:Addendum | po:contains | doco:BodyMatter | 6",
+        "fabio:Addendum | po:contains | doco:FrontMatter | 6",
+        "fabio:Addendum | rdf:type | owl:Class | 6",
+        "fabio:Addendum | rdfs:seeAlso | xsd:anyURI | 6",
+        "fabio:Addendum | sibilo:hasAnnotation | sibilo:NexAnnotation | 5072",
+        "fabio:Addendum | sibilo:inCollection | xsd:string | 6",
+        "fabio:Addendum | sibilo:seeAlsoAnnotated | xsd:anyURI | 6"
+      ]
+    },
+    "fabio:Article": {
+      "tag": "class",
+      "count": 56,
+      "definition": [
+        "fabio:Article | rdf:type | owl:Class",
+        "fabio:Article | rdfs:isDefinedBy | fabio:",
+        "fabio:Article | rdfs:label | Article",
+        "fabio:Article | rdfs:subClassOf | fabio:Expression",
+        "fabio:JournalArticle | rdfs:subClassOf | fabio:Article",
+        "fabio:ReviewArticle | rdfs:subClassOf | fabio:Article"
+      ],
+      "usage": [
+        "fabio:Article | prism:doi | xsd:string | 50",
+        "fabio:Article | prism:keyword | xsd:string | 56",
+        "fabio:Article | prism:publicationDate | xsd:date | 56",
+        "fabio:Article | prism:volume | xsd:string | 5",
+        "fabio:Article | dcterms:abstract | xsd:string | 46",
+        "fabio:Article | dcterms:creator | schema:Person | 330",
+        "fabio:Article | dcterms:isReferencedBy | owl:NamedIndividual | 57",
+        "fabio:Article | dcterms:isReferencedBy | sibilo:CitingSource | 57",
+        "fabio:Article | dcterms:title | xsd:string | 56",
+        "fabio:Article | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 56",
+        "fabio:Article | fabio:hasPubMedCentralId | xsd:string | 16",
+        "fabio:Article | fabio:hasPubMedId | xsd:string | 56",
+        "fabio:Article | fabio:hasPublicationYear | xsd:string | 56",
+        "fabio:Article | frbr:embodiment | fabio:Manifestation | 5",
+        "fabio:Article | frbr:realizationOf | fabio:Report | 1",
+        "fabio:Article | po:contains | doco:BackMatter | 5",
+        "fabio:Article | po:contains | doco:BodyMatter | 52",
+        "fabio:Article | po:contains | doco:FrontMatter | 56",
+        "fabio:Article | rdf:type | owl:Class | 56",
+        "fabio:Article | rdfs:seeAlso | xsd:anyURI | 56",
+        "fabio:Article | sibilo:hasAnnotation | sibilo:NexAnnotation | 9209",
+        "fabio:Article | sibilo:inCollection | xsd:string | 56",
+        "fabio:Article | sibilo:seeAlsoAnnotated | xsd:anyURI | 56"
+      ]
+    },
+    "fabio:BachelorsThesis": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:BachelorsThesis | rdf:type | owl:Class",
+        "fabio:BachelorsThesis | rdfs:comment | <dt>has relation</td><dd>skos:broadMatch <b>with</b> <a href=\"#http://purl.uniprot.org/core/Thesis_Citation\" title=\"http://purl.uniprot.org/core/Thesis_Citation\">Thesis citation</a></dd>",
+        "fabio:BachelorsThesis | rdfs:isDefinedBy | fabio:",
+        "fabio:BachelorsThesis | rdfs:label | Bachelor's thesis",
+        "fabio:BachelorsThesis | rdfs:subClassOf | fabio:Thesis",
+        "fabio:BachelorsThesis | skos:broadMatch | up:Thesis_Citation"
+      ],
+      "usage": []
+    },
+    "fabio:Biography": {
+      "tag": "class",
+      "count": 11,
+      "definition": [
+        "fabio:Biography | rdf:type | owl:Class",
+        "fabio:Biography | rdfs:isDefinedBy | fabio:",
+        "fabio:Biography | rdfs:label | Biography",
+        "fabio:Biography | rdfs:subClassOf | fabio:Work"
+      ],
+      "usage": [
+        "fabio:Biography | rdf:type | owl:Class | 11",
+        "fabio:Expression | frbr:realizationOf | fabio:Biography | 11"
+      ]
+    },
+    "fabio:Book": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:Book | rdf:type | owl:Class",
+        "fabio:Book | rdfs:isDefinedBy | fabio:",
+        "fabio:Book | rdfs:label | Book",
+        "fabio:Book | rdfs:subClassOf | fabio:Expression",
+        "fabio:Thesis | rdfs:subClassOf | fabio:Book"
+      ],
+      "usage": []
+    },
+    "fabio:BookChapter": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:BookChapter | rdf:type | owl:Class",
+        "fabio:BookChapter | rdfs:comment | <dt>has relation</td><dd>skos:closeMatch <b>with</b> <a href=\"#http://purl.uniprot.org/core/Book_Citation\" title=\"http://purl.uniprot.org/core/Book_Citation\">Book chapter citation</a></dd>",
+        "fabio:BookChapter | rdfs:isDefinedBy | fabio:",
+        "fabio:BookChapter | rdfs:label | Book chapter",
+        "fabio:BookChapter | rdfs:subClassOf | fabio:Chapter",
+        "fabio:BookChapter | skos:closeMatch | up:Book_Citation"
+      ],
+      "usage": []
+    },
+    "fabio:BookReview": {
+      "tag": "class",
+      "count": 1,
+      "definition": [
+        "fabio:BookReview | rdf:type | owl:Class",
+        "fabio:BookReview | rdfs:isDefinedBy | fabio:",
+        "fabio:BookReview | rdfs:label | Book review",
+        "fabio:BookReview | rdfs:subClassOf | fabio:Review"
+      ],
+      "usage": [
+        "fabio:BookReview | rdf:type | owl:Class | 1",
+        "fabio:Expression | frbr:realizationOf | fabio:BookReview | 1"
+      ]
+    },
+    "fabio:BriefReport": {
+      "tag": "class",
+      "count": 619,
+      "definition": [
+        "fabio:BriefReport | rdf:type | owl:Class",
+        "fabio:BriefReport | rdfs:isDefinedBy | fabio:",
+        "fabio:BriefReport | rdfs:label | Brief report",
+        "fabio:BriefReport | rdfs:subClassOf | fabio:ReportDocument"
+      ],
+      "usage": [
+        "fabio:BriefReport | prism:doi | xsd:string | 619",
+        "fabio:BriefReport | prism:issueIdentifier | xsd:string | 559",
+        "fabio:BriefReport | prism:keyword | xsd:string | 1942",
+        "fabio:BriefReport | prism:publicationDate | xsd:date | 619",
+        "fabio:BriefReport | prism:volume | xsd:string | 619",
+        "fabio:BriefReport | dcterms:abstract | xsd:string | 593",
+        "fabio:BriefReport | dcterms:isReferencedBy | owl:NamedIndividual | 618",
+        "fabio:BriefReport | dcterms:isReferencedBy | sibilo:CitingSource | 618",
+        "fabio:BriefReport | dcterms:title | xsd:string | 619",
+        "fabio:BriefReport | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 619",
+        "fabio:BriefReport | fabio:hasPubMedCentralId | xsd:string | 619",
+        "fabio:BriefReport | fabio:hasPubMedId | xsd:string | 597",
+        "fabio:BriefReport | fabio:hasPublicationYear | xsd:string | 619",
+        "fabio:BriefReport | frbr:embodiment | fabio:Manifestation | 414",
+        "fabio:BriefReport | po:contains | doco:BackMatter | 616",
+        "fabio:BriefReport | po:contains | doco:BodyMatter | 579",
+        "fabio:BriefReport | po:contains | doco:FrontMatter | 619",
+        "fabio:BriefReport | po:contains | sibilo:FloatMatter | 140",
+        "fabio:BriefReport | rdf:type | owl:Class | 619",
+        "fabio:BriefReport | rdfs:seeAlso | xsd:anyURI | 597",
+        "fabio:BriefReport | sibilo:hasAnnotation | sibilo:NexAnnotation | 524893",
+        "fabio:BriefReport | sibilo:inCollection | xsd:string | 619",
+        "fabio:BriefReport | sibilo:seeAlsoAnnotated | xsd:anyURI | 619"
+      ]
+    },
+    "fabio:CaseReport": {
+      "tag": "class",
+      "count": 6263,
+      "definition": [
+        "fabio:CaseReport | rdf:type | owl:Class",
+        "fabio:CaseReport | rdfs:isDefinedBy | fabio:",
+        "fabio:CaseReport | rdfs:label | Case report",
+        "fabio:CaseReport | rdfs:subClassOf | fabio:Report"
+      ],
+      "usage": [
+        "fabio:CaseReport | rdf:type | owl:Class | 6263",
+        "fabio:JournalArticle | frbr:realizationOf | fabio:CaseReport | 20",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:CaseReport | 6242",
+        "fabio:ReviewArticle | frbr:realizationOf | fabio:CaseReport | 1"
+      ]
+    },
+    "fabio:Chapter": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:BookChapter | rdfs:subClassOf | fabio:Chapter",
+        "fabio:Chapter | rdf:type | owl:Class",
+        "fabio:Chapter | rdfs:isDefinedBy | fabio:",
+        "fabio:Chapter | rdfs:label | Chapter",
+        "fabio:Chapter | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": []
+    },
+    "fabio:ClinicalTrialReport": {
+      "tag": "class",
+      "count": 218,
+      "definition": [
+        "fabio:ClinicalTrialReport | rdf:type | owl:Class",
+        "fabio:ClinicalTrialReport | rdfs:isDefinedBy | fabio:",
+        "fabio:ClinicalTrialReport | rdfs:label | Clinical trial report",
+        "fabio:ClinicalTrialReport | rdfs:subClassOf | fabio:TrialReport"
+      ],
+      "usage": [
+        "fabio:ClinicalTrialReport | rdf:type | owl:Class | 218",
+        "fabio:JournalArticle | frbr:realizationOf | fabio:ClinicalTrialReport | 20",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:ClinicalTrialReport | 198"
+      ]
+    },
+    "fabio:Comment": {
+      "tag": "class",
+      "count": 163,
+      "definition": [
+        "fabio:Comment | rdf:type | owl:Class",
+        "fabio:Comment | rdfs:isDefinedBy | fabio:",
+        "fabio:Comment | rdfs:label | Comment",
+        "fabio:Comment | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:Comment | prism:doi | xsd:string | 157",
+        "fabio:Comment | prism:keyword | xsd:string | 36",
+        "fabio:Comment | prism:publicationDate | xsd:date | 163",
+        "fabio:Comment | dcterms:abstract | xsd:string | 75",
+        "fabio:Comment | dcterms:creator | schema:Person | 767",
+        "fabio:Comment | dcterms:isReferencedBy | owl:NamedIndividual | 163",
+        "fabio:Comment | dcterms:isReferencedBy | sibilo:CitingSource | 163",
+        "fabio:Comment | dcterms:title | xsd:string | 163",
+        "fabio:Comment | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 163",
+        "fabio:Comment | fabio:hasPubMedCentralId | xsd:string | 51",
+        "fabio:Comment | fabio:hasPubMedId | xsd:string | 163",
+        "fabio:Comment | fabio:hasPublicationYear | xsd:string | 163",
+        "fabio:Comment | frbr:realizationOf | fabio:Report | 10",
+        "fabio:Comment | po:contains | doco:BodyMatter | 163",
+        "fabio:Comment | po:contains | doco:FrontMatter | 163",
+        "fabio:Comment | rdf:type | owl:Class | 163",
+        "fabio:Comment | rdfs:seeAlso | xsd:anyURI | 163",
+        "fabio:Comment | sibilo:hasAnnotation | sibilo:NexAnnotation | 11090",
+        "fabio:Comment | sibilo:inCollection | xsd:string | 163",
+        "fabio:Comment | sibilo:seeAlsoAnnotated | xsd:anyURI | 163"
+      ]
+    },
+    "fabio:ConferencePaper": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:ConferencePaper | rdf:type | owl:Class",
+        "fabio:ConferencePaper | rdfs:isDefinedBy | fabio:",
+        "fabio:ConferencePaper | rdfs:label | Conference paper",
+        "fabio:ConferencePaper | rdfs:subClassOf | fabio:ProceedingsPaper"
+      ],
+      "usage": []
+    },
+    "fabio:Correction": {
+      "tag": "class",
+      "count": 97,
+      "definition": [
+        "fabio:Correction | rdf:type | owl:Class",
+        "fabio:Correction | rdfs:isDefinedBy | fabio:",
+        "fabio:Correction | rdfs:label | Correction",
+        "fabio:Correction | rdfs:subClassOf | fabio:Work"
+      ],
+      "usage": [
+        "fabio:Correction | rdf:type | owl:Class | 97",
+        "fabio:Expression | frbr:realizationOf | fabio:Correction | 97"
+      ]
+    },
+    "fabio:DoctoralThesis": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:DoctoralThesis | rdf:type | owl:Class",
+        "fabio:DoctoralThesis | rdfs:comment | <dt>has relation</td><dd>skos:broadMatch <b>with</b> <a href=\"#http://purl.uniprot.org/core/Thesis_Citation\" title=\"http://purl.uniprot.org/core/Thesis_Citation\">Thesis citation</a></dd>",
+        "fabio:DoctoralThesis | rdfs:isDefinedBy | fabio:",
+        "fabio:DoctoralThesis | rdfs:label | Doctoral thesis",
+        "fabio:DoctoralThesis | rdfs:subClassOf | fabio:Thesis",
+        "fabio:DoctoralThesis | skos:broadMatch | up:Thesis_Citation"
+      ],
+      "usage": []
+    },
+    "fabio:Editorial": {
+      "tag": "class",
+      "count": 24,
+      "definition": [
+        "fabio:Editorial | rdf:type | owl:Class",
+        "fabio:Editorial | rdfs:isDefinedBy | fabio:",
+        "fabio:Editorial | rdfs:label | Editorial",
+        "fabio:Editorial | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:Editorial | prism:doi | xsd:string | 24",
+        "fabio:Editorial | prism:issueIdentifier | xsd:string | 2",
+        "fabio:Editorial | prism:keyword | xsd:string | 63",
+        "fabio:Editorial | prism:publicationDate | xsd:date | 24",
+        "fabio:Editorial | prism:volume | xsd:string | 3",
+        "fabio:Editorial | dcterms:abstract | xsd:string | 14",
+        "fabio:Editorial | dcterms:creator | schema:Person | 83",
+        "fabio:Editorial | dcterms:isReferencedBy | owl:NamedIndividual | 26",
+        "fabio:Editorial | dcterms:isReferencedBy | sibilo:CitingSource | 26",
+        "fabio:Editorial | dcterms:title | xsd:string | 24",
+        "fabio:Editorial | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 24",
+        "fabio:Editorial | fabio:hasPubMedCentralId | xsd:string | 3",
+        "fabio:Editorial | fabio:hasPubMedId | xsd:string | 24",
+        "fabio:Editorial | fabio:hasPublicationYear | xsd:string | 24",
+        "fabio:Editorial | frbr:embodiment | fabio:Manifestation | 2",
+        "fabio:Editorial | po:contains | doco:BackMatter | 3",
+        "fabio:Editorial | po:contains | doco:BodyMatter | 24",
+        "fabio:Editorial | po:contains | doco:FrontMatter | 24",
+        "fabio:Editorial | rdf:type | owl:Class | 24",
+        "fabio:Editorial | rdfs:seeAlso | xsd:anyURI | 24",
+        "fabio:Editorial | sibilo:hasAnnotation | sibilo:NexAnnotation | 4725",
+        "fabio:Editorial | sibilo:inCollection | xsd:string | 24",
+        "fabio:Editorial | sibilo:seeAlsoAnnotated | xsd:anyURI | 24"
+      ]
+    },
+    "fabio:Expression": {
+      "tag": "class",
+      "count": 268,
+      "definition": [
+        "fabio:Abstract | rdfs:subClassOf | fabio:Expression",
+        "fabio:Addendum | rdfs:subClassOf | fabio:Expression",
+        "fabio:Article | rdfs:subClassOf | fabio:Expression",
+        "fabio:Book | rdfs:subClassOf | fabio:Expression",
+        "fabio:Chapter | rdfs:subClassOf | fabio:Expression",
+        "fabio:Comment | rdfs:subClassOf | fabio:Expression",
+        "fabio:Editorial | rdfs:subClassOf | fabio:Expression",
+        "fabio:Expression | rdf:type | owl:Class",
+        "fabio:Expression | rdfs:isDefinedBy | fabio:",
+        "fabio:Expression | rdfs:label | Expression",
+        "fabio:LectureNotes | rdfs:subClassOf | fabio:Expression",
+        "fabio:Letter | rdfs:subClassOf | fabio:Expression",
+        "fabio:NewsItem | rdfs:subClassOf | fabio:Expression",
+        "fabio:ProceedingsPaper | rdfs:subClassOf | fabio:Expression",
+        "fabio:RapidCommunication | rdfs:subClassOf | fabio:Expression",
+        "fabio:ReportDocument | rdfs:subClassOf | fabio:Expression",
+        "fabio:SpecificationDocument | rdfs:subClassOf | fabio:Expression",
+        "sibilo:hasAnnotation | rdfs:domain | fabio:Expression",
+        "sibilo:inCollection | rdfs:domain | fabio:Expression",
+        "sibilo:seeAlsoAnnotated | rdfs:domain | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:Expression | prism:doi | xsd:string | 260",
+        "fabio:Expression | prism:issueIdentifier | xsd:string | 131",
+        "fabio:Expression | prism:keyword | xsd:string | 705",
+        "fabio:Expression | prism:publicationDate | xsd:date | 268",
+        "fabio:Expression | prism:volume | xsd:string | 250",
+        "fabio:Expression | dcterms:abstract | xsd:string | 147",
+        "fabio:Expression | dcterms:creator | schema:Person | 67",
+        "fabio:Expression | dcterms:isReferencedBy | owl:NamedIndividual | 244",
+        "fabio:Expression | dcterms:isReferencedBy | sibilo:CitingSource | 244",
+        "fabio:Expression | dcterms:title | xsd:string | 268",
+        "fabio:Expression | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 268",
+        "fabio:Expression | fabio:hasPubMedCentralId | xsd:string | 253",
+        "fabio:Expression | fabio:hasPubMedId | xsd:string | 243",
+        "fabio:Expression | fabio:hasPublicationYear | xsd:string | 268",
+        "fabio:Expression | frbr:embodiment | fabio:Manifestation | 115",
+        "fabio:Expression | frbr:realizationOf | fabio:Biography | 11",
+        "fabio:Expression | frbr:realizationOf | fabio:BookReview | 1",
+        "fabio:Expression | frbr:realizationOf | fabio:Correction | 97",
+        "fabio:Expression | frbr:realizationOf | fabio:ProductReview | 1",
+        "fabio:Expression | frbr:realizationOf | fabio:TechnicalReport | 3",
+        "fabio:Expression | po:contains | doco:BackMatter | 182",
+        "fabio:Expression | po:contains | doco:BodyMatter | 262",
+        "fabio:Expression | po:contains | doco:FrontMatter | 268",
+        "fabio:Expression | po:contains | sibilo:FloatMatter | 47",
+        "fabio:Expression | rdf:type | owl:Class | 268",
+        "fabio:Expression | rdfs:seeAlso | xsd:anyURI | 243",
+        "fabio:Expression | sibilo:hasAnnotation | sibilo:NexAnnotation | 150309",
+        "fabio:Expression | sibilo:inCollection | xsd:string | 268",
+        "fabio:Expression | sibilo:seeAlsoAnnotated | xsd:anyURI | 268"
+      ]
+    },
+    "fabio:JournalArticle": {
+      "tag": "class",
+      "count": 256514,
+      "definition": [
+        "fabio:JournalArticle | rdf:type | owl:Class",
+        "fabio:JournalArticle | rdfs:comment | <dt>has relation</td><dd>skos:closeMatch <b>with</b> <a href=\"#http://purl.uniprot.org/core/Journal_Citation\" title=\"http://purl.uniprot.org/core/Journal_Citation\">Journal article citation</a></dd>",
+        "fabio:JournalArticle | rdfs:isDefinedBy | fabio:",
+        "fabio:JournalArticle | rdfs:label | Journal article",
+        "fabio:JournalArticle | rdfs:subClassOf | fabio:Article",
+        "fabio:JournalArticle | skos:closeMatch | up:Journal_Citation"
+      ],
+      "usage": [
+        "fabio:JournalArticle | prism:doi | xsd:string | 238504",
+        "fabio:JournalArticle | prism:issueIdentifier | xsd:string | 30746",
+        "fabio:JournalArticle | prism:keyword | xsd:string | 174686",
+        "fabio:JournalArticle | prism:publicationDate | xsd:date | 256514",
+        "fabio:JournalArticle | prism:volume | xsd:string | 38595",
+        "fabio:JournalArticle | dcterms:abstract | xsd:string | 247711",
+        "fabio:JournalArticle | dcterms:creator | schema:Person | 1307230",
+        "fabio:JournalArticle | dcterms:isReferencedBy | owl:NamedIndividual | 268653",
+        "fabio:JournalArticle | dcterms:isReferencedBy | sibilo:CitingSource | 268653",
+        "fabio:JournalArticle | dcterms:title | xsd:string | 256511",
+        "fabio:JournalArticle | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 256514",
+        "fabio:JournalArticle | fabio:hasPubMedCentralId | xsd:string | 103616",
+        "fabio:JournalArticle | fabio:hasPubMedId | xsd:string | 255948",
+        "fabio:JournalArticle | fabio:hasPublicationYear | xsd:string | 256514",
+        "fabio:JournalArticle | frbr:embodiment | fabio:Manifestation | 25160",
+        "fabio:JournalArticle | frbr:realizationOf | fabio:CaseReport | 20",
+        "fabio:JournalArticle | frbr:realizationOf | fabio:ClinicalTrialReport | 20",
+        "fabio:JournalArticle | frbr:realizationOf | fabio:Report | 302",
+        "fabio:JournalArticle | frbr:realizationOf | fabio:SystematicReview | 4",
+        "fabio:JournalArticle | frbr:realizationOf | fabio:TechnicalReport | 2",
+        "fabio:JournalArticle | po:contains | doco:BackMatter | 37110",
+        "fabio:JournalArticle | po:contains | doco:BodyMatter | 254981",
+        "fabio:JournalArticle | po:contains | doco:FrontMatter | 256514",
+        "fabio:JournalArticle | po:contains | sibilo:FloatMatter | 13517",
+        "fabio:JournalArticle | rdf:type | owl:Class | 256514",
+        "fabio:JournalArticle | rdfs:seeAlso | xsd:anyURI | 255948",
+        "fabio:JournalArticle | sibilo:hasAnnotation | sibilo:NexAnnotation | 107658048",
+        "fabio:JournalArticle | sibilo:inCollection | xsd:string | 256514",
+        "fabio:JournalArticle | sibilo:seeAlsoAnnotated | xsd:anyURI | 256514"
+      ]
+    },
+    "fabio:LectureNotes": {
+      "tag": "class",
+      "count": 4,
+      "definition": [
+        "fabio:LectureNotes | rdf:type | owl:Class",
+        "fabio:LectureNotes | rdfs:isDefinedBy | fabio:",
+        "fabio:LectureNotes | rdfs:label | Lecture notes",
+        "fabio:LectureNotes | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:LectureNotes | prism:doi | xsd:string | 4",
+        "fabio:LectureNotes | prism:publicationDate | xsd:date | 4",
+        "fabio:LectureNotes | dcterms:abstract | xsd:string | 4",
+        "fabio:LectureNotes | dcterms:creator | schema:Person | 14",
+        "fabio:LectureNotes | dcterms:isReferencedBy | owl:NamedIndividual | 4",
+        "fabio:LectureNotes | dcterms:isReferencedBy | sibilo:CitingSource | 4",
+        "fabio:LectureNotes | dcterms:title | xsd:string | 4",
+        "fabio:LectureNotes | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 4",
+        "fabio:LectureNotes | fabio:hasPubMedCentralId | xsd:string | 1",
+        "fabio:LectureNotes | fabio:hasPubMedId | xsd:string | 4",
+        "fabio:LectureNotes | fabio:hasPublicationYear | xsd:string | 4",
+        "fabio:LectureNotes | po:contains | doco:BodyMatter | 4",
+        "fabio:LectureNotes | po:contains | doco:FrontMatter | 4",
+        "fabio:LectureNotes | rdf:type | owl:Class | 4",
+        "fabio:LectureNotes | rdfs:seeAlso | xsd:anyURI | 4",
+        "fabio:LectureNotes | sibilo:hasAnnotation | sibilo:NexAnnotation | 742",
+        "fabio:LectureNotes | sibilo:inCollection | xsd:string | 4",
+        "fabio:LectureNotes | sibilo:seeAlsoAnnotated | xsd:anyURI | 4"
+      ]
+    },
+    "fabio:Letter": {
+      "tag": "class",
+      "count": 1238,
+      "definition": [
+        "fabio:Letter | rdf:type | owl:Class",
+        "fabio:Letter | rdfs:isDefinedBy | fabio:",
+        "fabio:Letter | rdfs:label | Letter",
+        "fabio:Letter | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:Letter | prism:doi | xsd:string | 1185",
+        "fabio:Letter | prism:issueIdentifier | xsd:string | 93",
+        "fabio:Letter | prism:keyword | xsd:string | 516",
+        "fabio:Letter | prism:publicationDate | xsd:date | 1238",
+        "fabio:Letter | prism:volume | xsd:string | 125",
+        "fabio:Letter | dcterms:abstract | xsd:string | 241",
+        "fabio:Letter | dcterms:creator | schema:Person | 7724",
+        "fabio:Letter | dcterms:isReferencedBy | owl:NamedIndividual | 1251",
+        "fabio:Letter | dcterms:isReferencedBy | sibilo:CitingSource | 1251",
+        "fabio:Letter | dcterms:title | xsd:string | 1238",
+        "fabio:Letter | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 1238",
+        "fabio:Letter | fabio:hasPubMedCentralId | xsd:string | 354",
+        "fabio:Letter | fabio:hasPubMedId | xsd:string | 1237",
+        "fabio:Letter | fabio:hasPublicationYear | xsd:string | 1238",
+        "fabio:Letter | frbr:embodiment | fabio:Manifestation | 99",
+        "fabio:Letter | frbr:realizationOf | fabio:Report | 19",
+        "fabio:Letter | po:contains | doco:BackMatter | 125",
+        "fabio:Letter | po:contains | doco:BodyMatter | 1237",
+        "fabio:Letter | po:contains | doco:FrontMatter | 1238",
+        "fabio:Letter | po:contains | sibilo:FloatMatter | 28",
+        "fabio:Letter | rdf:type | owl:Class | 1238",
+        "fabio:Letter | rdfs:seeAlso | xsd:anyURI | 1237",
+        "fabio:Letter | sibilo:hasAnnotation | sibilo:NexAnnotation | 148808",
+        "fabio:Letter | sibilo:inCollection | xsd:string | 1238",
+        "fabio:Letter | sibilo:seeAlsoAnnotated | xsd:anyURI | 1238"
+      ]
+    },
+    "fabio:Manifestation": {
+      "tag": "class",
+      "count": 26044,
+      "definition": [
+        "fabio:Manifestation | rdf:type | owl:Class",
+        "fabio:Manifestation | rdfs:comment | A subclass of FRBR manifestation, restricted to manifestations of fabio:Expressions. fabio:Manifestation specifically applies to electronic (digital) as well as to physical manifestations of expressions. ",
+        "fabio:Manifestation | rdfs:isDefinedBy | fabio:",
+        "fabio:Manifestation | rdfs:label | Manifestation"
+      ],
+      "usage": [
+        "fabio:Abstract | frbr:embodiment | fabio:Manifestation | 8",
+        "fabio:Addendum | frbr:embodiment | fabio:Manifestation | 2",
+        "fabio:Article | frbr:embodiment | fabio:Manifestation | 5",
+        "fabio:BriefReport | frbr:embodiment | fabio:Manifestation | 414",
+        "fabio:Editorial | frbr:embodiment | fabio:Manifestation | 2",
+        "fabio:Expression | frbr:embodiment | fabio:Manifestation | 115",
+        "fabio:JournalArticle | frbr:embodiment | fabio:Manifestation | 25160",
+        "fabio:Letter | frbr:embodiment | fabio:Manifestation | 99",
+        "fabio:Manifestation | prism:endingPage | xsd:string | 25834",
+        "fabio:Manifestation | prism:pageRange | xsd:string | 26044",
+        "fabio:Manifestation | prism:startingPage | xsd:string | 26044",
+        "fabio:Manifestation | rdf:type | owl:Class | 26044",
+        "fabio:NewsItem | frbr:embodiment | fabio:Manifestation | 1",
+        "fabio:RapidCommunication | frbr:embodiment | fabio:Manifestation | 29",
+        "fabio:ReportDocument | frbr:embodiment | fabio:Manifestation | 70",
+        "fabio:ReviewArticle | frbr:embodiment | fabio:Manifestation | 139"
+      ]
+    },
+    "fabio:MastersThesis": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:MastersThesis | rdf:type | owl:Class",
+        "fabio:MastersThesis | rdfs:comment | <dt>has relation</td><dd>skos:broadMatch <b>with</b> <a href=\"#http://purl.uniprot.org/core/Thesis_Citation\" title=\"http://purl.uniprot.org/core/Thesis_Citation\">Thesis citation</a></dd>",
+        "fabio:MastersThesis | rdfs:isDefinedBy | fabio:",
+        "fabio:MastersThesis | rdfs:label | Master's thesis",
+        "fabio:MastersThesis | rdfs:subClassOf | fabio:Thesis",
+        "fabio:MastersThesis | skos:broadMatch | up:Thesis_Citation"
+      ],
+      "usage": []
+    },
+    "fabio:MeetingReport": {
+      "tag": "class",
+      "count": 2,
+      "definition": [
+        "fabio:MeetingReport | rdf:type | owl:Class",
+        "fabio:MeetingReport | rdfs:isDefinedBy | fabio:",
+        "fabio:MeetingReport | rdfs:label | Meeting report",
+        "fabio:MeetingReport | rdfs:subClassOf | fabio:Report"
+      ],
+      "usage": [
+        "fabio:MeetingReport | rdf:type | owl:Class | 2",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:MeetingReport | 2"
+      ]
+    },
+    "fabio:MethodsPaper": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:MethodsPaper | rdf:type | owl:Class",
+        "fabio:MethodsPaper | rdfs:isDefinedBy | fabio:",
+        "fabio:MethodsPaper | rdfs:label | Methods paper",
+        "fabio:MethodsPaper | rdfs:subClassOf | fabio:ScholarlyWork"
+      ],
+      "usage": []
+    },
+    "fabio:NewsItem": {
+      "tag": "class",
+      "count": 19,
+      "definition": [
+        "fabio:NewsItem | rdf:type | owl:Class",
+        "fabio:NewsItem | rdfs:isDefinedBy | fabio:",
+        "fabio:NewsItem | rdfs:label | News item",
+        "fabio:NewsItem | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:NewsItem | prism:doi | xsd:string | 18",
+        "fabio:NewsItem | prism:issueIdentifier | xsd:string | 1",
+        "fabio:NewsItem | prism:publicationDate | xsd:date | 19",
+        "fabio:NewsItem | prism:volume | xsd:string | 1",
+        "fabio:NewsItem | dcterms:abstract | xsd:string | 2",
+        "fabio:NewsItem | dcterms:creator | schema:Person | 31",
+        "fabio:NewsItem | dcterms:isReferencedBy | owl:NamedIndividual | 19",
+        "fabio:NewsItem | dcterms:isReferencedBy | sibilo:CitingSource | 19",
+        "fabio:NewsItem | dcterms:title | xsd:string | 19",
+        "fabio:NewsItem | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 19",
+        "fabio:NewsItem | fabio:hasPubMedCentralId | xsd:string | 1",
+        "fabio:NewsItem | fabio:hasPubMedId | xsd:string | 19",
+        "fabio:NewsItem | fabio:hasPublicationYear | xsd:string | 19",
+        "fabio:NewsItem | frbr:embodiment | fabio:Manifestation | 1",
+        "fabio:NewsItem | po:contains | doco:BackMatter | 1",
+        "fabio:NewsItem | po:contains | doco:BodyMatter | 19",
+        "fabio:NewsItem | po:contains | doco:FrontMatter | 19",
+        "fabio:NewsItem | rdf:type | owl:Class | 19",
+        "fabio:NewsItem | rdfs:seeAlso | xsd:anyURI | 19",
+        "fabio:NewsItem | sibilo:hasAnnotation | sibilo:NexAnnotation | 1605",
+        "fabio:NewsItem | sibilo:inCollection | xsd:string | 19",
+        "fabio:NewsItem | sibilo:seeAlsoAnnotated | xsd:anyURI | 19"
+      ]
+    },
+    "fabio:PatentDocument": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:PatentDocument | rdf:type | owl:Class",
+        "fabio:PatentDocument | rdfs:comment | <dt>has relation</td><dd>skos:closeMatch <b>with</b> <a href=\"#http://purl.uniprot.org/core/Patent_Citation\" title=\"http://purl.uniprot.org/core/Patent_Citation\">Patent citation</a></dd>",
+        "fabio:PatentDocument | rdfs:isDefinedBy | fabio:",
+        "fabio:PatentDocument | rdfs:label | Patent document",
+        "fabio:PatentDocument | rdfs:subClassOf | fabio:SpecificationDocument",
+        "fabio:PatentDocument | skos:closeMatch | up:Patent_Citation"
+      ],
+      "usage": []
+    },
+    "fabio:ProceedingsPaper": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:ConferencePaper | rdfs:subClassOf | fabio:ProceedingsPaper",
+        "fabio:ProceedingsPaper | rdf:type | owl:Class",
+        "fabio:ProceedingsPaper | rdfs:isDefinedBy | fabio:",
+        "fabio:ProceedingsPaper | rdfs:label | Proceedings paper",
+        "fabio:ProceedingsPaper | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": []
+    },
+    "fabio:ProductReview": {
+      "tag": "class",
+      "count": 1,
+      "definition": [
+        "fabio:ProductReview | rdf:type | owl:Class",
+        "fabio:ProductReview | rdfs:isDefinedBy | fabio:",
+        "fabio:ProductReview | rdfs:label | Product review",
+        "fabio:ProductReview | rdfs:subClassOf | fabio:Review"
+      ],
+      "usage": [
+        "fabio:Expression | frbr:realizationOf | fabio:ProductReview | 1",
+        "fabio:ProductReview | rdf:type | owl:Class | 1"
+      ]
+    },
+    "fabio:RapidCommunication": {
+      "tag": "class",
+      "count": 29,
+      "definition": [
+        "fabio:RapidCommunication | rdf:type | owl:Class",
+        "fabio:RapidCommunication | rdfs:isDefinedBy | fabio:",
+        "fabio:RapidCommunication | rdfs:label | Rapid communication",
+        "fabio:RapidCommunication | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:RapidCommunication | prism:doi | xsd:string | 29",
+        "fabio:RapidCommunication | prism:issueIdentifier | xsd:string | 29",
+        "fabio:RapidCommunication | prism:keyword | xsd:string | 5",
+        "fabio:RapidCommunication | prism:publicationDate | xsd:date | 29",
+        "fabio:RapidCommunication | prism:volume | xsd:string | 29",
+        "fabio:RapidCommunication | dcterms:abstract | xsd:string | 29",
+        "fabio:RapidCommunication | dcterms:isReferencedBy | owl:NamedIndividual | 36",
+        "fabio:RapidCommunication | dcterms:isReferencedBy | sibilo:CitingSource | 36",
+        "fabio:RapidCommunication | dcterms:title | xsd:string | 29",
+        "fabio:RapidCommunication | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 29",
+        "fabio:RapidCommunication | fabio:hasPubMedCentralId | xsd:string | 29",
+        "fabio:RapidCommunication | fabio:hasPubMedId | xsd:string | 29",
+        "fabio:RapidCommunication | fabio:hasPublicationYear | xsd:string | 29",
+        "fabio:RapidCommunication | frbr:embodiment | fabio:Manifestation | 29",
+        "fabio:RapidCommunication | po:contains | doco:BackMatter | 29",
+        "fabio:RapidCommunication | po:contains | doco:BodyMatter | 29",
+        "fabio:RapidCommunication | po:contains | doco:FrontMatter | 29",
+        "fabio:RapidCommunication | rdf:type | owl:Class | 29",
+        "fabio:RapidCommunication | rdfs:seeAlso | xsd:anyURI | 29",
+        "fabio:RapidCommunication | sibilo:hasAnnotation | sibilo:NexAnnotation | 22170",
+        "fabio:RapidCommunication | sibilo:inCollection | xsd:string | 29",
+        "fabio:RapidCommunication | sibilo:seeAlsoAnnotated | xsd:anyURI | 29"
+      ]
+    },
+    "fabio:Report": {
+      "tag": "class",
+      "count": 34862,
+      "definition": [
+        "fabio:CaseReport | rdfs:subClassOf | fabio:Report",
+        "fabio:MeetingReport | rdfs:subClassOf | fabio:Report",
+        "fabio:Report | rdf:type | owl:Class",
+        "fabio:Report | rdfs:isDefinedBy | fabio:",
+        "fabio:Report | rdfs:label | Report",
+        "fabio:Report | rdfs:subClassOf | fabio:Work",
+        "fabio:TechnicalReport | rdfs:subClassOf | fabio:Report",
+        "fabio:TrialReport | rdfs:subClassOf | fabio:Report"
+      ],
+      "usage": [
+        "fabio:Article | frbr:realizationOf | fabio:Report | 1",
+        "fabio:Comment | frbr:realizationOf | fabio:Report | 10",
+        "fabio:JournalArticle | frbr:realizationOf | fabio:Report | 302",
+        "fabio:Letter | frbr:realizationOf | fabio:Report | 19",
+        "fabio:Report | rdf:type | owl:Class | 34862",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:Report | 34530"
+      ]
+    },
+    "fabio:ReportDocument": {
+      "tag": "class",
+      "count": 40973,
+      "definition": [
+        "fabio:BriefReport | rdfs:subClassOf | fabio:ReportDocument",
+        "fabio:ReportDocument | rdf:type | owl:Class",
+        "fabio:ReportDocument | rdfs:isDefinedBy | fabio:",
+        "fabio:ReportDocument | rdfs:label | Report document",
+        "fabio:ReportDocument | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": [
+        "fabio:ReportDocument | prism:doi | xsd:string | 36836",
+        "fabio:ReportDocument | prism:issueIdentifier | xsd:string | 83",
+        "fabio:ReportDocument | prism:keyword | xsd:string | 5733",
+        "fabio:ReportDocument | prism:publicationDate | xsd:date | 40973",
+        "fabio:ReportDocument | prism:volume | xsd:string | 166",
+        "fabio:ReportDocument | dcterms:abstract | xsd:string | 39330",
+        "fabio:ReportDocument | dcterms:creator | schema:Person | 233897",
+        "fabio:ReportDocument | dcterms:isReferencedBy | owl:NamedIndividual | 42197",
+        "fabio:ReportDocument | dcterms:isReferencedBy | sibilo:CitingSource | 42197",
+        "fabio:ReportDocument | dcterms:title | xsd:string | 40973",
+        "fabio:ReportDocument | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 40973",
+        "fabio:ReportDocument | fabio:hasPubMedCentralId | xsd:string | 10413",
+        "fabio:ReportDocument | fabio:hasPubMedId | xsd:string | 40956",
+        "fabio:ReportDocument | fabio:hasPublicationYear | xsd:string | 40973",
+        "fabio:ReportDocument | frbr:embodiment | fabio:Manifestation | 70",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:CaseReport | 6242",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:ClinicalTrialReport | 198",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:MeetingReport | 2",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:Report | 34530",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:TechnicalReport | 1",
+        "fabio:ReportDocument | po:contains | doco:BackMatter | 165",
+        "fabio:ReportDocument | po:contains | doco:BodyMatter | 40973",
+        "fabio:ReportDocument | po:contains | doco:FrontMatter | 40973",
+        "fabio:ReportDocument | po:contains | sibilo:FloatMatter | 41",
+        "fabio:ReportDocument | rdf:type | owl:Class | 40973",
+        "fabio:ReportDocument | rdfs:seeAlso | xsd:anyURI | 40956",
+        "fabio:ReportDocument | sibilo:hasAnnotation | sibilo:NexAnnotation | 6168962",
+        "fabio:ReportDocument | sibilo:inCollection | xsd:string | 40973",
+        "fabio:ReportDocument | sibilo:seeAlsoAnnotated | xsd:anyURI | 40973"
+      ]
+    },
+    "fabio:Review": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:BookReview | rdfs:subClassOf | fabio:Review",
+        "fabio:ProductReview | rdfs:subClassOf | fabio:Review",
+        "fabio:Review | rdf:type | owl:Class",
+        "fabio:Review | rdfs:isDefinedBy | fabio:",
+        "fabio:Review | rdfs:label | Review",
+        "fabio:Review | rdfs:subClassOf | fabio:Work",
+        "fabio:SystematicReview | rdfs:subClassOf | fabio:Review"
+      ],
+      "usage": []
+    },
+    "fabio:ReviewArticle": {
+      "tag": "class",
+      "count": 274,
+      "definition": [
+        "fabio:ReviewArticle | rdf:type | owl:Class",
+        "fabio:ReviewArticle | rdfs:isDefinedBy | fabio:",
+        "fabio:ReviewArticle | rdfs:label | Review article",
+        "fabio:ReviewArticle | rdfs:subClassOf | fabio:Article"
+      ],
+      "usage": [
+        "fabio:ReviewArticle | prism:doi | xsd:string | 264",
+        "fabio:ReviewArticle | prism:issueIdentifier | xsd:string | 159",
+        "fabio:ReviewArticle | prism:keyword | xsd:string | 1700",
+        "fabio:ReviewArticle | prism:publicationDate | xsd:date | 274",
+        "fabio:ReviewArticle | prism:volume | xsd:string | 271",
+        "fabio:ReviewArticle | dcterms:abstract | xsd:string | 271",
+        "fabio:ReviewArticle | dcterms:creator | schema:Person | 12",
+        "fabio:ReviewArticle | dcterms:isReferencedBy | owl:NamedIndividual | 267",
+        "fabio:ReviewArticle | dcterms:isReferencedBy | sibilo:CitingSource | 267",
+        "fabio:ReviewArticle | dcterms:title | xsd:string | 274",
+        "fabio:ReviewArticle | fabio:hasNLMJournalTitleAbbreviation | xsd:string | 274",
+        "fabio:ReviewArticle | fabio:hasPubMedCentralId | xsd:string | 272",
+        "fabio:ReviewArticle | fabio:hasPubMedId | xsd:string | 264",
+        "fabio:ReviewArticle | fabio:hasPublicationYear | xsd:string | 274",
+        "fabio:ReviewArticle | frbr:embodiment | fabio:Manifestation | 139",
+        "fabio:ReviewArticle | frbr:realizationOf | fabio:CaseReport | 1",
+        "fabio:ReviewArticle | po:contains | doco:BackMatter | 267",
+        "fabio:ReviewArticle | po:contains | doco:BodyMatter | 269",
+        "fabio:ReviewArticle | po:contains | doco:FrontMatter | 274",
+        "fabio:ReviewArticle | po:contains | sibilo:FloatMatter | 58",
+        "fabio:ReviewArticle | rdf:type | owl:Class | 274",
+        "fabio:ReviewArticle | rdfs:seeAlso | xsd:anyURI | 264",
+        "fabio:ReviewArticle | sibilo:hasAnnotation | sibilo:NexAnnotation | 571690",
+        "fabio:ReviewArticle | sibilo:inCollection | xsd:string | 274",
+        "fabio:ReviewArticle | sibilo:seeAlsoAnnotated | xsd:anyURI | 274"
+      ]
+    },
+    "fabio:ScholarlyWork": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:MethodsPaper | rdfs:subClassOf | fabio:ScholarlyWork",
+        "fabio:ScholarlyWork | rdf:type | owl:Class",
+        "fabio:ScholarlyWork | rdfs:isDefinedBy | fabio:",
+        "fabio:ScholarlyWork | rdfs:label | Scholarly work",
+        "fabio:ScholarlyWork | rdfs:subClassOf | fabio:Work"
+      ],
+      "usage": []
+    },
+    "fabio:SpecificationDocument": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:PatentDocument | rdfs:subClassOf | fabio:SpecificationDocument",
+        "fabio:SpecificationDocument | rdf:type | owl:Class",
+        "fabio:SpecificationDocument | rdfs:isDefinedBy | fabio:",
+        "fabio:SpecificationDocument | rdfs:label | Specification document",
+        "fabio:SpecificationDocument | rdfs:subClassOf | fabio:Expression"
+      ],
+      "usage": []
+    },
+    "fabio:SystematicReview": {
+      "tag": "class",
+      "count": 4,
+      "definition": [
+        "fabio:SystematicReview | rdf:type | owl:Class",
+        "fabio:SystematicReview | rdfs:isDefinedBy | fabio:",
+        "fabio:SystematicReview | rdfs:label | Systematic review",
+        "fabio:SystematicReview | rdfs:subClassOf | fabio:Review"
+      ],
+      "usage": [
+        "fabio:JournalArticle | frbr:realizationOf | fabio:SystematicReview | 4",
+        "fabio:SystematicReview | rdf:type | owl:Class | 4"
+      ]
+    },
+    "fabio:TechnicalReport": {
+      "tag": "class",
+      "count": 6,
+      "definition": [
+        "fabio:TechnicalReport | rdf:type | owl:Class",
+        "fabio:TechnicalReport | rdfs:isDefinedBy | fabio:",
+        "fabio:TechnicalReport | rdfs:label | Technical report",
+        "fabio:TechnicalReport | rdfs:subClassOf | fabio:Report"
+      ],
+      "usage": [
+        "fabio:Expression | frbr:realizationOf | fabio:TechnicalReport | 3",
+        "fabio:JournalArticle | frbr:realizationOf | fabio:TechnicalReport | 2",
+        "fabio:ReportDocument | frbr:realizationOf | fabio:TechnicalReport | 1",
+        "fabio:TechnicalReport | rdf:type | owl:Class | 6"
+      ]
+    },
+    "fabio:Thesis": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:BachelorsThesis | rdfs:subClassOf | fabio:Thesis",
+        "fabio:DoctoralThesis | rdfs:subClassOf | fabio:Thesis",
+        "fabio:MastersThesis | rdfs:subClassOf | fabio:Thesis",
+        "fabio:Thesis | rdf:type | owl:Class",
+        "fabio:Thesis | rdfs:comment | <dt>has relation</td><dd>skos:closeMatch <b>with</b> <a href=\"#http://purl.uniprot.org/core/Thesis_Citation\" title=\"http://purl.uniprot.org/core/Thesis_Citation\">Thesis citation</a></dd>",
+        "fabio:Thesis | rdfs:isDefinedBy | fabio:",
+        "fabio:Thesis | rdfs:label | Thesis",
+        "fabio:Thesis | rdfs:subClassOf | fabio:Book",
+        "fabio:Thesis | skos:closeMatch | up:Thesis_Citation"
+      ],
+      "usage": []
+    },
+    "fabio:TrialReport": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:ClinicalTrialReport | rdfs:subClassOf | fabio:TrialReport",
+        "fabio:TrialReport | rdf:type | owl:Class",
+        "fabio:TrialReport | rdfs:isDefinedBy | fabio:",
+        "fabio:TrialReport | rdfs:label | Trial report",
+        "fabio:TrialReport | rdfs:subClassOf | fabio:Report"
+      ],
+      "usage": []
+    },
+    "fabio:Work": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:Biography | rdfs:subClassOf | fabio:Work",
+        "fabio:Correction | rdfs:subClassOf | fabio:Work",
+        "fabio:Report | rdfs:subClassOf | fabio:Work",
+        "fabio:Review | rdfs:subClassOf | fabio:Work",
+        "fabio:ScholarlyWork | rdfs:subClassOf | fabio:Work",
+        "fabio:Work | rdf:type | owl:Class",
+        "fabio:Work | rdfs:isDefinedBy | fabio:",
+        "fabio:Work | rdfs:label | Work"
+      ],
+      "usage": []
+    },
+    "up:Book_Citation": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:BookChapter | skos:closeMatch | up:Book_Citation",
+        "up:Book_Citation | rdf:type | owl:Class",
+        "up:Book_Citation | rdfs:isDefinedBy | up:",
+        "up:Book_Citation | rdfs:label | Book chapter citation"
+      ],
+      "usage": []
+    },
+    "up:Journal_Citation": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:JournalArticle | skos:closeMatch | up:Journal_Citation",
+        "up:Journal_Citation | rdf:type | owl:Class",
+        "up:Journal_Citation | rdfs:isDefinedBy | up:",
+        "up:Journal_Citation | rdfs:label | Journal article citation"
+      ],
+      "usage": []
+    },
+    "up:Patent_Citation": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:PatentDocument | skos:closeMatch | up:Patent_Citation",
+        "up:Patent_Citation | rdf:type | owl:Class",
+        "up:Patent_Citation | rdfs:isDefinedBy | up:",
+        "up:Patent_Citation | rdfs:label | Patent citation"
+      ],
+      "usage": []
+    },
+    "up:Thesis_Citation": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "fabio:BachelorsThesis | skos:broadMatch | up:Thesis_Citation",
+        "fabio:DoctoralThesis | skos:broadMatch | up:Thesis_Citation",
+        "fabio:MastersThesis | skos:broadMatch | up:Thesis_Citation",
+        "fabio:Thesis | skos:closeMatch | up:Thesis_Citation",
+        "up:Thesis_Citation | rdf:type | owl:Class",
+        "up:Thesis_Citation | rdfs:isDefinedBy | up:",
+        "up:Thesis_Citation | rdfs:label | Thesis citation"
+      ],
+      "usage": []
+    },
+    "oa:Annotation": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "oa:Annotation | rdf:type | owl:Class",
+        "oa:Annotation | rdfs:comment | The class for Web Annotations.",
+        "oa:Annotation | rdfs:isDefinedBy | oa:",
+        "oa:Annotation | rdfs:label | Annotation",
+        "sibilo:NexAnnotation | rdfs:subClassOf | oa:Annotation"
+      ],
+      "usage": []
+    },
+    "oa:SpecificResource": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "oa:SpecificResource | rdf:type | owl:Class",
+        "oa:SpecificResource | rdfs:comment | Instances of the SpecificResource class identify part of another resource (referenced with oa:hasSource), a particular representation of a resource, a resource with styling hints for renders, or any combination of these, as used within an Annotation.",
+        "oa:SpecificResource | rdfs:isDefinedBy | oa:",
+        "oa:SpecificResource | rdfs:label | Specific resource",
+        "sibilo:AnnotationTarget | rdfs:subClassOf | oa:SpecificResource"
+      ],
+      "usage": []
+    },
+    "oa:TextPositionSelector": {
+      "tag": "class",
+      "count": 115333426,
+      "definition": [
+        "oa:TextPositionSelector | rdf:type | owl:Class",
+        "oa:TextPositionSelector | rdfs:comment | The TextPositionSelector describes a range of text by recording the start and end positions of the selection in the stream. Position 0 would be immediately before the first character, position 1 would be immediately before the second character, and so on.",
+        "oa:TextPositionSelector | rdfs:isDefinedBy | oa:",
+        "oa:TextPositionSelector | rdfs:label | Text position selector"
+      ],
+      "usage": [
+        "oa:TextPositionSelector | rdf:type | owl:Class | 115333426",
+        "oa:TextPositionSelector | oa:end | xsd:integer | 115333426",
+        "oa:TextPositionSelector | oa:exact | xsd:string | 115333426",
+        "oa:TextPositionSelector | oa:start | xsd:integer | 115333426",
+        "sibilo:AnnotationTarget | oa:hasSelector | oa:TextPositionSelector | 115333426"
+      ]
+    },
+    "sibilo:AnnotationTarget": {
+      "tag": "class",
+      "count": 115333426,
+      "definition": [
+        "sibilo:AnnotationTarget | rdf:type | owl:Class",
+        "sibilo:AnnotationTarget | rdfs:comment | Target of an annotation: a text selection within a subpart of a publication",
+        "sibilo:AnnotationTarget | rdfs:isDefinedBy | sibilo:",
+        "sibilo:AnnotationTarget | rdfs:label | Annotation target",
+        "sibilo:AnnotationTarget | rdfs:subClassOf | oa:SpecificResource"
+      ],
+      "usage": [
+        "sibilo:AnnotationTarget | rdf:type | owl:Class | 115333426",
+        "sibilo:AnnotationTarget | oa:hasSelector | oa:TextPositionSelector | 115333426",
+        "sibilo:AnnotationTarget | oa:hasSource | doco:Sentence | 96617457",
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableCellValues | 1050868",
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableColumnName | 152334",
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:WordSequence | 17512767",
+        "sibilo:NexAnnotation | oa:hasTarget | sibilo:AnnotationTarget | 115333426"
+      ]
+    },
+    "sibilo:CitingSource": {
+      "tag": "class",
+      "count": 4,
+      "definition": [
+        "sibilo:CitingSource | rdf:type | owl:Class",
+        "sibilo:CitingSource | rdfs:comment | A knowledge base, repository, or database that cites publications to support its statements.",
+        "sibilo:CitingSource | rdfs:isDefinedBy | sibilo:",
+        "sibilo:CitingSource | rdfs:label | Citing source"
+      ],
+      "usage": [
+        "fabio:Abstract | dcterms:isReferencedBy | sibilo:CitingSource | 582",
+        "fabio:Addendum | dcterms:isReferencedBy | sibilo:CitingSource | 6",
+        "fabio:Article | dcterms:isReferencedBy | sibilo:CitingSource | 57",
+        "fabio:BriefReport | dcterms:isReferencedBy | sibilo:CitingSource | 618",
+        "fabio:Comment | dcterms:isReferencedBy | sibilo:CitingSource | 163",
+        "fabio:Editorial | dcterms:isReferencedBy | sibilo:CitingSource | 26",
+        "fabio:Expression | dcterms:isReferencedBy | sibilo:CitingSource | 244",
+        "fabio:JournalArticle | dcterms:isReferencedBy | sibilo:CitingSource | 268653",
+        "fabio:LectureNotes | dcterms:isReferencedBy | sibilo:CitingSource | 4",
+        "fabio:Letter | dcterms:isReferencedBy | sibilo:CitingSource | 1251",
+        "fabio:NewsItem | dcterms:isReferencedBy | sibilo:CitingSource | 19",
+        "fabio:RapidCommunication | dcterms:isReferencedBy | sibilo:CitingSource | 36",
+        "fabio:ReportDocument | dcterms:isReferencedBy | sibilo:CitingSource | 42197",
+        "fabio:ReviewArticle | dcterms:isReferencedBy | sibilo:CitingSource | 267",
+        "sibilo:CitingSource | rdf:type | xsd:anyURI | 4",
+        "sibilo:CitingSource | rdf:type | owl:Class | 4",
+        "sibilo:CitingSource | rdfs:label | xsd:string | 4",
+        "sibilo:CitingSource | rdfs:seeAlso | xsd:anyURI | 4"
+      ]
+    },
+    "sibilo:FloatMatter": {
+      "tag": "class",
+      "count": 13831,
+      "definition": [
+        "sibilo:FloatMatter | rdf:type | owl:Class",
+        "sibilo:FloatMatter | rdfs:comment | Floating part of a document related to some aspect of the body section. Usually in a box with its own body with some title and / or caption.",
+        "sibilo:FloatMatter | rdfs:isDefinedBy | sibilo:",
+        "sibilo:FloatMatter | rdfs:label | Float matter",
+        "sibilo:FloatMatter | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "fabio:BriefReport | po:contains | sibilo:FloatMatter | 140",
+        "fabio:Expression | po:contains | sibilo:FloatMatter | 47",
+        "fabio:JournalArticle | po:contains | sibilo:FloatMatter | 13517",
+        "fabio:Letter | po:contains | sibilo:FloatMatter | 28",
+        "fabio:ReportDocument | po:contains | sibilo:FloatMatter | 41",
+        "fabio:ReviewArticle | po:contains | sibilo:FloatMatter | 58",
+        "sibilo:FloatMatter | po:contains | deo:DiscourseElement | 10",
+        "sibilo:FloatMatter | po:contains | doco:CaptionedBox | 2085",
+        "sibilo:FloatMatter | po:contains | doco:FigureBox | 76286",
+        "sibilo:FloatMatter | po:contains | doco:Section | 2051",
+        "sibilo:FloatMatter | po:contains | doco:TableBox | 11002",
+        "sibilo:FloatMatter | po:contains | doco:TextBox | 126",
+        "sibilo:FloatMatter | rdf:type | owl:Class | 13831"
+      ]
+    },
+    "sibilo:ListItemBlock": {
+      "tag": "class",
+      "count": 23051,
+      "definition": [
+        "sibilo:ListItemBlock | rdf:type | owl:Class",
+        "sibilo:ListItemBlock | rdfs:comment | A list item part of a document. Usually appears multiple time in a sequence. May be prefixed with a bullet or a number.",
+        "sibilo:ListItemBlock | rdfs:isDefinedBy | sibilo:",
+        "sibilo:ListItemBlock | rdfs:label | List item block",
+        "sibilo:ListItemBlock | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Abstract | po:contains | sibilo:ListItemBlock | 278",
+        "doco:Appendix | po:contains | sibilo:ListItemBlock | 20",
+        "doco:BodyMatter | po:contains | sibilo:ListItemBlock | 135",
+        "doco:CaptionedBox | po:contains | sibilo:ListItemBlock | 6844",
+        "doco:Section | po:contains | sibilo:ListItemBlock | 15195",
+        "doco:TextBox | po:contains | sibilo:ListItemBlock | 579",
+        "sibilo:ListItemBlock | po:contains | doco:Sentence | 29895",
+        "sibilo:ListItemBlock | rdf:type | owl:Class | 23051"
+      ]
+    },
+    "sibilo:MediaBlock": {
+      "tag": "class",
+      "count": 43775,
+      "definition": [
+        "sibilo:MediaBlock | rdf:type | owl:Class",
+        "sibilo:MediaBlock | rdfs:comment | A reference or link to some media (audio, video) part of a document.",
+        "sibilo:MediaBlock | rdfs:isDefinedBy | sibilo:",
+        "sibilo:MediaBlock | rdfs:label | Media block",
+        "sibilo:MediaBlock | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Appendix | po:contains | sibilo:MediaBlock | 652",
+        "doco:CaptionedBox | po:contains | sibilo:MediaBlock | 39025",
+        "doco:Section | po:contains | sibilo:MediaBlock | 4098",
+        "sibilo:MediaBlock | po:contains | doco:Sentence | 44379",
+        "sibilo:MediaBlock | rdf:type | owl:Class | 43775"
+      ]
+    },
+    "sibilo:NexAnnotation": {
+      "tag": "class",
+      "count": 115334176,
+      "definition": [
+        "sibilo:NexAnnotation | rdf:type | owl:Class",
+        "sibilo:NexAnnotation | rdfs:comment | A concept identified at a specific position in a discourse element of a publication by a named entity extraction process.",
+        "sibilo:NexAnnotation | rdfs:isDefinedBy | sibilo:",
+        "sibilo:NexAnnotation | rdfs:label | Named Entity Extraction Annotation",
+        "sibilo:NexAnnotation | rdfs:subClassOf | oa:Annotation",
+        "sibilo:hasAnnotation | rdfs:range | sibilo:NexAnnotation"
+      ],
+      "usage": [
+        "fabio:Abstract | sibilo:hasAnnotation | sibilo:NexAnnotation | 56853",
+        "fabio:Addendum | sibilo:hasAnnotation | sibilo:NexAnnotation | 5072",
+        "fabio:Article | sibilo:hasAnnotation | sibilo:NexAnnotation | 9209",
+        "fabio:BriefReport | sibilo:hasAnnotation | sibilo:NexAnnotation | 524893",
+        "fabio:Comment | sibilo:hasAnnotation | sibilo:NexAnnotation | 11090",
+        "fabio:Editorial | sibilo:hasAnnotation | sibilo:NexAnnotation | 4725",
+        "fabio:Expression | sibilo:hasAnnotation | sibilo:NexAnnotation | 150309",
+        "fabio:JournalArticle | sibilo:hasAnnotation | sibilo:NexAnnotation | 107658048",
+        "fabio:LectureNotes | sibilo:hasAnnotation | sibilo:NexAnnotation | 742",
+        "fabio:Letter | sibilo:hasAnnotation | sibilo:NexAnnotation | 148808",
+        "fabio:NewsItem | sibilo:hasAnnotation | sibilo:NexAnnotation | 1605",
+        "fabio:RapidCommunication | sibilo:hasAnnotation | sibilo:NexAnnotation | 22170",
+        "fabio:ReportDocument | sibilo:hasAnnotation | sibilo:NexAnnotation | 6168962",
+        "fabio:ReviewArticle | sibilo:hasAnnotation | sibilo:NexAnnotation | 571690",
+        "sibilo:NexAnnotation | rdf:type | owl:Class | 115334176",
+        "sibilo:NexAnnotation | oa:hasBody | skos:Concept | 115333426",
+        "sibilo:NexAnnotation | oa:hasTarget | sibilo:AnnotationTarget | 115333426"
+      ]
+    },
+    "sibilo:ObjectIdBlock": {
+      "tag": "class",
+      "count": 2408,
+      "definition": [
+        "sibilo:ObjectIdBlock | rdf:type | owl:Class",
+        "sibilo:ObjectIdBlock | rdfs:comment | An identifier appearing as a distinct part of a document.",
+        "sibilo:ObjectIdBlock | rdfs:isDefinedBy | sibilo:",
+        "sibilo:ObjectIdBlock | rdfs:label | Object id block",
+        "sibilo:ObjectIdBlock | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:Appendix | po:contains | sibilo:ObjectIdBlock | 8",
+        "doco:BodyMatter | po:contains | sibilo:ObjectIdBlock | 1",
+        "doco:CaptionedBox | po:contains | sibilo:ObjectIdBlock | 910",
+        "doco:Section | po:contains | sibilo:ObjectIdBlock | 1484",
+        "doco:TextBox | po:contains | sibilo:ObjectIdBlock | 5",
+        "sibilo:ObjectIdBlock | po:contains | doco:Sentence | 2408",
+        "sibilo:ObjectIdBlock | rdf:type | owl:Class | 2408"
+      ]
+    },
+    "sibilo:SibilsConceptScheme": {
+      "tag": "class",
+      "count": 47,
+      "definition": [
+        "sibilo:SibilsConceptScheme | rdf:type | owl:Class",
+        "sibilo:SibilsConceptScheme | rdfs:comment | A subclass of skos:ConceptScheme defined as the list of terminologies used to annotate the publications",
+        "sibilo:SibilsConceptScheme | rdfs:isDefinedBy | sibilo:",
+        "sibilo:SibilsConceptScheme | rdfs:label | Sibils concept scheme",
+        "sibilo:SibilsConceptScheme | rdfs:subClassOf | skos:ConceptScheme"
+      ],
+      "usage": [
+        "sibilo:SibilsConceptScheme | dcterms:hasVersion | xsd:string | 47",
+        "sibilo:SibilsConceptScheme | rdf:type | xsd:anyURI | 47",
+        "sibilo:SibilsConceptScheme | rdf:type | owl:Class | 47",
+        "sibilo:SibilsConceptScheme | rdfs:comment | xsd:string | 39",
+        "sibilo:SibilsConceptScheme | rdfs:label | xsd:string | 47",
+        "sibilo:SibilsConceptScheme | rdfs:seeAlso | xsd:anyURI | 38"
+      ]
+    },
+    "sibilo:SpeechBlock": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "sibilo:SpeechBlock | rdf:type | owl:Class",
+        "sibilo:SpeechBlock | rdfs:comment | A dialog or part of dialog appearing as a distinct part of a document.",
+        "sibilo:SpeechBlock | rdfs:isDefinedBy | sibilo:",
+        "sibilo:SpeechBlock | rdfs:label | Speech block",
+        "sibilo:SpeechBlock | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": []
+    },
+    "sibilo:StatementBlock": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "sibilo:StatementBlock | rdf:type | owl:Class",
+        "sibilo:StatementBlock | rdfs:comment | A statement appearing as a distinct part of a document.",
+        "sibilo:StatementBlock | rdfs:isDefinedBy | sibilo:",
+        "sibilo:StatementBlock | rdfs:label | Statement block",
+        "sibilo:StatementBlock | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": []
+    },
+    "sibilo:TableCellValues": {
+      "tag": "class",
+      "count": 65113,
+      "definition": [
+        "sibilo:TableCellValues | rdf:type | owl:Class",
+        "sibilo:TableCellValues | rdfs:comment | A concatenation of the values found in the cells of a table separated with a space.",
+        "sibilo:TableCellValues | rdfs:isDefinedBy | sibilo:",
+        "sibilo:TableCellValues | rdfs:label | Table cell values",
+        "sibilo:TableCellValues | rdfs:subClassOf | sibilo:WordSequence"
+      ],
+      "usage": [
+        "doco:TableBox | po:contains | sibilo:TableCellValues | 65113",
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableCellValues | 1050868",
+        "sibilo:TableCellValues | rdf:type | owl:Class | 65113",
+        "sibilo:TableCellValues | cnt:chars | xsd:string | 65113",
+        "sibilo:TableCellValues | sibilo:ordinal | xsd:integer | 65113"
+      ]
+    },
+    "sibilo:TableColumnName": {
+      "tag": "class",
+      "count": 193266,
+      "definition": [
+        "sibilo:TableColumnName | rdf:type | owl:Class",
+        "sibilo:TableColumnName | rdfs:comment | The name given to of a column in a table.",
+        "sibilo:TableColumnName | rdfs:isDefinedBy | sibilo:",
+        "sibilo:TableColumnName | rdfs:label | Table column name",
+        "sibilo:TableColumnName | rdfs:subClassOf | sibilo:WordSequence"
+      ],
+      "usage": [
+        "doco:TableBox | po:contains | sibilo:TableColumnName | 193266",
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:TableColumnName | 152334",
+        "sibilo:TableColumnName | rdf:type | owl:Class | 193266",
+        "sibilo:TableColumnName | cnt:chars | xsd:string | 193266",
+        "sibilo:TableColumnName | sibilo:ordinal | xsd:integer | 193266"
+      ]
+    },
+    "sibilo:TableFooter": {
+      "tag": "class",
+      "count": 22563,
+      "definition": [
+        "sibilo:TableFooter | rdf:type | owl:Class",
+        "sibilo:TableFooter | rdfs:comment | Text appearing at the bottom of a table.",
+        "sibilo:TableFooter | rdfs:isDefinedBy | sibilo:",
+        "sibilo:TableFooter | rdfs:label | Table footer",
+        "sibilo:TableFooter | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:TableBox | dcterms:hasPart | sibilo:TableFooter | 22563",
+        "sibilo:TableFooter | po:contains | doco:Sentence | 64261",
+        "sibilo:TableFooter | rdf:type | owl:Class | 22563"
+      ]
+    },
+    "sibilo:VerseGroupBlock": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "sibilo:VerseGroupBlock | rdf:type | owl:Class",
+        "sibilo:VerseGroupBlock | rdfs:comment | A block containing one or several verses appearing as a distinct part of a document.",
+        "sibilo:VerseGroupBlock | rdfs:isDefinedBy | sibilo:",
+        "sibilo:VerseGroupBlock | rdfs:label | Verse group block",
+        "sibilo:VerseGroupBlock | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": []
+    },
+    "sibilo:WordSequence": {
+      "tag": "class",
+      "count": 6527189,
+      "definition": [
+        "doco:Sentence | rdfs:subClassOf | sibilo:WordSequence",
+        "sibilo:TableCellValues | rdfs:subClassOf | sibilo:WordSequence",
+        "sibilo:TableColumnName | rdfs:subClassOf | sibilo:WordSequence",
+        "sibilo:WordSequence | rdf:type | owl:Class",
+        "sibilo:WordSequence | rdfs:comment | A super class for sentences, table column names, table cell values or any textual item that is part of a list",
+        "sibilo:WordSequence | rdfs:isDefinedBy | sibilo:",
+        "sibilo:WordSequence | rdfs:label | Word sequence",
+        "sibilo:WordSequence | rdfs:subClassOf | deo:DiscourseElement"
+      ],
+      "usage": [
+        "doco:List | po:contains | sibilo:WordSequence | 6115680",
+        "doco:ListOfOrganizations | po:contains | sibilo:WordSequence | 411509",
+        "sibilo:AnnotationTarget | oa:hasSource | sibilo:WordSequence | 17512767",
+        "sibilo:WordSequence | rdf:type | owl:Class | 6527189",
+        "sibilo:WordSequence | cnt:chars | xsd:string | 6527189",
+        "sibilo:WordSequence | sibilo:ordinal | xsd:integer | 6527189"
+      ]
+    },
+    "schema:Organization": {
+      "tag": "class",
+      "count": 0,
+      "definition": [
+        "schema:Organization | rdf:type | owl:Class",
+        "schema:Organization | rdfs:isDefinedBy | schema:",
+        "schema:Organization | rdfs:label | Organization"
+      ],
+      "usage": []
+    },
+    "schema:Person": {
+      "tag": "class",
+      "count": 1552726,
+      "definition": [
+        "schema:Person | rdf:type | owl:Class",
+        "schema:Person | rdfs:isDefinedBy | schema:",
+        "schema:Person | rdfs:label | Person"
+      ],
+      "usage": [
+        "fabio:Abstract | dcterms:creator | schema:Person | 2571",
+        "fabio:Article | dcterms:creator | schema:Person | 330",
+        "fabio:Comment | dcterms:creator | schema:Person | 767",
+        "fabio:Editorial | dcterms:creator | schema:Person | 83",
+        "fabio:Expression | dcterms:creator | schema:Person | 67",
+        "fabio:JournalArticle | dcterms:creator | schema:Person | 1307230",
+        "fabio:LectureNotes | dcterms:creator | schema:Person | 14",
+        "fabio:Letter | dcterms:creator | schema:Person | 7724",
+        "fabio:NewsItem | dcterms:creator | schema:Person | 31",
+        "fabio:ReportDocument | dcterms:creator | schema:Person | 233897",
+        "fabio:ReviewArticle | dcterms:creator | schema:Person | 12",
+        "schema:Person | rdf:type | owl:Class | 1552726",
+        "schema:Person | schema:name | xsd:string | 1552726"
+      ]
+    },
+    "prism:doi": {
+      "tag": "prop",
+      "count": 278041,
+      "definition": [
+        "prism:doi | rdf:type | rdf:Property",
+        "prism:doi | rdf:type | owl:DatatypeProperty",
+        "prism:doi | rdfs:isDefinedBy | prism:",
+        "prism:doi | rdfs:label | has DOI",
+        "prism:doi | rdfs:subPropertyOf | dcterms:identifier"
+      ],
+      "usage": [
+        "prism:doi | count | xsd:integer | 278041",
+        "prism:doi | domain | fabio:Abstract | 85",
+        "prism:doi | domain | fabio:Addendum | 6",
+        "prism:doi | domain | fabio:Article | 50",
+        "prism:doi | domain | fabio:BriefReport | 619",
+        "prism:doi | domain | fabio:Comment | 157",
+        "prism:doi | domain | fabio:Editorial | 24",
+        "prism:doi | domain | fabio:Expression | 260",
+        "prism:doi | domain | fabio:JournalArticle | 238504",
+        "prism:doi | domain | fabio:LectureNotes | 4",
+        "prism:doi | domain | fabio:Letter | 1185",
+        "prism:doi | domain | fabio:NewsItem | 18",
+        "prism:doi | domain | fabio:RapidCommunication | 29",
+        "prism:doi | domain | fabio:ReportDocument | 36836",
+        "prism:doi | domain | fabio:ReviewArticle | 264",
+        "prism:doi | range | xsd:string | 278041"
+      ]
+    },
+    "prism:endingPage": {
+      "tag": "prop",
+      "count": 25834,
+      "definition": [
+        "prism:endingPage | rdf:type | rdf:Property",
+        "prism:endingPage | rdf:type | owl:DatatypeProperty",
+        "prism:endingPage | rdfs:comment | Identifies the last page of an entity such as a journal article.",
+        "prism:endingPage | rdfs:isDefinedBy | prism:",
+        "prism:endingPage | rdfs:label | ending page"
+      ],
+      "usage": [
+        "prism:endingPage | count | xsd:integer | 25834",
+        "prism:endingPage | domain | fabio:Manifestation | 25834",
+        "prism:endingPage | range | xsd:string | 25834"
+      ]
+    },
+    "prism:issueIdentifier": {
+      "tag": "prop",
+      "count": 31817,
+      "definition": [
+        "prism:issueIdentifier | rdf:type | rdf:Property",
+        "prism:issueIdentifier | rdf:type | owl:DatatypeProperty",
+        "prism:issueIdentifier | rdfs:isDefinedBy | prism:",
+        "prism:issueIdentifier | rdfs:label | issue identifier",
+        "prism:issueIdentifier | rdfs:subPropertyOf | dcterms:identifier"
+      ],
+      "usage": [
+        "prism:issueIdentifier | count | xsd:integer | 31817",
+        "prism:issueIdentifier | domain | fabio:Abstract | 8",
+        "prism:issueIdentifier | domain | fabio:Addendum | 6",
+        "prism:issueIdentifier | domain | fabio:BriefReport | 559",
+        "prism:issueIdentifier | domain | fabio:Editorial | 2",
+        "prism:issueIdentifier | domain | fabio:Expression | 131",
+        "prism:issueIdentifier | domain | fabio:JournalArticle | 30746",
+        "prism:issueIdentifier | domain | fabio:Letter | 93",
+        "prism:issueIdentifier | domain | fabio:NewsItem | 1",
+        "prism:issueIdentifier | domain | fabio:RapidCommunication | 29",
+        "prism:issueIdentifier | domain | fabio:ReportDocument | 83",
+        "prism:issueIdentifier | domain | fabio:ReviewArticle | 159",
+        "prism:issueIdentifier | range | xsd:string | 31817"
+      ]
+    },
+    "prism:keyword": {
+      "tag": "prop",
+      "count": 185480,
+      "definition": [
+        "prism:keyword | rdf:type | rdf:Property",
+        "prism:keyword | rdf:type | owl:DatatypeProperty",
+        "prism:keyword | rdfs:isDefinedBy | prism:",
+        "prism:keyword | rdfs:label | keyword"
+      ],
+      "usage": [
+        "prism:keyword | count | xsd:integer | 185480",
+        "prism:keyword | domain | fabio:Abstract | 5",
+        "prism:keyword | domain | fabio:Addendum | 33",
+        "prism:keyword | domain | fabio:Article | 56",
+        "prism:keyword | domain | fabio:BriefReport | 1942",
+        "prism:keyword | domain | fabio:Comment | 36",
+        "prism:keyword | domain | fabio:Editorial | 63",
+        "prism:keyword | domain | fabio:Expression | 705",
+        "prism:keyword | domain | fabio:JournalArticle | 174686",
+        "prism:keyword | domain | fabio:Letter | 516",
+        "prism:keyword | domain | fabio:RapidCommunication | 5",
+        "prism:keyword | domain | fabio:ReportDocument | 5733",
+        "prism:keyword | domain | fabio:ReviewArticle | 1700",
+        "prism:keyword | range | xsd:string | 185480"
+      ]
+    },
+    "prism:pageRange": {
+      "tag": "prop",
+      "count": 26044,
+      "definition": [
+        "prism:pageRange | rdf:type | rdf:Property",
+        "prism:pageRange | rdf:type | owl:DatatypeProperty",
+        "prism:pageRange | rdfs:isDefinedBy | prism:",
+        "prism:pageRange | rdfs:label | page range"
+      ],
+      "usage": [
+        "prism:pageRange | count | xsd:integer | 26044",
+        "prism:pageRange | domain | fabio:Manifestation | 26044",
+        "prism:pageRange | range | xsd:string | 26044"
+      ]
+    },
+    "prism:publicationDate": {
+      "tag": "prop",
+      "count": 300767,
+      "definition": [
+        "prism:publicationDate | rdf:type | rdf:Property",
+        "prism:publicationDate | rdf:type | owl:DatatypeProperty",
+        "prism:publicationDate | rdfs:comment | The date on which a resource is published or disclosed.",
+        "prism:publicationDate | rdfs:isDefinedBy | prism:",
+        "prism:publicationDate | rdfs:label | has publication date"
+      ],
+      "usage": [
+        "prism:publicationDate | count | xsd:integer | 300767",
+        "prism:publicationDate | domain | fabio:Abstract | 580",
+        "prism:publicationDate | domain | fabio:Addendum | 6",
+        "prism:publicationDate | domain | fabio:Article | 56",
+        "prism:publicationDate | domain | fabio:BriefReport | 619",
+        "prism:publicationDate | domain | fabio:Comment | 163",
+        "prism:publicationDate | domain | fabio:Editorial | 24",
+        "prism:publicationDate | domain | fabio:Expression | 268",
+        "prism:publicationDate | domain | fabio:JournalArticle | 256514",
+        "prism:publicationDate | domain | fabio:LectureNotes | 4",
+        "prism:publicationDate | domain | fabio:Letter | 1238",
+        "prism:publicationDate | domain | fabio:NewsItem | 19",
+        "prism:publicationDate | domain | fabio:RapidCommunication | 29",
+        "prism:publicationDate | domain | fabio:ReportDocument | 40973",
+        "prism:publicationDate | domain | fabio:ReviewArticle | 274",
+        "prism:publicationDate | range | xsd:date | 300767"
+      ]
+    },
+    "prism:startingPage": {
+      "tag": "prop",
+      "count": 26044,
+      "definition": [
+        "prism:startingPage | rdf:type | rdf:Property",
+        "prism:startingPage | rdf:type | owl:DatatypeProperty",
+        "prism:startingPage | rdfs:comment | Identifies the first page of an entity such as a journal article.",
+        "prism:startingPage | rdfs:isDefinedBy | prism:",
+        "prism:startingPage | rdfs:label | starting page"
+      ],
+      "usage": [
+        "prism:startingPage | count | xsd:integer | 26044",
+        "prism:startingPage | domain | fabio:Manifestation | 26044",
+        "prism:startingPage | range | xsd:string | 26044"
+      ]
+    },
+    "prism:volume": {
+      "tag": "prop",
+      "count": 40078,
+      "definition": [
+        "prism:volume | rdf:type | rdf:Property",
+        "prism:volume | rdf:type | owl:DatatypeProperty",
+        "prism:volume | rdfs:comment | An identifier for a particular volume of a resource, such as a journal or a multi-volume book.",
+        "prism:volume | rdfs:isDefinedBy | prism:",
+        "prism:volume | rdfs:label | volume",
+        "prism:volume | rdfs:subPropertyOf | dcterms:identifier"
+      ],
+      "usage": [
+        "prism:volume | count | xsd:integer | 40078",
+        "prism:volume | domain | fabio:Abstract | 8",
+        "prism:volume | domain | fabio:Addendum | 6",
+        "prism:volume | domain | fabio:Article | 5",
+        "prism:volume | domain | fabio:BriefReport | 619",
+        "prism:volume | domain | fabio:Editorial | 3",
+        "prism:volume | domain | fabio:Expression | 250",
+        "prism:volume | domain | fabio:JournalArticle | 38595",
+        "prism:volume | domain | fabio:Letter | 125",
+        "prism:volume | domain | fabio:NewsItem | 1",
+        "prism:volume | domain | fabio:RapidCommunication | 29",
+        "prism:volume | domain | fabio:ReportDocument | 166",
+        "prism:volume | domain | fabio:ReviewArticle | 271",
+        "prism:volume | range | xsd:string | 40078"
+      ]
+    },
+    "IAO:0000136": {
+      "tag": "prop",
+      "count": 0,
+      "definition": [
+        "IAO:0000136 | rdf:type | rdf:Property",
+        "IAO:0000136 | rdf:type | owl:ObjectProperty",
+        "IAO:0000136 | rdfs:comment | A (currently) primitive relation that relates an information artifact to an entity.",
+        "IAO:0000136 | rdfs:isDefinedBy | IAO:",
+        "IAO:0000136 | rdfs:label | is about",
+        "sibilo:hasAnnotation | owl:inverseOf | IAO:0000136"
+      ],
+      "usage": []
+    },
+    "dcterms:abstract": {
+      "tag": "prop",
+      "count": 288980,
+      "definition": [
+        "dcterms:abstract | rdf:type | rdf:Property",
+        "dcterms:abstract | rdf:type | owl:DatatypeProperty",
+        "dcterms:abstract | rdfs:isDefinedBy | dcterms:",
+        "dcterms:abstract | rdfs:label | abstract"
+      ],
+      "usage": [
+        "dcterms:abstract | count | xsd:integer | 288980",
+        "dcterms:abstract | domain | fabio:Abstract | 510",
+        "dcterms:abstract | domain | fabio:Addendum | 6",
+        "dcterms:abstract | domain | fabio:Article | 46",
+        "dcterms:abstract | domain | fabio:BriefReport | 593",
+        "dcterms:abstract | domain | fabio:Comment | 75",
+        "dcterms:abstract | domain | fabio:Editorial | 14",
+        "dcterms:abstract | domain | fabio:Expression | 147",
+        "dcterms:abstract | domain | fabio:JournalArticle | 247711",
+        "dcterms:abstract | domain | fabio:LectureNotes | 4",
+        "dcterms:abstract | domain | fabio:Letter | 241",
+        "dcterms:abstract | domain | fabio:NewsItem | 2",
+        "dcterms:abstract | domain | fabio:RapidCommunication | 29",
+        "dcterms:abstract | domain | fabio:ReportDocument | 39330",
+        "dcterms:abstract | domain | fabio:ReviewArticle | 271",
+        "dcterms:abstract | domain | owl:Ontology | 1",
+        "dcterms:abstract | range | xsd:string | 288980"
+      ]
+    },
+    "dcterms:contributor": {
+      "tag": "prop",
+      "count": 3,
+      "definition": [
+        "dcterms:contributor | rdf:type | rdf:Property",
+        "dcterms:contributor | rdf:type | owl:ObjectProperty",
+        "dcterms:contributor | rdfs:isDefinedBy | dcterms:",
+        "dcterms:contributor | rdfs:label | contributor",
+        "dcterms:creator | rdfs:subPropertyOf | dcterms:contributor"
+      ],
+      "usage": [
+        "dcterms:contributor | count | xsd:integer | 3",
+        "dcterms:contributor | domain | owl:Ontology | 3",
+        "dcterms:contributor | range | xsd:anyURI | 3"
+      ]
+    },
+    "dcterms:creator": {
+      "tag": "prop",
+      "count": 1552727,
+      "definition": [
+        "dcterms:creator | rdf:type | rdf:Property",
+        "dcterms:creator | rdf:type | owl:ObjectProperty",
+        "dcterms:creator | rdfs:isDefinedBy | dcterms:",
+        "dcterms:creator | rdfs:label | creator",
+        "dcterms:creator | rdfs:subPropertyOf | dcterms:contributor"
+      ],
+      "usage": [
+        "dcterms:creator | count | xsd:integer | 1552727",
+        "dcterms:creator | domain | fabio:Abstract | 2571",
+        "dcterms:creator | domain | fabio:Article | 330",
+        "dcterms:creator | domain | fabio:Comment | 767",
+        "dcterms:creator | domain | fabio:Editorial | 83",
+        "dcterms:creator | domain | fabio:Expression | 67",
+        "dcterms:creator | domain | fabio:JournalArticle | 1307230",
+        "dcterms:creator | domain | fabio:LectureNotes | 14",
+        "dcterms:creator | domain | fabio:Letter | 7724",
+        "dcterms:creator | domain | fabio:NewsItem | 31",
+        "dcterms:creator | domain | fabio:ReportDocument | 233897",
+        "dcterms:creator | domain | fabio:ReviewArticle | 12",
+        "dcterms:creator | domain | owl:Ontology | 1",
+        "dcterms:creator | range | xsd:anyURI | 1",
+        "dcterms:creator | range | schema:Person | 1552726"
+      ]
+    },
+    "dcterms:hasPart": {
+      "tag": "prop",
+      "count": 2631072,
+      "definition": [
+        "dcterms:hasPart | rdf:type | rdf:Property",
+        "dcterms:hasPart | rdf:type | owl:ObjectProperty",
+        "dcterms:hasPart | rdfs:comment | Links a resource that is included either physically or logically in the described resource.",
+        "dcterms:hasPart | rdfs:isDefinedBy | dcterms:",
+        "dcterms:hasPart | rdfs:label | has part"
+      ],
+      "usage": [
+        "dcterms:hasPart | count | xsd:integer | 2631072",
+        "dcterms:hasPart | domain | doco:Abstract | 254064",
+        "dcterms:hasPart | domain | doco:Appendix | 1190",
+        "dcterms:hasPart | domain | doco:CaptionedBox | 26132",
+        "dcterms:hasPart | domain | doco:FigureBox | 470842",
+        "dcterms:hasPart | domain | doco:ListOfOrganizations | 238830",
+        "dcterms:hasPart | domain | doco:Section | 1546201",
+        "dcterms:hasPart | domain | doco:TableBox | 93757",
+        "dcterms:hasPart | domain | doco:TextBox | 56",
+        "dcterms:hasPart | range | deo:Caption | 285081",
+        "dcterms:hasPart | range | doco:Label | 509985",
+        "dcterms:hasPart | range | doco:SectionLabel | 1813443",
+        "dcterms:hasPart | range | sibilo:TableFooter | 22563"
+      ]
+    },
+    "dcterms:hasVersion": {
+      "tag": "prop",
+      "count": 48,
+      "definition": [
+        "dcterms:hasVersion | rdf:type | rdf:Property",
+        "dcterms:hasVersion | rdf:type | owl:DatatypeProperty",
+        "dcterms:hasVersion | rdfs:isDefinedBy | dcterms:",
+        "dcterms:hasVersion | rdfs:label | has version"
+      ],
+      "usage": [
+        "dcterms:hasVersion | count | xsd:integer | 48",
+        "dcterms:hasVersion | domain | owl:NamedIndividual | 47",
+        "dcterms:hasVersion | domain | owl:Ontology | 1",
+        "dcterms:hasVersion | domain | sibilo:SibilsConceptScheme | 47",
+        "dcterms:hasVersion | range | xsd:string | 48"
+      ]
+    },
+    "dcterms:identifier": {
+      "tag": "prop",
+      "count": 0,
+      "definition": [
+        "prism:doi | rdfs:subPropertyOf | dcterms:identifier",
+        "prism:issueIdentifier | rdfs:subPropertyOf | dcterms:identifier",
+        "prism:volume | rdfs:subPropertyOf | dcterms:identifier",
+        "dcterms:identifier | rdf:type | rdf:Property",
+        "dcterms:identifier | rdf:type | owl:DatatypeProperty",
+        "dcterms:identifier | rdfs:isDefinedBy | dcterms:",
+        "dcterms:identifier | rdfs:label | identifier",
+        "fabio:hasNLMJournalTitleAbbreviation | rdfs:subPropertyOf | dcterms:identifier",
+        "fabio:hasPubMedCentralId | rdfs:subPropertyOf | dcterms:identifier",
+        "fabio:hasPubMedId | rdfs:subPropertyOf | dcterms:identifier"
+      ],
+      "usage": []
+    },
+    "dcterms:isReferencedBy": {
+      "tag": "prop",
+      "count": 314123,
+      "definition": [
+        "dcterms:isReferencedBy | rdf:type | rdf:Property",
+        "dcterms:isReferencedBy | rdf:type | owl:DatatypeProperty",
+        "dcterms:isReferencedBy | rdfs:isDefinedBy | dcterms:",
+        "dcterms:isReferencedBy | rdfs:label | is referenced by"
+      ],
+      "usage": [
+        "dcterms:isReferencedBy | count | xsd:integer | 314123",
+        "dcterms:isReferencedBy | domain | fabio:Abstract | 582",
+        "dcterms:isReferencedBy | domain | fabio:Addendum | 6",
+        "dcterms:isReferencedBy | domain | fabio:Article | 57",
+        "dcterms:isReferencedBy | domain | fabio:BriefReport | 618",
+        "dcterms:isReferencedBy | domain | fabio:Comment | 163",
+        "dcterms:isReferencedBy | domain | fabio:Editorial | 26",
+        "dcterms:isReferencedBy | domain | fabio:Expression | 244",
+        "dcterms:isReferencedBy | domain | fabio:JournalArticle | 268653",
+        "dcterms:isReferencedBy | domain | fabio:LectureNotes | 4",
+        "dcterms:isReferencedBy | domain | fabio:Letter | 1251",
+        "dcterms:isReferencedBy | domain | fabio:NewsItem | 19",
+        "dcterms:isReferencedBy | domain | fabio:RapidCommunication | 36",
+        "dcterms:isReferencedBy | domain | fabio:ReportDocument | 42197",
+        "dcterms:isReferencedBy | domain | fabio:ReviewArticle | 267",
+        "dcterms:isReferencedBy | range | owl:NamedIndividual | 314123",
+        "dcterms:isReferencedBy | range | sibilo:CitingSource | 314123"
+      ]
+    },
+    "dcterms:title": {
+      "tag": "prop",
+      "count": 300765,
+      "definition": [
+        "dcterms:title | rdf:type | rdf:Property",
+        "dcterms:title | rdf:type | owl:DatatypeProperty",
+        "dcterms:title | rdfs:isDefinedBy | dcterms:",
+        "dcterms:title | rdfs:label | title",
+        "schema:name | owl:equivalentProperty | dcterms:title"
+      ],
+      "usage": [
+        "dcterms:title | count | xsd:integer | 300765",
+        "dcterms:title | domain | fabio:Abstract | 580",
+        "dcterms:title | domain | fabio:Addendum | 6",
+        "dcterms:title | domain | fabio:Article | 56",
+        "dcterms:title | domain | fabio:BriefReport | 619",
+        "dcterms:title | domain | fabio:Comment | 163",
+        "dcterms:title | domain | fabio:Editorial | 24",
+        "dcterms:title | domain | fabio:Expression | 268",
+        "dcterms:title | domain | fabio:JournalArticle | 256511",
+        "dcterms:title | domain | fabio:LectureNotes | 4",
+        "dcterms:title | domain | fabio:Letter | 1238",
+        "dcterms:title | domain | fabio:NewsItem | 19",
+        "dcterms:title | domain | fabio:RapidCommunication | 29",
+        "dcterms:title | domain | fabio:ReportDocument | 40973",
+        "dcterms:title | domain | fabio:ReviewArticle | 274",
+        "dcterms:title | domain | owl:Ontology | 1",
+        "dcterms:title | range | xsd:string | 300765"
+      ]
+    },
+    "fabio:hasNLMJournalTitleAbbreviation": {
+      "tag": "prop",
+      "count": 300767,
+      "definition": [
+        "fabio:hasNLMJournalTitleAbbreviation | rdf:type | rdf:Property",
+        "fabio:hasNLMJournalTitleAbbreviation | rdf:type | owl:DatatypeProperty",
+        "fabio:hasNLMJournalTitleAbbreviation | rdfs:comment | An internal identifier for the abbreviation of the title of journals available from the National Library of Medicine repository.",
+        "fabio:hasNLMJournalTitleAbbreviation | rdfs:isDefinedBy | fabio:",
+        "fabio:hasNLMJournalTitleAbbreviation | rdfs:label | has National Library of Medicine journal title abbreviation",
+        "fabio:hasNLMJournalTitleAbbreviation | rdfs:subPropertyOf | dcterms:identifier"
+      ],
+      "usage": [
+        "fabio:hasNLMJournalTitleAbbreviation | count | xsd:integer | 300767",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:Abstract | 580",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:Addendum | 6",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:Article | 56",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:BriefReport | 619",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:Comment | 163",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:Editorial | 24",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:Expression | 268",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:JournalArticle | 256514",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:LectureNotes | 4",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:Letter | 1238",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:NewsItem | 19",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:RapidCommunication | 29",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:ReportDocument | 40973",
+        "fabio:hasNLMJournalTitleAbbreviation | domain | fabio:ReviewArticle | 274",
+        "fabio:hasNLMJournalTitleAbbreviation | range | xsd:string | 300767"
+      ]
+    },
+    "fabio:hasPubMedCentralId": {
+      "tag": "prop",
+      "count": 115642,
+      "definition": [
+        "fabio:hasPubMedCentralId | rdf:type | rdf:Property",
+        "fabio:hasPubMedCentralId | rdf:type | owl:DatatypeProperty",
+        "fabio:hasPubMedCentralId | rdfs:comment | PubMedCentral identifier for the resource.",
+        "fabio:hasPubMedCentralId | rdfs:isDefinedBy | fabio:",
+        "fabio:hasPubMedCentralId | rdfs:label | has PMC identifier",
+        "fabio:hasPubMedCentralId | rdfs:subPropertyOf | dcterms:identifier"
+      ],
+      "usage": [
+        "fabio:hasPubMedCentralId | count | xsd:integer | 115642",
+        "fabio:hasPubMedCentralId | domain | fabio:Abstract | 8",
+        "fabio:hasPubMedCentralId | domain | fabio:Addendum | 6",
+        "fabio:hasPubMedCentralId | domain | fabio:Article | 16",
+        "fabio:hasPubMedCentralId | domain | fabio:BriefReport | 619",
+        "fabio:hasPubMedCentralId | domain | fabio:Comment | 51",
+        "fabio:hasPubMedCentralId | domain | fabio:Editorial | 3",
+        "fabio:hasPubMedCentralId | domain | fabio:Expression | 253",
+        "fabio:hasPubMedCentralId | domain | fabio:JournalArticle | 103616",
+        "fabio:hasPubMedCentralId | domain | fabio:LectureNotes | 1",
+        "fabio:hasPubMedCentralId | domain | fabio:Letter | 354",
+        "fabio:hasPubMedCentralId | domain | fabio:NewsItem | 1",
+        "fabio:hasPubMedCentralId | domain | fabio:RapidCommunication | 29",
+        "fabio:hasPubMedCentralId | domain | fabio:ReportDocument | 10413",
+        "fabio:hasPubMedCentralId | domain | fabio:ReviewArticle | 272",
+        "fabio:hasPubMedCentralId | range | xsd:string | 115642"
+      ]
+    },
+    "fabio:hasPubMedId": {
+      "tag": "prop",
+      "count": 300126,
+      "definition": [
+        "fabio:hasPubMedId | rdf:type | rdf:Property",
+        "fabio:hasPubMedId | rdf:type | owl:DatatypeProperty",
+        "fabio:hasPubMedId | rdfs:comment | PubMed identifier for the resource.",
+        "fabio:hasPubMedId | rdfs:isDefinedBy | fabio:",
+        "fabio:hasPubMedId | rdfs:label | has PubMed identifier",
+        "fabio:hasPubMedId | rdfs:subPropertyOf | dcterms:identifier"
+      ],
+      "usage": [
+        "fabio:hasPubMedId | count | xsd:integer | 300126",
+        "fabio:hasPubMedId | domain | fabio:Abstract | 580",
+        "fabio:hasPubMedId | domain | fabio:Addendum | 6",
+        "fabio:hasPubMedId | domain | fabio:Article | 56",
+        "fabio:hasPubMedId | domain | fabio:BriefReport | 597",
+        "fabio:hasPubMedId | domain | fabio:Comment | 163",
+        "fabio:hasPubMedId | domain | fabio:Editorial | 24",
+        "fabio:hasPubMedId | domain | fabio:Expression | 243",
+        "fabio:hasPubMedId | domain | fabio:JournalArticle | 255948",
+        "fabio:hasPubMedId | domain | fabio:LectureNotes | 4",
+        "fabio:hasPubMedId | domain | fabio:Letter | 1237",
+        "fabio:hasPubMedId | domain | fabio:NewsItem | 19",
+        "fabio:hasPubMedId | domain | fabio:RapidCommunication | 29",
+        "fabio:hasPubMedId | domain | fabio:ReportDocument | 40956",
+        "fabio:hasPubMedId | domain | fabio:ReviewArticle | 264",
+        "fabio:hasPubMedId | range | xsd:string | 300126"
+      ]
+    },
+    "fabio:hasPublicationYear": {
+      "tag": "prop",
+      "count": 300767,
+      "definition": [
+        "fabio:hasPublicationYear | rdf:type | rdf:Property",
+        "fabio:hasPublicationYear | rdf:type | owl:DatatypeProperty",
+        "fabio:hasPublicationYear | rdfs:isDefinedBy | fabio:",
+        "fabio:hasPublicationYear | rdfs:label | has publication year"
+      ],
+      "usage": [
+        "fabio:hasPublicationYear | count | xsd:integer | 300767",
+        "fabio:hasPublicationYear | domain | fabio:Abstract | 580",
+        "fabio:hasPublicationYear | domain | fabio:Addendum | 6",
+        "fabio:hasPublicationYear | domain | fabio:Article | 56",
+        "fabio:hasPublicationYear | domain | fabio:BriefReport | 619",
+        "fabio:hasPublicationYear | domain | fabio:Comment | 163",
+        "fabio:hasPublicationYear | domain | fabio:Editorial | 24",
+        "fabio:hasPublicationYear | domain | fabio:Expression | 268",
+        "fabio:hasPublicationYear | domain | fabio:JournalArticle | 256514",
+        "fabio:hasPublicationYear | domain | fabio:LectureNotes | 4",
+        "fabio:hasPublicationYear | domain | fabio:Letter | 1238",
+        "fabio:hasPublicationYear | domain | fabio:NewsItem | 19",
+        "fabio:hasPublicationYear | domain | fabio:RapidCommunication | 29",
+        "fabio:hasPublicationYear | domain | fabio:ReportDocument | 40973",
+        "fabio:hasPublicationYear | domain | fabio:ReviewArticle | 274",
+        "fabio:hasPublicationYear | range | xsd:string | 300767"
+      ]
+    },
+    "frbr:embodiment": {
+      "tag": "prop",
+      "count": 26044,
+      "definition": [
+        "frbr:embodiment | rdf:type | rdf:Property",
+        "frbr:embodiment | rdf:type | owl:ObjectProperty",
+        "frbr:embodiment | rdfs:comment | Having a frbr:embodiment implies being something that, amongst other things, is a frbr:Expression",
+        "frbr:embodiment | rdfs:isDefinedBy | frbr:",
+        "frbr:embodiment | rdfs:label | embodiment"
+      ],
+      "usage": [
+        "frbr:embodiment | count | xsd:integer | 26044",
+        "frbr:embodiment | domain | fabio:Abstract | 8",
+        "frbr:embodiment | domain | fabio:Addendum | 2",
+        "frbr:embodiment | domain | fabio:Article | 5",
+        "frbr:embodiment | domain | fabio:BriefReport | 414",
+        "frbr:embodiment | domain | fabio:Editorial | 2",
+        "frbr:embodiment | domain | fabio:Expression | 115",
+        "frbr:embodiment | domain | fabio:JournalArticle | 25160",
+        "frbr:embodiment | domain | fabio:Letter | 99",
+        "frbr:embodiment | domain | fabio:NewsItem | 1",
+        "frbr:embodiment | domain | fabio:RapidCommunication | 29",
+        "frbr:embodiment | domain | fabio:ReportDocument | 70",
+        "frbr:embodiment | domain | fabio:ReviewArticle | 139",
+        "frbr:embodiment | range | fabio:Manifestation | 26044"
+      ]
+    },
+    "frbr:realizationOf": {
+      "tag": "prop",
+      "count": 41465,
+      "definition": [
+        "frbr:realizationOf | rdf:type | rdf:Property",
+        "frbr:realizationOf | rdf:type | owl:ObjectProperty",
+        "frbr:realizationOf | rdfs:comment |  Having a frbr:realizationOf implies being something that, amongst other things, is a frbr:Expression",
+        "frbr:realizationOf | rdfs:isDefinedBy | frbr:",
+        "frbr:realizationOf | rdfs:label | realization of"
+      ],
+      "usage": [
+        "frbr:realizationOf | count | xsd:integer | 41465",
+        "frbr:realizationOf | domain | fabio:Article | 1",
+        "frbr:realizationOf | domain | fabio:Comment | 10",
+        "frbr:realizationOf | domain | fabio:Expression | 113",
+        "frbr:realizationOf | domain | fabio:JournalArticle | 348",
+        "frbr:realizationOf | domain | fabio:Letter | 19",
+        "frbr:realizationOf | domain | fabio:ReportDocument | 40973",
+        "frbr:realizationOf | domain | fabio:ReviewArticle | 1",
+        "frbr:realizationOf | range | fabio:Biography | 11",
+        "frbr:realizationOf | range | fabio:BookReview | 1",
+        "frbr:realizationOf | range | fabio:CaseReport | 6263",
+        "frbr:realizationOf | range | fabio:ClinicalTrialReport | 218",
+        "frbr:realizationOf | range | fabio:Correction | 97",
+        "frbr:realizationOf | range | fabio:MeetingReport | 2",
+        "frbr:realizationOf | range | fabio:ProductReview | 1",
+        "frbr:realizationOf | range | fabio:Report | 34862",
+        "frbr:realizationOf | range | fabio:SystematicReview | 4",
+        "frbr:realizationOf | range | fabio:TechnicalReport | 6"
+      ]
+    },
+    "po:contains": {
+      "tag": "prop",
+      "count": 27140027,
+      "definition": [
+        "po:contains | rdf:type | rdf:Property",
+        "po:contains | rdf:type | owl:ObjectProperty",
+        "po:contains | rdfs:comment | A structured element contains another generic element.",
+        "po:contains | rdfs:isDefinedBy | po:",
+        "po:contains | rdfs:label | contains"
+      ],
+      "usage": [
+        "po:contains | count | xsd:integer | 27140027",
+        "po:contains | domain | deo:Caption | 2122097",
+        "po:contains | domain | deo:DiscourseElement | 354137",
+        "po:contains | domain | doco:Abstract | 302959",
+        "po:contains | domain | doco:Appendix | 4463",
+        "po:contains | domain | doco:BackMatter | 151194",
+        "po:contains | domain | doco:BlockQuotation | 22",
+        "po:contains | domain | doco:BodyMatter | 1265575",
+        "po:contains | domain | doco:CaptionedBox | 51486",
+        "po:contains | domain | doco:FrontMatter | 839809",
+        "po:contains | domain | doco:Glossary | 160",
+        "po:contains | domain | doco:List | 6115680",
+        "po:contains | domain | doco:ListOfOrganizations | 411509",
+        "po:contains | domain | doco:Paragraph | 10375211",
+        "po:contains | domain | doco:Section | 2910542",
+        "po:contains | domain | doco:SectionLabel | 790085",
+        "po:contains | domain | doco:Table | 46",
+        "po:contains | domain | doco:TableBox | 258379",
+        "po:contains | domain | doco:TextBox | 1053",
+        "po:contains | domain | doco:Title | 300767",
+        "po:contains | domain | fabio:Abstract | 1165",
+        "po:contains | domain | fabio:Addendum | 18",
+        "po:contains | domain | fabio:Article | 113",
+        "po:contains | domain | fabio:BriefReport | 1954",
+        "po:contains | domain | fabio:Comment | 326",
+        "po:contains | domain | fabio:Editorial | 51",
+        "po:contains | domain | fabio:Expression | 759",
+        "po:contains | domain | fabio:JournalArticle | 562122",
+        "po:contains | domain | fabio:LectureNotes | 8",
+        "po:contains | domain | fabio:Letter | 2628",
+        "po:contains | domain | fabio:NewsItem | 39",
+        "po:contains | domain | fabio:RapidCommunication | 87",
+        "po:contains | domain | fabio:ReportDocument | 82152",
+        "po:contains | domain | fabio:ReviewArticle | 868",
+        "po:contains | domain | xsd:anyURI | 60",
+        "po:contains | domain | sibilo:FloatMatter | 91560",
+        "po:contains | domain | sibilo:ListItemBlock | 29895",
+        "po:contains | domain | sibilo:MediaBlock | 44379",
+        "po:contains | domain | sibilo:ObjectIdBlock | 2408",
+        "po:contains | domain | sibilo:TableFooter | 64261",
+        "po:contains | range | deo:DiscourseElement | 104723",
+        "po:contains | range | doco:Abstract | 288979",
+        "po:contains | range | doco:Appendix | 2095",
+        "po:contains | range | doco:BackMatter | 38516",
+        "po:contains | range | doco:BlockQuotation | 16",
+        "po:contains | range | doco:BodyMatter | 299176",
+        "po:contains | range | doco:CaptionedBox | 14200",
+        "po:contains | range | doco:FigureBox | 236432",
+        "po:contains | range | doco:FrontMatter | 300767",
+        "po:contains | range | doco:Glossary | 156",
+        "po:contains | range | doco:List | 791538",
+        "po:contains | range | doco:ListOfAuthors | 260582",
+        "po:contains | range | doco:ListOfOrganizations | 238830",
+        "po:contains | range | doco:ListOfReferences | 38842",
+        "po:contains | range | doco:Paragraph | 1953869",
+        "po:contains | range | doco:Section | 1581941",
+        "po:contains | range | doco:Sentence | 13782761",
+        "po:contains | range | doco:Table | 27",
+        "po:contains | range | doco:TableBox | 36864",
+        "po:contains | range | doco:TextBox | 313",
+        "po:contains | range | doco:Title | 300767",
+        "po:contains | range | sibilo:FloatMatter | 13831",
+        "po:contains | range | sibilo:ListItemBlock | 23051",
+        "po:contains | range | sibilo:MediaBlock | 43775",
+        "po:contains | range | sibilo:ObjectIdBlock | 2408",
+        "po:contains | range | sibilo:TableCellValues | 65113",
+        "po:contains | range | sibilo:TableColumnName | 193266",
+        "po:contains | range | sibilo:WordSequence | 6527189"
+      ]
+    },
+    "skos:altLabel": {
+      "tag": "prop",
+      "count": 2386499,
+      "definition": [
+        "skos:altLabel | rdf:type | rdf:Property",
+        "skos:altLabel | rdf:type | owl:AnnotationProperty",
+        "skos:altLabel | rdfs:isDefinedBy | skos:",
+        "skos:altLabel | rdfs:label | alt label",
+        "skos:altLabel | rdfs:subPropertyOf | rdfs:label"
+      ],
+      "usage": [
+        "skos:altLabel | count | xsd:integer | 2386499",
+        "skos:altLabel | domain | skos:Concept | 2386499",
+        "skos:altLabel | range | xsd:string | 2386499"
+      ]
+    },
+    "skos:broader": {
+      "tag": "prop",
+      "count": 0,
+      "definition": [
+        "skos:broader | rdf:type | rdf:Property",
+        "skos:broader | rdf:type | owl:ObjectProperty",
+        "skos:broader | rdfs:isDefinedBy | skos:",
+        "skos:broader | rdfs:label | has broader",
+        "sibilo:more_specific_than | rdfs:subPropertyOf | skos:broader"
+      ],
+      "usage": []
+    },
+    "skos:broaderTransitive": {
+      "tag": "prop",
+      "count": 0,
+      "definition": [
+        "skos:broaderTransitive | rdf:type | rdf:Property",
+        "skos:broaderTransitive | rdf:type | owl:ObjectProperty",
+        "skos:broaderTransitive | rdfs:isDefinedBy | skos:",
+        "skos:broaderTransitive | rdfs:label | has broader transitive",
+        "sibilo:more_specific_than_transitive | rdfs:subPropertyOf | skos:broaderTransitive"
+      ],
+      "usage": []
+    },
+    "skos:notation": {
+      "tag": "prop",
+      "count": 352879,
+      "definition": [
+        "skos:notation | rdf:type | rdf:Property",
+        "skos:notation | rdf:type | owl:DatatypeProperty",
+        "skos:notation | rdfs:comment |  Notations are symbols which are not normally recognizable as words or sequences of words in any natural language and are thus usable independently of natural-language contexts. They are typically composed of digits, complemented with punctuation signs and other characters.",
+        "skos:notation | rdfs:isDefinedBy | skos:",
+        "skos:notation | rdfs:label | notation"
+      ],
+      "usage": [
+        "skos:notation | count | xsd:integer | 352879",
+        "skos:notation | domain | skos:Concept | 352879",
+        "skos:notation | range | xsd:string | 352879"
+      ]
+    },
+    "skos:prefLabel": {
+      "tag": "prop",
+      "count": 352854,
+      "definition": [
+        "skos:prefLabel | rdf:type | rdf:Property",
+        "skos:prefLabel | rdf:type | owl:AnnotationProperty",
+        "skos:prefLabel | rdfs:isDefinedBy | skos:",
+        "skos:prefLabel | rdfs:label | pref label",
+        "skos:prefLabel | rdfs:subPropertyOf | rdfs:label"
+      ],
+      "usage": [
+        "skos:prefLabel | count | xsd:integer | 352854",
+        "skos:prefLabel | domain | skos:Concept | 352854",
+        "skos:prefLabel | range | xsd:string | 352854"
+      ]
+    },
+    "cnt:chars": {
+      "tag": "prop",
+      "count": 22393983,
+      "definition": [
+        "cnt:chars | rdf:type | rdf:Property",
+        "cnt:chars | rdf:type | owl:DatatypeProperty",
+        "cnt:chars | rdfs:comment | The character sequence of the text content.",
+        "cnt:chars | rdfs:isDefinedBy | cnt:",
+        "cnt:chars | rdfs:label | Character sequence"
+      ],
+      "usage": [
+        "cnt:chars | count | xsd:integer | 22393983",
+        "cnt:chars | domain | deo:Caption | 14200",
+        "cnt:chars | domain | doco:Label | 509985",
+        "cnt:chars | domain | doco:ListOfAuthors | 260582",
+        "cnt:chars | domain | doco:SectionLabel | 1040887",
+        "cnt:chars | domain | doco:Sentence | 13782761",
+        "cnt:chars | domain | sibilo:TableCellValues | 65113",
+        "cnt:chars | domain | sibilo:TableColumnName | 193266",
+        "cnt:chars | domain | sibilo:WordSequence | 6527189",
+        "cnt:chars | range | xsd:string | 22393983"
+      ]
+    },
+    "oa:end": {
+      "tag": "prop",
+      "count": 115333426,
+      "definition": [
+        "oa:end | rdf:type | rdf:Property",
+        "oa:end | rdf:type | owl:DatatypeProperty",
+        "oa:end | rdfs:comment | Position of the last character of a range of text in a discourse element.",
+        "oa:end | rdfs:isDefinedBy | oa:",
+        "oa:end | rdfs:label | end"
+      ],
+      "usage": [
+        "oa:end | count | xsd:integer | 115333426",
+        "oa:end | domain | oa:TextPositionSelector | 115333426",
+        "oa:end | range | xsd:integer | 115333426"
+      ]
+    },
+    "oa:exact": {
+      "tag": "prop",
+      "count": 115333426,
+      "definition": [
+        "oa:exact | rdf:type | rdf:Property",
+        "oa:exact | rdf:type | owl:DatatypeProperty",
+        "oa:exact | rdfs:comment | Text representing the annotated concept as found in the discourse element.",
+        "oa:exact | rdfs:isDefinedBy | oa:",
+        "oa:exact | rdfs:label | exact"
+      ],
+      "usage": [
+        "oa:exact | count | xsd:integer | 115333426",
+        "oa:exact | domain | oa:TextPositionSelector | 115333426",
+        "oa:exact | range | xsd:string | 115333426"
+      ]
+    },
+    "oa:hasBody": {
+      "tag": "prop",
+      "count": 115333426,
+      "definition": [
+        "oa:hasBody | rdf:type | rdf:Property",
+        "oa:hasBody | rdf:type | owl:DatatypeProperty",
+        "oa:hasBody | rdfs:comment | The object of the relationship is a resource that is a body of the Annotation.",
+        "oa:hasBody | rdfs:isDefinedBy | oa:",
+        "oa:hasBody | rdfs:label | has body"
+      ],
+      "usage": [
+        "oa:hasBody | count | xsd:integer | 115333426",
+        "oa:hasBody | domain | sibilo:NexAnnotation | 115333426",
+        "oa:hasBody | range | skos:Concept | 115333426"
+      ]
+    },
+    "oa:hasSelector": {
+      "tag": "prop",
+      "count": 115333426,
+      "definition": [
+        "oa:hasSelector | rdf:type | rdf:Property",
+        "oa:hasSelector | rdf:type | owl:DatatypeProperty",
+        "oa:hasSelector | rdfs:comment | The object of the relationship is a Selector that describes the segment or region of interest within the source resource.  Please note that the domain ( oa:ResourceSelection ) is not used directly in the Web Annotation model.",
+        "oa:hasSelector | rdfs:isDefinedBy | oa:",
+        "oa:hasSelector | rdfs:label | has selector"
+      ],
+      "usage": [
+        "oa:hasSelector | count | xsd:integer | 115333426",
+        "oa:hasSelector | domain | sibilo:AnnotationTarget | 115333426",
+        "oa:hasSelector | range | oa:TextPositionSelector | 115333426"
+      ]
+    },
+    "oa:hasSource": {
+      "tag": "prop",
+      "count": 115333426,
+      "definition": [
+        "oa:hasSource | rdf:type | rdf:Property",
+        "oa:hasSource | rdf:type | owl:DatatypeProperty",
+        "oa:hasSource | rdfs:comment | The resource that the ResourceSelection, or its subclass SpecificResource, is refined from, or more specific than. Please note that the domain ( oa:ResourceSelection ) is not used directly in the Web Annotation model.",
+        "oa:hasSource | rdfs:isDefinedBy | oa:",
+        "oa:hasSource | rdfs:label | has source"
+      ],
+      "usage": [
+        "oa:hasSource | count | xsd:integer | 115333426",
+        "oa:hasSource | domain | sibilo:AnnotationTarget | 115333426",
+        "oa:hasSource | range | doco:Sentence | 96617457",
+        "oa:hasSource | range | sibilo:TableCellValues | 1050868",
+        "oa:hasSource | range | sibilo:TableColumnName | 152334",
+        "oa:hasSource | range | sibilo:WordSequence | 17512767"
+      ]
+    },
+    "oa:hasTarget": {
+      "tag": "prop",
+      "count": 115333426,
+      "definition": [
+        "oa:hasTarget | rdf:type | rdf:Property",
+        "oa:hasTarget | rdf:type | owl:DatatypeProperty",
+        "oa:hasTarget | rdfs:comment | The relationship between an Annotation and its Target.",
+        "oa:hasTarget | rdfs:isDefinedBy | oa:",
+        "oa:hasTarget | rdfs:label | has target"
+      ],
+      "usage": [
+        "oa:hasTarget | count | xsd:integer | 115333426",
+        "oa:hasTarget | domain | sibilo:NexAnnotation | 115333425",
+        "oa:hasTarget | range | sibilo:AnnotationTarget | 115333426"
+      ]
+    },
+    "oa:start": {
+      "tag": "prop",
+      "count": 115333426,
+      "definition": [
+        "oa:start | rdf:type | rdf:Property",
+        "oa:start | rdf:type | owl:DatatypeProperty",
+        "oa:start | rdfs:comment | Position of the first character of a range of text in a discourse element.",
+        "oa:start | rdfs:isDefinedBy | oa:",
+        "oa:start | rdfs:label | start"
+      ],
+      "usage": [
+        "oa:start | count | xsd:integer | 115333426",
+        "oa:start | domain | oa:TextPositionSelector | 115333426",
+        "oa:start | range | xsd:integer | 115333426"
+      ]
+    },
+    "sibilo:hasAnnotation": {
+      "tag": "prop",
+      "count": 115334176,
+      "definition": [
+        "sibilo:hasAnnotation | rdf:type | rdf:Property",
+        "sibilo:hasAnnotation | rdf:type | owl:ObjectProperty",
+        "sibilo:hasAnnotation | rdfs:comment | Links a publication to an annotation generated by named entity extraction.",
+        "sibilo:hasAnnotation | rdfs:domain | fabio:Expression",
+        "sibilo:hasAnnotation | rdfs:isDefinedBy | sibilo:",
+        "sibilo:hasAnnotation | rdfs:label | has annotation",
+        "sibilo:hasAnnotation | rdfs:range | sibilo:NexAnnotation",
+        "sibilo:hasAnnotation | owl:inverseOf | IAO:0000136"
+      ],
+      "usage": [
+        "sibilo:hasAnnotation | count | xsd:integer | 115334176",
+        "sibilo:hasAnnotation | domain | fabio:Abstract | 56853",
+        "sibilo:hasAnnotation | domain | fabio:Addendum | 5072",
+        "sibilo:hasAnnotation | domain | fabio:Article | 9209",
+        "sibilo:hasAnnotation | domain | fabio:BriefReport | 524893",
+        "sibilo:hasAnnotation | domain | fabio:Comment | 11090",
+        "sibilo:hasAnnotation | domain | fabio:Editorial | 4725",
+        "sibilo:hasAnnotation | domain | fabio:Expression | 150309",
+        "sibilo:hasAnnotation | domain | fabio:JournalArticle | 107658048",
+        "sibilo:hasAnnotation | domain | fabio:LectureNotes | 742",
+        "sibilo:hasAnnotation | domain | fabio:Letter | 148808",
+        "sibilo:hasAnnotation | domain | fabio:NewsItem | 1605",
+        "sibilo:hasAnnotation | domain | fabio:RapidCommunication | 22170",
+        "sibilo:hasAnnotation | domain | fabio:ReportDocument | 6168962",
+        "sibilo:hasAnnotation | domain | fabio:ReviewArticle | 571690",
+        "sibilo:hasAnnotation | range | sibilo:NexAnnotation | 115334176"
+      ]
+    },
+    "sibilo:inCollection": {
+      "tag": "prop",
+      "count": 300767,
+      "definition": [
+        "sibilo:inCollection | rdf:type | rdf:Property",
+        "sibilo:inCollection | rdf:type | owl:DatatypeProperty",
+        "sibilo:inCollection | rdfs:comment | Within the SIBiLS RDF dataset, publications are grouped into two distinct collections, each reflecting the source from which they were obtained: 'pmc' or 'medline'.",
+        "sibilo:inCollection | rdfs:domain | fabio:Expression",
+        "sibilo:inCollection | rdfs:isDefinedBy | sibilo:",
+        "sibilo:inCollection | rdfs:label | in collection",
+        "sibilo:inCollection | rdfs:range | xsd:string",
+        "sibilo:inCollection | rdfs:subPropertyOf | schema:category"
+      ],
+      "usage": [
+        "sibilo:inCollection | count | xsd:integer | 300767",
+        "sibilo:inCollection | domain | fabio:Abstract | 580",
+        "sibilo:inCollection | domain | fabio:Addendum | 6",
+        "sibilo:inCollection | domain | fabio:Article | 56",
+        "sibilo:inCollection | domain | fabio:BriefReport | 619",
+        "sibilo:inCollection | domain | fabio:Comment | 163",
+        "sibilo:inCollection | domain | fabio:Editorial | 24",
+        "sibilo:inCollection | domain | fabio:Expression | 268",
+        "sibilo:inCollection | domain | fabio:JournalArticle | 256514",
+        "sibilo:inCollection | domain | fabio:LectureNotes | 4",
+        "sibilo:inCollection | domain | fabio:Letter | 1238",
+        "sibilo:inCollection | domain | fabio:NewsItem | 19",
+        "sibilo:inCollection | domain | fabio:RapidCommunication | 29",
+        "sibilo:inCollection | domain | fabio:ReportDocument | 40973",
+        "sibilo:inCollection | domain | fabio:ReviewArticle | 274",
+        "sibilo:inCollection | range | xsd:string | 300767"
+      ]
+    },
+    "sibilo:more_specific_than": {
+      "tag": "prop",
+      "count": 242922,
+      "definition": [
+        "sibilo:more_specific_than | rdf:type | rdf:Property",
+        "sibilo:more_specific_than | rdf:type | owl:ObjectProperty",
+        "sibilo:more_specific_than | rdfs:comment | Links two concepts. The subject concept is more specific than the object concept. The semantics is the similar to the skos:broader property but its label less ambiguous.",
+        "sibilo:more_specific_than | rdfs:domain | skos:Concept",
+        "sibilo:more_specific_than | rdfs:isDefinedBy | sibilo:",
+        "sibilo:more_specific_than | rdfs:label | more specific than",
+        "sibilo:more_specific_than | rdfs:range | skos:Concept",
+        "sibilo:more_specific_than | rdfs:subPropertyOf | skos:broader"
+      ],
+      "usage": [
+        "sibilo:more_specific_than | count | xsd:integer | 242922",
+        "sibilo:more_specific_than | domain | skos:Concept | 242922",
+        "sibilo:more_specific_than | range | skos:Concept | 242922"
+      ]
+    },
+    "sibilo:more_specific_than_transitive": {
+      "tag": "prop",
+      "count": 0,
+      "definition": [
+        "sibilo:more_specific_than_transitive | rdf:type | rdf:Property",
+        "sibilo:more_specific_than_transitive | rdf:type | owl:ObjectProperty",
+        "sibilo:more_specific_than_transitive | rdfs:isDefinedBy | sibilo:",
+        "sibilo:more_specific_than_transitive | rdfs:label | more specific than transitive",
+        "sibilo:more_specific_than_transitive | rdfs:subPropertyOf | skos:broaderTransitive"
+      ],
+      "usage": []
+    },
+    "sibilo:ordinal": {
+      "tag": "prop",
+      "count": 22108628,
+      "definition": [
+        "sibilo:ordinal | rdf:type | rdf:Property",
+        "sibilo:ordinal | rdf:type | owl:DatatypeProperty",
+        "sibilo:ordinal | rdfs:comment | Relative order of appearance of a sentence in the publication. A sentence right after another one usually have an ordinal incremented by 1 but the orginal value can sometimes be arbitrary, for instance between body contents and some floating content.",
+        "sibilo:ordinal | rdfs:domain | deo:DiscourseElement",
+        "sibilo:ordinal | rdfs:isDefinedBy | sibilo:",
+        "sibilo:ordinal | rdfs:label | ordinal",
+        "sibilo:ordinal | rdfs:range | xsd:integer"
+      ],
+      "usage": [
+        "sibilo:ordinal | count | xsd:integer | 22108628",
+        "sibilo:ordinal | domain | doco:Label | 238830",
+        "sibilo:ordinal | domain | doco:ListOfAuthors | 260582",
+        "sibilo:ordinal | domain | doco:SectionLabel | 1040887",
+        "sibilo:ordinal | domain | doco:Sentence | 13782761",
+        "sibilo:ordinal | domain | sibilo:TableCellValues | 65113",
+        "sibilo:ordinal | domain | sibilo:TableColumnName | 193266",
+        "sibilo:ordinal | domain | sibilo:WordSequence | 6527189",
+        "sibilo:ordinal | range | xsd:integer | 22108628"
+      ]
+    },
+    "sibilo:seeAlsoAnnotated": {
+      "tag": "prop",
+      "count": 300767,
+      "definition": [
+        "sibilo:seeAlsoAnnotated | rdf:type | rdf:Property",
+        "sibilo:seeAlsoAnnotated | rdf:type | owl:AnnotationProperty",
+        "sibilo:seeAlsoAnnotated | rdfs:comment | Provides a link to a URI where the annotated publication can be viewed.",
+        "sibilo:seeAlsoAnnotated | rdfs:domain | fabio:Expression",
+        "sibilo:seeAlsoAnnotated | rdfs:isDefinedBy | sibilo:",
+        "sibilo:seeAlsoAnnotated | rdfs:label | see also annotated",
+        "sibilo:seeAlsoAnnotated | rdfs:range | rdfs:Resource",
+        "sibilo:seeAlsoAnnotated | rdfs:subPropertyOf | rdfs:seeAlso"
+      ],
+      "usage": [
+        "sibilo:seeAlsoAnnotated | count | xsd:integer | 300767",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Abstract | 580",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Addendum | 6",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Article | 56",
+        "sibilo:seeAlsoAnnotated | domain | fabio:BriefReport | 619",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Comment | 163",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Editorial | 24",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Expression | 268",
+        "sibilo:seeAlsoAnnotated | domain | fabio:JournalArticle | 256514",
+        "sibilo:seeAlsoAnnotated | domain | fabio:LectureNotes | 4",
+        "sibilo:seeAlsoAnnotated | domain | fabio:Letter | 1238",
+        "sibilo:seeAlsoAnnotated | domain | fabio:NewsItem | 19",
+        "sibilo:seeAlsoAnnotated | domain | fabio:RapidCommunication | 29",
+        "sibilo:seeAlsoAnnotated | domain | fabio:ReportDocument | 40973",
+        "sibilo:seeAlsoAnnotated | domain | fabio:ReviewArticle | 274",
+        "sibilo:seeAlsoAnnotated | range | xsd:anyURI | 300767"
+      ]
+    },
+    "schema:affiliation": {
+      "tag": "prop",
+      "count": 0,
+      "definition": [
+        "schema:affiliation | rdf:type | rdf:Property",
+        "schema:affiliation | rdf:type | owl:ObjectProperty",
+        "schema:affiliation | rdfs:comment | An organization that this person is affiliated with. For example, a school/university, a club, or a team.",
+        "schema:affiliation | rdfs:isDefinedBy | schema:",
+        "schema:affiliation | rdfs:label | affiliation",
+        "schema:affiliation | rdfs:subPropertyOf | schema:memberOf"
+      ],
+      "usage": []
+    },
+    "schema:category": {
+      "tag": "prop",
+      "count": 0,
+      "definition": [
+        "sibilo:inCollection | rdfs:subPropertyOf | schema:category",
+        "schema:category | rdf:type | rdf:Property",
+        "schema:category | rdf:type | owl:DatatypeProperty",
+        "schema:category | rdfs:isDefinedBy | schema:",
+        "schema:category | rdfs:label | category"
+      ],
+      "usage": []
+    },
+    "schema:memberOf": {
+      "tag": "prop",
+      "count": 0,
+      "definition": [
+        "schema:affiliation | rdfs:subPropertyOf | schema:memberOf",
+        "schema:memberOf | rdf:type | rdf:Property",
+        "schema:memberOf | rdf:type | owl:ObjectProperty",
+        "schema:memberOf | rdfs:isDefinedBy | schema:",
+        "schema:memberOf | rdfs:label | member of"
+      ],
+      "usage": []
+    },
+    "schema:name": {
+      "tag": "prop",
+      "count": 1552726,
+      "definition": [
+        "schema:name | rdf:type | rdf:Property",
+        "schema:name | rdf:type | owl:DatatypeProperty",
+        "schema:name | rdfs:isDefinedBy | schema:",
+        "schema:name | rdfs:label | name",
+        "schema:name | owl:equivalentProperty | dcterms:title"
+      ],
+      "usage": [
+        "schema:name | count | xsd:integer | 1552726",
+        "schema:name | domain | schema:Person | 1552726",
+        "schema:name | range | xsd:string | 1552726"
+      ]
+    }
+  },
+  "pfx2url": {
+    "sibilo": "https://purl.expasy.org/sibils/rdf/ontology/",
+    "sibilc": "https://purl.expasy.org/sibils/rdf/concept/",
+    "sibils": "https://purl.expasy.org/sibils/rdf/data/",
+    "sibilt": "https://purl.expasy.org/sibils/rdf/scheme/",
+    "deo": "http://purl.org/spar/deo/",
+    "doco": "http://purl.org/spar/doco/",
+    "po": "http://www.essepuntato.it/2008/12/pattern#",
+    "cnt": "http://www.w3.org/2011/content#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "fabio": "http://purl.org/spar/fabio/",
+    "frbr": "http://purl.org/vocab/frbr/core#",
+    "IAO": "http://purl.obolibrary.org/obo/IAO_",
+    "up": "http://purl.uniprot.org/core/",
+    "bibo": "http://purl.org/ontology/bibo/",
+    "widoco": "https://w3id.org/widoco/vocab#",
+    "vann": "http://purl.org/vocab/vann/",
+    "oa": "http://www.w3.org/ns/oa#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "schema": "https://schema.org/",
+    "prism": "http://prismstandard.org/namespaces/basic/2.0/",
+    "help": "https://sparql.sibils.org/"
+  }
+}

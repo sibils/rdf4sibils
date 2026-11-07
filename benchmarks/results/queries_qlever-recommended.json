@@ -1,0 +1,1189 @@
+{
+ "label": "qlever-recommended",
+ "store": "qlever",
+ "run": "L2-m6-b5",
+ "mem": "11G",
+ "cache": "2G",
+ "threads": "8",
+ "extra": "",
+ "set": "max-num-threads-per-query=16",
+ "start_s": 1.4,
+ "queries": [
+  {
+   "name": "example 101",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.055,
+     "rows": 13,
+     "distinct": 13,
+     "digest": "4768df956b5b"
+    },
+    {
+     "s": 0.028,
+     "rows": 13,
+     "distinct": 13,
+     "digest": "4768df956b5b"
+    },
+    {
+     "s": 0.031,
+     "rows": 13,
+     "distinct": 13,
+     "digest": "4768df956b5b"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "example 102",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.015,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "876c4c0a63a0"
+    },
+    {
+     "s": 0.012,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "876c4c0a63a0"
+    },
+    {
+     "s": 0.013,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "876c4c0a63a0"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "example 103",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.017,
+     "rows": 2,
+     "distinct": 2,
+     "digest": "5a76fd27c45b"
+    },
+    {
+     "s": 0.012,
+     "rows": 2,
+     "distinct": 2,
+     "digest": "5a76fd27c45b"
+    },
+    {
+     "s": 0.013,
+     "rows": 2,
+     "distinct": 2,
+     "digest": "5a76fd27c45b"
+    }
+   ],
+   "cached": 0.006
+  },
+  {
+   "name": "example 104",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 14.219,
+     "rows": 47,
+     "distinct": 47,
+     "digest": "50b3d016bff4"
+    },
+    {
+     "s": 14.473,
+     "rows": 47,
+     "distinct": 47,
+     "digest": "50b3d016bff4"
+    },
+    {
+     "s": 14.418,
+     "rows": 47,
+     "distinct": 47,
+     "digest": "50b3d016bff4"
+    }
+   ],
+   "cached": 0.004
+  },
+  {
+   "name": "example 105",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 24.596,
+     "rows": 2214,
+     "distinct": 2007,
+     "digest": "d392029a82e3"
+    },
+    {
+     "s": 5.77,
+     "rows": 2214,
+     "distinct": 2007,
+     "digest": "d392029a82e3"
+    },
+    {
+     "s": 5.776,
+     "rows": 2214,
+     "distinct": 2007,
+     "digest": "d392029a82e3"
+    }
+   ],
+   "cached": 0.283
+  },
+  {
+   "name": "triples in main graph",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 4.774,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "630e494e6be0"
+    },
+    {
+     "s": 3.052,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "630e494e6be0"
+    },
+    {
+     "s": 3.644,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "630e494e6be0"
+    }
+   ],
+   "cached": 0.004
+  },
+  {
+   "name": "triples per predicate",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 10.496,
+     "rows": 106,
+     "distinct": 106,
+     "digest": "7340af439003"
+    },
+    {
+     "s": 9.148,
+     "rows": 106,
+     "distinct": 106,
+     "digest": "7340af439003"
+    },
+    {
+     "s": 10.567,
+     "rows": 106,
+     "distinct": 106,
+     "digest": "7340af439003"
+    }
+   ],
+   "cached": 0.004
+  },
+  {
+   "name": "instances per class",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 2.365,
+     "rows": 78,
+     "distinct": 78,
+     "digest": "1edb7cfa1034"
+    },
+    {
+     "s": 2.521,
+     "rows": 78,
+     "distinct": 78,
+     "digest": "1edb7cfa1034"
+    },
+    {
+     "s": 2.585,
+     "rows": 78,
+     "distinct": 78,
+     "digest": "1edb7cfa1034"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "annotations",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.209,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    },
+    {
+     "s": 0.236,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    },
+    {
+     "s": 0.235,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    }
+   ],
+   "cached": 0.004
+  },
+  {
+   "name": "describe PMC publication",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.049,
+     "rows": 286
+    },
+    {
+     "s": 0.033,
+     "rows": 286
+    },
+    {
+     "s": 0.043,
+     "rows": 286
+    }
+   ],
+   "cached": 0.003
+  },
+  {
+   "name": "describe MEDLINE publication",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.145,
+     "rows": 933
+    },
+    {
+     "s": 0.106,
+     "rows": 933
+    },
+    {
+     "s": 0.118,
+     "rows": 933
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "describe GO concept",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.013,
+     "rows": 11
+    },
+    {
+     "s": 0.014,
+     "rows": 11
+    },
+    {
+     "s": 0.013,
+     "rows": 11
+    }
+   ],
+   "cached": 0.003
+  },
+  {
+   "name": "describe largest publication",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 1.363,
+     "rows": 127073
+    },
+    {
+     "s": 1.258,
+     "rows": 127073
+    },
+    {
+     "s": 1.226,
+     "rows": 127073
+    }
+   ],
+   "cached": 0.156
+  },
+  {
+   "name": "properties of one publication",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.007,
+     "rows": 41,
+     "distinct": 18,
+     "digest": "056685602144"
+    },
+    {
+     "s": 0.006,
+     "rows": 41,
+     "distinct": 18,
+     "digest": "056685602144"
+    },
+    {
+     "s": 0.007,
+     "rows": 41,
+     "distinct": 18,
+     "digest": "056685602144"
+    }
+   ],
+   "cached": 0.007
+  },
+  {
+   "name": "subjects of one concept",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.006,
+     "rows": 2,
+     "distinct": 1,
+     "digest": "76e692cd7069"
+    },
+    {
+     "s": 0.005,
+     "rows": 2,
+     "distinct": 1,
+     "digest": "76e692cd7069"
+    },
+    {
+     "s": 0.006,
+     "rows": 2,
+     "distinct": 1,
+     "digest": "76e692cd7069"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "publication by year literal",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.164,
+     "rows": 476,
+     "distinct": 476,
+     "digest": "4851d8edeab7"
+    },
+    {
+     "s": 0.009,
+     "rows": 476,
+     "distinct": 476,
+     "digest": "4851d8edeab7"
+    },
+    {
+     "s": 0.008,
+     "rows": 476,
+     "distinct": 476,
+     "digest": "4851d8edeab7"
+    }
+   ],
+   "cached": 0.007
+  },
+  {
+   "name": "annotations of one publication",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.018,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "41bd9556680e"
+    },
+    {
+     "s": 0.016,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "41bd9556680e"
+    },
+    {
+     "s": 0.018,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "41bd9556680e"
+    }
+   ],
+   "cached": 0.007
+  },
+  {
+   "name": "concepts of one publication with labels",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.025,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "e1ff121d7ceb"
+    },
+    {
+     "s": 0.024,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "e1ff121d7ceb"
+    },
+    {
+     "s": 0.023,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "e1ff121d7ceb"
+    }
+   ],
+   "cached": 0.006
+  },
+  {
+   "name": "top concepts",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.794,
+     "rows": 20,
+     "distinct": 20,
+     "digest": "b195abf61aec"
+    },
+    {
+     "s": 0.814,
+     "rows": 20,
+     "distinct": 20,
+     "digest": "b195abf61aec"
+    },
+    {
+     "s": 0.735,
+     "rows": 20,
+     "distinct": 20,
+     "digest": "b195abf61aec"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "annotated publications per source",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.018,
+     "rows": 0,
+     "distinct": 0,
+     "digest": "97d170e1550e"
+    },
+    {
+     "s": 0.016,
+     "rows": 0,
+     "distinct": 0,
+     "digest": "97d170e1550e"
+    },
+    {
+     "s": 0.013,
+     "rows": 0,
+     "distinct": 0,
+     "digest": "97d170e1550e"
+    }
+   ],
+   "cached": 0.007
+  },
+  {
+   "name": "domain of sibilo:ordinal",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 6.335,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    },
+    {
+     "s": 6.187,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    },
+    {
+     "s": 6.724,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    }
+   ],
+   "cached": 0.007
+  },
+  {
+   "name": "contains over sentences",
+   "group": "text",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 51.563,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "cd038a4ebeac"
+    },
+    {
+     "s": 34.358,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "cd038a4ebeac"
+    },
+    {
+     "s": 34.428,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "cd038a4ebeac"
+    }
+   ],
+   "cached": 0.003
+  },
+  {
+   "name": "regex on concept labels",
+   "group": "text",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.395,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "164fdf44a6e7"
+    },
+    {
+     "s": 0.36,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "164fdf44a6e7"
+    },
+    {
+     "s": 0.399,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "164fdf44a6e7"
+    }
+   ],
+   "cached": 0.003
+  },
+  {
+   "name": "prefix on concept labels",
+   "group": "text",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.381,
+     "rows": 27,
+     "distinct": 27,
+     "digest": "168eb30ccd8d"
+    },
+    {
+     "s": 0.443,
+     "rows": 27,
+     "distinct": 27,
+     "digest": "168eb30ccd8d"
+    },
+    {
+     "s": 0.425,
+     "rows": 27,
+     "distinct": 27,
+     "digest": "168eb30ccd8d"
+    }
+   ],
+   "cached": 0.003
+  },
+  {
+   "name": "date range",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.007,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "6cd87acfcc12"
+    },
+    {
+     "s": 0.004,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "6cd87acfcc12"
+    },
+    {
+     "s": 0.005,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "6cd87acfcc12"
+    }
+   ],
+   "cached": 0.003
+  },
+  {
+   "name": "publications per year",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.007,
+     "rows": 83,
+     "distinct": 83,
+     "digest": "8aceb76bbf4b"
+    },
+    {
+     "s": 0.008,
+     "rows": 83,
+     "distinct": 83,
+     "digest": "8aceb76bbf4b"
+    },
+    {
+     "s": 0.007,
+     "rows": 83,
+     "distinct": 83,
+     "digest": "8aceb76bbf4b"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "latest publications",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.06,
+     "rows": 10,
+     "distinct": 10,
+     "digest": "53180f54144e"
+    },
+    {
+     "s": 0.053,
+     "rows": 10,
+     "distinct": 10,
+     "digest": "53180f54144e"
+    },
+    {
+     "s": 0.044,
+     "rows": 10,
+     "distinct": 10,
+     "digest": "53180f54144e"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "deep paging",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 1.659,
+     "rows": 100,
+     "distinct": 99,
+     "digest": "8170297bd601"
+    },
+    {
+     "s": 1.654,
+     "rows": 100,
+     "distinct": 99,
+     "digest": "8170297bd601"
+    },
+    {
+     "s": 1.723,
+     "rows": 100,
+     "distinct": 99,
+     "digest": "8170297bd601"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "ancestors of a GO term",
+   "group": "paths",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.01,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "edbc37606075"
+    },
+    {
+     "s": 0.01,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "edbc37606075"
+    },
+    {
+     "s": 0.007,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "edbc37606075"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "ancestors up to depth 3",
+   "group": "paths",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.012,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "1a2b2018e626"
+    },
+    {
+     "s": 0.01,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "1a2b2018e626"
+    },
+    {
+     "s": 0.01,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "1a2b2018e626"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "descendants of a broad GO term",
+   "group": "paths",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.018,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "4e689459fa02"
+    },
+    {
+     "s": 0.017,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "4e689459fa02"
+    },
+    {
+     "s": 0.017,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "4e689459fa02"
+    }
+   ],
+   "cached": 0.005
+  },
+  {
+   "name": "class definitions",
+   "group": "model",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.032,
+     "rows": 403,
+     "distinct": 403,
+     "digest": "e584ace1c9bd"
+    },
+    {
+     "s": 0.03,
+     "rows": 403,
+     "distinct": 403,
+     "digest": "e584ace1c9bd"
+    },
+    {
+     "s": 0.031,
+     "rows": 403,
+     "distinct": 403,
+     "digest": "e584ace1c9bd"
+    }
+   ],
+   "cached": 0.014
+  },
+  {
+   "name": "property definitions",
+   "group": "model",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.026,
+     "rows": 241,
+     "distinct": 241,
+     "digest": "5a854d9c3d97"
+    },
+    {
+     "s": 0.027,
+     "rows": 241,
+     "distinct": 241,
+     "digest": "5a854d9c3d97"
+    },
+    {
+     "s": 0.029,
+     "rows": 241,
+     "distinct": 241,
+     "digest": "5a854d9c3d97"
+    }
+   ],
+   "cached": 0.013
+  },
+  {
+   "name": "prefixes",
+   "group": "model",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.011,
+     "rows": 26,
+     "distinct": 26,
+     "digest": "c8637e5a5555"
+    },
+    {
+     "s": 0.012,
+     "rows": 26,
+     "distinct": 26,
+     "digest": "c8637e5a5555"
+    },
+    {
+     "s": 0.01,
+     "rows": 26,
+     "distinct": 26,
+     "digest": "c8637e5a5555"
+    }
+   ],
+   "cached": 0.007
+  },
+  {
+   "name": "class_use fabio:JournalArticle properties",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.011,
+     "rows": 21,
+     "distinct": 21,
+     "digest": "28e8344886c0"
+    }
+   ]
+  },
+  {
+   "name": "class_use fabio:JournalArticle rdf:type",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.217,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "2329059af845"
+    }
+   ]
+  },
+  {
+   "name": "class_use fabio:JournalArticle as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 38.066,
+     "rows": 29,
+     "distinct": 29,
+     "digest": "6a7892cc5e4b"
+    }
+   ]
+  },
+  {
+   "name": "class_use oa:TextPositionSelector properties",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.893,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "55065a33cd18"
+    }
+   ]
+  },
+  {
+   "name": "class_use oa:TextPositionSelector rdf:type",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 6.471,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "34011ca2ea78"
+    }
+   ]
+  },
+  {
+   "name": "class_use oa:TextPositionSelector as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 8.952,
+     "error": "HTTP 500: Tried to allocate 625 MB, but only 367.9 MB were available"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget properties",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.849,
+     "rows": 3,
+     "distinct": 3,
+     "digest": "b03943eba4bb"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget rdf:type",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 6.806,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "34011ca2ea78"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget oa:hasSelector",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 39.222,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "b394f3df580b"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget oa:hasSource",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 12.166,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "504e189f8bbf"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 9.669,
+     "error": "HTTP 500: Tried to allocate 625 MB, but only 415.9 MB were available"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation properties",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.851,
+     "rows": 3,
+     "distinct": 3,
+     "digest": "426637568fe1"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation rdf:type",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 6.562,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "7ce52e7aff01"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation oa:hasBody",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 7.247,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "235cb23fe0e4"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation oa:hasTarget",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 40.597,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "f9b6b79d001d"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 9.553,
+     "error": "HTTP 500: Tried to allocate 625 MB, but only 444.1 MB were available"
+    }
+   ]
+  },
+  {
+   "name": "prop_use oa:hasBody as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 346.065,
+     "error": "HTTP 500: Tried to allocate 833.3 MB, but only 97 MB were available"
+    }
+   ]
+  },
+  {
+   "name": "prop_use oa:hasBody count",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.367,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    }
+   ]
+  },
+  {
+   "name": "prop_use oa:hasBody domain",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 40.64,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "b7368be48eb0"
+    }
+   ]
+  },
+  {
+   "name": "prop_use oa:hasBody range",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 1.037,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "235cb23fe0e4"
+    }
+   ]
+  },
+  {
+   "name": "prop_use sibilo:ordinal as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 349.863,
+     "error": "HTTP 500: Tried to allocate 833.3 MB, but only 667.8 MB were available"
+    }
+   ]
+  },
+  {
+   "name": "prop_use sibilo:ordinal count",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.126,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "73e467c10ea2"
+    }
+   ]
+  },
+  {
+   "name": "prop_use sibilo:ordinal domain",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 10.18,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    }
+   ]
+  },
+  {
+   "name": "prop_use sibilo:ordinal range",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.181,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ae92f4e21f34"
+    }
+   ]
+  },
+  {
+   "name": "/describe/model",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 8.923,
+     "error": "HTTP 500: Tried to allocate 625 MB, but only 384.7 MB were available"
+    }
+   ]
+  }
+ ],
+ "peak_rss_gb": 10.6,
+ "suspended_s": 0,
+ "total_s": 1316
+}

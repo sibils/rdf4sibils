@@ -1,0 +1,876 @@
+{
+ "label": "qlever-threads16",
+ "store": "qlever",
+ "run": "L2-m6-b5",
+ "mem": "11G",
+ "cache": "2G",
+ "threads": "8",
+ "extra": "",
+ "set": "max-num-threads-per-query=16",
+ "start_s": 2.0,
+ "queries": [
+  {
+   "name": "example 101",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.052,
+     "rows": 13,
+     "distinct": 13,
+     "digest": "4768df956b5b"
+    },
+    {
+     "s": 0.031,
+     "rows": 13,
+     "distinct": 13,
+     "digest": "4768df956b5b"
+    },
+    {
+     "s": 0.029,
+     "rows": 13,
+     "distinct": 13,
+     "digest": "4768df956b5b"
+    }
+   ],
+   "cached": 0.029
+  },
+  {
+   "name": "example 102",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.014,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "876c4c0a63a0"
+    },
+    {
+     "s": 0.013,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "876c4c0a63a0"
+    },
+    {
+     "s": 0.016,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "876c4c0a63a0"
+    }
+   ],
+   "cached": 0.012
+  },
+  {
+   "name": "example 103",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.017,
+     "rows": 2,
+     "distinct": 2,
+     "digest": "5a76fd27c45b"
+    },
+    {
+     "s": 0.012,
+     "rows": 2,
+     "distinct": 2,
+     "digest": "5a76fd27c45b"
+    },
+    {
+     "s": 0.016,
+     "rows": 2,
+     "distinct": 2,
+     "digest": "5a76fd27c45b"
+    }
+   ],
+   "cached": 0.016
+  },
+  {
+   "name": "example 104",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 14.799,
+     "rows": 47,
+     "distinct": 47,
+     "digest": "50b3d016bff4"
+    },
+    {
+     "s": 14.26,
+     "rows": 47,
+     "distinct": 47,
+     "digest": "50b3d016bff4"
+    },
+    {
+     "s": 14.696,
+     "rows": 47,
+     "distinct": 47,
+     "digest": "50b3d016bff4"
+    }
+   ],
+   "cached": 14.63
+  },
+  {
+   "name": "example 105",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 22.985,
+     "rows": 2214,
+     "distinct": 2007,
+     "digest": "d392029a82e3"
+    },
+    {
+     "s": 5.459,
+     "rows": 2214,
+     "distinct": 2007,
+     "digest": "d392029a82e3"
+    },
+    {
+     "s": 5.636,
+     "rows": 2214,
+     "distinct": 2007,
+     "digest": "d392029a82e3"
+    }
+   ],
+   "cached": 6.366
+  },
+  {
+   "name": "triples in main graph",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 4.434,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "630e494e6be0"
+    },
+    {
+     "s": 3.316,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "630e494e6be0"
+    },
+    {
+     "s": 3.401,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "630e494e6be0"
+    }
+   ],
+   "cached": 3.752
+  },
+  {
+   "name": "triples per predicate",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 9.959,
+     "rows": 106,
+     "distinct": 106,
+     "digest": "7340af439003"
+    },
+    {
+     "s": 9.477,
+     "rows": 106,
+     "distinct": 106,
+     "digest": "7340af439003"
+    },
+    {
+     "s": 10.772,
+     "rows": 106,
+     "distinct": 106,
+     "digest": "7340af439003"
+    }
+   ],
+   "cached": 9.446
+  },
+  {
+   "name": "instances per class",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 2.641,
+     "rows": 78,
+     "distinct": 78,
+     "digest": "1edb7cfa1034"
+    },
+    {
+     "s": 2.863,
+     "rows": 78,
+     "distinct": 78,
+     "digest": "1edb7cfa1034"
+    },
+    {
+     "s": 2.756,
+     "rows": 78,
+     "distinct": 78,
+     "digest": "1edb7cfa1034"
+    }
+   ],
+   "cached": 2.944
+  },
+  {
+   "name": "annotations",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.288,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    },
+    {
+     "s": 0.243,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    },
+    {
+     "s": 0.242,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    }
+   ],
+   "cached": 0.247
+  },
+  {
+   "name": "describe PMC publication",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.042,
+     "rows": 286
+    },
+    {
+     "s": 0.041,
+     "rows": 286
+    },
+    {
+     "s": 0.032,
+     "rows": 286
+    }
+   ],
+   "cached": 0.04
+  },
+  {
+   "name": "describe MEDLINE publication",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.131,
+     "rows": 933
+    },
+    {
+     "s": 0.116,
+     "rows": 933
+    },
+    {
+     "s": 0.107,
+     "rows": 933
+    }
+   ],
+   "cached": 0.111
+  },
+  {
+   "name": "describe GO concept",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.014,
+     "rows": 11
+    },
+    {
+     "s": 0.013,
+     "rows": 11
+    },
+    {
+     "s": 0.012,
+     "rows": 11
+    }
+   ],
+   "cached": 0.014
+  },
+  {
+   "name": "describe largest publication",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 1.477,
+     "rows": 127073
+    },
+    {
+     "s": 1.165,
+     "rows": 127073
+    },
+    {
+     "s": 1.343,
+     "rows": 127073
+    }
+   ],
+   "cached": 1.25
+  },
+  {
+   "name": "properties of one publication",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.006,
+     "rows": 41,
+     "distinct": 18,
+     "digest": "056685602144"
+    },
+    {
+     "s": 0.008,
+     "rows": 41,
+     "distinct": 18,
+     "digest": "056685602144"
+    },
+    {
+     "s": 0.008,
+     "rows": 41,
+     "distinct": 18,
+     "digest": "056685602144"
+    }
+   ],
+   "cached": 0.008
+  },
+  {
+   "name": "subjects of one concept",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.006,
+     "rows": 2,
+     "distinct": 1,
+     "digest": "76e692cd7069"
+    },
+    {
+     "s": 0.006,
+     "rows": 2,
+     "distinct": 1,
+     "digest": "76e692cd7069"
+    },
+    {
+     "s": 0.006,
+     "rows": 2,
+     "distinct": 1,
+     "digest": "76e692cd7069"
+    }
+   ],
+   "cached": 0.006
+  },
+  {
+   "name": "publication by year literal",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.072,
+     "rows": 476,
+     "distinct": 476,
+     "digest": "4851d8edeab7"
+    },
+    {
+     "s": 0.008,
+     "rows": 476,
+     "distinct": 476,
+     "digest": "4851d8edeab7"
+    },
+    {
+     "s": 0.008,
+     "rows": 476,
+     "distinct": 476,
+     "digest": "4851d8edeab7"
+    }
+   ],
+   "cached": 0.009
+  },
+  {
+   "name": "annotations of one publication",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.017,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "41bd9556680e"
+    },
+    {
+     "s": 0.016,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "41bd9556680e"
+    },
+    {
+     "s": 0.017,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "41bd9556680e"
+    }
+   ],
+   "cached": 0.014
+  },
+  {
+   "name": "concepts of one publication with labels",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.026,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "e1ff121d7ceb"
+    },
+    {
+     "s": 0.022,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "e1ff121d7ceb"
+    },
+    {
+     "s": 0.024,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "e1ff121d7ceb"
+    }
+   ],
+   "cached": 0.008
+  },
+  {
+   "name": "top concepts",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.76,
+     "rows": 20,
+     "distinct": 20,
+     "digest": "b195abf61aec"
+    },
+    {
+     "s": 0.924,
+     "rows": 20,
+     "distinct": 20,
+     "digest": "b195abf61aec"
+    },
+    {
+     "s": 0.668,
+     "rows": 20,
+     "distinct": 20,
+     "digest": "b195abf61aec"
+    }
+   ],
+   "cached": 0.754
+  },
+  {
+   "name": "annotated publications per source",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.026,
+     "rows": 0,
+     "distinct": 0,
+     "digest": "97d170e1550e"
+    },
+    {
+     "s": 0.017,
+     "rows": 0,
+     "distinct": 0,
+     "digest": "97d170e1550e"
+    },
+    {
+     "s": 0.018,
+     "rows": 0,
+     "distinct": 0,
+     "digest": "97d170e1550e"
+    }
+   ],
+   "cached": 0.013
+  },
+  {
+   "name": "domain of sibilo:ordinal",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 6.496,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    },
+    {
+     "s": 6.323,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    },
+    {
+     "s": 6.088,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    }
+   ],
+   "cached": 6.294
+  },
+  {
+   "name": "contains over sentences",
+   "group": "text",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 48.416,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "cd038a4ebeac"
+    },
+    {
+     "s": 35.659,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "cd038a4ebeac"
+    },
+    {
+     "s": 35.44,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "cd038a4ebeac"
+    }
+   ],
+   "cached": 35.113
+  },
+  {
+   "name": "regex on concept labels",
+   "group": "text",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.363,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "164fdf44a6e7"
+    },
+    {
+     "s": 0.372,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "164fdf44a6e7"
+    },
+    {
+     "s": 0.359,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "164fdf44a6e7"
+    }
+   ],
+   "cached": 0.395
+  },
+  {
+   "name": "prefix on concept labels",
+   "group": "text",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.433,
+     "rows": 27,
+     "distinct": 27,
+     "digest": "168eb30ccd8d"
+    },
+    {
+     "s": 0.433,
+     "rows": 27,
+     "distinct": 27,
+     "digest": "168eb30ccd8d"
+    },
+    {
+     "s": 0.403,
+     "rows": 27,
+     "distinct": 27,
+     "digest": "168eb30ccd8d"
+    }
+   ],
+   "cached": 0.444
+  },
+  {
+   "name": "date range",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.006,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "6cd87acfcc12"
+    },
+    {
+     "s": 0.004,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "6cd87acfcc12"
+    },
+    {
+     "s": 0.004,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "6cd87acfcc12"
+    }
+   ],
+   "cached": 0.004
+  },
+  {
+   "name": "publications per year",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.008,
+     "rows": 83,
+     "distinct": 83,
+     "digest": "8aceb76bbf4b"
+    },
+    {
+     "s": 0.007,
+     "rows": 83,
+     "distinct": 83,
+     "digest": "8aceb76bbf4b"
+    },
+    {
+     "s": 0.007,
+     "rows": 83,
+     "distinct": 83,
+     "digest": "8aceb76bbf4b"
+    }
+   ],
+   "cached": 0.006
+  },
+  {
+   "name": "latest publications",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.048,
+     "rows": 10,
+     "distinct": 10,
+     "digest": "53180f54144e"
+    },
+    {
+     "s": 0.049,
+     "rows": 10,
+     "distinct": 10,
+     "digest": "53180f54144e"
+    },
+    {
+     "s": 0.035,
+     "rows": 10,
+     "distinct": 10,
+     "digest": "53180f54144e"
+    }
+   ],
+   "cached": 0.036
+  },
+  {
+   "name": "deep paging",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 1.773,
+     "rows": 100,
+     "distinct": 99,
+     "digest": "8170297bd601"
+    },
+    {
+     "s": 1.617,
+     "rows": 100,
+     "distinct": 99,
+     "digest": "8170297bd601"
+    },
+    {
+     "s": 1.724,
+     "rows": 100,
+     "distinct": 99,
+     "digest": "8170297bd601"
+    }
+   ],
+   "cached": 1.926
+  },
+  {
+   "name": "ancestors of a GO term",
+   "group": "paths",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.009,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "edbc37606075"
+    },
+    {
+     "s": 0.008,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "edbc37606075"
+    },
+    {
+     "s": 0.008,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "edbc37606075"
+    }
+   ],
+   "cached": 0.008
+  },
+  {
+   "name": "ancestors up to depth 3",
+   "group": "paths",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.011,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "1a2b2018e626"
+    },
+    {
+     "s": 0.009,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "1a2b2018e626"
+    },
+    {
+     "s": 0.01,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "1a2b2018e626"
+    }
+   ],
+   "cached": 0.007
+  },
+  {
+   "name": "descendants of a broad GO term",
+   "group": "paths",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.018,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "4e689459fa02"
+    },
+    {
+     "s": 0.016,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "4e689459fa02"
+    },
+    {
+     "s": 0.016,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "4e689459fa02"
+    }
+   ],
+   "cached": 0.016
+  },
+  {
+   "name": "class definitions",
+   "group": "model",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.031,
+     "rows": 403,
+     "distinct": 403,
+     "digest": "e584ace1c9bd"
+    },
+    {
+     "s": 0.03,
+     "rows": 403,
+     "distinct": 403,
+     "digest": "e584ace1c9bd"
+    },
+    {
+     "s": 0.032,
+     "rows": 403,
+     "distinct": 403,
+     "digest": "e584ace1c9bd"
+    }
+   ],
+   "cached": 0.027
+  },
+  {
+   "name": "property definitions",
+   "group": "model",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.026,
+     "rows": 241,
+     "distinct": 241,
+     "digest": "5a854d9c3d97"
+    },
+    {
+     "s": 0.026,
+     "rows": 241,
+     "distinct": 241,
+     "digest": "5a854d9c3d97"
+    },
+    {
+     "s": 0.026,
+     "rows": 241,
+     "distinct": 241,
+     "digest": "5a854d9c3d97"
+    }
+   ],
+   "cached": 0.027
+  },
+  {
+   "name": "prefixes",
+   "group": "model",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.012,
+     "rows": 26,
+     "distinct": 26,
+     "digest": "c8637e5a5555"
+    },
+    {
+     "s": 0.012,
+     "rows": 26,
+     "distinct": 26,
+     "digest": "c8637e5a5555"
+    },
+    {
+     "s": 0.012,
+     "rows": 26,
+     "distinct": 26,
+     "digest": "c8637e5a5555"
+    }
+   ],
+   "cached": 0.011
+  }
+ ],
+ "peak_rss_gb": 6.5,
+ "suspended_s": 0,
+ "total_s": 369
+}

@@ -1,0 +1,16 @@
+{"label": "qlever-j8", "clients": 1, "qps": 25.1, "median_ms": 20.6, "p95_ms": 103.3, "errors": 0}
+{"label": "qlever-j8", "clients": 4, "qps": 109.8, "median_ms": 22.8, "p95_ms": 107.0, "errors": 0}
+{"label": "qlever-j8", "clients": 16, "qps": 295.1, "median_ms": 44.7, "p95_ms": 153.8, "errors": 0}
+{"label": "qlever-j8", "clients": 64, "qps": 289.1, "median_ms": 115.1, "p95_ms": 749.5, "errors": 0}
+{"label": "qlever-j32", "clients": 1, "qps": 25.0, "median_ms": 21.5, "p95_ms": 102.0, "errors": 0}
+{"label": "qlever-j32", "clients": 4, "qps": 105.6, "median_ms": 24.1, "p95_ms": 108.7, "errors": 0}
+{"label": "qlever-j32", "clients": 16, "qps": 259.3, "median_ms": 48.3, "p95_ms": 176.7, "errors": 0}
+{"label": "qlever-j32", "clients": 64, "qps": 255.9, "median_ms": 130.7, "p95_ms": 835.9, "errors": 0}
+{"label": "virtuoso", "clients": 1, "qps": 11.0, "median_ms": 20.4, "p95_ms": 322.8, "errors": 0}
+{"label": "virtuoso", "clients": 4, "qps": 36.0, "median_ms": 24.9, "p95_ms": 456.1, "errors": 0}
+{"label": "virtuoso", "clients": 16, "qps": 47.8, "median_ms": 202.9, "p95_ms": 1127.4, "errors": 0}
+{"label": "virtuoso", "clients": 64, "qps": 44.0, "median_ms": 1073.9, "p95_ms": 2176.1, "errors": 0}
+{"label": "qlever-nocache", "clients": 1, "qps": 4.6, "median_ms": 52.8, "p95_ms": 920.3, "errors": 0}
+{"label": "qlever-nocache", "clients": 4, "qps": 20.8, "median_ms": 54.3, "p95_ms": 931.6, "errors": 0}
+{"label": "qlever-nocache", "clients": 16, "qps": 36.2, "median_ms": 284.8, "p95_ms": 1355.3, "errors": 0}
+{"label": "qlever-nocache", "clients": 64, "qps": 37.3, "median_ms": 1453.4, "p95_ms": 3344.3, "errors": 0}

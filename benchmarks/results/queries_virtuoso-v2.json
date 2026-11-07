@@ -1,0 +1,1161 @@
+{
+ "label": "virtuoso-v2",
+ "store": "virtuoso",
+ "run": null,
+ "mem": "11G",
+ "cache": "2G",
+ "threads": "8",
+ "extra": "",
+ "set": "",
+ "start_s": 9.9,
+ "queries": [
+  {
+   "name": "example 101",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.049,
+     "rows": 13,
+     "distinct": 13,
+     "digest": "4768df956b5b"
+    },
+    {
+     "s": 0.01,
+     "rows": 13,
+     "distinct": 13,
+     "digest": "4768df956b5b"
+    },
+    {
+     "s": 0.006,
+     "rows": 13,
+     "distinct": 13,
+     "digest": "4768df956b5b"
+    }
+   ]
+  },
+  {
+   "name": "example 102",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.089,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "876c4c0a63a0"
+    },
+    {
+     "s": 0.01,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "876c4c0a63a0"
+    },
+    {
+     "s": 0.006,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "876c4c0a63a0"
+    }
+   ]
+  },
+  {
+   "name": "example 103",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.063,
+     "rows": 2,
+     "distinct": 2,
+     "digest": "5a76fd27c45b"
+    },
+    {
+     "s": 0.009,
+     "rows": 2,
+     "distinct": 2,
+     "digest": "5a76fd27c45b"
+    },
+    {
+     "s": 0.008,
+     "rows": 2,
+     "distinct": 2,
+     "digest": "5a76fd27c45b"
+    }
+   ]
+  },
+  {
+   "name": "example 104",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 61.443,
+     "rows": 47,
+     "distinct": 47,
+     "digest": "50b3d016bff4"
+    },
+    {
+     "s": 58.406,
+     "rows": 47,
+     "distinct": 47,
+     "digest": "50b3d016bff4"
+    },
+    {
+     "s": 57.416,
+     "rows": 47,
+     "distinct": 47,
+     "digest": "50b3d016bff4"
+    }
+   ]
+  },
+  {
+   "name": "example 105",
+   "group": "examples",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 14.841,
+     "rows": 2214,
+     "distinct": 2007,
+     "digest": "d392029a82e3"
+    },
+    {
+     "s": 8.456,
+     "rows": 2214,
+     "distinct": 2007,
+     "digest": "d392029a82e3"
+    },
+    {
+     "s": 8.182,
+     "rows": 2214,
+     "distinct": 2007,
+     "digest": "d392029a82e3"
+    }
+   ]
+  },
+  {
+   "name": "triples in main graph",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 1.401,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "630e494e6be0"
+    },
+    {
+     "s": 1.3,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "630e494e6be0"
+    },
+    {
+     "s": 1.29,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "630e494e6be0"
+    }
+   ]
+  },
+  {
+   "name": "triples per predicate",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 3.565,
+     "rows": 207,
+     "distinct": 207,
+     "digest": "183d2e3a079e"
+    },
+    {
+     "s": 3.555,
+     "rows": 207,
+     "distinct": 207,
+     "digest": "183d2e3a079e"
+    },
+    {
+     "s": 3.416,
+     "rows": 207,
+     "distinct": 207,
+     "digest": "183d2e3a079e"
+    }
+   ]
+  },
+  {
+   "name": "instances per class",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 1.045,
+     "rows": 92,
+     "distinct": 92,
+     "digest": "a7cd365ccdce"
+    },
+    {
+     "s": 1.046,
+     "rows": 92,
+     "distinct": 92,
+     "digest": "a7cd365ccdce"
+    },
+    {
+     "s": 1.055,
+     "rows": 92,
+     "distinct": 92,
+     "digest": "a7cd365ccdce"
+    }
+   ]
+  },
+  {
+   "name": "annotations",
+   "group": "counts",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.11,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    },
+    {
+     "s": 0.113,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    },
+    {
+     "s": 0.108,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    }
+   ]
+  },
+  {
+   "name": "describe PMC publication",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.098,
+     "rows": 286
+    },
+    {
+     "s": 0.006,
+     "rows": 286
+    },
+    {
+     "s": 0.006,
+     "rows": 286
+    }
+   ]
+  },
+  {
+   "name": "describe MEDLINE publication",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.095,
+     "rows": 933
+    },
+    {
+     "s": 0.014,
+     "rows": 933
+    },
+    {
+     "s": 0.015,
+     "rows": 933
+    }
+   ]
+  },
+  {
+   "name": "describe GO concept",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.018,
+     "rows": 11
+    },
+    {
+     "s": 0.002,
+     "rows": 11
+    },
+    {
+     "s": 0.002,
+     "rows": 11
+    }
+   ]
+  },
+  {
+   "name": "describe largest publication",
+   "group": "describe",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 2.292,
+     "rows": 127073
+    },
+    {
+     "s": 2.202,
+     "rows": 127073
+    },
+    {
+     "s": 2.15,
+     "rows": 127073
+    }
+   ]
+  },
+  {
+   "name": "properties of one publication",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.004,
+     "rows": 41,
+     "distinct": 18,
+     "digest": "056685602144"
+    },
+    {
+     "s": 0.004,
+     "rows": 41,
+     "distinct": 18,
+     "digest": "056685602144"
+    },
+    {
+     "s": 0.002,
+     "rows": 41,
+     "distinct": 18,
+     "digest": "056685602144"
+    }
+   ]
+  },
+  {
+   "name": "subjects of one concept",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.004,
+     "rows": 2,
+     "distinct": 1,
+     "digest": "76e692cd7069"
+    },
+    {
+     "s": 0.004,
+     "rows": 2,
+     "distinct": 1,
+     "digest": "76e692cd7069"
+    },
+    {
+     "s": 0.002,
+     "rows": 2,
+     "distinct": 1,
+     "digest": "76e692cd7069"
+    }
+   ]
+  },
+  {
+   "name": "publication by year literal",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.042,
+     "rows": 476,
+     "distinct": 476,
+     "digest": "4851d8edeab7"
+    },
+    {
+     "s": 0.008,
+     "rows": 476,
+     "distinct": 476,
+     "digest": "4851d8edeab7"
+    },
+    {
+     "s": 0.004,
+     "rows": 476,
+     "distinct": 476,
+     "digest": "4851d8edeab7"
+    }
+   ]
+  },
+  {
+   "name": "annotations of one publication",
+   "group": "lookup",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.004,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "41bd9556680e"
+    },
+    {
+     "s": 0.004,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "41bd9556680e"
+    },
+    {
+     "s": 0.002,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "41bd9556680e"
+    }
+   ]
+  },
+  {
+   "name": "concepts of one publication with labels",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.005,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "e1ff121d7ceb"
+    },
+    {
+     "s": 0.004,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "e1ff121d7ceb"
+    },
+    {
+     "s": 0.002,
+     "rows": 24,
+     "distinct": 12,
+     "digest": "e1ff121d7ceb"
+    }
+   ]
+  },
+  {
+   "name": "top concepts",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.438,
+     "rows": 20,
+     "distinct": 20,
+     "digest": "b195abf61aec"
+    },
+    {
+     "s": 0.473,
+     "rows": 20,
+     "distinct": 20,
+     "digest": "b195abf61aec"
+    },
+    {
+     "s": 0.408,
+     "rows": 20,
+     "distinct": 20,
+     "digest": "b195abf61aec"
+    }
+   ]
+  },
+  {
+   "name": "annotated publications per source",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.003,
+     "rows": 0,
+     "distinct": 0,
+     "digest": "97d170e1550e"
+    },
+    {
+     "s": 0.002,
+     "rows": 0,
+     "distinct": 0,
+     "digest": "97d170e1550e"
+    },
+    {
+     "s": 0.003,
+     "rows": 0,
+     "distinct": 0,
+     "digest": "97d170e1550e"
+    }
+   ]
+  },
+  {
+   "name": "domain of sibilo:ordinal",
+   "group": "joins",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 46.519,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    },
+    {
+     "s": 44.901,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    },
+    {
+     "s": 45.088,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    }
+   ]
+  },
+  {
+   "name": "contains over sentences",
+   "group": "text",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 42.798,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "cd038a4ebeac"
+    },
+    {
+     "s": 41.633,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "cd038a4ebeac"
+    },
+    {
+     "s": 41.736,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "cd038a4ebeac"
+    }
+   ]
+  },
+  {
+   "name": "regex on concept labels",
+   "group": "text",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.231,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "164fdf44a6e7"
+    },
+    {
+     "s": 0.231,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "164fdf44a6e7"
+    },
+    {
+     "s": 0.227,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "164fdf44a6e7"
+    }
+   ]
+  },
+  {
+   "name": "prefix on concept labels",
+   "group": "text",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.434,
+     "rows": 27,
+     "distinct": 27,
+     "digest": "168eb30ccd8d"
+    },
+    {
+     "s": 0.483,
+     "rows": 27,
+     "distinct": 27,
+     "digest": "168eb30ccd8d"
+    },
+    {
+     "s": 0.47,
+     "rows": 27,
+     "distinct": 27,
+     "digest": "168eb30ccd8d"
+    }
+   ]
+  },
+  {
+   "name": "date range",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.022,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "6cd87acfcc12"
+    },
+    {
+     "s": 0.002,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "6cd87acfcc12"
+    },
+    {
+     "s": 0.002,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "6cd87acfcc12"
+    }
+   ]
+  },
+  {
+   "name": "publications per year",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.022,
+     "rows": 83,
+     "distinct": 83,
+     "digest": "8aceb76bbf4b"
+    },
+    {
+     "s": 0.006,
+     "rows": 83,
+     "distinct": 83,
+     "digest": "8aceb76bbf4b"
+    },
+    {
+     "s": 0.006,
+     "rows": 83,
+     "distinct": 83,
+     "digest": "8aceb76bbf4b"
+    }
+   ]
+  },
+  {
+   "name": "latest publications",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.235,
+     "rows": 10,
+     "distinct": 10,
+     "digest": "53180f54144e"
+    },
+    {
+     "s": 0.109,
+     "rows": 10,
+     "distinct": 10,
+     "digest": "53180f54144e"
+    },
+    {
+     "s": 0.112,
+     "rows": 10,
+     "distinct": 10,
+     "digest": "53180f54144e"
+    }
+   ]
+  },
+  {
+   "name": "deep paging",
+   "group": "filters",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.004,
+     "error": "HTTP 500: Virtuoso 22023 Error SR353: Sorted TOP clause specifies more then 1000100 rows to sort. Only 10000 are allowed. Either decrease the offset and/or row count or use a scrollable cursor\n\nSPARQL query:\ndefine sql:big-data-const 0\nPREFIX sibilo: <https://purl.expasy.org/sibils/rdf/ontology/> \nPREFIX sibilc: <https://purl.expasy.org/sibils/rdf/concept/> \nPREFIX sibils: <https://purl.expasy.org"
+    },
+    {
+     "s": 0.004,
+     "error": "HTTP 500: Virtuoso 22023 Error SR353: Sorted TOP clause specifies more then 1000100 rows to sort. Only 10000 are allowed. Either decrease the offset and/or row count or use a scrollable cursor\n\nSPARQL query:\ndefine sql:big-data-const 0\nPREFIX sibilo: <https://purl.expasy.org/sibils/rdf/ontology/> \nPREFIX sibilc: <https://purl.expasy.org/sibils/rdf/concept/> \nPREFIX sibils: <https://purl.expasy.org"
+    },
+    {
+     "s": 0.004,
+     "error": "HTTP 500: Virtuoso 22023 Error SR353: Sorted TOP clause specifies more then 1000100 rows to sort. Only 10000 are allowed. Either decrease the offset and/or row count or use a scrollable cursor\n\nSPARQL query:\ndefine sql:big-data-const 0\nPREFIX sibilo: <https://purl.expasy.org/sibils/rdf/ontology/> \nPREFIX sibilc: <https://purl.expasy.org/sibils/rdf/concept/> \nPREFIX sibils: <https://purl.expasy.org"
+    }
+   ]
+  },
+  {
+   "name": "ancestors of a GO term",
+   "group": "paths",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.024,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "edbc37606075"
+    },
+    {
+     "s": 0.003,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "edbc37606075"
+    },
+    {
+     "s": 0.003,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "edbc37606075"
+    }
+   ]
+  },
+  {
+   "name": "ancestors up to depth 3",
+   "group": "paths",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.002,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "1a2b2018e626"
+    },
+    {
+     "s": 0.003,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "1a2b2018e626"
+    },
+    {
+     "s": 0.003,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "1a2b2018e626"
+    }
+   ]
+  },
+  {
+   "name": "descendants of a broad GO term",
+   "group": "paths",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.042,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "4e689459fa02"
+    },
+    {
+     "s": 0.028,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "4e689459fa02"
+    },
+    {
+     "s": 0.047,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "4e689459fa02"
+    }
+   ]
+  },
+  {
+   "name": "class definitions",
+   "group": "model",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.111,
+     "rows": 403,
+     "distinct": 403,
+     "digest": "e584ace1c9bd"
+    },
+    {
+     "s": 0.015,
+     "rows": 403,
+     "distinct": 403,
+     "digest": "e584ace1c9bd"
+    },
+    {
+     "s": 0.02,
+     "rows": 403,
+     "distinct": 403,
+     "digest": "e584ace1c9bd"
+    }
+   ]
+  },
+  {
+   "name": "property definitions",
+   "group": "model",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.013,
+     "rows": 241,
+     "distinct": 241,
+     "digest": "5a854d9c3d97"
+    },
+    {
+     "s": 0.006,
+     "rows": 241,
+     "distinct": 241,
+     "digest": "5a854d9c3d97"
+    },
+    {
+     "s": 0.009,
+     "rows": 241,
+     "distinct": 241,
+     "digest": "5a854d9c3d97"
+    }
+   ]
+  },
+  {
+   "name": "prefixes",
+   "group": "model",
+   "heavy": false,
+   "runs": [
+    {
+     "s": 0.029,
+     "rows": 26,
+     "distinct": 26,
+     "digest": "c8637e5a5555"
+    },
+    {
+     "s": 0.002,
+     "rows": 26,
+     "distinct": 26,
+     "digest": "c8637e5a5555"
+    },
+    {
+     "s": 0.003,
+     "rows": 26,
+     "distinct": 26,
+     "digest": "c8637e5a5555"
+    }
+   ]
+  },
+  {
+   "name": "class_use fabio:JournalArticle properties",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.822,
+     "rows": 21,
+     "distinct": 21,
+     "digest": "28e8344886c0"
+    }
+   ]
+  },
+  {
+   "name": "class_use fabio:JournalArticle rdf:type",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.012,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "2329059af845"
+    }
+   ]
+  },
+  {
+   "name": "class_use fabio:JournalArticle as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 26.367,
+     "rows": 29,
+     "distinct": 29,
+     "digest": "6a7892cc5e4b"
+    }
+   ]
+  },
+  {
+   "name": "class_use oa:TextPositionSelector properties",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 50.59,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "55065a33cd18"
+    }
+   ]
+  },
+  {
+   "name": "class_use oa:TextPositionSelector rdf:type",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 1.823,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "34011ca2ea78"
+    }
+   ]
+  },
+  {
+   "name": "class_use oa:TextPositionSelector as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 1097.26,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "8164e03bbce1"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget properties",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 66.386,
+     "rows": 3,
+     "distinct": 3,
+     "digest": "b03943eba4bb"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget rdf:type",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 2.281,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "34011ca2ea78"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget oa:hasSelector",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 403.792,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "b394f3df580b"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget oa:hasSource",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 29.668,
+     "rows": 4,
+     "distinct": 4,
+     "digest": "504e189f8bbf"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:AnnotationTarget as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 300.572,
+     "rows": 6,
+     "distinct": 6,
+     "digest": "f5ae0dcb68c2"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation properties",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 67.738,
+     "rows": 3,
+     "distinct": 3,
+     "digest": "426637568fe1"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation rdf:type",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 2.816,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "7ce52e7aff01"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation oa:hasBody",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 3.526,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "235cb23fe0e4"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation oa:hasTarget",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 99.622,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "53a52b13003f"
+    }
+   ]
+  },
+  {
+   "name": "class_use sibilo:NexAnnotation as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 261.693,
+     "rows": 3,
+     "distinct": 3,
+     "digest": "02fccebc232b"
+    }
+   ]
+  },
+  {
+   "name": "prop_use oa:hasBody as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 64.377,
+     "rows": 3,
+     "distinct": 3,
+     "digest": "97fc8fb889d4"
+    }
+   ]
+  },
+  {
+   "name": "prop_use oa:hasBody count",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.106,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ee3090c211c6"
+    }
+   ]
+  },
+  {
+   "name": "prop_use oa:hasBody domain",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 351.351,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "b7368be48eb0"
+    }
+   ]
+  },
+  {
+   "name": "prop_use oa:hasBody range",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.531,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "235cb23fe0e4"
+    }
+   ]
+  },
+  {
+   "name": "prop_use sibilo:ordinal as first written",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 59.665,
+     "rows": 9,
+     "distinct": 9,
+     "digest": "0dc0300738a3"
+    }
+   ]
+  },
+  {
+   "name": "prop_use sibilo:ordinal count",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.024,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "73e467c10ea2"
+    }
+   ]
+  },
+  {
+   "name": "prop_use sibilo:ordinal domain",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 38.796,
+     "rows": 7,
+     "distinct": 7,
+     "digest": "947c8131706a"
+    }
+   ]
+  },
+  {
+   "name": "prop_use sibilo:ordinal range",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 0.103,
+     "rows": 1,
+     "distinct": 1,
+     "digest": "ae92f4e21f34"
+    }
+   ]
+  },
+  {
+   "name": "/describe/model",
+   "group": "heavy",
+   "heavy": true,
+   "runs": [
+    {
+     "s": 1248.123,
+     "rows": 672,
+     "distinct": 672,
+     "digest": "cddf4cfaef28"
+    }
+   ]
+  }
+ ],
+ "peak_rss_gb": 19.7,
+ "suspended_s": 0,
+ "total_s": 4689
+}

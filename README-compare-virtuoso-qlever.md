@@ -1,5 +1,7 @@
 # Virtuoso vs QLever: trial on the v2 data
 
+> Later fixes and benchmarks, which supersede some results here, are in `README-fix-and-benchmarks.md`.
+
 **QLever holds exactly the same data as Virtuoso and gives the same answers on most queries, but it isn't a drop-in replacement yet.** Some v2 code needs small fixes, and the main open problem is memory: at the same 11 GB query limit as Virtuoso's buffers, the heaviest aggregation queries fail, which also stops `datamodel.json` and leaves VoID generation incomplete.
 
 This was a first run with almost no tuning, so the timings and memory figures are a baseline, not a final verdict.
@@ -65,7 +67,7 @@ The QLever run used one main input stream, so tuning and file grouping are still
 | **Property paths** (`+`, `{,3}`) | Duplicate rows (18 and 13) | 9 distinct rows | QLever; both give the same set of values |
 | **Triple count with no graph clause** | 5,589 more, from system graphs | Main graph only | Expected |
 
-Values like `29-05-2022` show the invalid dates are day-month, so **the rdfizers should write ISO dates whichever store we use**.
+**Correction:** the source dates are ISO, and `date_to_yyyy_mm_dd` wrongly reversed them. The fix is in `v2/rdfize/publi_rdfizer.py`. See `README-fix-and-benchmarks.md`.
 
 ## Speed
 
@@ -131,7 +133,7 @@ So these failures are at least partly a matter of memory, but `oa:hasBody` was s
 ## Corrections to `README-move-to-qlever.md`
 
 - **Item 5:** confirmed. Multi-line literals do break the parallel parser, so this is no longer from memory.
-- **Item 7:** the dates are day-month. Virtuoso also mishandles them.
+- **Item 7:** the invalid dates came from an rdfizer bug. Virtuoso also mishandles them.
 - **Item 14:** QLever accepts `{,3}` paths. Only `?c as ?x` and the missing `GROUP BY` fail.
 - **Item 16:** a query with no graph clause covers the main graph on QLever, as hoped.
 - **Item 19:** federation confirmed working.
