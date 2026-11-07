@@ -58,8 +58,8 @@ class DataModelBuilder:
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     def __init__(self, sparql_service, engine=None):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-        # No default: querying the wrong store would silently give a wrong data model
-        engine = engine or os.getenv("SIBILS_SPARQL_ENGINE")
+        # qlever by default, an unknown value fails rather than querying the wrong way
+        engine = engine or os.getenv("SIBILS_SPARQL_ENGINE") or "qlever"
         if engine not in ("virtuoso", "qlever"):
             raise ValueError(f"SIBILS_SPARQL_ENGINE must be virtuoso or qlever, got: {engine!r}")
         self.url2pfx = dict()

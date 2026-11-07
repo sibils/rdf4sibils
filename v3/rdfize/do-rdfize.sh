@@ -7,7 +7,9 @@ if [[ "$1" != "local" && "$1" != "test" && "$1" != "prod" ]]; then
   exit 3
 fi
 
-# checked here so that a missing value fails now and not at the MODEL step, hours later
+# qlever by default, exported so that rdfbuilder.py and the scripts it calls see the same value
+# checked here so that a wrong value fails now and not at the MODEL step, hours later
+export SIBILS_SPARQL_ENGINE="${SIBILS_SPARQL_ENGINE:-qlever}"
 if [[ "$SIBILS_SPARQL_ENGINE" != "virtuoso" && "$SIBILS_SPARQL_ENGINE" != "qlever" ]]; then
   echo "Error, invalid SIBILS_SPARQL_ENGINE '$SIBILS_SPARQL_ENGINE', expected virtuoso or qlever"
   exit 3

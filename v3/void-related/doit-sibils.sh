@@ -5,9 +5,9 @@ set -e
 script_dir="$(dirname $0)"
 cd $script_dir
 
-# SIBILS_SPARQL_ENGINE selects the store the VoID generator queries: virtuoso or qlever
+# SIBILS_SPARQL_ENGINE selects the store the VoID generator queries: qlever (default) or virtuoso
 # QLEVER_URL is optional, it defaults to the QLever port used in nginx-rdf4sibils-qlever.conf
-case "$SIBILS_SPARQL_ENGINE" in
+case "${SIBILS_SPARQL_ENGINE:-qlever}" in
   virtuoso)
     engine_opts=(--user=dba
                  --password=dba
@@ -20,10 +20,6 @@ case "$SIBILS_SPARQL_ENGINE" in
     engine_opts=(-r "${QLEVER_URL:-http://localhost:7019}"
                  --optimize-for=Qlever
                  --max-concurrency=2)
-    ;;
-  "")
-    echo "ERROR: SIBILS_SPARQL_ENGINE is not set (expected: virtuoso or qlever)" >&2
-    exit 1
     ;;
   *)
     echo "ERROR: unknown SIBILS_SPARQL_ENGINE '$SIBILS_SPARQL_ENGINE' (expected: virtuoso or qlever)" >&2
