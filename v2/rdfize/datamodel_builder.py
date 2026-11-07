@@ -56,8 +56,12 @@ class DataModelBuilder:
 #-------------------------------------------------
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    def __init__(self, sparql_service):
+    def __init__(self, sparql_service, engine=None):
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        # No default: querying the wrong store would silently give a wrong data model
+        engine = engine or os.getenv("SIBILS_SPARQL_ENGINE")
+        if engine not in ("virtuoso", "qlever"):
+            raise ValueError(f"SIBILS_SPARQL_ENGINE must be virtuoso or qlever, got: {engine!r}")
         self.url2pfx = dict()
         self.pfx2url = dict()
         self.client = EndpointClient(sparql_service)
@@ -103,44 +107,39 @@ class DataModelBuilder:
         """
 
         # One query per property of a class: a single query over all the properties
-        # of the biggest classes needs more memory than the store has
-        self.class_use_query = """
+        # of the biggest classes needs more memory than QLever is given.
+        #
+        # The query forms depend on the engine:
+        # - QLever needs the aggregate first: the outer query then sees one row per
+        #   distinct value instead of one row per triple, otherwise it runs out of memory
+        # - Virtuoso needs the plain form: it silently returns too low counts for the
+        #   aggregate first form, i.e. 52,001,528 instead of 115,333,426 for oa:hasTarget
+        def type_count_query(pattern, node):
+            if engine == "qlever":
+                where = f"""{{ select ?{node} (count(*) as ?n) where {{ {pattern} }} group by ?{node} }}"""
+                total = "sum(?n)"
+            else:
+                where = pattern
+                total = "count(*)"
+            return f"""
             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-            select ?object_type (sum(?n) as ?triple_count) where {
-            { select ?o (count(*) as ?n) where { ?s a <$class_long_IRI> . ?s <$prop_long_IRI> ?o } group by ?o }
-            optional {?o a ?o_class }
-            bind(coalesce(?o_class, datatype(?o), xsd:anyURI) as ?object_type)
-            }
-            group by ?object_type
-            order by ?object_type
-        """
+            select ?node_type ({total} as ?triple_count) where {{
+            {where}
+            optional {{?{node} a ?{node}_class }}
+            bind(coalesce(?{node}_class, datatype(?{node}), xsd:anyURI) as ?node_type)
+            }}
+            group by ?node_type
+            order by ?node_type
+            """
 
-        # Aggregating before the optional join keeps these light: the outer query
-        # only sees one row per distinct value instead of one row per triple
+        self.class_use_query = type_count_query("?s a <$class_long_IRI> . ?s <$prop_long_IRI> ?o", "o")
+
         self.prop_use_queries = {
             "count": """
             select (count(*) as ?triple_count) where { ?s <$prop_long_IRI> ?o }
             """,
-            "domain": """
-            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-            select ?node_type (sum(?n) as ?triple_count) where {
-            { select ?s (count(*) as ?n) where { ?s <$prop_long_IRI> ?o } group by ?s }
-            optional {?s a ?s_class }
-            bind(coalesce(?s_class, datatype(?s), xsd:anyURI) as ?node_type)
-            }
-            group by ?node_type
-            order by ?node_type
-            """,
-            "range": """
-            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-            select ?node_type (sum(?n) as ?triple_count) where {
-            { select ?o (count(*) as ?n) where { ?s <$prop_long_IRI> ?o } group by ?o }
-            optional {?o a ?o_class }
-            bind(coalesce(?o_class, datatype(?o), xsd:anyURI) as ?node_type)
-            }
-            group by ?node_type
-            order by ?node_type
-            """
+            "domain": type_count_query("?s <$prop_long_IRI> ?o", "s"),
+            "range": type_count_query("?s <$prop_long_IRI> ?o", "o")
         }
 
         self.prefix_query ="""
@@ -236,7 +235,7 @@ class DataModelBuilder:
                     count = row["triple_count"]["value"]
                     subj = entity_key
                     prop = self.get_short_IRI(prop_IRI)
-                    obj = self.get_type_short_IRI(row["object_type"]["value"])
+                    obj = self.get_type_short_IRI(row["node_type"]["value"])
                     if prop == "rdf:type" and subj == entity_key: entities[subj]["count"] = int(count)
                     statement = " | ".join([subj, prop, obj, count])
                     entities[subj]["usage"].append(statement)

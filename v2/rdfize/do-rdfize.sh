@@ -7,8 +7,15 @@ if [[ "$1" != "local" && "$1" != "test" && "$1" != "prod" ]]; then
   exit 3
 fi
 
+# checked here so that a missing value fails now and not at the MODEL step, hours later
+if [[ "$SIBILS_SPARQL_ENGINE" != "virtuoso" && "$SIBILS_SPARQL_ENGINE" != "qlever" ]]; then
+  echo "Error, invalid SIBILS_SPARQL_ENGINE '$SIBILS_SPARQL_ENGINE', expected virtuoso or qlever"
+  exit 3
+fi
+
 platform=$1
 echo "platform: $platform"
+echo "sparql engine: $SIBILS_SPARQL_ENGINE"
 
 this_dir=$(dirname $0)
 cd $this_dir
